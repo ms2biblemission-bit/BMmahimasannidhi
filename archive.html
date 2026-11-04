@@ -1,1 +1,16 @@
-
+<!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>పాత మెసేజ్ లు - మహిమ సన్నిధి</title>
+<style>body{font-family:system-ui;background:#f5f5f5;margin:0} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .post{background:white;border-radius:16px;padding:16px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;text-align:center} .post img{width:100%;border-radius:12px;max-height:320px;object-fit:cover} .post h3{color:#8B0000;margin:8px 0} .post div{white-space:pre-line;line-height:1.7} .btn{background:#8B0000;color:white;border:none;padding:12px;border-radius:30px;font-weight:bold;width:100%} input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box} #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;overflow-y:auto} #modalBox{background:white;margin:20px;border-radius:16px;padding:20px;text-align:center;line-height:1.8;white-space:pre-line}</style></head>
+<body>
+<div class="head"><a href="index.html">⬅ హోమ్</a><h2>📖 పాత మెసేజ్ లు - అన్నీ ఇక్కడే!</h2><div>నొక్కితే - పూర్తి మెసేజ్ ఓపెన్ అవుతుంది!</div></div>
+<div class="wrap"><input id="search" placeholder="🔍 వెతకండి... తేదీ / వాక్యం" oninput="render()"><div id="list">లోడ్ అవుతోంది...</div></div>
+<div id="modal"><div id="modalBox"><button class="btn" onclick="closeM()">✖ మూసేయండి</button><div id="mContent"></div></div></div>
+<script>
+let all=[];
+function get(p,names){for(let n of names){if(p[n]!==undefined && p[n]!==null && String(p[n]).trim()!=='') return p[n];} return '';}
+function norm(p){return{title:get(p,['title','heading'])||'మరనాత',content:get(p,['content','message','text','desc','description','body'])||'',date:get(p,['date','time'])||'',image:get(p,['image','photo','img'])||'',audio:get(p,['audio','voice'])||''};}
+async function load(){try{let r=await fetch('posts.json?v='+Date.now());let j=await r.json();let a=Array.isArray(j)?j:(j.posts||[]);all=a.map(norm);}catch(e){all=[];} render();}
+function render(){let q=document.getElementById('search').value.toLowerCase();let list=all.map((p,i)=>({...p,idx:i})).filter(p=>((p.title+p.content+p.date).toLowerCase().includes(q)));let box=document.getElementById('list');if(!list.length){box.innerHTML='<p style="text-align:center">📭 ఇంకా పాత మెసేజ్ లు లేవు!</p>';return;} box.innerHTML=list.map(p=>`<div class="post" onclick="openP(${p.idx})">${p.image?`<img src="${p.image}">`:''}<h3>${p.title}</h3><div>${p.content? (p.content.length>150?p.content.substring(0,150)+'... చదవడానికి నొక్కండి ➡️':p.content) : '⚠️ వివరణ ఖాళీగా ఉంది'}</div>${p.audio?`<audio controls src="${p.audio}" style="width:100%" onclick="event.stopPropagation()"></audio>`:''}<div style="color:gray;font-size:13px">📅 ${p.date}</div></div>`).join('');}
+function openP(i){let p=all[i];document.getElementById('modal').style.display='block';document.getElementById('mContent').innerHTML=`<h2 style="color:#8B0000">${p.title}</h2>${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<div style="font-size:18px;margin-top:10px">${(p.content||'వివరణ లేదు').replace(/\n/g,'<br>')}</div>${p.audio?`<audio controls src="${p.audio}" style="width:100%;margin-top:10px"></audio>`:''}<div style="color:gray">📅 ${p.date}</div>`;}
+function closeM(){document.getElementById('modal').style.display='none';}
+load();
+</script></body></html>
