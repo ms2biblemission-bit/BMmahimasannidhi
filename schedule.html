@@ -4,25 +4,25 @@
 <div class="head"><a href="index.html">⬅ హోమ్</a><h2>🗓️ వారపు షెడ్యూల్</h2><div>మహిమ సన్నిధి బైబిల్ మిషన్ - John Dalli</div></div>
 <div class="wrap">
 <button class="btn" onclick="location.href='https://wa.me/917989079798?text=షెడ్యూల్%20గురించి%20అడగాలి'">📲 షెడ్యూల్ గురించి అడగండి - WhatsApp</button>
-<div id="list"></div>
+<div id="list">లోడ్ అవుతోంది...</div>
 <div style="background:white;border-radius:16px;padding:15px;margin:10px 0;text-align:center"><h3 style="color:#8B0000">🙏 ప్రతి రోజు - ఉదయం ప్రార్థన</h3><p>ఉదయం 5:00 - 6:00 - వ్యక్తిగత ప్రార్థన<br>సాయంత్రం 7:00 - కుటుంబ ప్రార్థన</p><p style="font-size:13px;color:gray">మరనాత ✝️ - ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</p></div>
 </div>
 <script>
-let SCHEDULE=[
-{day:"ఆదివారం", tel:"Sunday", time:"ఉదయం 9:00 - 12:00", title:"⛪ ఆరాధన - ప్రధాన కూటం", desc:"వాక్యం + పాటలు + ప్రార్థన + సహవాసం", color:"#8B0000"},
-{day:"సోమవారం", tel:"Monday", time:"సాయంత్రం 7:00", title:"📖 బైబిల్ అధ్యయనం", desc:"ఒక్కో అధ్యాయం - వివరణ - బుక్స్ లో కూడా ఉంటుంది", color:"#2196F3"},
-{day:"మంగళవారం", tel:"Tuesday", time:"సాయంత్రం 7:00", title:"🎤 వాయిస్ మెసేజ్ - రికార్డింగ్", desc:"రోజువారీ మెసేజ్ - వాయిస్ లో", color:"#E91E63"},
-{day:"బుధవారం", tel:"Wednesday", time:"సాయంత్రం 7:00", title:"🙏 మధ్యవర్తి ప్రార్థన", desc:"అందరి కోసం - ప్రార్థన - 7989079798 కి చెప్పండి", color:"#673AB7"},
-{day:"గురువారం", tel:"Thursday", time:"సాయంత్రం 7:00", title:"📚 మెసేజ్ బుక్స్ - కొత్త పేజీ", desc:"బుక్ లో - కొత్త అధ్యాయం రాసే రోజు", color:"#FF9800"},
-{day:"శుక్రవారం", tel:"Friday", time:"ఉదయం 10:00 - 12:00", title:"✝️ ఉపవాస ప్రార్థన", desc:"ఉపవాసం + ప్రార్థన + కానుక", color:"#4CAF50"},
-{day:"శనివారం", tel:"Saturday", time:"సాయంత్రం 6:00", title:"🎵 పాటల ప్రాక్టీస్ - యూత్ మీటింగ్", desc:"ఆదివారం కోసం - సిద్ధపాటు", color:"#FF5722"},
+let DEFAULT=[
+{day:"ఆదివారం",time:"ఉదయం 9:00 - 12:00",title:"⛪ ఆరాధన - ప్రధాన కూటం",desc:"వాక్యం + పాటలు + ప్రార్థన + సహవాసం"},
+{day:"సోమవారం",time:"సాయంత్రం 7:00",title:"📖 బైబిల్ అధ్యయనం",desc:"ఒక్కో అధ్యాయం - వివరణ - బుక్స్ లో కూడా ఉంటుంది"},
+{day:"మంగళవారం",time:"సాయంత్రం 7:00",title:"🎤 వాయిస్ మెసేజ్ - రికార్డింగ్",desc:"రోజువారీ మెసేజ్ - వాయిస్ లో"},
+{day:"బుధవారం",time:"సాయంత్రం 7:00",title:"🙏 మధ్యవర్తి ప్రార్థన",desc:"అందరి కోసం - ప్రార్థన - 7989079798 కి చెప్పండి"},
+{day:"గురువారం",time:"సాయంత్రం 7:00",title:"📚 మెసేజ్ బుక్స్ - కొత్త పేజీ",desc:"బుక్ లో - కొత్త అధ్యాయం రాసే రోజు"},
+{day:"శుక్రవారం",time:"ఉదయం 10:00 - 12:00",title:"✝️ ఉపవాస ప్రార్థన",desc:"ఉపవాసం + ప్రార్థన + కానుక"},
+{day:"శనివారం",time:"సాయంత్రం 6:00",title:"🎵 పాటల ప్రాక్టీస్ - యూత్ మీటింగ్",desc:"ఆదివారం కోసం - సిద్ధపాటు"}
 ];
-let today=new Date().getDay(); // 0=Sunday
-let order=[0,1,2,3,4,5,6]; // JS: 0 Sunday
-let map={0:0,1:1,2:2,3:3,4:4,5:5,6:6};
-let html=SCHEDULE.map((s,i)=>{
-  let isToday = (i===today);
-  return `<div class="day ${isToday?'today':''}"><h3>${s.day} - ${s.tel} ${isToday?'<span class="badge">⭐ ఈ రోజు</span>':''}</h3><div class="time">🕐 ${s.time}</div><div style="font-weight:bold;margin-top:6px">${s.title}</div><div style="color:#555;font-size:14px">${s.desc}</div></div>`;
-}).join('');
-document.getElementById('list').innerHTML=html;
+async function load(){
+  let list=DEFAULT;
+  try{let s=localStorage.getItem('ms_schedule');if(s){let j=JSON.parse(s);if(j&&j.length) list=j;}}catch(e){}
+  try{let r=await fetch('schedule.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) list=j;}}catch(e){}
+  let today=new Date().getDay();
+  document.getElementById('list').innerHTML=list.map((s,i)=>{let isToday=(i===today);return `<div class="day ${isToday?'today':''}"><h3>${s.day} ${isToday?'<span class="badge">⭐ ఈ రోజు</span>':''}</h3><div class="time">🕐 ${s.time}</div><div style="font-weight:bold;margin-top:6px">${s.title}</div><div style="color:#555;font-size:14px">${s.desc}</div></div>`;}).join('');
+}
+load();
 </script></body></html>
