@@ -16,7 +16,6 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 .header{background:#8B0000;color:white;padding:25px 15px;text-align:center}
 .logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
 .logo img{width:100%;height:100%;object-fit:cover}
-/* ===== పైన లోగోస్ వరుస ===== */
 .logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 8px;background:white;margin:10px 15px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .logo-row a{text-align:center;text-decoration:none;min-width:68px}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
@@ -37,9 +36,10 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 .post .p-content{white-space:pre-line;font-size:16px;text-align:center;line-height:1.7;margin-top:8px}
 .post .p-date{font-size:13px;color:gray;text-align:center;margin-top:6px}
 .qr-box{text-align:center}
-.qr-box img{width:220px;height:220px;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #8B0000}
+.qr-box img{width:260px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #8B0000}
 .install-btn{display:none;background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
 input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px}
+.upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
 </style>
 </head>
 <body>
@@ -49,7 +49,6 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <div>John Dalli | మరనాత ✝️</div>
 </div>
 
-<!-- ===== లోగోస్ - FB / WhatsApp లాగా - పైన ===== -->
 <div class="logo-row">
   <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
@@ -81,15 +80,11 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 </a>
 </div>
 
-<!-- ===== ఈ రోజు - ఇమేజ్ వేరు - వాక్యం వేరు - వాయిస్ వేరు ===== -->
 <div class="vakya-card" id="topCard">
-  <!-- 1. ఇమేజ్ మాత్రమే - వాక్యం లేకుండా -->
   <img id="topImage" src="">
-  <!-- 2. వాక్యం మాత్రమే - ఇమేజ్ లేకుండా -->
   <div>💬 వాక్యం</div>
   <div id="topTitle" style="font-weight:bold;margin:12px 0;font-size:20px;color:#8B0000">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
   <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
-  <!-- 3. వాయిస్ మాత్రమే -->
   <audio id="topAudio" controls style="width:100%;margin-top:12px;display:none"></audio>
   <div id="topDate">📅 4/11/2026</div>
 </div>
@@ -101,19 +96,27 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ" oninput="renderPosts()">
 
 <div class="section">
-<h3>📜 అన్ని మెసేజ్ లు - వేరే వేరేగా</h3>
+<h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే!</h3>
 <div style="display:flex;gap:8px;margin-bottom:10px">
-<a href="gallery.html" style="flex:1;background:#4CAF50;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ చూడండి</a>
+<a href="gallery.html" style="flex:1;background:#4CAF50;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ</a>
 <a href="archive.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📜 పాత మెసేజ్ లు</a>
 <a href="voice.html" style="flex:1;background:#E91E63;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🎤 వాయిస్</a>
 </div>
 <div id="postsList">లోడ్ అవుతోంది...</div>
 </div>
 
+<!-- ===== QR - సరిచేసింది - ఇదే! ===== -->
 <div class="section qr-box">
-<h3>📱 QR - స్కాన్ చేయండి</h3>
-<img src="IMG-20261104-WA0008.jpg" alt="QR">
-<p>మహిమ సన్నిధి బైబిల్ మిషన్</p>
+<h3>📱 QR - స్కాన్ చేయండి - కానుక కోసం</h3>
+<!-- ముందు తప్పు ఫోటో ఉండేది - ఇప్పుడు సరైన QR -->
+<img src="ms2-qr.jpg" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
+<div id="qrError" style="display:none;color:red;font-size:13px;margin-top:8px">⚠️ ms2-qr.jpg - GitHub లో లేదు! మీరు పంపిన QR ని ms2-qr.jpg పేరుతో అప్లోడ్ చేయండి!</div>
+<p style="font-weight:bold">Ms2 Bible Mission</p>
+<div class="upi-box">
+<b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br>
+<small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small>
+</div>
+<p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
 
 <script>
@@ -126,7 +129,6 @@ async function loadPosts(){
   }catch(e){ allPosts = []; }
   if(allPosts.length>0){
     let p = allPosts[0];
-    // ఇమేజ్ - ఉంటేనే చూపించు - వాక్యంతో సంబంధం లేదు
     let ti = document.getElementById('topImage');
     if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; }
     document.getElementById('topTitle').innerHTML = p.title || '';
@@ -139,9 +141,9 @@ async function loadPosts(){
 }
 function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase();
-  let list = allPosts.filter(p => (p.title+p.content+p.date).toLowerCase().includes(q));
+  let list = allPosts.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
   let box = document.getElementById('postsList');
-  if(list.length==0){ box.innerHTML='ఏమీ లేవు'; return; }
+  if(list.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు! అడ్మిన్ లో ఒక్క పోస్ట్ పెట్టండి!'; return; }
   box.innerHTML = list.map(p=>{
     let img = p.image ? `<img src="${p.image}">` : '';
     let aud = p.audio ? `<audio controls src="${p.audio}"></audio>` : '';
