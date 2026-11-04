@@ -1,121 +1,82 @@
-<!DOCTYPE html>
-<html lang="te">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Auto + Image</title>
-<style>
-body{font-family:system-ui;padding:15px;background:#fff8e1;max-width:700px;margin:auto}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:10px;font-size:16px;box-sizing:border-box}
-button{width:100%;padding:14px;background:#ff9800;color:white;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:10px}
-.card{background:white;padding:12px;border-radius:10px;margin:10px 0;box-shadow:0 2px 5px #0001}
-.top{background:#e8f5e9;padding:12px;border-radius:10px;border:1px solid #4caf50}
-img{width:100%;border-radius:10px;margin-top:8px}
-</style>
-</head>
+<!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>అడ్మిన్ - మహిమ సన్నిధి</title>
+<style>body{font-family:system-ui;background:#fff8e1;padding:12px;max-width:700px;margin:auto} .box{background:white;padding:15px;border-radius:14px;margin:10px 0} input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box;margin:6px 0} button{width:100%;padding:13px;border:none;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin:6px 0} .green{background:#4CAF50;color:white} .red{background:#e53935;color:white} .orange{background:#FF9800;color:white} .card{background:#fff;padding:12px;border-radius:12px;margin:8px 0;border:1px solid #eee} .card img{width:100%;border-radius:10px;margin-top:8px} audio{width:100%} small{color:gray}</style></head>
 <body>
-<h2>🙏 Auto Admin - వాక్యం + ఫోటో + షెడ్యూల్</h2>
-
-<div class="top">
-<b>🔑 GitHub సెట్టింగ్</b>
-<label>Token (ghp_...)</label>
-<input id="token" type="password" placeholder="కొత్త టోకెన్ ఇక్కడ పేస్ట్ చేయండి">
-<label>Owner</label><input id="owner" value="ms2biblemission-bit">
-<label>Repo</label><input id="repo" value="BMmahimasannidhi">
-<button onclick="saveSettings()" style="background:#4caf50">💾 సెట్టింగ్ సేవ్</button>
+<h2 style="text-align:center;color:#8B0000">🙏 మహిమ సన్నిధి - అడ్మిన్</h2>
+<div class="box">
+<h3>⚙️ సెట్టింగ్</h3>
+<label>GitHub Username</label><input id="user" value="ms2biblemission-bit">
+<label>Repo Name</label><input id="repo" value="BMmahimasannidhi">
+<label>Token - my phone - No expiration</label><input id="token" type="password" placeholder="ghp_... పెట్టండి">
+<button class="green" onclick="saveSet()">💾 సెట్టింగ్ సేవ్</button>
+<button class="red" onclick="clearToken()">🗑️ టోకెన్ తీసేయి - హ్యాంగ్ పోతుంది</button>
+<div id="status" style="text-align:center;font-weight:bold;margin-top:8px"></div>
 </div>
 
-<br>
-<label>రకం</label>
-<select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
+<div class="box">
+<h3>➕ కొత్తది పెట్టండి - వేరే వేరేగా!</h3>
+<label>📌 టైటిల్</label><input id="title" placeholder="ఉదా: మెలుకువ కలిగి ప్రార్థించండి">
+<label>📖 వాక్యం మాత్రమే - ఫోటోతో సంబంధం లేదు</label><textarea id="content" rows="4" placeholder="వాక్యం ఇక్కడ రాయండి... ఖాళీగా వదిలితే - ఫోటో మాత్రమే వస్తుంది"></textarea>
+<label>🖼️ ఫోటో మాత్రమే - వాక్యం లేని మామూలు ఫోటో</label><input type="file" id="imgFile" accept="image/*">
+<img id="imgPrev" style="display:none;width:100%;border-radius:10px;margin-top:8px">
+<label>🎤 వాయిస్ మాత్రమే - 2 నిమిషాల లోపు</label><input type="file" id="audioFile" accept="audio/*">
+<audio id="audioPrev" controls style="display:none"></audio>
+<button class="green" onclick="addPost()">✅ పబ్లిష్ - సైట్ లో పెట్టు</button>
+</div>
 
-<label>టైటిల్</label>
-<input id="title" placeholder="ఉదా: అమోసు 3:8">
-
-<label>🖼️ ఫోటో - ఫోన్ లో నుంచి తీసుకోండి</label>
-<input type="file" id="imageFile" accept="image/*">
-<img id="preview" style="display:none">
-<small>ఫోటో వద్దు అంటే - ఖాళీగా వదిలేయండి! వాక్యం మాత్రమే వస్తుంది!</small>
-
-<label>వాక్యం / పాట</label>
-<textarea id="content" rows="10" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
-
-<label>చూపించే డేట్</label>
-<input type="date" id="date">
-<label>⏰ షెడ్యూల్</label>
-<input type="datetime-local" id="publishAt">
-
-<button onclick="addPost()">✅ Add చేసి Auto Save</button>
-<div id="status" style="text-align:center;font-weight:bold;margin:10px;color:#8B0000"></div>
-
-<h3>ఉన్న పోస్టులు</h3>
-<div id="list">లోడ్ అవుతోంది...</div>
+<div class="box"><h3>📜 పాత మెసేజ్ లు</h3><div id="list">లోడ్ అవుతోంది...</div></div>
 
 <script>
-let posts=[], sha="", imageDataUrl="";
-let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit';
+let posts=[]; let imgData=""; let audioData="";
+let user=localStorage.getItem('ms_user')||'ms2biblemission-bit';
 let repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi';
 let token=localStorage.getItem('ms_token')||'';
-document.getElementById('owner').value=owner;
-document.getElementById('repo').value=repo;
-document.getElementById('token').value=token;
-document.getElementById('date').value=new Date().toISOString().slice(0,10);
+document.getElementById('user').value=user; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
+function saveSet(){ user=document.getElementById('user').value.trim(); repo=document.getElementById('repo').value.trim(); token=document.getElementById('token').value.trim(); localStorage.setItem('ms_user',user); localStorage.setItem('ms_repo',repo); localStorage.setItem('ms_token',token); document.getElementById('status').innerText='✅ సేవ్ అయ్యింది! ఇప్పుడు పాత మెసేజ్ లు వస్తాయి!'; loadPosts(); }
+function clearToken(){ localStorage.removeItem('ms_token'); token=''; document.getElementById('token').value=''; document.getElementById('status').innerText='✅ పాత టోకెన్ తీసేసా! కొత్తది పెట్టండి!'; loadPosts(); }
+document.getElementById('imgFile').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{ imgData=r.result; let im=document.getElementById('imgPrev'); im.src=imgData; im.style.display='block'; }; r.readAsDataURL(f); });
+document.getElementById('audioFile').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{ audioData=r.result; let a=document.getElementById('audioPrev'); a.src=audioData; a.style.display='block'; }; r.readAsDataURL(f); });
 
-document.getElementById('imageFile').addEventListener('change', e=>{
-  let f=e.target.files[0]; if(!f) return;
-  let r=new FileReader(); r.onload=()=>{ imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block'; };
-  r.readAsDataURL(f);
-});
-
-function saveSettings(){
-  token=document.getElementById('token').value.trim();
-  owner=document.getElementById('owner').value.trim();
-  repo=document.getElementById('repo').value.trim();
-  localStorage.setItem('ms_token',token); localStorage.setItem('ms_owner',owner); localStorage.setItem('ms_repo',repo);
-  alert('సేవ్ అయ్యింది అండీ!'); load();
-}
-function setStatus(t){ document.getElementById('status').innerText=t; }
-
-async function load(){
-  if(!token){ document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return; }
+async function loadPosts(){
+  document.getElementById('list').innerHTML='లోడ్ అవుతోంది...';
+  // ముందు - GitHub నుంచి - posts.json ఉంటే తెచ్చుకో
   try{
-    let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{headers:{'Authorization':'Bearer '+token}});
-    let j=await r.json(); sha=j.sha;
-    posts=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))));
-    setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు');
-    render();
-  }catch(e){ setStatus('❌ టోకెన్ తప్పు అండీ'); }
+    let url=`https://raw.githubusercontent.com/${user}/${repo}/main/posts.json?v=${Date.now()}`;
+    let res=await fetch(url);
+    if(res.ok){ posts=await res.json(); }
+    else { posts=JSON.parse(localStorage.getItem('ms_posts')||'[]'); }
+  }catch(e){ posts=JSON.parse(localStorage.getItem('ms_posts')||'[]'); }
+  // హ్యాంగ్ అవ్వకుండా - ఎప్పుడూ చూపించు
+  render();
 }
 function render(){
-  document.getElementById('list').innerHTML=posts.map((p,i)=>{
-    let s=p.publishAt?new Date(p.publishAt).toLocaleString('te-IN'):'వెంటనే';
-    return `<div class="card"><b>${p.title}</b><br><small>${p.date} | ${s} | ${p.type}</small>${p.image?`<img src="${p.image}">`:''}<br><button onclick="delPost(${i})" style="background:#f44336;padding:8px;font-size:14px">Delete</button></div>`
-  }).join('')||'ఇంకా లేవు';
-}
-async function saveToGithub(){
-  setStatus('⏳ సేవ్ అవుతోంది... ఆగండి...');
-  let json=JSON.stringify(posts,null,2);
-  let b64=btoa(unescape(encodeURIComponent(json)));
-  let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Auto update '+new Date().toLocaleString('te-IN'),content:b64,sha:sha,branch:'main'})});
-  let j=await r.json();
-  if(j.content){ sha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); return true; }
-  else{ setStatus('❌ కాలేదు!'); return false; }
+  let box=document.getElementById('list');
+  if(posts.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు! కొత్తది పెట్టండి! <br><small>posts.json లేకపోయినా - ఇది హ్యాంగ్ అవ్వదు!</small>'; return; }
+  box.innerHTML=posts.map((p,i)=>`<div class="card"><b>${p.title}</b><br><small>${p.date}</small><div>${(p.content||'').replace(/\n/g,'<br>')}</div>${p.image?`<img src="${p.image}">`:''}${p.audio?`<audio controls src="${p.audio}"></audio>`:''}<br><button class="red" onclick="delPost(${i})">🗑️ తీసేయి</button></div>`).join('');
 }
 async function addPost(){
   let title=document.getElementById('title').value.trim();
   let content=document.getElementById('content').value.trim();
-  let type=document.getElementById('type').value;
-  let date=document.getElementById('date').value || new Date().toISOString().slice(0,10);
-  let publishAt=document.getElementById('publishAt').value;
-  if(!title||!content){ alert('టైటిల్ + వాక్యం రాయండి అండీ'); return; }
-  publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString();
-  posts.unshift({title, content, type, date, publishAt, image:imageDataUrl});
+  if(!title && !content && !imgData && !audioData){ alert('ఏదో ఒకటి పెట్టండి మిత్రమా!'); return; }
+  let d=new Date(); let date=d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+  let np={title:title||'మహిమ సన్నిధి', content:content, date:date, image:imgData, audio:audioData};
+  posts.unshift(np);
+  localStorage.setItem('ms_posts', JSON.stringify(posts));
+  document.getElementById('status').innerText='⏳ సేవ్ అవుతోంది...';
+  if(!token){ document.getElementById('status').innerText='⚠️ టోకెన్ లేదు - ఫోన్ లో మాత్రమే సేవ్ అయ్యింది! GitHub కి పంపాలంటే - టోకెన్ పెట్టండి!'; render(); return; }
   let ok=await saveToGithub();
-  if(ok){ document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render(); }
-  else posts.shift();
+  if(ok){ document.getElementById('status').innerText='✅ సైట్ లో వచ్చేసింది!'; document.getElementById('title').value=''; document.getElementById('content').value=''; imgData=''; audioData=''; document.getElementById('imgPrev').style.display='none'; document.getElementById('audioPrev').style.display='none'; }
+  else { document.getElementById('status').innerText='❌ టోకెన్ తప్పు అండీ! కొత్త టోకెన్ - No expiration తో పెట్టండి!'; }
+  render();
 }
-async function delPost(i){ if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); await saveToGithub(); render(); }
-load();
-</script>
-</body>
-</html>
+async function delPost(i){ if(!confirm('తీసేయాలా?')) return; posts.splice(i,1); localStorage.setItem('ms_posts', JSON.stringify(posts)); if(token) await saveToGithub(); render(); }
+async function saveToGithub(){
+  try{
+    let getUrl=`https://api.github.com/repos/${user}/${repo}/contents/posts.json`;
+    let sha=''; let gr=await fetch(getUrl,{headers:{Authorization:'token '+token}});
+    if(gr.ok){ let j=await gr.json(); sha=j.sha; }
+    let put=await fetch(getUrl,{method:'PUT',headers:{Authorization:'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'update posts',content:btoa(unescape(encodeURIComponent(JSON.stringify(posts,null,2)))),sha:sha||undefined})});
+    return put.ok;
+  }catch(e){ return false; }
+}
+loadPosts();
+</script></body></html>
