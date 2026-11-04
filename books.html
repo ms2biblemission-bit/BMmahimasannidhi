@@ -1,1 +1,65 @@
+<!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>మెసేజ్ బుక్స్ - మహిమ సన్నిధి</title>
+<style>body{font-family:system-ui;background:#f5f5f5;margin:0;padding:0} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .book{background:white;border-radius:16px;padding:15px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer} .book h3{margin:0;color:#8B0000} .book p{color:#555;font-size:14px} .chap{background:#fff8e1;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer;border-left:4px solid #FF9800} .page{background:white;border-radius:16px;padding:20px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);line-height:1.8;white-space:pre-line;text-align:center} .page img{width:100%;border-radius:12px;margin:10px 0} .btn{background:#8B0000;color:white;border:none;padding:12px 18px;border-radius:30px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer} .btn2{background:#4CAF50;color:white;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin:4px} input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}</style></head>
+<body>
+<div class="head"><a href="index.html">⬅ హోమ్</a><h2>📚 మెసేజ్ బుక్స్</h2><div>ఒక్కో బుక్ - ఒక్కో గ్రంథం లాగా - ఒక్కో పేజీలో - ఒక్కో వివరణ</div></div>
+<div class="wrap">
+<input id="search" placeholder="🔍 బుక్ / అధ్యాయం వెతకండి..." oninput="renderBooks()">
+<div id="box"></div>
+<div id="detail"></div>
+</div>
+<script>
+// ===== మీ బుక్స్ - ఇక్కడ మార్చుకోవచ్చు మిత్రమా! =====
+let BOOKS = [
+{ id:1, title:"📖 బుక్ 1 - ఆదికాండం వివరణ", desc:"సృష్టి నుండి - దేవుని ప్రణాళిక - రోజువారీ మెసేజ్", color:"#FF9800", chapters:[
+{ t:"అధ్యాయం 1 - సృష్టి", c:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.\n\nవివరణ: దేవుడే అన్నిటికి మొదలు. మన జీవితం కూడా ఆయన చేతిలోనే మొదలైంది. భయపడవద్దు, ఆయనే నడిపిస్తాడు.\n\nమరనాత ✝️" },
+{ t:"అధ్యాయం 2 - మనిషి", c:"ఆది 2:7 - దేవుడు మనిషిని మట్టితో చేసి - జీవవాయువు ఊదెను.\n\nవివరణ: మనం మామూలు మట్టి కాదు, దేవుని ఊపిరి ఉన్నవాళ్ళం. అందుకే మన జీవితానికి విలువ ఉంది." },
+{ t:"అధ్యాయం 3 - పాపం - రక్షణ", c:"ఆది 3:15 - స్త్రీ సంతానం - సర్పం తల చితకగొడుతుంది.\n\nవివరణ: పాపం వచ్చినా - దేవుడు అప్పుడే రక్షకుని వాగ్దానం ఇచ్చేసాడు. అదే యేసు ప్రభువు." }
+]},
+{ id:2, title:"📖 బుక్ 2 - నిర్గమకాండం వివరణ", desc:"ఐగుప్తు నుండి విడుదల - మన జీవిత విడుదల", color:"#4CAF50", chapters:[
+{ t:"అధ్యాయం 1 - విడుదల", c:"నిర్గమ 14:14 - యెహోవా మీ పక్షాన యుద్ధం చేస్తాడు, మీరు ఊరకుండండి.\n\nవివరణ: ఎర్ర సముద్రం ముందు - ఇశ్రాయేలు భయపడింది. కానీ దేవుడే దారి తెరిచాడు. మీ సమస్య ముందు కూడా ఆయనే దారి తెరుస్తాడు." },
+{ t:"అధ్యాయం 2 - మన్నా", c:"నిర్గమ 16:4 - ప్రతి రోజు - పరలోకపు ఆహారం.\n\nవివరణ: దేవుడు రోజు రోజుకి ఇస్తాడు. రేపటి గురించి భయపడవద్దు." }
+]},
+{ id:3, title:"📖 బుక్ 3 - కీర్తనలు వివరణ", desc:"దావీదు ప్రార్థన - మన ప్రార్థన", color:"#2196F3", chapters:[
+{ t:"అధ్యాయం 1 - కీర్తన 23", c:"కీర్తన 23:1 - యెహోవా నా కాపరి, నాకు లేమి కలుగదు.\n\nవివరణ: కాపరి ఉన్న గొర్రెకి - భయం ఉండదు. యేసు మన కాపరి." },
+{ t:"అధ్యాయం 2 - కీర్తన 121", c:"కీర్తన 121:1 - నా సహాయం యెహోవా వలన వస్తుంది.\n\nవివరణ: కొండల వైపు చూడకు, కొండలను చేసిన దేవుని వైపు చూడు." }
+]},
+{ id:4, title:"📖 బుక్ 4 - సువార్త వివరణ", desc:"యేసు జీవితం - బోధలు - అద్భుతాలు", color:"#E91E63", chapters:[
+{ t:"అధ్యాయం 1 - యోహాను 3:16", c:"యోహాను 3:16 - దేవుడు లోకాన్ని ఎంతో ప్రేమించాడు.\n\nవివరణ: దేవుని ప్రేమ - కొలవలేనిది. నీ కోసం కూడా ఆయన కుమారుని ఇచ్చేసాడు." },
+{ t:"అధ్యాయం 2 - మత్తయి 5 - కొండ మీద ప్రసంగం", c:"మత్తయి 5:3 - ఆత్మలో దీనులైనవారు ధన్యులు.\n\nవివరణ: దీనత్వమే - పరలోక రాజ్యానికి తాళం." }
+]},
+{ id:5, title:"📖 బుక్ 5 - ప్రకటన వివరణ", desc:"అంత్యకాలం - మరనాత - యేసు రాకడ", color:"#673AB7", chapters:[
+{ t:"అధ్యాయం 1 - ప్రకటన 22:20", c:"ప్రకటన 22:20 - ఆమెన్, ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు.\n\nవివరణ: ఇదే మన నిరీక్షణ - మరనాత! యేసు వస్తున్నాడు - మెలుకువగా ఉందాం." },
+{ t:"అధ్యాయం 2 - ప్రకటన 21 - కొత్త ఆకాశం", c:"ప్రకటన 21:4 - ఇక మరణం ఉండదు, ఏడుపు ఉండదు.\n\nవివరణ: అక్కడ - బాధ లేదు. అదే మన నిజమైన ఇల్లు." }
+]},
+{ id:6, title:"📖 బుక్ 6 - రోజువారీ మెసేజ్ లు", desc:"ప్రతి రోజు - ఒక చిన్న వాక్యం - ఒక వివరణ - పాత మెసేజ్ లు కింద కిందకి", color:"#FF5722", chapters:[] }
+];
 
+let currentBook=null, currentChap=0;
+async function loadDaily(){
+  try{ let r=await fetch('posts.json?v='+Date.now()); let posts=await r.json(); BOOKS[5].chapters = posts.map((p,i)=>({ t: (p.title||'మెసేజ్')+' - '+ (p.date||''), c: (p.content||'') + (p.image?'\n[ఫోటో]':'') , img:p.image, audio:p.audio })); }catch(e){}
+  renderBooks();
+}
+function renderBooks(){
+  let q=document.getElementById('search').value.toLowerCase();
+  let box=document.getElementById('box'); document.getElementById('detail').innerHTML='';
+  let list=BOOKS.filter(b=>(b.title+b.desc).toLowerCase().includes(q));
+  box.innerHTML=list.map((b,bi)=>`<div class="book" onclick="openBook(${b.id})"><h3>${b.title}</h3><p>${b.desc}</p><div style="font-size:13px;color:gray">📄 ${b.chapters.length} పేజీలు - నొక్కి చదవండి ➡️</div></div>`).join('');
+}
+function openBook(id){
+  currentBook=BOOKS.find(b=>b.id==id); currentChap=0;
+  let box=document.getElementById('box'); box.innerHTML='';
+  let d=document.getElementById('detail');
+  d.innerHTML=`<button class="btn" onclick="loadDaily();renderBooks()">⬅ అన్ని బుక్స్ కి వెళ్ళు</button><h3 style="text-align:center;color:#8B0000">${currentBook.title}</h3><p style="text-align:center;color:#555">${currentBook.desc}</p>` + currentBook.chapters.map((ch,i)=>`<div class="chap" onclick="openPage(${i})"><b>${ch.t}</b><div style="font-size:13px;color:#666">పేజీ ${i+1} - చదవండి ➡️</div></div>`).join('') + (currentBook.chapters.length==0?'<p style="text-align:center">📭 ఇంకా పేజీలు లేవు! అడ్మిన్ లో మెసేజ్ పెడితే - ఇక్కడ పేజీ అవుతుంది!</p>':'');
+  window.scrollTo(0,0);
+}
+function openPage(i){
+  currentChap=i; let ch=currentBook.chapters[i];
+  let d=document.getElementById('detail');
+  d.innerHTML=`<button class="btn" onclick="openBook(${currentBook.id})">⬅ ${currentBook.title} - అన్ని పేజీలు</button>
+  <div class="page"><h3 style="color:#8B0000">${ch.t}</h3>${ch.img?`<img src="${ch.img}">`:''}<div>${ch.c.replace(/\n/g,'<br>')}</div>${ch.audio?`<audio controls src="${ch.audio}" style="width:100%;margin-top:10px"></audio>`:''}
+  <div style="margin-top:15px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="openPage(${Math.max(0,i-1)})">⬅ ముందు పేజీ</button><button class="btn2" onclick="openPage(${Math.min(currentBook.chapters.length-1,i+1)})">తర్వాత పేజీ ➡️</button></div>
+  <div style="font-size:13px;color:gray;margin-top:8px">పేజీ ${i+1} / ${currentBook.chapters.length}</div></div>`;
+  window.scrollTo(0,0);
+}
+loadDaily();
+</script></body></html>
