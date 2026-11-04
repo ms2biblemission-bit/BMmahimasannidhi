@@ -25,8 +25,7 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 .vakya-card{background:white;margin:15px;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .section{background:white;margin:15px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .section h3{margin:0 0 10px;color:#8B0000}
-.post{border-bottom:1px solid #eee;padding:10px 0}
-/* QR + INSTALL BUTTON STYLE ADDED */
+.post{border-bottom:1px solid #eee;padding:10px 0;white-space:pre-line}
 .qr-box{text-align:center}
 .qr-box img{width:220px;height:220px;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #8B0000}
 .install-btn{display:none;background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
@@ -67,7 +66,6 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 <div class="section"><h3>🎵 పాటలు</h3><div id="songs">లోడ్ అవుతోంది...</div></div>
 <div class="section"><h3>📖 వాక్యాలు</h3><div id="vakya">లోడ్ అవుతోంది...</div></div>
 
-<!-- QR CODE ADDED - 2 -->
 <div class="section qr-box">
 <h3>🙏 పరిచర్య కానుక - Ms2 Bible Mission</h3>
 <img src="ms2-qr.jpg" alt="Ms2 Bible Mission QR">
@@ -75,7 +73,6 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 <div style="font-size:13px;color:#666;margin:5px 0">QR స్కాన్ చేసి కానుక పంపండి</div>
 <div style="font-size:12px;color:#888">UPI ID: BHARATPE2K0L0O8B5G13643@unitype</div>
 </div>
-<!-- QR CODE END -->
 
 <div style="text-align:center;padding:0 15px">
 <button id="installBtn" class="install-btn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button>
@@ -88,10 +85,16 @@ fetch('posts.json?v='+Date.now()).then(r=>r.json()).then(data=>{
 let s=document.getElementById('songs'); let v=document.getElementById('vakya');
 s.innerHTML=''; v.innerHTML='';
 if(!data || data.length==0){s.innerHTML='పాటలు ఇంకా లేవు'; v.innerHTML='వాక్యాలు ఇంకా లేవు'; return;}
+// SCHEDULE FILTER - టైమ్ రానివి దాచేయడం
+let now = new Date();
+data = data.filter(p=>{
+  if(!p.publishAt) return true;
+  return new Date(p.publishAt) <= now;
+});
 data.slice().reverse().forEach(p=>{
 let d=document.createElement('div'); d.className='post';
 d.innerHTML='<b>'+(p.title||'')+'</b><br>'+(p.content||'')+'<br><small>'+(p.date||'')+'</small>';
-if(p.type=='song'){s.appendChild(d)}else{v.appendChild(d)}
+if(p.type=='song' || p.type=='paata' || p.type=='🎵 పాట'){s.appendChild(d)}else{v.appendChild(d)}
 });
 if(s.innerHTML=='')s.innerHTML='పాటలు ఇంకా లేవు';
 if(v.innerHTML=='')v.innerHTML='వాక్యాలు ఇంకా లేవు';
@@ -101,13 +104,11 @@ document.getElementById('vakya').innerHTML='వాక్యాలు ఇంక�
 });
 </script>
 
-<!-- PWA CODE ADDED - 3 -->
 <script>
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
 document.getElementById('installBtn').addEventListener('click', async ()=>{ if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; document.getElementById('installBtn').style.display='none'; } });
 </script>
-<!-- PWA CODE END -->
 </body>
 </html>
