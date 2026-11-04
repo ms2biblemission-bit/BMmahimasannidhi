@@ -3,138 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Auto - మహిమ సన్నిధి</title>
+<title>Admin Auto + Image</title>
 <style>
 body{font-family:system-ui;padding:15px;background:#fff8e1;max-width:700px;margin:auto}
 input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:10px;font-size:16px;box-sizing:border-box}
 button{width:100%;padding:14px;background:#ff9800;color:white;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:10px}
 .card{background:white;padding:12px;border-radius:10px;margin:10px 0;box-shadow:0 2px 5px #0001}
-small{color:#666}
 .top{background:#e8f5e9;padding:12px;border-radius:10px;border:1px solid #4caf50}
+img{width:100%;border-radius:10px;margin-top:8px}
 </style>
 </head>
 <body>
-<h2>🙏 Auto Admin - వాక్యం / పాట + షెడ్యూల్</h2>
+<h2>🙏 Auto Admin - వాక్యం + ఫోటో + షెడ్యూల్</h2>
 
 <div class="top">
-<b>🔑 GitHub సెట్టింగ్ - ఒక్కసారి మాత్రమే</b><br>
-<label>GitHub Token (ghp_...)</label>
-<input id="token" type="password" placeholder="ghp_... ఇక్కడ పేస్ట్ చేయండి">
-<label>Owner - మీ GitHub పేరు</label>
-<input id="owner" value="ms2biblemission-bit">
-<label>Repo పేరు</label>
-<input id="repo" value="BMmahimasannidhi">
-<button onclick="saveSettings()" style="background:#4caf50">💾 సెట్టింగ్ సేవ్ చేయండి</button>
-<small>టోకెన్ మీ ఫోన్ లోనే సేవ్ అవుతుంది. ఎవరికీ కనిపించదు.</small>
+<b>🔑 GitHub సెట్టింగ్</b>
+<label>Token (ghp_...)</label>
+<input id="token" type="password" placeholder="కొత్త టోకెన్ ఇక్కడ పేస్ట్ చేయండి">
+<label>Owner</label><input id="owner" value="ms2biblemission-bit">
+<label>Repo</label><input id="repo" value="BMmahimasannidhi">
+<button onclick="saveSettings()" style="background:#4caf50">💾 సెట్టింగ్ సేవ్</button>
 </div>
 
 <br>
 <label>రకం</label>
-<select id="type">
-<option value="vakayam">📖 వాక్యం</option>
-<option value="paata">🎵 పాట</option>
-</select>
+<select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
 
 <label>టైటిల్</label>
-<input id="title" placeholder="ఉదా: అమోసు 3:8 - సింహము గర్జించెను">
+<input id="title" placeholder="ఉదా: అమోసు 3:8">
 
-<label>వాక్యం / పాట మొత్తం</label>
-<textarea id="content" rows="12" placeholder="ఇక్కడ మొత్తం వాక్యం రాయండి..."></textarea>
+<label>🖼️ ఫోటో - ఫోన్ లో నుంచి తీసుకోండి</label>
+<input type="file" id="imageFile" accept="image/*">
+<img id="preview" style="display:none">
+<small>ఫోటో వద్దు అంటే - ఖాళీగా వదిలేయండి! వాక్యం మాత్రమే వస్తుంది!</small>
+
+<label>వాక్యం / పాట</label>
+<textarea id="content" rows="10" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
 
 <label>చూపించే డేట్</label>
 <input type="date" id="date">
-
-<label>⏰ షెడ్యూల్ - ఎప్పుడు సైట్ లోకి వెళ్ళాలి?</label>
+<label>⏰ షెడ్యూల్</label>
 <input type="datetime-local" id="publishAt">
-<small>ఖాళీగా వదిలితే - వెంటనే వెళ్ళిపోతుంది.</small>
 
-<button onclick="addPost()">✅ Add చేసి Auto Save చేయండి</button>
+<button onclick="addPost()">✅ Add చేసి Auto Save</button>
 <div id="status" style="text-align:center;font-weight:bold;margin:10px;color:#8B0000"></div>
 
 <h3>ఉన్న పోస్టులు</h3>
 <div id="list">లోడ్ అవుతోంది...</div>
 
 <script>
-let posts = [];
-let sha = "";
-let owner = localStorage.getItem('ms_owner') || 'ms2biblemission-bit';
-let repo = localStorage.getItem('ms_repo') || 'BMmahimasannidhi';
-let token = localStorage.getItem('ms_token') || '';
-document.getElementById('owner').value = owner;
-document.getElementById('repo').value = repo;
-document.getElementById('token').value = token;
-document.getElementById('date').value = new Date().toISOString().slice(0,10);
+let posts=[], sha="", imageDataUrl="";
+let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit';
+let repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi';
+let token=localStorage.getItem('ms_token')||'';
+document.getElementById('owner').value=owner;
+document.getElementById('repo').value=repo;
+document.getElementById('token').value=token;
+document.getElementById('date').value=new Date().toISOString().slice(0,10);
+
+document.getElementById('imageFile').addEventListener('change', e=>{
+  let f=e.target.files[0]; if(!f) return;
+  let r=new FileReader(); r.onload=()=>{ imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block'; };
+  r.readAsDataURL(f);
+});
 
 function saveSettings(){
-  token = document.getElementById('token').value.trim();
-  owner = document.getElementById('owner').value.trim();
-  repo = document.getElementById('repo').value.trim();
-  localStorage.setItem('ms_token', token);
-  localStorage.setItem('ms_owner', owner);
-  localStorage.setItem('ms_repo', repo);
-  alert('సేవ్ అయ్యింది అండీ! ఇప్పుడు పోస్టులు లోడ్ అవుతాయి!');
-  load();
+  token=document.getElementById('token').value.trim();
+  owner=document.getElementById('owner').value.trim();
+  repo=document.getElementById('repo').value.trim();
+  localStorage.setItem('ms_token',token); localStorage.setItem('ms_owner',owner); localStorage.setItem('ms_repo',repo);
+  alert('సేవ్ అయ్యింది అండీ!'); load();
 }
-function setStatus(t){ document.getElementById('status').innerText = t; }
+function setStatus(t){ document.getElementById('status').innerText=t; }
 
 async function load(){
-  if(!token){ document.getElementById('list').innerHTML = 'ముందు పైన టోకెన్ పెట్టి సేవ్ చేయండి అండీ!'; return; }
-  setStatus('లోడ్ అవుతోంది...');
+  if(!token){ document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return; }
   try{
-    let r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`, {headers:{'Authorization':'Bearer '+token}});
-    let j = await r.json();
-    sha = j.sha;
-    let txt = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
-    posts = JSON.parse(txt);
-    setStatus('✅ GitHub కి కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు ఉన్నాయి');
+    let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{headers:{'Authorization':'Bearer '+token}});
+    let j=await r.json(); sha=j.sha;
+    posts=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))));
+    setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు');
     render();
-  }catch(e){ setStatus('❌ టోకెన్ తప్పు అండీ! మళ్ళీ చూడండి'); document.getElementById('list').innerHTML=''; }
+  }catch(e){ setStatus('❌ టోకెన్ తప్పు అండీ'); }
 }
 function render(){
-  document.getElementById('list').innerHTML = posts.map((p,i)=>{
-    let sched = p.publishAt ? new Date(p.publishAt).toLocaleString('te-IN') : 'వెంటనే';
-    return `<div class="card"><b>${p.title}</b><br><small>${p.date} | షెడ్యూల్: ${sched} | ${p.type}</small><br><button onclick="delPost(${i})" style="background:#f44336;padding:8px;font-size:14px">Delete</button></div>`
-  }).join('') || 'ఇంకా ఏమీ లేవు';
+  document.getElementById('list').innerHTML=posts.map((p,i)=>{
+    let s=p.publishAt?new Date(p.publishAt).toLocaleString('te-IN'):'వెంటనే';
+    return `<div class="card"><b>${p.title}</b><br><small>${p.date} | ${s} | ${p.type}</small>${p.image?`<img src="${p.image}">`:''}<br><button onclick="delPost(${i})" style="background:#f44336;padding:8px;font-size:14px">Delete</button></div>`
+  }).join('')||'ఇంకా లేవు';
 }
 async function saveToGithub(){
-  setStatus('⏳ GitHub లోకి సేవ్ అవుతోంది... దయచేసి ఆగండి...');
-  let json = JSON.stringify(posts,null,2);
-  let b64 = btoa(unescape(encodeURIComponent(json)));
-  let r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`, {
-    method:'PUT',
-    headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
-    body: JSON.stringify({message:'Auto update from Admin - '+new Date().toLocaleString('te-IN'), content:b64, sha:sha, branch:'main'})
-  });
-  let j = await r.json();
-  if(j.content){ sha = j.content.sha; setStatus('✅ అయిపోయింది అండీ! సైట్ లోకి వెళ్ళిపోయింది!'); return true; }
-  else{ setStatus('❌ కాలేదు అండీ! '+ (j.message||'')); alert('కాలేదు అండీ! టోకెన్ చూడండి'); return false; }
+  setStatus('⏳ సేవ్ అవుతోంది... ఆగండి...');
+  let json=JSON.stringify(posts,null,2);
+  let b64=btoa(unescape(encodeURIComponent(json)));
+  let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Auto update '+new Date().toLocaleString('te-IN'),content:b64,sha:sha,branch:'main'})});
+  let j=await r.json();
+  if(j.content){ sha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); return true; }
+  else{ setStatus('❌ కాలేదు!'); return false; }
 }
 async function addPost(){
-  let title = document.getElementById('title').value.trim();
-  let content = document.getElementById('content').value.trim();
-  let type = document.getElementById('type').value;
-  let date = document.getElementById('date').value;
-  let publishAt = document.getElementById('publishAt').value;
-  if(!title || !content){ alert('టైటిల్ + వాక్యం రాయండి అండీ'); return; }
-  if(!token){ alert('ముందు టోకెన్ పెట్టండి అండీ'); return; }
-  if(!date) date = new Date().toISOString().slice(0,10);
-  if(!publishAt) publishAt = new Date().toISOString();
-  else publishAt = new Date(publishAt).toISOString();
-  posts.unshift({title, content, type, date, publishAt});
-  let ok = await saveToGithub();
-  if(ok){
-    document.getElementById('title').value='';
-    document.getElementById('content').value='';
-    document.getElementById('publishAt').value='';
-    render();
-  } else { posts.shift(); }
+  let title=document.getElementById('title').value.trim();
+  let content=document.getElementById('content').value.trim();
+  let type=document.getElementById('type').value;
+  let date=document.getElementById('date').value || new Date().toISOString().slice(0,10);
+  let publishAt=document.getElementById('publishAt').value;
+  if(!title||!content){ alert('టైటిల్ + వాక్యం రాయండి అండీ'); return; }
+  publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString();
+  posts.unshift({title, content, type, date, publishAt, image:imageDataUrl});
+  let ok=await saveToGithub();
+  if(ok){ document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render(); }
+  else posts.shift();
 }
-async function delPost(i){
-  if(!confirm('తీసేయమంటారా?')) return;
-  posts.splice(i,1);
-  await saveToGithub();
-  render();
-}
+async function delPost(i){ if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); await saveToGithub(); render(); }
 load();
 </script>
 </body>
