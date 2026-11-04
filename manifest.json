@@ -1,1 +1,16 @@
-
+{
+  "name": "మహిమ సన్నిధి బైబిల్ మిషన్",
+  "short_name": "మహిమ సన్నిధి",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#8B0000",
+  "icons": [
+    {
+      "src": "IMG-20261104-WA0008.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
