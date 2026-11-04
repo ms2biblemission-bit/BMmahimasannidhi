@@ -1,120 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="te">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - మహిమ సన్నిధి</title>
+<title>Admin - Schedule</title>
 <style>
-body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:15px}
-.box{background:white;padding:18px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:15px}
-h2{color:#8B0000;text-align:center;margin:0 0 10px}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box}
-textarea{height:90px}
-button{background:#8B0000;color:white;border:none;padding:13px;width:100%;border-radius:30px;font-size:16px;font-weight:bold;margin-top:8px;cursor:pointer}
-.btn-green{background:#1a7a2e}
-.btn-grey{background:#666}
-.post{border-bottom:1px solid #eee;padding:10px 0}
-.del{color:red;font-size:13px;cursor:pointer}
-#main{display:none}
+body{font-family:system-ui;padding:15px;background:#fff8e1;max-width:700px;margin:auto}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{width:100%;padding:14px;background:#ff9800;color:white;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:10px}
+.card{background:white;padding:12px;border-radius:10px;margin:10px 0;box-shadow:0 2px 5px #0001}
+small{color:#666}
 </style>
 </head>
 <body>
+<h2>🙏 Admin - వాక్యం / పాట + షెడ్యూల్</h2>
 
-<div id="loginBox" class="box">
-<h2>🔐 అడ్మిన్ లాగిన్</h2>
-<p style="text-align:center;color:#666">మహిమ సన్నిధి బైబిల్ మిషన్</p>
-<input type="password" id="pass" placeholder="పాస్ వర్డ్ వేయండి">
-<button onclick="login()">లోపలికి వెళ్ళు</button>
-<div id="err" style="color:red;text-align:center;margin-top:8px"></div>
-</div>
-
-<div id="main">
-<div class="box">
-<h2>✍️ కొత్తది రాయండి</h2>
+<label>రకం</label>
 <select id="type">
-<option value="song">🎵 పాట</option>
-<option value="vakya">📖 వాక్యం</option>
+<option value="vakayam">📖 వాక్యం</option>
+<option value="paata">🎵 పాట</option>
 </select>
-<input id="title" placeholder="టైటిల్ - ఉదా: కొత్త పాట">
-<textarea id="content" placeholder="ఇక్కడ పాట / వాక్యం రాయండి..."></textarea>
+
+<label>టైటిల్</label>
+<input id="title" placeholder="ఉదా: అమోసు 3:8 - సింహము గర్జించెను">
+
+<label>వాక్యం / పాట మొత్తం</label>
+<textarea id="content" rows="12" placeholder="ఇక్కడ మొత్తం వాక్యం రాయండి..."></textarea>
+
+<label>చూపించే డేట్ (పైన కనిపించే డేట్)</label>
 <input type="date" id="date">
-<button onclick="addPost()">➕ Add చేయండి</button>
-</div>
 
-<div class="box">
-<h2>📋 లిస్ట్ - <span id="count">0</span></h2>
-<div id="list">ఇంకా లేవు...</div>
-</div>
+<label>⏰ షెడ్యూల్ - ఎప్పుడు సైట్ లోకి వెళ్ళాలి?</label>
+<input type="datetime-local" id="publishAt">
+<small>ఖాళీగా వదిలితే - వెంటనే వెళ్ళిపోతుంది.<br>డేట్ + టైమ్ పెడితే - ఆ టైమ్ వచ్చేవరకు సైట్ లో కనిపించదు.</small>
 
-<div class="box">
-<button class="btn-green" onclick="download()">⬇️ posts.json డౌన్లోడ్ చేయండి</button>
-<button class="btn-grey" onclick="copyJson()">📋 కాపీ చేయండి</button>
-<button onclick="location.href='index.html'">🏠 మెయిన్ సైట్ కి వెళ్ళు</button>
-<div style="font-size:13px;color:#666;margin-top:12px;text-align:center">
-1. డౌన్లోడ్ నొక్కండి<br>
-2. GitHub లో పాత posts.json ని డిలీట్ చేసి, కొత్తది అప్లోడ్ చేయండి<br>
-3. అంతే! సైట్ లో వచ్చేస్తుంది!
-</div>
-</div>
-</div>
+<button onclick="addPost()">✅ Add చేయండి</button>
+<button onclick="download()" style="background:#4caf50">⬇️ posts.json డౌన్లోడ్</button>
+
+<h3>ఉన్న పోస్టులు</h3>
+<div id="list"></div>
 
 <script>
-const PASSWORD = "mahima123";
 let posts = [];
-
-function login(){
-  if(document.getElementById('pass').value === PASSWORD){
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('main').style.display='block';
-    loadOld();
-  } else {
-    document.getElementById('err').innerHTML='❌ తప్పు పాస్ వర్డ్ అండీ!';
-  }
-}
-
-function loadOld(){
-  fetch('posts.json?v='+Date.now()).then(r=>r.json()).then(d=>{ posts = d || []; render(); }).catch(()=>{ posts=[]; render(); });
-  document.getElementById('date').valueAsDate = new Date();
-}
-
-function addPost(){
-  let t=document.getElementById('title').value.trim();
-  let c=document.getElementById('content').value.trim();
-  let ty=document.getElementById('type').value;
-  let dt=document.getElementById('date').value;
-  if(!t || !c){ alert('టైటిల్, కంటెంట్ రెండూ రాయండి అండీ!'); return; }
-  let parts = dt.split('-'); let showDate = parts[2]+'/'+parts[1]+'/'+parts[0];
-  posts.push({title:t, content:c, type:ty, date:showDate});
-  document.getElementById('title').value=''; document.getElementById('content').value='';
+async function load(){
+  try{
+    let r = await fetch('posts.json');
+    posts = await r.json();
+  }catch(e){ posts=[]; }
   render();
-  alert('యాడ్ అయ్యింది అండీ! ✅ ఇప్పుడు కింద డౌన్లోడ్ నొక్కండి!');
 }
-
 function render(){
-  document.getElementById('count').innerText = posts.length;
-  let l=document.getElementById('list');
-  if(posts.length==0){ l.innerHTML='ఇంకా లేవు...'; return; }
-  l.innerHTML='';
-  posts.slice().reverse().forEach((p,idx)=>{
-    let realIdx = posts.length-1-idx;
-    let d=document.createElement('div'); d.className='post';
-    d.innerHTML='<b>'+(p.type=='song'?'🎵 ':'📖 ')+p.title+'</b><br>'+p.content+'<br><small>'+p.date+'</small><br><span class="del" onclick="delPost('+realIdx+')">🗑️ డిలీట్</span>';
-    l.appendChild(d);
-  });
+  document.getElementById('list').innerHTML = posts.map((p,i)=>{
+    let sched = p.publishAt ? new Date(p.publishAt).toLocaleString('te-IN') : 'వెంటనే';
+    return `<div class="card"><b>${p.title}</b><br><small>${p.date} | షెడ్యూల్: ${sched} | ${p.type}</small><br><button onclick="delPost(${i})" style="background:#f44336;padding:8px;font-size:14px">Delete</button></div>`
+  }).join('') || 'ఇంకా ఏమీ లేవు';
 }
-
-function delPost(i){
-  if(confirm('డిలీట్ చేయాలా అండీ?')){ posts.splice(i,1); render(); }
+function addPost(){
+  let title = document.getElementById('title').value.trim();
+  let content = document.getElementById('content').value.trim();
+  let type = document.getElementById('type').value;
+  let date = document.getElementById('date').value;
+  let publishAt = document.getElementById('publishAt').value;
+  if(!title || !content){ alert('టైటిల్ + వాక్యం రాయండి అండీ'); return; }
+  if(!date) date = new Date().toISOString().slice(0,10);
+  // publishAt ఖాళీ అయితే ఇప్పుడే
+  if(!publishAt) publishAt = new Date().toISOString();
+  else publishAt = new Date(publishAt).toISOString();
+  posts.unshift({title, content, type, date, publishAt});
+  document.getElementById('title').value='';
+  document.getElementById('content').value='';
+  document.getElementById('publishAt').value='';
+  render();
+  alert('Add అయ్యింది అండీ! ఇప్పుడు posts.json డౌన్లోడ్ చేసి GitHub లో పెట్టండి!');
 }
-
+function delPost(i){ if(confirm('తీసేయమంటారా?')){ posts.splice(i,1); render(); } }
 function download(){
-  let blob = new Blob([JSON.stringify(posts,null,2)], {type:'application/json'});
-  let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='posts.json'; a.click();
+  let blob = new Blob([JSON.stringify(posts,null,2)],{type:'application/json'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'posts.json';
+  a.click();
 }
-
-function copyJson(){
-  navigator.clipboard.writeText(JSON.stringify(posts,null,2)).then(()=>alert('కాపీ అయ్యింది అండీ! ✅'));
-}
+document.getElementById('date').value = new Date().toISOString().slice(0,10);
+load();
 </script>
 </body>
 </html>
