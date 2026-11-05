@@ -91,10 +91,9 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <p style="font-size:13px;color:gray">పాట నొక్కితే పదాలు కనబడతాయి. కొత్త పాట కావాలంటే అడ్మిన్ చాట్ లో చెప్పండి.</p>
 </div>
 
-<!-- ===== అడ్మిన్ చాట్ - కొత్తది - Firebase - పాస్ వర్డ్ లేదు ===== -->
 <div class="section" id="adminChatSection" style="display:none">
 <h3>💬 అడ్మిన్ చాట్ - సైట్ లోనే</h3>
-<p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మెసేజ్ నేరుగా అడ్మిన్ కి చేరుతుంది.</p>
+<p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మీ మెసేజ్ మీకు, అడ్మిన్ కి మాత్రమే కనబడుతుంది. వేరే ఎవరికీ కనబడదు.</p>
 <div id="chatBox"></div>
 <div style="display:flex;gap:8px">
 <input id="chatInput" placeholder="మీ సలహా / ప్రార్థన రాయండి..." style="flex:1;padding:11px;border-radius:20px;border:1px solid #ccc">
@@ -185,7 +184,9 @@ function renderSongsFromSearch(){
     renderSongs(filtered);
   }
 }
-// ===== అడ్మిన్ చాట్ - Firebase - పాస్ వర్డ్ లేదు =====
+// ===== అడ్మిన్ చాట్ - ప్రైవేట్ - Firebase =====
+let myUid = localStorage.getItem('my_uid');
+if(!myUid){ myUid = 'user_' + Date.now() + '_' + Math.floor(Math.random()*10000); localStorage.setItem('my_uid', myUid); }
 function openAdminChat(){
   document.getElementById('adminChatSection').style.display='block';
   document.getElementById('adminChatSection').scrollIntoView({behavior:'smooth'});
@@ -193,15 +194,17 @@ function openAdminChat(){
 function sendMsg(){
   let inp = document.getElementById('chatInput');
   if(!inp.value.trim()) return;
-  db.ref('messages').push({who:'user', text: inp.value.trim(), time: Date.now()});
+  db.ref('messages').push({who:'user', uid: myUid, text: inp.value.trim(), time: Date.now()});
   inp.value="";
-  alert("మీ మెసేజ్ అడ్మిన్ కి చేరింది! 🙏");
+  alert("మీ మెసేజ్ అడ్మిన్ కి చేరింది! 🙏 వేరే ఎవరికీ కనబడదు!");
 }
 db.ref('messages').on('value', snap=>{
   let html = "";
   snap.forEach(c=>{
     let m=c.val();
-    html += `<div class="msg ${m.who==='admin'?'admin':''}"><b>${m.who==='admin'?'అడ్మిన్':'భక్తుడు'}:</b> ${m.text}</div>`;
+    if(m.uid === myUid || (m.who==='admin' && m.toUid === myUid)){
+      html += `<div class="msg ${m.who==='admin'?'admin':''}"><b>${m.who==='admin'?'అడ్మిన్':'మీరు'}:</b> ${m.text}</div>`;
+    }
   });
   let box = document.getElementById('chatBox');
   if(box) box.innerHTML = html || "<p style='color:#888'>ఇంకా మెసేజ్ లేదు. మొదటి మెసేజ్ మీరే పెట్టండి.</p>";
