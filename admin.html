@@ -4,29 +4,23 @@
 <h2>✝️ అడ్మిన్ - మహిమ సన్నిధి</h2>
 <div class="tabs"><div class="tab on" id="t1" onclick="showTab(1)">📝 మెసేజ్</div><div class="tab" id="t2" onclick="showTab(2)">🗓️ షెడ్యూల్</div><div class="tab" id="t3" onclick="showTab(3)">📚 బుక్స్</div><div class="tab" id="t4" onclick="showTab(4)">⚙️ సెట్టింగ్</div></div>
 <div id="msgBox" class="ok"></div><div id="errBox" class="err"></div>
-
-<!-- TAB 1 : MESSAGE + SCHEDULE SEND -->
 <div id="tab1">
 <div class="box"><h3>➕ కొత్తది పెట్టండి - వేరే వేరేగా!</h3>
 <label>📌 టైటిల్</label><input id="title" placeholder="ఉదా: మెలుకువ కలిగి ప్రార్థించండి">
-<label>📖 వాక్యం మాత్రమే - ఫోటోతో సంబంధం లేదు</label><textarea id="content" placeholder="వాక్యం ఇక్కడ రాయండి... ఖాళీగా వదిలితే - ఫోటో మాత్రమే వస్తుంది"></textarea>
+<label>📖 వాక్యం మాత్రమే - ఫోటోతో సంబంధం లేదు</label><textarea id="content" placeholder="వాక్యం ఇక్కడ రాయండి..."></textarea>
 <label>🖼️ ఫోటో మాత్రమే - వాక్యం లేని మామూలు ఫోటో</label><input type="file" id="photoFile" accept="image/*">
 <label>🎤 వాయిస్ (ఉంటే)</label><input type="file" id="audioFile" accept="audio/*">
 <label>📅 తేదీ</label><input id="date" type="date">
 <div style="background:#FFF3E0;padding:10px;border-radius:10px;margin:8px 0"><label><input type="checkbox" id="isSchedule" onchange="document.getElementById('schedBox').style.display=this.checked?'block':'none'" style="width:auto"> 🕐 ఇది షెడ్యూల్ మెసేజ్ - ఇప్పుడు కాదు - తర్వాత పంపాలి!</label>
-<div id="schedBox" style="display:none"><label>🕐 ఎప్పుడు పంపాలి? - తేదీ + టైం</label><input id="schedTime" type="datetime-local"><small>ఈ టైం వచ్చాక - హోమ్ లో - ఆటోమేటిక్ గా కనబడుతుంది! మీరు ఏమీ చేయనక్కర్లేదు!</small></div></div>
+<div id="schedBox" style="display:none"><label>🕐 ఎప్పుడు పంపాలి? - తేదీ + టైం</label><input id="schedTime" type="datetime-local"><small>ఈ టైం వచ్చాక - ఆటోమేటిక్ గా కనబడుతుంది! టైం దాటినా - admin ఓపెన్ చేసిన వెంటనే - వెళ్తుంది!</small></div></div>
 <button class="btnG" onclick="savePost()">💾 సేవ్ చేయండి - పంపండి!</button>
 <button class="btn" onclick="location.href='index.html'">👀 సైట్ చూడండి</button></div>
 <div class="box"><h3>📜 ఉన్న మెసేజ్ లు - ఇక్కడే ఎడిట్ / డిలీట్!</h3><div id="postsList">లోడ్ అవుతోంది...</div></div>
 <div class="box"><h3>🕐 షెడ్యూల్ చేసిన మెసేజ్ లు - పెండింగ్ లో ఉన్నవి</h3><div id="schedList">లేవు</div></div>
 </div>
-
-<!-- TAB 2 : WEEK SCHEDULE EDIT -->
 <div id="tab2" style="display:none">
 <div class="box"><h3>🗓️ వారపు షెడ్యూల్ - ఇక్కడే మార్చండి!</h3><small>ఒక్కో రోజు - టైం + టైటిల్ + వివరణ - మార్చి - కింద సేవ్ నొక్కండి!</small><div id="schedEdit"></div><button class="btnG" onclick="saveSchedule()">💾 షెడ్యూల్ సేవ్ చేయండి!</button></div>
 </div>
-
-<!-- TAB 3 : BOOKS EDIT -->
 <div id="tab3" style="display:none">
 <div class="box"><h3>📚 బుక్స్ - ఇక్కడే మార్చండి!</h3>
 <label>బుక్ ఎంచుకోండి</label><select id="bookSel" onchange="renderBookEdit()"></select>
@@ -38,8 +32,6 @@
 <button class="btn" onclick="addNewBook()">📚 కొత్త బుక్ పెట్టండి!</button>
 <button class="btnD" onclick="deleteBook()">🗑️ ఈ బుక్ తీసేయండి</button></div>
 </div>
-
-<!-- TAB 4 : SETTINGS - SAME AS BEFORE -->
 <div id="tab4" style="display:none">
 <div class="box"><h3>⚙️ సెట్టింగ్</h3>
 <label>GitHub Username</label><input id="ghUser" value="ms2biblemission-bit">
@@ -49,11 +41,10 @@
 <button class="btnD" style="width:100%;padding:12px" onclick="clearToken()">🗑️ టోకెన్ తీసేయి - హ్యాంగ్ పోతుంది</button>
 <small>⚠️ టోకెన్ - ఈ ఫోన్ లో మాత్రమే సేవ్ అవుతుంది - ఎవరికీ కనబడదు!</small></div>
 </div>
-
 <script>
 let POSTS=[], SCHED=[], BOOKS=[], SCHEDULE=[];
 let CFG={user:'ms2biblemission-bit',repo:'BMmahimasannidhi',token:''};
-function showMsg(t,ok=true){let b=document.getElementById(ok?'msgBox':'errBox');b.innerText=t;b.style.display='block';setTimeout(()=>b.style.display='none',4000);}
+function showMsg(t,ok=true){let b=document.getElementById(ok?'msgBox':'errBox');b.innerText=t;b.style.display='block';setTimeout(()=>b.style.display='none',6000);}
 function showTab(n){[1,2,3,4].forEach(i=>{document.getElementById('tab'+i).style.display=(i==n?'block':'none');document.getElementById('t'+i).classList.toggle('on',i==n);});}
 function loadLocal(){try{CFG=JSON.parse(localStorage.getItem('ms_cfg')||'{}');if(CFG.user)document.getElementById('ghUser').value=CFG.user;if(CFG.repo)document.getElementById('ghRepo').value=CFG.repo;if(CFG.token)document.getElementById('ghToken').value=CFG.token;POSTS=JSON.parse(localStorage.getItem('ms_posts')||'[]');SCHED=JSON.parse(localStorage.getItem('ms_sched')||'[]');BOOKS=JSON.parse(localStorage.getItem('ms_books')||'[]');SCHEDULE=JSON.parse(localStorage.getItem('ms_schedule')||'[]');}catch(e){}}
 function saveLocal(){localStorage.setItem('ms_posts',JSON.stringify(POSTS));localStorage.setItem('ms_sched',JSON.stringify(SCHED));localStorage.setItem('ms_books',JSON.stringify(BOOKS));localStorage.setItem('ms_schedule',JSON.stringify(SCHEDULE));localStorage.setItem('ms_cfg',JSON.stringify(CFG));}
@@ -61,14 +52,16 @@ function saveSettings(){CFG={user:document.getElementById('ghUser').value.trim()
 function clearToken(){document.getElementById('ghToken').value='';CFG.token='';saveLocal();showMsg('✅ టోకెన్ తీసేసా!');}
 async function ghGet(file){try{let r=await fetch(`https://api.github.com/repos/${CFG.user}/${CFG.repo}/contents/${file}`,{headers:{Authorization:'token '+CFG.token,Accept:'application/vnd.github+json'}});if(!r.ok) return null;let j=await r.json();return {sha:j.sha,content:JSON.parse(atob(j.content.replace(/\n/g,'')))};}catch(e){return null;}}
 async function ghSave(file,data,msg){if(!CFG.token){showMsg('⚠️ ముందు సెట్టింగ్ లో టోకెన్ పెట్టండి!',false);return false;} try{let cur=await ghGet(file);let body={message:msg,content:btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))))};if(cur) body.sha=cur.sha;let r=await fetch(`https://api.github.com/repos/${CFG.user}/${CFG.repo}/contents/${file}`,{method:'PUT',headers:{Authorization:'token '+CFG.token,'Content-Type':'application/json'},body:JSON.stringify(body)});return r.ok;}catch(e){return false;}}
-async function loadAll(){loadLocal();if(!BOOKS.length) BOOKS=[{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",chapters:[{t:"అధ్యాయం 1 - సృష్టి",c:"ఆది 1:1 - ఆదియందు దేవుడు..."}]},{id:2,title:"📖 బుక్ 2 - నిర్గమకాండం వివరణ",desc:"ఐగుప్తు నుండి విడుదల",chapters:[{t:"అధ్యాయం 1 - విడుదల",c:"నిర్గమ 14:14..."}]},{id:3,title:"📖 బుక్ 3 - కీర్తనలు వివరణ",desc:"దావీదు ప్రార్థన",chapters:[{t:"అధ్యాయం 1 - కీర్తన 23",c:"కీర్తన 23:1..."}]},{id:4,title:"📖 బుక్ 4 - సువార్త వివరణ",desc:"యేసు జీవితం",chapters:[{t:"అధ్యాయం 1 - యోహాను 3:16",c:"యోహాను 3:16..."}]},{id:5,title:"📖 బుక్ 5 - ప్రకటన వివరణ",desc:"అంత్యకాలం - మరనాత",chapters:[{t:"అధ్యాయం 1 - ప్రకటన 22:20",c:"ప్రకటన 22:20..."}]},{id:6,title:"📖 బుక్ 6 - రోజువారీ మెసేజ్ లు",desc:"ప్రతి రోజు - ఒక వాక్యం",chapters:[]}];
-if(!SCHEDULE.length) SCHEDULE=[{day:"ఆదివారం",time:"ఉదయం 9:00 - 12:00",title:"⛪ ఆరాధన - ప్రధాన కూటం",desc:"వాక్యం + పాటలు + ప్రార్థన"},{day:"సోమవారం",time:"సాయంత్రం 7:00",title:"📖 బైబిల్ అధ్యయనం",desc:"ఒక్కో అధ్యాయం - వివరణ"},{day:"మంగళవారం",time:"సాయంత్రం 7:00",title:"🎤 వాయిస్ మెసేజ్",desc:"రోజువారీ మెసేజ్ - వాయిస్ లో"},{day:"బుధవారం",time:"సాయంత్రం 7:00",title:"🙏 మధ్యవర్తి ప్రార్థన",desc:"అందరి కోసం - ప్రార్థన"},{day:"గురువారం",time:"సాయంత్రం 7:00",title:"📚 మెసేజ్ బుక్స్",desc:"బుక్ లో కొత్త అధ్యాయం"},{day:"శుక్రవారం",time:"ఉదయం 10:00 - 12:00",title:"✝️ ఉపవాస ప్రార్థన",desc:"ఉపవాసం + ప్రార్థన"},{day:"శనివారం",time:"సాయంత్రం 6:00",title:"🎵 పాటల ప్రాక్టీస్",desc:"ఆదివారం కోసం సిద్ధపాటు"}];
+async function loadAll(){loadLocal();if(!BOOKS.length) BOOKS=[{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",chapters:[{t:"అధ్యాయం 1 - సృష్టి",c:"ఆది 1:1 - ఆదియందు దేవుడు..."}]}];
+if(!SCHEDULE.length) SCHEDULE=[{day:"ఆదివారం",time:"ఉదయం 9:00 - 12:00",title:"⛪ ఆరాధన - ప్రధాన కూటం",desc:"వాక్యం + పాటలు + ప్రార్థన"}];
 try{let r=await fetch('posts.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) POSTS=j;}}catch(e){}
 try{let r=await fetch('books.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) BOOKS=j;}}catch(e){}
 try{let r=await fetch('schedule.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) SCHEDULE=j;}}catch(e){}
 try{let r=await fetch('scheduled.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) SCHED=j;}}catch(e){}
 saveLocal();renderPosts();renderSchedList();renderScheduleEdit();renderBookSel();
 document.getElementById('date').valueAsDate=new Date();
+// *** FIX: టైమ్ దాటినవి - వెంటనే పంపు ***
+checkDue();
 }
 function renderPosts(){let box=document.getElementById('postsList');if(!POSTS.length){box.innerHTML='📭 ఇంకా లేవు!';return;} box.innerHTML=POSTS.map((p,i)=>`<div class="item"><b>${p.title||''}</b><br><small>${p.date||''} - ${(p.content||'').substring(0,60)}</small><br><button class="btnO" onclick="editPost(${i})">✏️ ఎడిట్</button> <button class="btnD" onclick="delPost(${i})">🗑️ తీసేయి</button></div>`).join('');}
 function editPost(i){let p=POSTS[i];document.getElementById('title').value=p.title||'';document.getElementById('content').value=p.content||'';document.getElementById('date').value=p.date||'';POSTS.splice(i,1);saveLocal();renderPosts();showTab(1);window.scrollTo(0,0);showMsg('✏️ ఎడిట్ చేస్తున్నారు - మార్చి - సేవ్ నొక్కండి!');}
@@ -76,15 +69,15 @@ async function delPost(i){if(!confirm('తీసేయాలా?')) return;POSTS
 function renderSchedList(){let box=document.getElementById('schedList');if(!SCHED.length){box.innerHTML='📭 షెడ్యూల్ మెసేజ్ లు లేవు!';return;} box.innerHTML=SCHED.map((p,i)=>`<div class="item"><b>🕐 ${p.schedTime||''}</b> - ${p.title}<br><small>${(p.content||'').substring(0,60)}</small><br><button class="btnD" onclick="delSched(${i})">🗑️ రద్దు చేయి</button></div>`).join('');}
 function delSched(i){SCHED.splice(i,1);saveLocal();renderSchedList();ghSave('scheduled.json',SCHED,'cancel scheduled');}
 function renderScheduleEdit(){document.getElementById('schedEdit').innerHTML=SCHEDULE.map((s,i)=>`<div class="item"><b>${s.day}</b><input id="sc_time${i}" value="${s.time}" placeholder="టైం"><input id="sc_title${i}" value="${s.title}" placeholder="టైటిల్"><input id="sc_desc${i}" value="${s.desc}" placeholder="వివరణ"></div>`).join('');}
-async function saveSchedule(){SCHEDULE.forEach((s,i)=>{s.time=document.getElementById('sc_time'+i).value;s.title=document.getElementById('sc_title'+i).value;s.desc=document.getElementById('sc_desc'+i).value;});saveLocal();let ok=await ghSave('schedule.json',SCHEDULE,'update schedule');showMsg(ok?'✅ షెడ్యూల్ సేవ్ అయ్యింది! సైట్ లో చూడండి!':'✅ ఫోన్ లో సేవ్ అయ్యింది! (ఆఫ్ లైన్) - నెట్ వస్తే మళ్ళీ సేవ్ నొక్కండి!');}
+async function saveSchedule(){SCHEDULE.forEach((s,i)=>{s.time=document.getElementById('sc_time'+i).value;s.title=document.getElementById('sc_title'+i).value;s.desc=document.getElementById('sc_desc'+i).value;});saveLocal();let ok=await ghSave('schedule.json',SCHEDULE,'update schedule');showMsg(ok?'✅ షెడ్యూల్ సేవ్ అయ్యింది!':'✅ ఫోన్ లో సేవ్ అయ్యింది! (ఆఫ్ లైన్)');}
 function renderBookSel(){let sel=document.getElementById('bookSel');sel.innerHTML=BOOKS.map((b,i)=>`<option value="${i}">${b.title}</option>`).join('');renderBookEdit();}
 function renderBookEdit(){let i=parseInt(document.getElementById('bookSel').value||0);let b=BOOKS[i];if(!b) return;document.getElementById('bookTitle').value=b.title;document.getElementById('bookDesc').value=b.desc;document.getElementById('chapEdit').innerHTML=(b.chapters||[]).map((c,ci)=>`<div class="item"><b>పేజీ ${ci+1}</b><input id="ch_t${ci}" value="${c.t}" placeholder="అధ్యాయం పేరు"><textarea id="ch_c${ci}" placeholder="వివరణ">${c.c||''}</textarea><button class="btnD" onclick="delChapter(${ci})">🗑️ ఈ పేజీ తీసేయి</button></div>`).join('');}
-function addChapter(){let i=parseInt(document.getElementById('bookSel').value||0);BOOKS[i].chapters.push({t:"కొత్త అధ్యాయం",c:"వివరణ ఇక్కడ రాయండి..."});renderBookEdit();}
+function addChapter(){let i=parseInt(document.getElementById('bookSel').value||0);BOOKS[i].chapters.push({t:"కొత్త అధ్యాయం",c:"వివరణ..."});renderBookEdit();}
 function delChapter(ci){let i=parseInt(document.getElementById('bookSel').value||0);BOOKS[i].chapters.splice(ci,1);renderBookEdit();}
-function addNewBook(){BOOKS.push({id:Date.now(),title:"📖 కొత్త బుక్",desc:"వివరణ",chapters:[{t:"అధ్యాయం 1",c:"వివరణ..."}]});renderBookSel();showMsg('✅ కొత్త బుక్ వచ్చింది - పేరు మార్చండి!');}
+function addNewBook(){BOOKS.push({id:Date.now(),title:"📖 కొత్త బుక్",desc:"వివరణ",chapters:[{t:"అధ్యాయం 1",c:"వివరణ..."}]});renderBookSel();showMsg('✅ కొత్త బుక్ వచ్చింది!');}
 function deleteBook(){let i=parseInt(document.getElementById('bookSel').value||0);if(!confirm('ఈ బుక్ తీసేయాలా?')) return;BOOKS.splice(i,1);renderBookSel();}
 async function saveBooks(){let i=parseInt(document.getElementById('bookSel').value||0);BOOKS[i].title=document.getElementById('bookTitle').value;BOOKS[i].desc=document.getElementById('bookDesc').value;BOOKS[i].chapters.forEach((c,ci)=>{c.t=document.getElementById('ch_t'+ci).value;c.c=document.getElementById('ch_c'+ci).value;});saveLocal();let ok=await ghSave('books.json',BOOKS,'update books');showMsg(ok?'✅ బుక్స్ సేవ్ అయ్యాయి!':'✅ ఫోన్ లో సేవ్ అయ్యాయి! (ఆఫ్ లైన్)');}
-function readFile(file){return new Promise(res=>{let r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(file);});}
+function readFile(file){return new Promise(res=>{let r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(file);r.readAsDataURL(file);});}
 async function savePost(){
 let title=document.getElementById('title').value.trim();let content=document.getElementById('content').value.trim();let date=document.getElementById('date').value||new Date().toISOString().slice(0,10);
 if(!title && !content){showMsg('⚠️ టైటిల్ లేదా వాక్యం - ఏదో ఒకటి రాయండి!',false);return;}
@@ -93,8 +86,29 @@ let pf=document.getElementById('photoFile').files[0];if(pf){post.image=await rea
 let af=document.getElementById('audioFile').files[0];if(af){post.audio=await readFile(af);}
 let isSch=document.getElementById('isSchedule').checked;
 if(isSch){let st=document.getElementById('schedTime').value;if(!st){showMsg('⚠️ షెడ్యూల్ టైం పెట్టండి!',false);return;} post.schedTime=st;SCHED.push(post);saveLocal();await ghSave('scheduled.json',SCHED,'schedule post');showMsg('✅ షెడ్యూల్ అయ్యింది! '+st+' కి - ఆటోమేటిక్ గా వస్తుంది!');renderSchedList();}
-else{POSTS.unshift(post);saveLocal();let ok=await ghSave('posts.json',POSTS,'new post');showMsg(ok?'✅ మెసేజ్ పంపేసా! హోమ్ లో చూడండి!':'✅ ఫోన్ లో సేవ్ అయ్యింది! (ఆఫ్ లైన్) - నెట్ వస్తే మళ్ళీ సేవ్ నొక్కండి!');renderPosts();}
+else{POSTS.unshift(post);saveLocal();let ok=await ghSave('posts.json',POSTS,'new post');showMsg(ok?'✅ మెసేజ్ పంపేసా! హోమ్ లో చూడండి!':'✅ ఫోన్ లో సేవ్ అయ్యింది! (ఆఫ్ లైన్)');renderPosts();}
 document.getElementById('title').value='';document.getElementById('content').value='';document.getElementById('photoFile').value='';document.getElementById('audioFile').value='';document.getElementById('isSchedule').checked=false;document.getElementById('schedBox').style.display='none';
 }
+// *** FIX START - టైమ్ దాటినా - వెంటనే పంపే ఫంక్షన్ ***
+let _checking=false;
+async function checkDue(){
+if(_checking) return; _checking=true;
+let now=new Date().getTime();
+let due=SCHED.filter(p=>{ if(!p.schedTime) return false; let t=new Date(p.schedTime).getTime(); return !isNaN(t) && t<=now; });
+if(due.length>0){
+  showMsg('⏳ టైమ్ దాటిన '+due.length+' మెసేజ్ లు - పంపుతున్నా... దయచేసి ఆగండి!');
+  due.forEach(p=>{ let np={title:p.title,content:p.content,date:p.date||new Date().toISOString().slice(0,10)}; if(p.image) np.image=p.image; if(p.audio) np.audio=p.audio; POSTS.unshift(np); });
+  SCHED=SCHED.filter(p=>{ if(!p.schedTime) return true; let t=new Date(p.schedTime).getTime(); return isNaN(t) || t>now; });
+  saveLocal(); renderPosts(); renderSchedList();
+  let ok1=await ghSave('posts.json',POSTS,'auto send due scheduled');
+  let ok2=await ghSave('scheduled.json',SCHED,'auto send - remove due');
+  if(ok1) showMsg('✅ మరనాత! టైమ్ దాటిన '+due.length+' మెసేజ్ లు - పంపబడ్డాయి! హోమ్ లో చూడండి!');
+  else showMsg('✅ ఫోన్ లో పంపబడ్డాయి! నెట్ వస్తే - మళ్ళీ admin ఓపెన్ చేయండి - GitHub కి వెళ్తుంది!');
+}
+_checking=false;
+}
+setInterval(checkDue,30000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) checkDue(); });
+// *** FIX END ***
 loadAll();
 </script></body></html>
