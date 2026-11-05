@@ -3,142 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - మహిమ సన్నిధి</title>
+<title>BM మహిమ సన్నిధి - Admin</title>
 <style>
-body{font-family:system-ui;padding:12px;background:#fff8e1;max-width:700px;margin:auto}
-.header{background:#8B0000;color:white;padding:18px;border-radius:16px;text-align:center;box-shadow:0 3px 10px #0003}
-.header h2{margin:0;font-size:22px}
-.header p{margin:5px 0 0;font-size:14px;opacity:.9}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:12px;font-size:16px;box-sizing:border-box;background:white}
-button{width:100%;padding:14px;background:#ff9800;color:white;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:10px;box-shadow:0 2px 6px #0002}
-.card{background:white;padding:12px;border-radius:14px;margin:10px 0;box-shadow:0 2px 8px #0001;border-left:5px solid #8B0000}
-.top{background:#e8f5e9;padding:14px;border-radius:14px;border:1px solid #4caf50}
-img{width:100%;border-radius:10px;margin-top:8px}
-label{font-weight:bold;color:#8B0000;font-size:15px}
-small{color:#666}
-.delBtn{background:#f44336 !important;padding:8px !important;font-size:14px !important}
-.siteBtn{background:#8B0000 !important}
+*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#fff8e1;padding-bottom:30px}
+.header{background:#8B0000;color:white;padding:18px 15px;position:sticky;top:0;z-index:10}
+.header h2{margin:0;font-size:22px} .header p{margin:4px 0 0;font-size:13px;opacity:.9}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#fff8e1;position:sticky;top:68px;z-index:9}
+.tabs button{white-space:nowrap;padding:10px 16px;border-radius:25px;border:1px solid #ddd;background:white;font-size:15px;font-weight:bold;cursor:pointer}
+.tabs button.active{background:#8B0000;color:white}
+.wrap{padding:0 12px;max-width:700px;margin:auto}
+.card{background:white;padding:15px;border-radius:16px;margin:12px 0;box-shadow:0 2px 8px #0001}
+label{font-weight:bold;color:#333;font-size:15px;display:block;margin-top:10px}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #e8dcc0;border-radius:12px;font-size:16px;background:#fffdf5}
+button.big{width:100%;padding:14px;background:#2E7D32;color:white;border:none;border-radius:25px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:12px}
+button.orange{background:#ff9800} button.red{background:#8B0000}
+.row{display:flex;gap:8px} .row button{flex:1;padding:10px;border:none;border-radius:10px;color:white;font-weight:bold;cursor:pointer;font-size:14px}
+.openBtn{background:#4CAF50} .editBtn{background:#2196F3} .delBtn{background:#f44336} .pageBtn{background:#FF9800}
+.book{border:1px solid #f0e6c8} .pageCard{background:#fff8e1;border:1px dashed #FF9800;padding:10px;border-radius:12px;margin:8px 0}
+small{color:#666} .hidden{display:none}
 </style>
 </head>
 <body>
-<div class="header">
-<h2>🙏 మహిమ సన్నిధి - అడ్మిన్</h2>
-<p>వాక్యం + ఫోటో + షెడ్యూల్</p>
+<div class="header"><h2>✝️ BM మహిమ సన్నిధి - Admin</h2><p>Official Admin App • మెసేజ్ • షెడ్యూల్ • బుక్స్</p></div>
+<div class="tabs">
+<button id="t1" class="active" onclick="showTab(1)">📝 మెసేజ్</button>
+<button id="t2" onclick="showTab(2)">📅 షెడ్యూల్</button>
+<button id="t3" onclick="showTab(3)">📚 బుక్స్</button>
+<button id="t4" onclick="showTab(4)">⚙️ సెట్టింగ్</button>
+</div>
+<div class="wrap">
+<div id="status" style="text-align:center;font-weight:bold;color:#8B0000;margin:8px"></div>
+
+<!-- 1 MESSAGE -->
+<div id="tab1">
+<div class="card"><label>రకం</label><select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
+<label>టైటిల్</label><input id="title" placeholder="ఉదా: అమోసు 3:8">
+<label>🖼️ ఫోటో</label><input type="file" id="imageFile" accept="image/*"><img id="preview" style="width:100%;border-radius:10px;display:none">
+<label>వాక్యం / పాట</label><textarea id="content" rows="8" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
+<label>చూపించే డేట్</label><input type="date" id="date"><label>⏰ షెడ్యూల్ - ఎప్పుడు చూపించాలి?</label><input type="datetime-local" id="publishAt">
+<button class="big orange" onclick="addPost()">✅ Add చేసి Auto Save</button></div>
+<h3>ఉన్న మెసేజ్ లు</h3><div id="list">లోడ్ అవుతోంది...</div>
 </div>
 
-<br>
-<div class="top">
-<b>🔑 GitHub సెట్టింగ్</b>
-<label>Token (ghp_...)</label>
-<input id="token" type="password" placeholder="కొత్త టోకెన్ ఇక్కడ పేస్ట్ చేయండి">
-<label>Owner</label><input id="owner" value="ms2biblemission-bit">
-<label>Repo</label><input id="repo" value="BMmahimasannidhi">
-<button onclick="saveSettings()" style="background:#4caf50">💾 సెట్టింగ్ సేవ్</button>
+<!-- 2 SCHEDULE -->
+<div id="tab2" class="hidden">
+<div class="card"><label>📅 రోజు</label><select id="schDay"><option>ఆదివారం</option><option>సోమవారం</option><option>మంగళవారం</option><option>బుధవారం</option><option>గురువారం</option><option>శుక్రవారం</option><option>శనివారం</option></select>
+<label>⏰ టైమ్</label><input id="schTime" placeholder="ఉదా: సాయంత్రం 7:00">
+<label>📝 కార్యక్రమం</label><input id="schTitle" placeholder="ఉదా: బైబిల్ అధ్యయనం">
+<button class="big orange" onclick="addSchedule()">✅ షెడ్యూల్ సేవ్</button></div>
+<div id="schList"></div>
 </div>
 
-<button class="siteBtn" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
+<!-- 3 BOOKS -->
+<div id="tab3" class="hidden">
+<div class="card"><h3 style="margin:0">📚 బుక్ పేరు</h3>
+<label>📖 బుక్ పేరు</label><input id="bookTitle" placeholder="ఉదా: ప్రార్థన పుస్తకం">
+<label>✏️ వివరణ</label><textarea id="bookDesc" rows="3" placeholder="ఈ బుక్ గురించి..."></textarea>
+<label>📄 PDF ఫైల్ (ఉంటే)</label><input type="file" id="bookFile" accept="application/pdf">
+<small id="bookFileName">PDF లేకపోయినా పర్వాలేదు - పేజీలు పెట్టవచ్చు!</small>
+<button class="big" onclick="saveBook()">💾 బుక్ సేవ్ చేయండి</button>
+<button class="big" style="background:#999" onclick="cancelBookEdit()">✖️ క్యాన్సిల్ - కొత్త బుక్</button>
 
-<br>
-<label>రకం</label>
-<select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
+<!-- PAGES EDITOR - బుక్ ఎడిట్ చేస్తే ఇక్కడ పేజీలు -->
+<div id="pageEditor" class="hidden" style="margin-top:15px;border-top:2px dashed #FF9800;padding-top:10px">
+<h3>📄 ఈ బుక్ లో పేజీలు - యాడ్ చేయండి</h3>
+<label>పేజీ టైటిల్</label><input id="pageTitle" placeholder="ఉదా: అధ్యాయం 1 - ప్రార్థన">
+<label>పేజీలో ఏముంటుంది?</label><textarea id="pageContent" rows="6" placeholder="ఈ పేజీలో వాక్యం రాయండి..."></textarea>
+<label>🖼️ పేజీ ఫోటో (ఉంటే)</label><input type="file" id="pageImageFile" accept="image/*">
+<button class="big pageBtn" onclick="addPageToBook()">➕ ఈ పేజీని బుక్ లో యాడ్ చేయండి</button>
+<div id="pagesInEdit"></div>
+</div>
+</div>
+<h3>📚 ఉన్న బుక్స్</h3><div id="bookList">లోడ్ అవుతోంది...</div>
+</div>
 
-<label>టైటిల్</label>
-<input id="title" placeholder="ఉదా: అమోసు 3:8">
-
-<label>🖼️ ఫోటో - ఫోన్ లో నుంచి తీసుకోండి</label>
-<input type="file" id="imageFile" accept="image/*">
-<img id="preview" style="display:none">
-<small>ఫోటో వద్దు అంటే - ఖాళీగా వదిలేయండి! వాక్యం మాత్రమే వస్తుంది!</small>
-
-<label>వాక్యం / పాట</label>
-<textarea id="content" rows="10" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
-
-<label>చూపించే డేట్</label>
-<input type="date" id="date">
-<label>⏰ షెడ్యూల్ - ఎప్పుడు చూపించాలి?</label>
-<input type="datetime-local" id="publishAt">
-
-<button onclick="addPost()">✅ Add చేసి Auto Save</button>
-<div id="status" style="text-align:center;font-weight:bold;margin:10px;color:#8B0000"></div>
-
-<h3>ఉన్న పోస్టులు</h3>
-<div id="list">లోడ్ అవుతోంది...</div>
-
+<!-- 4 SETTINGS -->
+<div id="tab4" class="hidden">
+<div class="card" style="background:#e8f5e9"><b>🔑 GitHub సెట్టింగ్</b>
+<label>Token (ghp_...)</label><input id="token" type="password" placeholder="టోకెన్ ఇక్కడ పేస్ట్ చేయండి">
+<label>Owner</label><input id="owner" value="ms2biblemission-bit"><label>Repo</label><input id="repo" value="BMmahimasannidhi">
+<button class="big" style="background:#4caf50" onclick="saveSettings()">💾 సెట్టింగ్ సేవ్</button></div>
+<button class="big red" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
+</div>
+</div>
 <script>
-let posts=[], sha="", imageDataUrl="";
-let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit';
-let repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi';
-let token=localStorage.getItem('ms_token')||'';
-document.getElementById('owner').value=owner;
-document.getElementById('repo').value=repo;
-document.getElementById('token').value=token;
+let posts=[], postSha="", imageDataUrl="", books=[], bookSha="", bookPdfData="", editingBook=-1, pageImageData="";
+let schedule=[], schSha="", editingSch=-1;
+let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit', repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi', token=localStorage.getItem('ms_token')||'';
+document.getElementById('owner').value=owner; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
 document.getElementById('date').value=new Date().toISOString().slice(0,10);
-
-document.getElementById('imageFile').addEventListener('change', e=>{
-  let f=e.target.files[0]; if(!f) return;
-  let r=new FileReader(); r.onload=()=>{ imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block'; };
-  r.readAsDataURL(f);
-});
-
-function saveSettings(){
-  token=document.getElementById('token').value.trim();
-  owner=document.getElementById('owner').value.trim();
-  repo=document.getElementById('repo').value.trim();
-  localStorage.setItem('ms_token',token); localStorage.setItem('ms_owner',owner); localStorage.setItem('ms_repo',repo);
-  alert('సేవ్ అయ్యింది అండీ!'); load();
-}
-function setStatus(t){ document.getElementById('status').innerText=t; }
-function b64DecodeUnicode(b64){
-  let bin=atob(b64.replace(/\n/g,''));
-  let bytes=new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
-  return new TextDecoder('utf-8').decode(bytes);
-}
-function b64EncodeUnicode(str){
-  let bytes=new TextEncoder().encode(str);
-  let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
-  return btoa(bin);
-}
-async function load(){
-  if(!token){ document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return; }
-  try{
-    let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{headers:{'Authorization':'Bearer '+token}});
-    let j=await r.json(); sha=j.sha;
-    posts=JSON.parse(b64DecodeUnicode(j.content));
-    setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు');
-    render();
-  }catch(e){ setStatus('❌ టోకెన్ తప్పు అండీ'); }
-}
-function render(){
-  document.getElementById('list').innerHTML=posts.map((p,i)=>{
-    let s=p.publishAt?new Date(p.publishAt).toLocaleString('te-IN'):'వెంటనే';
-    return `<div class="card"><b>${p.title||''}</b><br><small>${p.date||''} | ${s} | ${p.type||''}</small>${p.image?`<img src="${p.image}">`:''}<br><button class="delBtn" onclick="delPost(${i})">🗑️ Delete</button></div>`
-  }).join('')||'ఇంకా లేవు';
-}
-async function saveToGithub(){
-  setStatus('⏳ సేవ్ అవుతోంది... ఆగండి...');
-  let json=JSON.stringify(posts,null,2);
-  let b64=b64EncodeUnicode(json);
-  let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Auto update '+new Date().toLocaleString('te-IN'),content:b64,sha:sha,branch:'main'})});
-  let j=await r.json();
-  if(j.content){ sha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); return true; }
-  else{ setStatus('❌ కాలేదు!'); return false; }
-}
-async function addPost(){
-  let title=document.getElementById('title').value.trim();
-  let content=document.getElementById('content').value.trim();
-  let type=document.getElementById('type').value;
-  let date=document.getElementById('date').value || new Date().toISOString().slice(0,10);
-  let publishAt=document.getElementById('publishAt').value;
-  if(!title||!content){ alert('టైటిల్ + వాక్యం రాయండి అండీ'); return; }
-  publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString();
-  posts.unshift({title, content, type, date, publishAt, image:imageDataUrl, audio:""});
-  let ok=await saveToGithub();
-  if(ok){ document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render(); }
-  else posts.shift();
-}
-async function delPost(i){ if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); await saveToGithub(); render(); }
-load();
+function showTab(n){[1,2,3,4].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); document.getElementById('t'+i).classList.toggle('active',i===n);});}
+function setStatus(t){document.getElementById('status').innerText=t;}
+function b64Dec(b){let bin=atob(b.replace(/\n/g,'')); let u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(u);}
+function b64Enc(s){let u=new TextEncoder().encode(s); let bin=''; u.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin);}
+async function getFile(n){let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${n}`,{headers:{'Authorization':'Bearer '+token}}); return await r.json();}
+async function putFile(n,sha,obj){let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${n}`,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Update '+n+' '+new Date().toLocaleString('te-IN'),content:b64Enc(JSON.stringify(obj,null,2)),sha:sha,branch:'main'})}); return await r.json();}
+function saveSettings(){token=document.getElementById('token').value.trim(); owner=document.getElementById('owner').value.trim(); repo=document.getElementById('repo').value.trim(); localStorage.setItem('ms_token',token); localStorage.setItem('ms_owner',owner); localStorage.setItem('ms_repo',repo); alert('సేవ్ అయ్యింది!'); load(); loadBooks(); loadSch();}
+document.getElementById('imageFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block';}; r.readAsDataURL(f);});
+document.getElementById('bookFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{bookPdfData=r.result; document.getElementById('bookFileName').innerText='✅ '+f.name;}; r.readAsDataURL(f);});
+document.getElementById('pageImageFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{pageImageData=r.result;}; r.readAsDataURL(f);});
+// POSTS
+async function load(){if(!token){document.getElementById('list').innerHTML='ముందు సెట్టింగ్ లో టోకెన్ పెట్టండి!'; return;} try{let j=await getFile('posts.json'); postSha=j.sha; posts=JSON.parse(b64Dec(j.content)); render();}catch(e){document.getElementById('list').innerHTML='పోస్టులు లేవు';}}
+function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${p.title||''}</b><br><small>${p.date||''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px">`:''}<div class="row"><button class="delBtn" onclick="delPost(${i})">🗑️ Delete</button></div></div>`).join('')||'ఇంకా లేవు';}
+async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; if(!title||!content){alert('టైటిల్ + వాక్యం రాయండి'); return;} publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:""}); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ మెసేజ్ సేవ్ అయ్యింది!'); document.getElementById('title').value=''; document.getElementById('content').value=''; imageDataUrl=''; render();} else setStatus('❌ కాలేదు');}
+async function delPost(i){if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; render();}}
+// SCHEDULE
+async function loadSch(){try{let j=await getFile('schedule.json'); schSha=j.sha; schedule=JSON.parse(b64Dec(j.content));}catch(e){schedule=[]; schSha="";} renderSch();}
+function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${s.day||''} - ${s.time||''}</b><br>${s.title||''}<div class="row"><button class="editBtn" onclick="editSch(${i})">✏️ ఎడిట్</button><button class="delBtn" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
+async function addSchedule(){let day=document.getElementById('schDay').value, time=document.getElementById('schTime').value.trim(), title=document.getElementById('schTitle').value.trim(); if(!time||!title){alert('టైమ్ + కార్యక్రమం రాయండి'); return;} if(editingSch>=0){schedule[editingSch]={day,time,title}; editingSch=-1;} else schedule.push({day,time,title}); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; setStatus('✅ షెడ్యూల్ సేవ్ అయ్యింది!'); document.getElementById('schTime').value=''; document.getElementById('schTitle').value=''; renderSch();}}
+function editSch(i){editingSch=i; let s=schedule[i]; document.getElementById('schDay').value=s.day; document.getElementById('schTime').value=s.time; document.getElementById('schTitle').value=s.title; showTab(2); alert('ఎడిట్ చేస్తున్నారు - మార్చి సేవ్ నొక్కండి');}
+async function delSch(i){if(!confirm('తీసేయమంటారా?')) return; schedule.splice(i,1); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; renderSch();}}
+// BOOKS + PAGES
+async function loadBooks(){try{let j=await getFile('books.json'); bookSha=j.sha; books=JSON.parse(b64Dec(j.content));}catch(e){books=[]; bookSha="";} renderBooks();}
+function renderBooks(){document.getElementById('bookList').innerHTML=books.map((b,i)=>{let pc=(b.pages||[]).length; return `<div class="card book"><b>📚 ${b.title||''}</b><br><small>${b.desc||''}</small><br><small>📄 పేజీలు: ${pc} ${b.pdf?'• PDF ఉంది':''}</small><div class="row"><button class="openBtn" onclick="openBook(${i})">📖 ఓపెన్</button><button class="editBtn" onclick="editBook(${i})">✏️ ఎడిట్</button><button class="delBtn" onclick="delBook(${i})">🗑️ Delete</button></div></div>`;}).join('')||'ఇంకా బుక్స్ లేవు';}
+function openBook(i){let b=books[i]; let w=window.open(); let html='<h2>'+(b.title||'')+'</h2><p>'+(b.desc||'')+'</p>'; if(b.pdf) html+='<p><a href="'+b.pdf+'" download>📄 PDF డౌన్లోడ్</a></p>'; (b.pages||[]).forEach((p,idx)=>{html+='<hr><h3>పేజీ '+(idx+1)+' - '+(p.title||'')+'</h3><p style="white-space:pre-line">'+(p.content||'')+'</p>'+(p.image?'<img src="'+p.image+'" style="width:100%">':'');}); w.document.write(html);}
+function editBook(i){editingBook=i; let b=books[i]; if(!b.pages) b.pages=[]; document.getElementById('bookTitle').value=b.title||''; document.getElementById('bookDesc').value=b.desc||''; bookPdfData=""; document.getElementById('bookFileName').innerText=b.pdf?'పాత PDF ఉంది - మార్చాలంటే కొత్తది ఎంచుకోండి':'PDF లేదు'; document.getElementById('pageEditor').classList.remove('hidden'); renderPagesInEdit(); document.getElementById('bookTitle').scrollIntoView({behavior:'smooth'}); alert('ఎడిట్ చేస్తున్నారు! కింద పేజీలు యాడ్ చేయవచ్చు!');}
+function cancelBookEdit(){editingBook=-1; document.getElementById('bookTitle').value=''; document.getElementById('bookDesc').value=''; document.getElementById('bookFile').value=''; bookPdfData=''; document.getElementById('pageEditor').classList.add('hidden');}
+function renderPagesInEdit(){if(editingBook<0) return; let b=books[editingBook]; document.getElementById('pagesInEdit').innerHTML='<h4>ఈ బుక్ లో ఉన్న పేజీలు: '+(b.pages||[]).length+'</h4>'+(b.pages||[]).map((p,idx)=>`<div class="pageCard"><b>${idx+1}. ${p.title||''}</b><br><small>${(p.content||'').slice(0,80)}...</small><div class="row"><button class="editBtn" onclick="editPage(${idx})">✏️ పేజీ ఎడిట్</button><button class="delBtn" onclick="delPage(${idx})">🗑️ పేజీ డిలీట్</button></div></div>`).join('')||'ఇంకా పేజీలు లేవు';}
+let editingPage=-1;
+function addPageToBook(){if(editingBook<0){alert('ముందు బుక్ ని ఎడిట్ నొక్కండి లేదా కొత్త బుక్ సేవ్ చేయండి!'); return;} let t=document.getElementById('pageTitle').value.trim(), c=document.getElementById('pageContent').value.trim(); if(!t||!c){alert('పేజీ టైటిల్ + వాక్యం రాయండి'); return;} let b=books[editingBook]; if(!b.pages) b.pages=[]; if(editingPage>=0){b.pages[editingPage]={title:t,content:c,image:pageImageData||b.pages[editingPage].image||""}; editingPage=-1;} else b.pages.push({title:t,content:c,image:pageImageData}); pageImageData=''; document.getElementById('pageTitle').value=''; document.getElementById('pageContent').value=''; document.getElementById('pageImageFile').value=''; renderPagesInEdit(); alert('✅ పేజీ యాడ్ అయ్యింది! ఇప్పుడు పైన బుక్ సేవ్ నొక్కండి!');}
+function editPage(idx){let p=books[editingBook].pages[idx]; editingPage=idx; document.getElementById('pageTitle').value=p.title||''; document.getElementById('pageContent').value=p.content||''; pageImageData=''; alert('పేజీ ఎడిట్ చేస్తున్నారు - మార్చి మళ్ళీ యాడ్ నొక్కండి');}
+function delPage(idx){if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return; books[editingBook].pages.splice(idx,1); renderPagesInEdit();}
+async function saveBook(){let t=document.getElementById('bookTitle').value.trim(), d=document.getElementById('bookDesc').value.trim(); if(!t){alert('బుక్ పేరు రాయండి'); return;} let pdf=bookPdfData; let fname=document.getElementById('bookFile').value.split('\\').pop(); if(editingBook>=0){let old=books[editingBook]; if(!pdf) pdf=old.pdf||""; if(!fname) fname=old.fileName||""; books[editingBook]={title:t,desc:d,pdf:pdf,fileName:fname,pages:old.pages||[]};} else {books.unshift({title:t,desc:d,pdf:pdf||"",fileName:fname,pages:[]});} let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; setStatus('✅ బుక్ సేవ్ అయ్యింది!'); cancelBookEdit(); renderBooks();} else setStatus('❌ బుక్ సేవ్ కాలేదు');}
+async function delBook(i){if(!confirm('ఈ బుక్ తీసేయమంటారా?')) return; books.splice(i,1); let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; renderBooks();}}
+load(); loadBooks(); loadSch();
 </script>
 </body>
 </html>
