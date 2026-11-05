@@ -12,11 +12,13 @@
 <meta name="apple-mobile-web-app-title" content="మహిమ సన్నిధి">
 <link rel="apple-touch-icon" href="IMG-20261104-WA0008.jpg">
 <style>
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
 body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
-.header{background:#8B0000;color:white;padding:25px 15px;text-align:center}
+.header{background:#8B0000;color:white;padding:25px 15px;text-align:center;width:100%}
 .logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
 .logo img{width:100%;height:100%;object-fit:cover}
-.logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 8px;background:white;margin:10px 15px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 8px;background:white;margin:10px 15px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1);max-width:calc(100% - 30px)}
 .logo-row a{text-align:center;text-decoration:none;min-width:68px;cursor:pointer}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
 .logo-row .circle img{width:100%;height:100%;object-fit:cover}
@@ -40,8 +42,6 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 .install-btn{display:none;background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
 input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
-.song{padding:12px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;cursor:pointer;text-align:left}
-.song b{color:#8B0000}
 #chatBox{height:220px;overflow:auto;border:1px solid #ddd;border-radius:10px;padding:10px;background:#fffdf5;margin-bottom:10px}
 .msg{background:#ffe9c4;padding:8px 10px;border-radius:10px;margin:6px 0;text-align:left}
 .msg.admin{background:#d9f2ff;text-align:right}
@@ -58,7 +58,6 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
   <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
   <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
-  <a onclick="showSongs()"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">🎵</div><div class="lname">పాటలు</div></a>
   <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
   <a onclick="openAdminChat()"><div class="circle" style="border:2px solid #25D366;background:#E8F5E9">💬</div><div class="lname">Chat</div></a>
   <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
@@ -85,12 +84,6 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 </a>
 </div>
 
-<div class="section" id="songsSection" style="display:none">
-<h3>🎵 పాటల లిస్ట్ - పేరు / నంబర్ కొట్టండి</h3>
-<div id="songList"></div>
-<p style="font-size:13px;color:gray">పాట నొక్కితే పదాలు కనబడతాయి. కొత్త పాట కావాలంటే అడ్మిన్ చాట్ లో చెప్పండి.</p>
-</div>
-
 <div class="section" id="adminChatSection" style="display:none">
 <h3>💬 అడ్మిన్ చాట్ - సైట్ లోనే</h3>
 <p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మీ మెసేజ్ మీకు, అడ్మిన్ కి మాత్రమే కనబడుతుంది. వేరే ఎవరికీ కనబడదు.</p>
@@ -114,7 +107,7 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button>
 </div>
 
-<input class="search" id="searchBox" placeholder="🔍 వెతకండి... పాట పేరు / నంబర్ / వాక్యం / తేదీ" oninput="renderPosts(); renderSongsFromSearch();">
+<input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ / టైటిల్" oninput="renderPosts()">
 
 <div class="section">
 <h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే!</h3>
@@ -156,34 +149,6 @@ let db = firebase.database();
 
 <script>
 let allPosts = [];
-let songs = [
-{no:1, name:"ఆమోసు", text:"ఆమోసు పాట పదాలు ఇక్కడ... ప్రభువు నీతో ఉన్నాడు."},
-{no:2, name:"యేసయ్యా నీ ప్రేమ", text:"యేసయ్యా నీ ప్రేమ ఎంతో గొప్పది..."},
-{no:3, name:"మహిమ సన్నిధి", text:"మహిమ సన్నిధిలో నిలిచి..."},
-{no:4, name:"మరనాత ప్రభువు వస్తున్నాడు", text:"మరనాత! ప్రభువు వస్తున్నాడు..."},
-{no:5, name:"దేవా నీ సన్నిధి", text:"దేవా నీ సన్నిధి చాలు నాకు..."},
-{no:12, name:"ఆమోసు - 12", text:"ఆమోసు 12వ పాట..."},
-{no:101, name:"స్తోత్రం యేసయ్యా", text:"స్తోత్రం యేసయ్యా..."}
-];
-function showSongs(){
-  document.getElementById('songsSection').style.display='block';
-  renderSongs(songs);
-  document.getElementById('songsSection').scrollIntoView({behavior:'smooth'});
-}
-function renderSongs(list){
-  let box = document.getElementById('songList');
-  if(!list || list.length===0){ box.innerHTML='<p>ఏ పాట దొరకలేదు. వేరే పేరు / నంబర్ ప్రయత్నించండి.</p>'; return; }
-  box.innerHTML = list.map(s=>`<div class="song" onclick="alert('🎵 '+${s.no}+' - '+s.name+'\\n\\n'+s.text)"><span><b>${s.no}</b> - ${s.name}</span><span>▶️</span></div>`).join('');
-}
-function renderSongsFromSearch(){
-  let q = document.getElementById('searchBox').value.toLowerCase().trim();
-  if(!q) return;
-  let filtered = songs.filter(s => s.name.toLowerCase().includes(q) || String(s.no).includes(q));
-  if(filtered.length>0){
-    document.getElementById('songsSection').style.display='block';
-    renderSongs(filtered);
-  }
-}
 // ===== అడ్మిన్ చాట్ - ప్రైవేట్ - Firebase =====
 let myUid = localStorage.getItem('my_uid');
 if(!myUid){ myUid = 'user_' + Date.now() + '_' + Math.floor(Math.random()*10000); localStorage.setItem('my_uid', myUid); }
