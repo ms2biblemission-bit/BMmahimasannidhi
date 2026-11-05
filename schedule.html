@@ -1,28 +1,85 @@
-<!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>షెడ్యూల్ - మహిమ సన్నిధి</title>
-<style>body{font-family:system-ui;background:#f5f5f5;margin:0} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .day{background:white;border-radius:16px;padding:15px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)} .day h3{margin:0;color:#8B0000} .today{border:3px solid #4CAF50;background:#E8F5E9} .time{font-weight:bold;color:#333;font-size:16px;margin-top:8px} .btn{background:#8B0000;color:white;border:none;padding:12px;border-radius:30px;font-weight:bold;width:100%;margin:6px 0} .badge{background:#FF9800;color:white;padding:3px 10px;border-radius:20px;font-size:12px}</style></head>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>షెడ్యూల్ - మహిమ సన్నిధి</title>
+<style>
+body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:15px}
+h2{color:#8B0000;text-align:center}
+.box{background:white;padding:15px;border-radius:14px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+input,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:10px;font-size:16px;box-sizing:border-box}
+button{background:#8B0000;color:white;border:none;padding:12px;border-radius:30px;font-weight:bold;width:100%;font-size:16px;cursor:pointer}
+.item{border-bottom:1px solid #eee;padding:10px 0}
+.small{color:gray;font-size:13px}
+.del{background:#666;margin-top:6px}
+</style>
+</head>
 <body>
-<div class="head"><a href="index.html">⬅ హోమ్</a><h2>🗓️ వారపు షెడ్యూల్</h2><div>మహిమ సన్నిధి బైబిల్ మిషన్ - John Dalli</div></div>
-<div class="wrap">
-<button class="btn" onclick="location.href='https://wa.me/917989079798?text=షెడ్యూల్%20గురించి%20అడగాలి'">📲 షెడ్యూల్ గురించి అడగండి - WhatsApp</button>
-<div id="list">లోడ్ అవుతోంది...</div>
-<div style="background:white;border-radius:16px;padding:15px;margin:10px 0;text-align:center"><h3 style="color:#8B0000">🙏 ప్రతి రోజు - ఉదయం ప్రార్థన</h3><p>ఉదయం 5:00 - 6:00 - వ్యక్తిగత ప్రార్థన<br>సాయంత్రం 7:00 - కుటుంబ ప్రార్థన</p><p style="font-size:13px;color:gray">మరనాత ✝️ - ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</p></div>
+<h2>🕒 షెడ్యూల్ - మరనాత ✝️</h2>
+<div class="box">
+<input id="sTitle" placeholder="📖 టైటిల్ - ఉదా: ఈ రోజు వాక్య మహిమ">
+<textarea id="sMsg" rows="4" placeholder="✝️ మెసేజ్ ఇక్కడ రాయండి..."></textarea>
+<input id="sTime" type="datetime-local">
+<button onclick="addSchedule()">➕ షెడ్యూల్ పెట్టండి</button>
+<div style="font-size:13px;color:gray;margin-top:8px;text-align:center">టైమ్ దాటిపోయినా - సైట్ ఓపెన్ చేసిన వెంటనే - పంపబడుతుంది!</div>
 </div>
+<div class="box"><h3>⏳ పెండింగ్ లో ఉన్నవి</h3><div id="pending">లోడ్ అవుతోంది...</div></div>
+<div class="box"><a href="index.html" style="display:block;text-align:center;text-decoration:none;font-weight:bold;color:#8B0000">⬅️ హోమ్ కి వెళ్ళండి</a></div>
 <script>
-let DEFAULT=[
-{day:"ఆదివారం",time:"ఉదయం 9:00 - 12:00",title:"⛪ ఆరాధన - ప్రధాన కూటం",desc:"వాక్యం + పాటలు + ప్రార్థన + సహవాసం"},
-{day:"సోమవారం",time:"సాయంత్రం 7:00",title:"📖 బైబిల్ అధ్యయనం",desc:"ఒక్కో అధ్యాయం - వివరణ - బుక్స్ లో కూడా ఉంటుంది"},
-{day:"మంగళవారం",time:"సాయంత్రం 7:00",title:"🎤 వాయిస్ మెసేజ్ - రికార్డింగ్",desc:"రోజువారీ మెసేజ్ - వాయిస్ లో"},
-{day:"బుధవారం",time:"సాయంత్రం 7:00",title:"🙏 మధ్యవర్తి ప్రార్థన",desc:"అందరి కోసం - ప్రార్థన - 7989079798 కి చెప్పండి"},
-{day:"గురువారం",time:"సాయంత్రం 7:00",title:"📚 మెసేజ్ బుక్స్ - కొత్త పేజీ",desc:"బుక్ లో - కొత్త అధ్యాయం రాసే రోజు"},
-{day:"శుక్రవారం",time:"ఉదయం 10:00 - 12:00",title:"✝️ ఉపవాస ప్రార్థన",desc:"ఉపవాసం + ప్రార్థన + కానుక"},
-{day:"శనివారం",time:"సాయంత్రం 6:00",title:"🎵 పాటల ప్రాక్టీస్ - యూత్ మీటింగ్",desc:"ఆదివారం కోసం - సిద్ధపాటు"}
-];
-async function load(){
-  let list=DEFAULT;
-  try{let s=localStorage.getItem('ms_schedule');if(s){let j=JSON.parse(s);if(j&&j.length) list=j;}}catch(e){}
-  try{let r=await fetch('schedule.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) list=j;}}catch(e){}
-  let today=new Date().getDay();
-  document.getElementById('list').innerHTML=list.map((s,i)=>{let isToday=(i===today);return `<div class="day ${isToday?'today':''}"><h3>${s.day} ${isToday?'<span class="badge">⭐ ఈ రోజు</span>':''}</h3><div class="time">🕐 ${s.time}</div><div style="font-weight:bold;margin-top:6px">${s.title}</div><div style="color:#555;font-size:14px">${s.desc}</div></div>`;}).join('');
+function getSched(){ try{return JSON.parse(localStorage.getItem('schedules')||'[]')}catch(e){return []} }
+function saveSched(a){ localStorage.setItem('schedules', JSON.stringify(a)) }
+function getPosts(){ try{return JSON.parse(localStorage.getItem('posts')||'[]')}catch(e){return []} }
+
+// *** FIX: టైమ్ దాటినా - వెంటనే పంపే లాజిక్ ***
+function checkAndSendLate(){
+  let list = getSched();
+  let now = new Date().getTime();
+  let changed = false;
+  let posts = getPosts();
+  // posts.json నుండి కూడా - ఇప్పటికే ఉన్న పోస్టులు - localStorage లోకి తీసుకోలేము - కాబట్టి - పెండింగ్ నుండి - డైరెక్ట్ గా - పైన చూపిస్తాము
+  let remaining = [];
+  list.forEach(s=>{
+    let t = new Date(s.time).getTime();
+    if(t <= now){
+      // టైమ్ అయిపోయింది - ఇప్పుడే పంపాలి!
+      posts.unshift({title:s.title, content:s.message, date:new Date().toLocaleDateString('en-GB')});
+      changed = true;
+      // పాత posts.json కి - ఇది - admin లో - కనబడుతుంది - కాపీ చేసి పెట్టుకోండి
+    } else {
+      remaining.push(s);
+    }
+  });
+  if(changed){
+    localStorage.setItem('posts', JSON.stringify(posts));
+    saveSched(remaining);
+    // హోమ్ పేజీకి - తెలియడానికి - ఒక ఫ్లాగ్
+    localStorage.setItem('lateSent', JSON.stringify({at:new Date().toISOString(), count: list.length - remaining.length}));
+    alert('✅ మరనాత! టైమ్ దాటిన ' + (list.length - remaining.length) + ' మెసేజ్ లు - ఇప్పుడే పంపబడ్డాయి!');
+  }
+  render();
 }
-load();
-</script></body></html>
+function addSchedule(){
+  let t=document.getElementById('sTitle').value.trim();
+  let m=document.getElementById('sMsg').value.trim();
+  let tm=document.getElementById('sTime').value;
+  if(!t||!m||!tm){ alert('దయచేసి - అన్నీ నింపండి!'); return; }
+  let list=getSched(); list.push({title:t, message:m, time:tm});
+  saveSched(list);
+  document.getElementById('sTitle').value=''; document.getElementById('sMsg').value=''; document.getElementById('sTime').value='';
+  alert('✅ షెడ్యూల్ పెట్టబడింది! టైమ్ కి - లేదా - టైమ్ దాటినా - ఓపెన్ చేసిన వెంటనే - వెళ్తుంది!');
+  render();
+}
+function delSched(i){ let l=getSched(); l.splice(i,1); saveSched(l); render(); }
+function render(){
+  let l=getSched();
+  let b=document.getElementById('pending');
+  if(l.length==0){ b.innerHTML='📭 పెండింగ్ ఏమీ లేవు!'; return; }
+  b.innerHTML=l.map((s,i)=>`<div class="item"><b>${s.title}</b><div class="small">${s.time}</div><div>${s.message.substring(0,120)}</div><button class="del" onclick="delSched(${i})">🗑️ రద్దు చేయి</button></div>`).join('');
+}
+// పేజీ ఓపెన్ అయిన వెంటనే - చెక్ చేయి - ప్రతి 30 సెకన్లకు - మళ్ళీ చెక్ చేయి
+checkAndSendLate();
+setInterval(checkAndSendLate, 30000);
+</script>
+</body>
+</html>
