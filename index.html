@@ -12,19 +12,17 @@
 <meta name="apple-mobile-web-app-title" content="మహిమ సన్నిధి">
 <link rel="apple-touch-icon" href="IMG-20261104-WA0008.jpg">
 <style>
-*{box-sizing:border-box}
-html,body{width:100%;max-width:100%;overflow-x:hidden}
 body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
-.header{background:#8B0000;color:white;padding:25px 15px;text-align:center;width:100%}
+.header{background:#8B0000;color:white;padding:25px 15px;text-align:center}
 .logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
 .logo img{width:100%;height:100%;object-fit:cover}
-.logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 8px;background:white;margin:10px 15px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1);max-width:calc(100% - 30px)}
-.logo-row a{text-align:center;text-decoration:none;min-width:68px;cursor:pointer}
+.logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 8px;background:white;margin:10px 15px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.logo-row a{text-align:center;text-decoration:none;min-width:68px}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
 .logo-row .circle img{width:100%;height:100%;object-fit:cover}
 .logo-row .lname{font-size:12px;color:#222;font-weight:bold;margin-top:5px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:15px}
-.card{background:white;border-radius:16px;padding:18px 10px;text-align:center;text-decoration:none;color:#333;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:block;cursor:pointer}
+.card{background:white;border-radius:16px;padding:18px 10px;text-align:center;text-decoration:none;color:#333;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:block}
 .card img{width:55px;height:55px;object-fit:contain;margin-bottom:6px}
 .card-text{font-weight:bold;font-size:16px}
 .vakya-card{background:white;margin:15px;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
@@ -33,7 +31,6 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 .section h3{margin:0 0 10px;color:#8B0000}
 .post{border-bottom:1px solid #eee;padding:12px 0}
 .post img{width:100%;border-radius:12px;margin:10px 0;max-height:320px;object-fit:cover;display:block}
-.post audio{width:100%;margin-top:8px}
 .post .p-title{font-weight:bold;color:#8B0000;font-size:18px;text-align:center}
 .post .p-content{white-space:pre-line;font-size:16px;text-align:center;line-height:1.7;margin-top:8px}
 .post .p-date{font-size:13px;color:gray;text-align:center;margin-top:6px}
@@ -42,9 +39,6 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
 .install-btn{display:none;background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
 input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
-#chatBox{height:220px;overflow:auto;border:1px solid #ddd;border-radius:10px;padding:10px;background:#fffdf5;margin-bottom:10px}
-.msg{background:#ffe9c4;padding:8px 10px;border-radius:10px;margin:6px 0;text-align:left}
-.msg.admin{background:#d9f2ff;text-align:right}
 </style>
 </head>
 <body>
@@ -53,18 +47,17 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <h1>మహిమ సన్నిధి బైబిల్ మిషన్</h1>
 <div>John Dalli | మరనాత ✝️</div>
 </div>
-
 <div class="logo-row">
   <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
   <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
+  <a href="archive.html"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">🎵</div><div class="lname">పాటలు</div></a>
   <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
-  <a onclick="openAdminChat()"><div class="circle" style="border:2px solid #25D366;background:#E8F5E9">💬</div><div class="lname">Chat</div></a>
+  <a href="https://wa.me/917989079798?text=మరనాత%20అండీ" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Chat</div></a>
   <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
   <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
-  <a onclick="openAdminChat()"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">🙏</div><div class="lname">ప్రార్థన</div></a>
+  <a href="https://wa.me/917989079798?text=ప్రార్థన%20కావాలి%20అండీ" target="_blank"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">🙏</div><div class="lname">ప్రార్థన</div></a>
 </div>
-
 <div class="grid">
 <a class="card" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank">
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg" alt="YouTube">
@@ -78,37 +71,22 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 <div class="card-text">వాట్సాప్ గ్రూప్</div>
 </a>
-<a class="card" onclick="openAdminChat()">
-<div style="font-size:55px">💬</div>
-<div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:#666">సైట్ లోనే మెసేజ్ చేయండి</small></div>
+<a class="card" href="https://wa.me/917989079798?text=Prayer%20for%20my%20family" target="_blank">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Prayer">
+<div class="card-text">ప్రార్థన కోసం<br><small>7989079798</small></div>
 </a>
 </div>
-
-<div class="section" id="adminChatSection" style="display:none">
-<h3>💬 అడ్మిన్ చాట్ - సైట్ లోనే</h3>
-<p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మీ మెసేజ్ మీకు, అడ్మిన్ కి మాత్రమే కనబడుతుంది. వేరే ఎవరికీ కనబడదు.</p>
-<div id="chatBox"></div>
-<div style="display:flex;gap:8px">
-<input id="chatInput" placeholder="మీ సలహా / ప్రార్థన రాయండి..." style="flex:1;padding:11px;border-radius:20px;border:1px solid #ccc">
-<button onclick="sendMsg()" style="background:#8B0000;color:#fff;border:none;padding:11px 16px;border-radius:20px;font-weight:bold">పంపు</button>
-</div>
-</div>
-
 <div class="vakya-card" id="topCard">
   <img id="topImage" src="">
   <div>💬 వాక్యం</div>
   <div id="topTitle" style="font-weight:bold;margin:12px 0;font-size:20px;color:#8B0000">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
   <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
-  <audio id="topAudio" controls style="width:100%;margin-top:12px;display:none"></audio>
   <div id="topDate">📅 4/11/2026</div>
 </div>
-
 <div style="text-align:center">
 <button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button>
 </div>
-
-<input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ / టైటిల్" oninput="renderPosts()">
-
+<input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ" oninput="renderPosts()">
 <div class="section">
 <h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే!</h3>
 <div style="display:flex;gap:8px;margin-bottom:10px">
@@ -118,7 +96,6 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 </div>
 <div id="postsList">లోడ్ అవుతోంది...</div>
 </div>
-
 <div class="section qr-box">
 <h3>📱 QR - స్కాన్ చేయండి - కానుక కోసం</h3>
 <img src="ms2-qr.jpg" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
@@ -130,55 +107,25 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 </div>
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
-
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyB4tURHEEjunEIMO12Bf-yAfNDGXsavTco",
-  authDomain: "mahima-sannidhi.firebaseapp.com",
-  databaseURL: "https://mahima-sannidhi-default-rtdb.firebaseio.com",
-  projectId: "mahima-sannidhi",
-  storageBucket: "mahima-sannidhi.firebasestorage.app",
-  messagingSenderId: "646668774021",
-  appId: "1:646668774021:web:af80fff2ace542ae6957ec"
-};
-if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-let db = firebase.database();
-</script>
-
 <script>
 let allPosts = [];
-// ===== అడ్మిన్ చాట్ - ప్రైవేట్ - Firebase =====
-let myUid = localStorage.getItem('my_uid');
-if(!myUid){ myUid = 'user_' + Date.now() + '_' + Math.floor(Math.random()*10000); localStorage.setItem('my_uid', myUid); }
-function openAdminChat(){
-  document.getElementById('adminChatSection').style.display='block';
-  document.getElementById('adminChatSection').scrollIntoView({behavior:'smooth'});
-}
-function sendMsg(){
-  let inp = document.getElementById('chatInput');
-  if(!inp.value.trim()) return;
-  db.ref('messages').push({who:'user', uid: myUid, text: inp.value.trim(), time: Date.now()});
-  inp.value="";
-  alert("మీ మెసేజ్ అడ్మిన్ కి చేరింది! 🙏 వేరే ఎవరికీ కనబడదు!");
-}
-db.ref('messages').on('value', snap=>{
-  let html = "";
-  snap.forEach(c=>{
-    let m=c.val();
-    if(m.uid === myUid || (m.who==='admin' && m.toUid === myUid)){
-      html += `<div class="msg ${m.who==='admin'?'admin':''}"><b>${m.who==='admin'?'అడ్మిన్':'మీరు'}:</b> ${m.text}</div>`;
+function fixT(s){
+  if(!s) return '';
+  try{
+    if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){
+      let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255));
+      let decoded = new TextDecoder('utf-8').decode(bytes);
+      if(decoded && decoded.indexOf('�')===-1) return decoded;
     }
-  });
-  let box = document.getElementById('chatBox');
-  if(box) box.innerHTML = html || "<p style='color:#888'>ఇంకా మెసేజ్ లేదు. మొదటి మెసేజ్ మీరే పెట్టండి.</p>";
-});
+  }catch(e){}
+  return s;
+}
 async function loadPosts(){
   try{
     let r = await fetch('posts.json?v='+Date.now());
     if(!r.ok) throw new Error('no posts');
     allPosts = await r.json();
+    allPosts = allPosts.map(p=>({title:fixT(p.title), content:fixT(p.content), date:p.date, image:p.image, audio:p.audio, type:p.type, publishAt:p.publishAt}));
   }catch(e){ allPosts = []; }
   if(allPosts.length>0){
     let p = allPosts[0];
@@ -187,8 +134,6 @@ async function loadPosts(){
     document.getElementById('topTitle').innerHTML = p.title || '';
     document.getElementById('topContent').innerText = p.content || '';
     document.getElementById('topDate').innerText = '📅 ' + (p.date||'');
-    let ta = document.getElementById('topAudio');
-    if(p.audio){ ta.src=p.audio; ta.style.display='block'; } else { ta.style.display='none'; }
   }
   renderPosts();
 }
@@ -199,8 +144,7 @@ function renderPosts(){
   if(list.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు! అడ్మిన్ లో ఒక్క పోస్ట్ పెట్టండి!'; return; }
   box.innerHTML = list.map(p=>{
     let img = p.image ? `<img src="${p.image}">` : '';
-    let aud = p.audio ? `<audio controls src="${p.audio}"></audio>` : '';
-    return `<div class="post">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').replace(/\n/g,'<br>')}</div>${aud}<div class="p-date">📅 ${p.date||''}</div></div>`;
+    return `<div class="post">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').replace(/\n/g,'<br>')}</div><div class="p-date">📅 ${p.date||''}</div></div>`;
   }).join('');
 }
 loadPosts();
