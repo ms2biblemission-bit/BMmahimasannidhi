@@ -58,14 +58,11 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
   <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
   <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
-  <!-- FIX 1: పాటలు - archive కాదు, ఇప్పుడు పాటల లిస్ట్ చూపిస్తుంది -->
   <a onclick="showSongs()"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">🎵</div><div class="lname">పాటలు</div></a>
   <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
-  <!-- FIX 2: Chat - wa.me నంబర్ తీసేసి సైట్ చాట్ -->
   <a onclick="openAdminChat()"><div class="circle" style="border:2px solid #25D366;background:#E8F5E9">💬</div><div class="lname">Chat</div></a>
   <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
   <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
-  <!-- FIX 2: ప్రార్థన - wa.me నంబర్ తీసేసి సైట్ చాట్ -->
   <a onclick="openAdminChat()"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">🙏</div><div class="lname">ప్రార్థన</div></a>
 </div>
 
@@ -82,31 +79,26 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 <div class="card-text">వాట్సాప్ గ్రూప్</div>
 </a>
-<!-- FIX 3: 4వ బాక్స్ - ప్రార్థన నంబర్ తీసేసి అడ్మిన్ చాట్ -->
 <a class="card" onclick="openAdminChat()">
 <div style="font-size:55px">💬</div>
 <div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:#666">సైట్ లోనే మెసేజ్ చేయండి</small></div>
 </a>
 </div>
 
-<!-- FIX 4: పాటల సెక్షన్ - కొత్తది, పైనవి అలాగే ఉన్నాయి -->
 <div class="section" id="songsSection" style="display:none">
 <h3>🎵 పాటల లిస్ట్ - పేరు / నంబర్ కొట్టండి</h3>
 <div id="songList"></div>
 <p style="font-size:13px;color:gray">పాట నొక్కితే పదాలు కనబడతాయి. కొత్త పాట కావాలంటే అడ్మిన్ చాట్ లో చెప్పండి.</p>
 </div>
 
-<!-- FIX 5: అడ్మిన్ చాట్ సెక్షన్ - సైట్ లోనే, నంబర్ లేదు -->
+<!-- ===== అడ్మిన్ చాట్ - కొత్తది - Firebase - పాస్ వర్డ్ లేదు ===== -->
 <div class="section" id="adminChatSection" style="display:none">
 <h3>💬 అడ్మిన్ చాట్ - సైట్ లోనే</h3>
-<p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మెసేజ్ ఇక్కడే సేవ్ అవుతుంది.</p>
+<p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మెసేజ్ నేరుగా అడ్మిన్ కి చేరుతుంది.</p>
 <div id="chatBox"></div>
 <div style="display:flex;gap:8px">
 <input id="chatInput" placeholder="మీ సలహా / ప్రార్థన రాయండి..." style="flex:1;padding:11px;border-radius:20px;border:1px solid #ccc">
 <button onclick="sendMsg()" style="background:#8B0000;color:#fff;border:none;padding:11px 16px;border-radius:20px;font-weight:bold">పంపు</button>
-</div>
-<div style="text-align:center;margin-top:10px">
-<button onclick="adminLogin()" style="background:#333;color:#fff;border:none;padding:8px 14px;border-radius:20px">నేనే అడ్మిన్ - మెసేజ్ లు చూడాలి</button>
 </div>
 </div>
 
@@ -135,7 +127,6 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <div id="postsList">లోడ్ అవుతోంది...</div>
 </div>
 
-<!-- ===== QR - సరిచేసింది - ఇదే! ===== -->
 <div class="section qr-box">
 <h3>📱 QR - స్కాన్ చేయండి - కానుక కోసం</h3>
 <img src="ms2-qr.jpg" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
@@ -148,9 +139,24 @@ input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB4tURHEEjunEIMO12Bf-yAfNDGXsavTco",
+  authDomain: "mahima-sannidhi.firebaseapp.com",
+  databaseURL: "https://mahima-sannidhi-default-rtdb.firebaseio.com",
+  projectId: "mahima-sannidhi",
+  storageBucket: "mahima-sannidhi.firebasestorage.app",
+  messagingSenderId: "646668774021",
+  appId: "1:646668774021:web:af80fff2ace542ae6957ec"
+};
+if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+let db = firebase.database();
+</script>
+
 <script>
 let allPosts = [];
-// పాటల డేటా - ఇక్కడ మీ పాటలు పెంచుకోవచ్చు
 let songs = [
 {no:1, name:"ఆమోసు", text:"ఆమోసు పాట పదాలు ఇక్కడ... ప్రభువు నీతో ఉన్నాడు."},
 {no:2, name:"యేసయ్యా నీ ప్రేమ", text:"యేసయ్యా నీ ప్రేమ ఎంతో గొప్పది..."},
@@ -179,34 +185,27 @@ function renderSongsFromSearch(){
     renderSongs(filtered);
   }
 }
-// అడ్మిన్ చాట్ - సైట్ లోనే
-let isAdmin = false;
+// ===== అడ్మిన్ చాట్ - Firebase - పాస్ వర్డ్ లేదు =====
 function openAdminChat(){
   document.getElementById('adminChatSection').style.display='block';
-  renderChat();
   document.getElementById('adminChatSection').scrollIntoView({behavior:'smooth'});
-}
-function getMsgs(){ return JSON.parse(localStorage.getItem('bm_chat')||'[]'); }
-function renderChat(){
-  let msgs = getMsgs();
-  let html = msgs.length===0 ? "<p style='color:#888'>ఇంకా మెసేజ్ లేదు. మొదటి మెసేజ్ మీరే పెట్టండి.</p>" : "";
-  msgs.forEach(m=>{ html += `<div class="msg ${m.who==='admin'?'admin':''}"><b>${m.who==='admin'?'అడ్మిన్':'భక్తుడు'}:</b> ${m.text}</div>`; });
-  document.getElementById('chatBox').innerHTML = html;
 }
 function sendMsg(){
   let inp = document.getElementById('chatInput');
   if(!inp.value.trim()) return;
-  let msgs = getMsgs();
-  msgs.push({who: isAdmin?'admin':'user', text: inp.value});
-  localStorage.setItem('bm_chat', JSON.stringify(msgs));
-  inp.value=""; renderChat();
-  alert(isAdmin ? "అడ్మిన్ రిప్లై పంపబడింది!" : "మీ మెసేజ్ అడ్మిన్ కి చేరింది!");
+  db.ref('messages').push({who:'user', text: inp.value.trim(), time: Date.now()});
+  inp.value="";
+  alert("మీ మెసేజ్ అడ్మిన్ కి చేరింది! 🙏");
 }
-function adminLogin(){
-  let p = prompt("అడ్మిన్ పాస్ వర్డ్ పెట్టండి (ఇప్పుడు: admin123)");
-  if(p==="admin123"){ isAdmin=true; alert("అడ్మిన్ గా లాగిన్ అయ్యారు!"); renderChat(); }
-  else alert("తప్పు పాస్ వర్డ్!");
-}
+db.ref('messages').on('value', snap=>{
+  let html = "";
+  snap.forEach(c=>{
+    let m=c.val();
+    html += `<div class="msg ${m.who==='admin'?'admin':''}"><b>${m.who==='admin'?'అడ్మిన్':'భక్తుడు'}:</b> ${m.text}</div>`;
+  });
+  let box = document.getElementById('chatBox');
+  if(box) box.innerHTML = html || "<p style='color:#888'>ఇంకా మెసేజ్ లేదు. మొదటి మెసేజ్ మీరే పెట్టండి.</p>";
+});
 async function loadPosts(){
   try{
     let r = await fetch('posts.json?v='+Date.now());
