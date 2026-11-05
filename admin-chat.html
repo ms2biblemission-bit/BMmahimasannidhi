@@ -1,17 +1,19 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Chat</title></head>
 <body style="font-family:system-ui;padding:15px;background:#fff8e6">
 <h2 style="color:#8B0000">💬 అడ్మిన్ చాట్ - మీరు మాత్రమే</h2>
+<p id="status" style="color:green;font-weight:bold">కనెక్ట్ అవుతోంది...</p>
 <div id="lockBox" style="background:#fff;padding:15px;border-radius:10px">
 <input id="passInput" type="password" placeholder="అడ్మిన్ పాస్ వర్డ్" style="padding:12px;width:70%;border-radius:10px;border:1px solid #ccc">
 <button onclick="checkPass()" style="background:#8B0000;color:#fff;padding:12px 18px;border:none;border-radius:10px">ఓపెన్</button>
 </div>
 <div id="mainBox" style="display:none">
+<div style="margin-bottom:10px">ఎవరికి రిప్లై ఇవ్వాలో ఎంచుకోండి:<br><select id="userSelect" onchange="renderChats()" style="padding:10px;width:100%;border-radius:10px"></select></div>
 <div id="chatBox" style="height:350px;overflow-y:auto;border:1px solid #ddd;padding:10px;background:#fff;border-radius:10px"></div>
 <div style="display:flex;gap:8px;margin-top:10px">
 <input id="chatInput" placeholder="రిప్లై రాయండి..." style="flex:1;padding:12px;border-radius:20px;border:1px solid #ccc">
 <button onclick="sendReply()" style="background:#8B0000;color:#fff;padding:12px 18px;border-radius:20px;border:none">రిప్లై</button>
 </div>
-<button onclick="clearAll()" style="margin-top:15px;background:#eee;border:none;padding:8px 12px;border-radius:8px">అన్నీ డిలీట్ చేయి</button>
+<button onclick="clearAll()" style="margin-top:15px;background:#eee;border:none;padding:8px 12px;border-radius:8px">అన్నీ డిలీట్ చేయి (పాత మెసేజ్ లు పోవాలంటే)</button>
 </div>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -27,6 +29,7 @@ const firebaseConfig = {
 };
 if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 let db = firebase.database();
+let allMsgs = {};
 function checkPass(){
   if(document.getElementById('passInput').value === "Mahima@123"){
     document.getElementById('lockBox').style.display="none";
@@ -36,22 +39,37 @@ function checkPass(){
 }
 function loadChats(){
   db.ref('messages').on('value', snap=>{
-    let html="";
-    snap.forEach(c=>{
-      let m=c.val();
-      html+=`<div style="background:${m.who==='admin'?'#d9f2ff':'#ffe9c4'};padding:8px;border-radius:10px;margin:6px 0"><b>${m.who==='admin'?'మీరు':'భక్తుడు'}:</b> ${m.text} <button onclick="delMsg('${c.key}')" style="float:right;border:none;background:none">❌</button></div>`;
-    });
-    let box=document.getElementById('chatBox');
-    box.innerHTML = html || "ఇంకా మెసేజ్ లు లేవు";
-    box.scrollTop=box.scrollHeight;
+    allMsgs = snap.val() || {};
+    document.getElementById('status').innerText = "✅ కనెక్ట్ అయింది! మొత్తం మెసేజ్ లు: " + Object.keys(allMsgs).length;
+    // యూజర్ లిస్ట్ తయారు చేయి
+    let users = new Set();
+    Object.values(allMsgs).forEach(m=>{ if(m.uid) users.add(m.uid); });
+    let sel = document.getElementById('userSelect');
+    let cur = sel.value;
+    sel.innerHTML = [...users].map(u=>`<option value="${u}">${u} - భక్తుడు</option>`).join('') || "<option>ఇంకా మెసేజ్ లేదు</option>";
+    if(cur) sel.value = cur;
+    renderChats();
   });
+}
+function renderChats(){
+  let uid = document.getElementById('userSelect').value;
+  let html = "";
+  Object.entries(allMsgs).forEach(([k,m])=>{
+    if(m.uid === uid || (m.who==='admin' && m.toUid === uid)){
+      html+=`<div style="background:${m.who==='admin'?'#d9f2ff':'#ffe9c4'};padding:8px;border-radius:10px;margin:6px 0"><b>${m.who==='admin'?'మీరు':'భక్తుడు'}:</b> ${m.text} <button onclick="delMsg('${k}')" style="float:right;border:none;background:none">❌</button></div>`;
+    }
+  });
+  let box=document.getElementById('chatBox');
+  box.innerHTML = html || "ఈ భక్తుడి నుండి ఇంకా మెసేజ్ లేదు";
+  box.scrollTop=box.scrollHeight;
 }
 function sendReply(){
   let inp=document.getElementById('chatInput');
-  if(!inp.value.trim()) return;
-  db.ref('messages').push({who:'admin', text:inp.value, time:Date.now()});
+  let uid=document.getElementById('userSelect').value;
+  if(!inp.value.trim() || !uid) return;
+  db.ref('messages').push({who:'admin', uid: uid, toUid: uid, text: inp.value, time: Date.now()});
   inp.value="";
 }
 function delMsg(k){ if(confirm("డిలీట్ చేయాలా?")) db.ref('messages/'+k).remove(); }
-function clearAll(){ if(confirm("అన్నీ డిలీట్ చేయాలా?")) db.ref('messages').remove(); }
+function clearAll(){ if(confirm("అన్నీ డిలీట్ చేయాలా? పాత మెసేజ్ లు పోతాయి!")) db.ref('messages').remove(); }
 </script></body></html>
