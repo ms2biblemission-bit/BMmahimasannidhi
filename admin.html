@@ -1,87 +1,144 @@
-<!DOCTYPE html><html lang="te"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BM Admin - Official</title>
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - మహిమ సన్నిధి</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#FFF7E8;color:#222;padding-bottom:90px}
-.top{position:sticky;top:0;background:#7A0000;color:#fff;padding:14px 16px;z-index:10;box-shadow:0 2px 10px rgba(0,0,0,.2)}
-.top b{font-size:19px}.top small{opacity:.85;display:block;font-size:12px}
-.tabs{position:sticky;top:58px;background:#FFF7E8;padding:10px 12px;display:flex;gap:8px;overflow:auto;z-index:9}
-.tab{white-space:nowrap;border:1px solid #E8D5B5;background:#fff;padding:10px 16px;border-radius:25px;font-weight:700;cursor:pointer}
-.tab.active{background:#7A0000;color:#fff;border-color:#7A0000}
-.card{background:#fff;margin:12px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.card h3{margin:0 0 8px;color:#7A0000}.muted{color:#777;font-size:13px;margin:0 0 12px}
-label{font-weight:700;font-size:13px}input,textarea,select{width:100%;padding:12px;border:1px solid #E5D5B8;border-radius:12px;margin:6px 0 12px;font-size:15px;background:#FFFBF0}
-.btn{width:100%;background:#1B7A2E;color:#fff;border:none;padding:14px;border-radius:30px;font-weight:800;font-size:16px;cursor:pointer}
-.btn2{background:#7A0000;color:#fff;padding:12px;border-radius:30px;display:block;text-align:center;text-decoration:none;font-weight:700;margin-top:10px}
-.day{border-left:5px solid #FF9D00;background:#FFF6D6;border-radius:12px;padding:12px;margin:10px 0}.day b{font-size:16px}
-.list-item{background:#FFFBF0;border:1px solid #F0E2C0;padding:12px;border-radius:12px;margin:8px 0}
-.badge{display:inline-block;background:#FFF0C0;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
-</style></head>
+body{font-family:system-ui;padding:12px;background:#fff8e1;max-width:700px;margin:auto}
+.header{background:#8B0000;color:white;padding:18px;border-radius:16px;text-align:center;box-shadow:0 3px 10px #0003}
+.header h2{margin:0;font-size:22px}
+.header p{margin:5px 0 0;font-size:14px;opacity:.9}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:12px;font-size:16px;box-sizing:border-box;background:white}
+button{width:100%;padding:14px;background:#ff9800;color:white;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:10px;box-shadow:0 2px 6px #0002}
+.card{background:white;padding:12px;border-radius:14px;margin:10px 0;box-shadow:0 2px 8px #0001;border-left:5px solid #8B0000}
+.top{background:#e8f5e9;padding:14px;border-radius:14px;border:1px solid #4caf50}
+img{width:100%;border-radius:10px;margin-top:8px}
+label{font-weight:bold;color:#8B0000;font-size:15px}
+small{color:#666}
+.delBtn{background:#f44336 !important;padding:8px !important;font-size:14px !important}
+.siteBtn{background:#8B0000 !important}
+</style>
+</head>
 <body>
-<div class="top"><b>✝️ BM మహిమా సన్నిధి - Admin</b><small>Official Admin App • మెసేజ్ • షెడ్యూల్ • బుక్స్</small></div>
-<div class="tabs">
-<button class="tab active" id="t1" onclick="showTab('msg')">📝 మెసేజ్</button>
-<button class="tab" id="t2" onclick="showTab('sch')">🗓️ షెడ్యూల్</button>
-<button class="tab" id="t3" onclick="showTab('book')">📚 బుక్స్</button>
-<button class="tab" id="t4" onclick="showTab('set')">⚙️ సెట్టింగ్</button>
+<div class="header">
+<h2>🙏 మహిమ సన్నిధి - అడ్మిన్</h2>
+<p>వాక్యం + ఫోటో + షెడ్యూల్</p>
 </div>
 
-<!-- 1 MESSAGE -->
-<div id="page-msg">
-<div class="card"><h3>📝 కొత్త మెసేజ్ / వాయిస్</h3><p class="muted">టైటిల్ + వాయిస్ పెట్టి - సేవ్ నొక్కితే - సైట్ లో వస్తుంది!</p>
-<label>📌 టైటిల్</label><input id="title" placeholder="ఉదా: Jesus Song Ringtone 0002">
-<label>📖 వాక్యం / వివరణ</label><textarea id="content" rows="3" placeholder="వాక్యం రాయండి..."></textarea>
-<label>🖼️ ఫోటో - ఉంటేనే</label><input type="file" id="imgFile" accept="image/*">
-<label>🎤 వాయిస్ - mp3</label><input type="file" id="audFile" accept="audio/*,.mp3"><p id="audInfo" style="color:green;font-size:13px"></p>
-<label>📅 తేదీ</label><input type="date" id="date">
-<button class="btn" onclick="savePost()" id="saveBtn">💾 సేవ్ చేయండి - పంపండి!</button><p id="msg" style="text-align:center;font-weight:800"></p>
-<a class="btn2" href="index.html">👀 సైట్ చూడండి</a></div>
-<div class="card"><h3>📜 ఇప్పటివరకు పెట్టినవి</h3><div id="list"></div></div>
+<br>
+<div class="top">
+<b>🔑 GitHub సెట్టింగ్</b>
+<label>Token (ghp_...)</label>
+<input id="token" type="password" placeholder="కొత్త టోకెన్ ఇక్కడ పేస్ట్ చేయండి">
+<label>Owner</label><input id="owner" value="ms2biblemission-bit">
+<label>Repo</label><input id="repo" value="BMmahimasannidhi">
+<button onclick="saveSettings()" style="background:#4caf50">💾 సెట్టింగ్ సేవ్</button>
 </div>
 
-<!-- 2 SCHEDULE -->
-<div id="page-sch" style="display:none">
-<div class="card"><h3>🗓️ వారపు షెడ్యూల్ - ఇక్కడే మార్చండి!</h3><p class="muted">ఒక్కో రోజు - టైం + టైటిల్ + వివరణ - మార్చి - కింద సేవ్ నొక్కండి!</p><div id="schBox"></div>
-<button class="btn" onclick="saveSchedule()" id="schBtn">💾 షెడ్యూల్ సేవ్ చేయండి</button><p id="schMsg" style="text-align:center;font-weight:800"></p></div>
-</div>
+<button class="siteBtn" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
 
-<!-- 3 BOOKS -->
-<div id="page-book" style="display:none">
-<div class="card"><h3>📚 కొత్త బుక్ / PDF</h3><p class="muted">బుక్ పేరు + వివరణ + PDF ఉంటే సెలెక్ట్ చేయండి!</p>
-<label>📖 బుక్ పేరు</label><input id="bTitle" placeholder="ఉదా: ప్రార్థన పుస్తకం">
-<label>📝 వివరణ</label><textarea id="bDesc" rows="2" placeholder="ఈ బుక్ గురించి..."></textarea>
-<label>📄 PDF ఫైల్</label><input type="file" id="bFile" accept=".pdf">
-<button class="btn" onclick="saveBook()" id="bookBtn">💾 బుక్ సేవ్ చేయండి</button><p id="bookMsg" style="text-align:center;font-weight:800"></p></div>
-<div class="card"><h3>📚 ఉన్న బుక్స్</h3><div id="bookList"></div></div>
-</div>
+<br>
+<label>రకం</label>
+<select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
 
-<!-- 4 SETTINGS -->
-<div id="page-set" style="display:none">
-<div class="card"><h3>⚙️ సెట్టింగ్ - Token ఒక్కసారి</h3><p class="muted">Token ఇక్కడ ఒక్కసారి పెడితే చాలు - మళ్ళీ అడగదు!</p>
-<label>GitHub Token</label><input id="token" placeholder="ghp_...">
-<button class="btn" onclick="saveToken()">🔐 Token సేవ్ చేయండి</button>
-<p style="font-size:12px;color:#666">Token లేకపోతే - github.com/settings/tokens లో తీసుకోండి - Expiration: No expiration - టిక్: repo</p></div>
-<div class="card"><h3>ℹ️ Admin Info</h3><p class="muted">BM Mahima Sannidhi • Official Admin<br>ఏదైనా తప్పు వస్తే - Token చూడండి!</p></div>
-</div>
+<label>టైటిల్</label>
+<input id="title" placeholder="ఉదా: అమోసు 3:8">
+
+<label>🖼️ ఫోటో - ఫోన్ లో నుంచి తీసుకోండి</label>
+<input type="file" id="imageFile" accept="image/*">
+<img id="preview" style="display:none">
+<small>ఫోటో వద్దు అంటే - ఖాళీగా వదిలేయండి! వాక్యం మాత్రమే వస్తుంది!</small>
+
+<label>వాక్యం / పాట</label>
+<textarea id="content" rows="10" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
+
+<label>చూపించే డేట్</label>
+<input type="date" id="date">
+<label>⏰ షెడ్యూల్ - ఎప్పుడు చూపించాలి?</label>
+<input type="datetime-local" id="publishAt">
+
+<button onclick="addPost()">✅ Add చేసి Auto Save</button>
+<div id="status" style="text-align:center;font-weight:bold;margin:10px;color:#8B0000"></div>
+
+<h3>ఉన్న పోస్టులు</h3>
+<div id="list">లోడ్ అవుతోంది...</div>
 
 <script>
-let OWNER="ms2biblemission-bit",REPO="BMmahimasannidhi",BRANCH="main";
-let DAYS=["ఆదివారం","సోమవారం","మంగళవారం","బుధవారం","గురువారం","శుక్రవారం","శనివారం"];
-function b64D(s){return decodeURIComponent(atob(s).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''))}
-function b64E(s){return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g,(m,p)=>String.fromCharCode('0x'+p)))}
-function showTab(n){['msg','sch','book','set'].forEach(x=>{document.getElementById('page-'+x).style.display=(x===n?'block':'none');document.getElementById('t'+(['msg','sch','book','set'].indexOf(x)+1)).classList.toggle('active',x===n)});window.scrollTo(0,0)}
-document.getElementById('date').valueAsDate=new Date();
-document.getElementById('token').value=localStorage.getItem('gh_token')||"";
-document.getElementById('audFile').addEventListener('change',e=>{let f=e.target.files[0];if(f)document.getElementById('audInfo').innerText="ఎంచుకున్నారు: "+f.name+" - "+(f.size/1024).toFixed(0)+" KB"});
-function saveToken(){localStorage.setItem('gh_token',document.getElementById('token').value.trim());alert("✅ Token సేవ్ అయింది!")}
-async function ghGet(p){let t=localStorage.getItem('gh_token');let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}?ref=${BRANCH}`,{headers:{Authorization:"Bearer "+t,Accept:"application/vnd.github+json"}});if(!r.ok)return null;return await r.json()}
-async function ghPut(p,c,m,sha){let t=localStorage.getItem('gh_token');let b={message:m,content:c,branch:BRANCH};if(sha)b.sha=sha;return await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}`,{method:"PUT",headers:{Authorization:"Bearer "+t,Accept:"application/vnd.github+json","Content-Type":"application/json"},body:JSON.stringify(b)})}
-function f2b(f){return new Promise(r=>{let rd=new FileReader();rd.onload=()=>r(rd.result.split(',')[1]);rd.readAsDataURL(f)})}
-function clean(n){return n.replace(/[^a-zA-Z0-9.-]/g,'_')}
-async function savePost(){let btn=document.getElementById('saveBtn');btn.disabled=true;btn.innerText="⏳ సేవ్ అవుతోంది...";try{let title=document.getElementById('title').value.trim();if(!title)throw new Error("టైటిల్ పెట్టండి!");let content=document.getElementById('content').value;let date=document.getElementById('date').value;let imgF=document.getElementById('imgFile').files[0];let audF=document.getElementById('audFile').files[0];let imgName="",audName="";let time=Date.now();if(imgF){imgName="img_"+time+"_"+clean(imgF.name);let r=await ghPut(imgName,await f2b(imgF),"Add image");if(!r.ok)throw new Error("ఫోటో అప్లోడ్ కాలేదు! Token చూడండి!")}if(audF){audName="voice_"+time+"_"+clean(audF.name);let r=await ghPut(audName,await f2b(audF),"Add voice");if(!r.ok)throw new Error("వాయిస్ అప్లోడ్ కాలేదు! Token చూడండి!")}let ex=await ghGet("posts.json");let posts=[],sha=null;if(ex){sha=ex.sha;try{posts=JSON.parse(b64D(ex.content.replace(/\n/g,'')))}catch(e){posts=[]}}posts.unshift({title,content,image:imgName||"",audio:audName||"",date});let r2=await ghPut("posts.json",b64E(JSON.stringify(posts,null,2)),"Add post "+title,sha);if(!r2.ok)throw new Error("posts.json సేవ్ కాలేదు!");document.getElementById('msg').innerText="✅ సేవ్ అయింది! 1 నిమిషం ఆగి సైట్ చూడండి!";document.getElementById('msg').style.color="green";document.getElementById('title').value="";document.getElementById('content').value="";loadList()}catch(e){document.getElementById('msg').innerText="❌ "+e.message;document.getElementById('msg').style.color="red";alert(e.message)}btn.disabled=false;btn.innerText="💾 సేవ్ చేయండి - పంపండి!"}
-async function loadList(){let ex=await ghGet("posts.json");if(!ex)return;let posts=[];try{posts=JSON.parse(b64D(ex.content.replace(/\n/g,'')))}catch(e){}document.getElementById('list').innerHTML=posts.slice(0,10).map(p=>`<div class="list-item"><b>${p.title}</b><br><small>${p.date||''} ${p.audio?'🎤 వాయిస్ ఉంది':''} ${p.image?'🖼️ ఫోటో ఉంది':''}</small></div>`).join('')||"ఇంకా ఏమీ లేవు"}
-async function loadSchedule(){let ex=await ghGet("schedule.json");let sch={};if(ex){try{sch=JSON.parse(b64D(ex.content.replace(/\n/g,'')))}catch(e){}}let def={"ఆదివారం":{time:"ఉదయం 9:00 - 12:00",title:"⛪ ఆరాధన - ప్రధాన కూటం",desc:"వాక్యం + పాటలు + ప్రార్థన"},"సోమవారం":{time:"సాయంత్రం 7:00",title:"📖 బైబిల్ అధ్యయనం",desc:"ఒక్కో అధ్యాయం - వివరణ"},"మంగళవారం":{time:"సాయంత్రం 7:00",title:"🙏 ప్రార్థన కూటం",desc:"కుటుంబ ప్రార్థన"},"బుధవారం":{time:"సాయంత్రం 7:00",title:"🎤 స్తుతి ఆరాధన",desc:"పాటలు + సాక్ష్యం"},"గురువారం":{time:"సాయంత్రం 7:00",title:"📖 వాక్య ధ్యానం",desc:"వాక్యం - ధ్యానం"},"శుక్రవారం":{time:"సాయంత్రం 7:00",title:"🙏 ఉపవాస ప్రార్థన",desc:"ఉపవాస + ప్రార్థన"},"శనివారం":{time:"సాయంత్రం 7:00",title:"🎶 యూత్ మీటింగ్",desc:"యూత్ - పాటలు + వాక్యం"}};
-DAYS.forEach(d=>{if(!sch[d])sch[d]=def[d]});document.getElementById('schBox').innerHTML=DAYS.map((d,i)=>`<div class="day"><b>${d}</b><input id="sch-time-${i}" value="${(sch[d].time||'').replace(/"/g,'')}" placeholder="టైం"><input id="sch-title-${i}" value="${(sch[d].title||'').replace(/"/g,'')}" placeholder="టైటిల్"><input id="sch-desc-${i}" value="${(sch[d].desc||'').replace(/"/g,'')}" placeholder="వివరణ"></div>`).join('')}
-async function saveSchedule(){let btn=document.getElementById('schBtn');btn.disabled=true;btn.innerText="⏳ సేవ్ అవుతోంది...";try{let sch={};DAYS.forEach((d,i)=>{sch[d]={time:document.getElementById('sch-time-'+i).value,title:document.getElementById('sch-title-'+i).value,desc:document.getElementById('sch-desc-'+i).value}});let ex=await ghGet("schedule.json");let sha=ex?ex.sha:null;let r=await ghPut("schedule.json",b64E(JSON.stringify(sch,null,2)),"Update schedule",sha);if(!r.ok)throw new Error("షెడ్యూల్ సేవ్ కాలేదు! Token చూడండి!");document.getElementById('schMsg').innerText="✅ షెడ్యూల్ సేవ్ అయింది!";document.getElementById('schMsg').style.color="green"}catch(e){alert(e.message)}btn.disabled=false;btn.innerText="💾 షెడ్యూల్ సేవ్ చేయండి"}
-async function saveBook(){let btn=document.getElementById('bookBtn');btn.disabled=true;btn.innerText="⏳ సేవ్ అవుతోంది...";try{let t=document.getElementById('bTitle').value.trim();if(!t)throw new Error("బుక్ పేరు పెట్టండి!");let desc=document.getElementById('bDesc').value;let f=document.getElementById('bFile').files[0];let fname="";if(f){fname="book_"+Date.now()+"_"+clean(f.name);let r=await ghPut(fname,await f2b(f),"Add book");if(!r.ok)throw new Error("PDF అప్లోడ్ కాలేదు! Token చూడండి!")}let ex=await ghGet("books.json");let books=[],sha=null;if(ex){sha=ex.sha;try{books=JSON.parse(b64D(ex.content.replace(/\n/g,'')))}catch(e){books=[]}}books.unshift({title:t,desc,file:fname,date:new Date().toISOString().slice(0,10)});let r2=await ghPut("books.json",b64E(JSON.stringify(books,null,2)),"Add book "+t,sha);if(!r2.ok)throw new Error("బుక్ సేవ్ కాలేదు!");document.getElementById('bookMsg').innerText="✅ బుక్ సేవ్ అయింది!";document.getElementById('bTitle').value="";document.getElementById('bDesc').value="";loadBooks()}catch(e){alert(e.message)}btn.disabled=false;btn.innerText="💾 బుక్ సేవ్ చేయండి"}
-async function loadBooks(){let ex=await ghGet("books.json");if(!ex)return;let books=[];try{books=JSON.parse(b64D(ex.content.replace(/\n/g,'')))}catch(e){}document.getElementById('bookList').innerHTML=books.map(b=>`<div class="list-item"><b>📚 ${b.title}</b><br><small>${b.desc||''}</small><br>${b.file?'<span class="badge">📄 PDF ఉంది</span>':''}</div>`).join('')||"ఇంకా బుక్స్ లేవు"}
-loadList();loadSchedule();loadBooks();
-</script></body></html>
+let posts=[], sha="", imageDataUrl="";
+let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit';
+let repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi';
+let token=localStorage.getItem('ms_token')||'';
+document.getElementById('owner').value=owner;
+document.getElementById('repo').value=repo;
+document.getElementById('token').value=token;
+document.getElementById('date').value=new Date().toISOString().slice(0,10);
+
+document.getElementById('imageFile').addEventListener('change', e=>{
+  let f=e.target.files[0]; if(!f) return;
+  let r=new FileReader(); r.onload=()=>{ imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block'; };
+  r.readAsDataURL(f);
+});
+
+function saveSettings(){
+  token=document.getElementById('token').value.trim();
+  owner=document.getElementById('owner').value.trim();
+  repo=document.getElementById('repo').value.trim();
+  localStorage.setItem('ms_token',token); localStorage.setItem('ms_owner',owner); localStorage.setItem('ms_repo',repo);
+  alert('సేవ్ అయ్యింది అండీ!'); load();
+}
+function setStatus(t){ document.getElementById('status').innerText=t; }
+function b64DecodeUnicode(b64){
+  let bin=atob(b64.replace(/\n/g,''));
+  let bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+function b64EncodeUnicode(str){
+  let bytes=new TextEncoder().encode(str);
+  let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return btoa(bin);
+}
+async function load(){
+  if(!token){ document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return; }
+  try{
+    let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{headers:{'Authorization':'Bearer '+token}});
+    let j=await r.json(); sha=j.sha;
+    posts=JSON.parse(b64DecodeUnicode(j.content));
+    setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు');
+    render();
+  }catch(e){ setStatus('❌ టోకెన్ తప్పు అండీ'); }
+}
+function render(){
+  document.getElementById('list').innerHTML=posts.map((p,i)=>{
+    let s=p.publishAt?new Date(p.publishAt).toLocaleString('te-IN'):'వెంటనే';
+    return `<div class="card"><b>${p.title||''}</b><br><small>${p.date||''} | ${s} | ${p.type||''}</small>${p.image?`<img src="${p.image}">`:''}<br><button class="delBtn" onclick="delPost(${i})">🗑️ Delete</button></div>`
+  }).join('')||'ఇంకా లేవు';
+}
+async function saveToGithub(){
+  setStatus('⏳ సేవ్ అవుతోంది... ఆగండి...');
+  let json=JSON.stringify(posts,null,2);
+  let b64=b64EncodeUnicode(json);
+  let r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/posts.json`,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Auto update '+new Date().toLocaleString('te-IN'),content:b64,sha:sha,branch:'main'})});
+  let j=await r.json();
+  if(j.content){ sha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); return true; }
+  else{ setStatus('❌ కాలేదు!'); return false; }
+}
+async function addPost(){
+  let title=document.getElementById('title').value.trim();
+  let content=document.getElementById('content').value.trim();
+  let type=document.getElementById('type').value;
+  let date=document.getElementById('date').value || new Date().toISOString().slice(0,10);
+  let publishAt=document.getElementById('publishAt').value;
+  if(!title||!content){ alert('టైటిల్ + వాక్యం రాయండి అండీ'); return; }
+  publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString();
+  posts.unshift({title, content, type, date, publishAt, image:imageDataUrl, audio:""});
+  let ok=await saveToGithub();
+  if(ok){ document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render(); }
+  else posts.shift();
+}
+async function delPost(i){ if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); await saveToGithub(); render(); }
+load();
+</script>
+</body>
+</html>
