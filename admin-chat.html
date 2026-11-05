@@ -8,7 +8,7 @@
 </div>
 <div id="mainBox" style="display:none">
 <div style="margin-bottom:10px">ఎవరికి రిప్లై ఇవ్వాలో ఎంచుకోండి:<br><select id="userSelect" onchange="renderChats()" style="padding:10px;width:100%;border-radius:10px"></select></div>
-<div id="chatBox" style="height:350px;overflow-y:auto;border:1px solid #ddd;padding:10px;background:#fff;border-radius:10px"></div>
+<div id="chatBox" style="height:380px;overflow-y:auto;border:1px solid #ddd;padding:10px;background:#fff;border-radius:10px"></div>
 <div style="display:flex;gap:8px;margin-top:10px">
 <input id="chatInput" placeholder="రిప్లై రాయండి..." style="flex:1;padding:12px;border-radius:20px;border:1px solid #ccc">
 <button onclick="sendReply()" style="background:#8B0000;color:#fff;padding:12px 18px;border-radius:20px;border:none">రిప్లై</button>
@@ -37,27 +37,41 @@ function checkPass(){
     loadChats();
   } else { alert("తప్పు పాస్ వర్డ్!"); }
 }
+function fmtTime(t){
+  if(!t) return "టైమ్ లేదు - పాత మెసేజ్";
+  let d = new Date(t);
+  let date = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+  let h = d.getHours(); let ampm = h>=12 ? "PM" : "AM"; h = h%12 || 12;
+  let min = String(d.getMinutes()).padStart(2,'0');
+  let today = new Date(); let isToday = d.toDateString()===today.toDateString();
+  let y = new Date(); y.setDate(y.getDate()-1); let isYest = d.toDateString()===y.toDateString();
+  let label = isToday ? "ఈరోజు" : isYest ? "నిన్న" : date;
+  return "📅 " + label + " - " + h + ":" + min + " " + ampm;
+}
 function loadChats(){
   db.ref('messages').on('value', snap=>{
     allMsgs = snap.val() || {};
     document.getElementById('status').innerText = "✅ కనెక్ట్ అయింది! మొత్తం మెసేజ్ లు: " + Object.keys(allMsgs).length;
-    // యూజర్ లిస్ట్ తయారు చేయి
-    let users = new Set();
-    Object.values(allMsgs).forEach(m=>{ if(m.uid) users.add(m.uid); });
+    let users = {};
+    Object.entries(allMsgs).forEach(([k,m])=>{ if(m.uid){ if(!users[m.uid]) users[m.uid]={last:0, count:0}; if(m.time>users[m.uid].last) users[m.uid].last=m.time; if(m.who==='user') users[m.uid].count++; }});
+    let sortedUsers = Object.keys(users).sort((a,b)=>users[a].last - users[b].last);
     let sel = document.getElementById('userSelect');
     let cur = sel.value;
-    sel.innerHTML = [...users].map(u=>`<option value="${u}">${u} - భక్తుడు</option>`).join('') || "<option>ఇంకా మెసేజ్ లేదు</option>";
-    if(cur) sel.value = cur;
+    sel.innerHTML = sortedUsers.map(u=>`<option value="${u}">${fmtTime(users[u].last)} - భక్తుడు (${users[u].count} మెసేజ్ లు) - ${u.slice(-4)}</option>`).join('') || "<option>ఇంకా మెసేజ్ లేదు</option>";
+    if(cur && users[cur]) sel.value = cur;
     renderChats();
   });
 }
 function renderChats(){
   let uid = document.getElementById('userSelect').value;
-  let html = "";
+  let list = [];
   Object.entries(allMsgs).forEach(([k,m])=>{
-    if(m.uid === uid || (m.who==='admin' && m.toUid === uid)){
-      html+=`<div style="background:${m.who==='admin'?'#d9f2ff':'#ffe9c4'};padding:8px;border-radius:10px;margin:6px 0"><b>${m.who==='admin'?'మీరు':'భక్తుడు'}:</b> ${m.text} <button onclick="delMsg('${k}')" style="float:right;border:none;background:none">❌</button></div>`;
-    }
+    if(m.uid === uid || (m.who==='admin' && m.toUid === uid)){ list.push({k:k, m:m}); }
+  });
+  list.sort((a,b)=>(a.m.time||0)-(b.m.time||0));
+  let html = "";
+  list.forEach(({k,m})=>{
+    html+=`<div style="background:${m.who==='admin'?'#d9f2ff':'#ffe9c4'};padding:10px;border-radius:10px;margin:8px 0"><b>${m.who==='admin'?'మీరు':'భక్తుడు'}:</b> ${m.text}<br><small style="color:#666;font-size:12px">${fmtTime(m.time)}</small> <button onclick="delMsg('${k}')" style="float:right;border:none;background:none">❌</button></div>`;
   });
   let box=document.getElementById('chatBox');
   box.innerHTML = html || "ఈ భక్తుడి నుండి ఇంకా మెసేజ్ లేదు";
