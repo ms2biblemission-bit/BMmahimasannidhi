@@ -23,9 +23,12 @@
 <div style="background:#fff;padding:15px;border-radius:12px">
 <input id="token" placeholder="GitHub Token - ghp_..." style="width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin:5px 0">
 <button onclick="saveToken()" style="background:#333;color:#fff;padding:10px 16px;border:none;border-radius:10px">Token సేవ్ చేయండి</button>
+<p style="font-size:12px;color:#666">Token కింద కనబడకపోతే - ఇంకొంచెం కిందకి స్క్రోల్ చేయండి!</p>
 </div>
 <script>
 let OWNER="ms2biblemission-bit", REPO="BMmahimasannidhi", BRANCH="main";
+function b64Decode(str){ return decodeURIComponent(atob(str).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
+function b64Encode(str){ return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,(m,p)=>String.fromCharCode('0x'+p))); }
 document.getElementById('date').valueAsDate=new Date();
 document.getElementById('token').value=localStorage.getItem('gh_token')||"";
 document.getElementById('audFile').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f) return; document.getElementById('audInfo').innerText="ఎంచుకున్నారు: "+f.name+" - "+(f.size/1024).toFixed(0)+" KB"; });
@@ -45,15 +48,15 @@ async function savePost(){
     if(imgF){ imgName="img_"+time+"_"+cleanName(imgF.name); let b64=await fileToBase64(imgF); let r=await ghPut(imgName,b64,"Add image "+imgName); if(!r.ok) throw new Error("ఫోటో అప్లోడ్ కాలేదు! Token చూడండి!"); }
     if(audF){ audName="voice_"+time+"_"+cleanName(audF.name); let b64=await fileToBase64(audF); let r=await ghPut(audName,b64,"Add voice "+audName); if(!r.ok) throw new Error("వాయిస్ అప్లోడ్ కాలేదు! Token చూడండి!"); }
     let existing=await ghGet("posts.json"); let posts=[]; let sha=null;
-    if(existing){ sha=existing.sha; posts=JSON.parse(atob(existing.content.replace(/\n/g,''))); }
+    if(existing){ sha=existing.sha; posts=JSON.parse(b64Decode(existing.content.replace(/\n/g,''))); }
     posts.unshift({title:title, content:content, image:imgName||"", audio:audName||"", date:date});
-    let newContent=btoa(unescape(encodeURIComponent(JSON.stringify(posts,null,2))));
+    let newContent=b64Encode(JSON.stringify(posts,null,2));
     let r2=await ghPut("posts.json",newContent,"Add post "+title,sha); if(!r2.ok) throw new Error("posts.json సేవ్ కాలేదు!");
     document.getElementById('msg').innerText="✅ సేవ్ అయింది! 1 నిమిషం ఆగి సైట్ చూడండి!"; document.getElementById('msg').style.color="green";
     document.getElementById('title').value=""; document.getElementById('content').value=""; document.getElementById('imgFile').value=""; document.getElementById('audFile').value=""; loadList();
   }catch(e){ document.getElementById('msg').innerText="❌ "+e.message; document.getElementById('msg').style.color="red"; alert(e.message); }
   btn.disabled=false; btn.innerText="💾 సేవ్ చేయండి - పంపండి!";
 }
-async function loadList(){ let existing=await ghGet("posts.json"); if(!existing) return; let posts=JSON.parse(atob(existing.content.replace(/\n/g,''))); document.getElementById('list').innerHTML=posts.slice(0,10).map(p=>`<div style="background:#fff;padding:10px;border-radius:10px;margin:8px 0"><b>${p.title}</b><br><small>${p.date} ${p.audio?'🎤 వాయిస్ ఉంది':''} ${p.image?'🖼️ ఫోటో ఉంది':''}</small></div>`).join(''); }
+async function loadList(){ let existing=await ghGet("posts.json"); if(!existing) return; let posts=JSON.parse(b64Decode(existing.content.replace(/\n/g,''))); document.getElementById('list').innerHTML=posts.slice(0,10).map(p=>`<div style="background:#fff;padding:10px;border-radius:10px;margin:8px 0"><b>${p.title}</b><br><small>${p.date} ${p.audio?'🎤 వాయిస్ ఉంది':''} ${p.image?'🖼️ ఫోటో ఉంది':''}</small></div>`).join(''); }
 loadList();
 </script></body></html>
