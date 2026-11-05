@@ -1,170 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="te">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>మహిమ సన్నిధి బైబిల్ మిషన్</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#8B0000">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="మహిమ సన్నిధి">
-<link rel="apple-touch-icon" href="IMG-20261104-WA0008.jpg">
+<title>మహిమ సన్నిధి - బైబిల్ మిషన్</title>
 <style>
-body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0}
-.header{background:#8B0000;color:white;padding:25px 15px;text-align:center}
-.logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
-.logo img{width:100%;height:100%;object-fit:cover}
-.logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 8px;background:white;margin:10px 15px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.logo-row a{text-align:center;text-decoration:none;min-width:68px}
-.logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
-.logo-row .circle img{width:100%;height:100%;object-fit:cover}
-.logo-row .lname{font-size:12px;color:#222;font-weight:bold;margin-top:5px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:15px}
-.card{background:white;border-radius:16px;padding:18px 10px;text-align:center;text-decoration:none;color:#333;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:block}
-.card img{width:55px;height:55px;object-fit:contain;margin-bottom:6px}
-.card-text{font-weight:bold;font-size:16px}
-.vakya-card{background:white;margin:15px;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer}
-.vakya-card img{width:100%;border-radius:12px;margin-bottom:12px;max-height:380px;object-fit:cover;display:none}
-.section{background:white;margin:15px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.section h3{margin:0 0 10px;color:#8B0000}
-.post{border-bottom:1px solid #eee;padding:12px 0;cursor:pointer}
-.post img{width:100%;border-radius:12px;margin:10px 0;max-height:320px;object-fit:cover;display:block}
-.post audio{width:100%;margin-top:8px}
-.post .p-title{font-weight:bold;color:#8B0000;font-size:18px;text-align:center}
-.post .p-content{white-space:pre-line;font-size:16px;text-align:center;line-height:1.7;margin-top:8px}
-.post .p-date{font-size:13px;color:gray;text-align:center;margin-top:6px}
-.qr-box{text-align:center}
-.qr-box img{width:260px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #8B0000}
-.install-btn{display:none;background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
-input.search{width:calc(100% - 30px);margin:0 15px;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px}
-.upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
-#modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;overflow-y:auto}
-#modalBox{background:white;margin:20px;border-radius:16px;padding:20px;text-align:center;line-height:1.8;white-space:pre-line}
-#modalBox img{width:100%;border-radius:12px}
-.closeBtn{background:#8B0000;color:white;border:none;padding:12px 20px;border-radius:30px;font-weight:bold;width:100%;margin-bottom:10px}
+*{box-sizing:border-box} body{margin:0;font-family:Arial;background:#fff7e6;color:#333}
+header{background:#ff9933;color:#fff;text-align:center;padding:18px 10px}
+header h1{margin:5px 0;font-size:26px} header p{margin:0;font-size:14px}
+.logo{width:90px;height:90px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:45px;margin:auto}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
+.btn{background:#fff;border:2px solid #ff9933;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;font-weight:bold}
+.btn span{font-size:28px;display:block}
+.btn small{font-weight:normal;color:#666}
+.search{padding:0 14px 10px}
+.search input{width:100%;padding:13px;border-radius:25px;border:2px solid #ff9933;outline:none;font-size:16px}
+.section{background:#fff;margin:10px 14px;padding:14px;border-radius:14px;border:1px solid #ffd9a0;display:none}
+.section.active{display:block}
+.song{padding:11px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;cursor:pointer}
+.song b{color:#b35c00}
+#chatBox{height:220px;overflow:auto;border:1px solid #ddd;border-radius:10px;padding:10px;background:#fffdf5;margin-bottom:10px}
+.msg{background:#ffe9c4;padding:8px 10px;border-radius:10px;margin:6px 0}
+.msg.admin{background:#d9f2ff;text-align:right}
+.row{display:flex;gap:8px} .row input{flex:1;padding:11px;border-radius:20px;border:1px solid #ccc} .row button{background:#ff9933;color:#fff;border:none;padding:11px 16px;border-radius:20px;font-weight:bold}
+.topbtn{margin:10px 14px;background:#333;color:#fff;padding:10px;text-align:center;border-radius:10px;cursor:pointer}
+footer{text-align:center;padding:15px;color:#888;font-size:13px}
 </style>
 </head>
 <body>
-<div class="header">
-<div class="logo"><img src="IMG-20261104-WA0008.jpg"></div>
-<h1>మహిమ సన్నిధి బైబిల్ మిషన్</h1>
-<div>John Dalli | మరనాత ✝️</div>
+
+<header>
+<div class="logo">✝️</div>
+<h1>మహిమ సన్నిధి</h1>
+<p>బైబిల్ మిషన్ • మరనాత!</p>
+</header>
+
+<div class="menu">
+<div class="btn" onclick="showSection('songs')"><span>🎵</span>పాటలు<small>Click to Open</small></div>
+<div class="btn" onclick="showSection('voice')"><span>🎤</span>వాయిస్<small>Messages</small></div>
+<div class="btn" onclick="window.open('https://youtube.com','_blank')"><span>▶️</span>యూట్యూబ్<small>YouTube</small></div>
+<div class="btn" onclick="window.open('https://facebook.com','_blank')"><span>📘</span>ఫేస్ బుక్<small>Facebook</small></div>
+<div class="btn" onclick="showSection('chat')"><span>💬</span>అడ్మిన్ చాట్<small>Site Chat Only</small></div>
+<div class="btn" onclick="showSection('chat')"><span>🙏</span>ప్రార్థన కోసం<small>Chat in Site</small></div>
 </div>
 
-<!-- ===== లోగోస్ - నేనే పెట్టేసా - బుక్స్ + షెడ్యూల్ ===== -->
-<div class="logo-row">
-  <a href="books.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📚</div><div class="lname">బుక్స్</div></a>
-  <a href="schedule.html"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">🗓️</div><div class="lname">షెడ్యూల్</div></a>
-  <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
-  <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
-  <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
-  <a href="archive.html"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">🎵</div><div class="lname">పాటలు</div></a>
-  <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
-  <a href="https://wa.me/917989079798?text=మరనాత%20అండీ" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Chat</div></a>
-  <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
-  <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
-  <a href="https://wa.me/917989079798?text=ప్రార్థన%20కావాలి%20అండీ" target="_blank"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">🙏</div><div class="lname">ప్రార్థన</div></a>
+<div class="search">
+<input id="searchInput" oninput="doSearch()" placeholder="🔍 పేరు / నంబర్ కొట్టండి... ఉదా: ఆమోసు / 1">
 </div>
 
-<div class="grid">
-<a class="card" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg" alt="YouTube">
-<div class="card-text">యూట్యూబ్ ఛానల్</div>
-</a>
-<a class="card" href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
-<div class="card-text">ఫేస్ బుక్ పేజ్</div>
-</a>
-<a class="card" href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-<div class="card-text">వాట్సాప్ గ్రూప్</div>
-</a>
-<a class="card" href="https://wa.me/917989079798?text=Prayer%20for%20my%20family" target="_blank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Prayer">
-<div class="card-text">ప్రార్థన కోసం<br><small>7989079798</small></div>
-</a>
+<div id="songs" class="section active">
+<h3>🎵 పాటల లిస్ట్</h3>
+<div id="songList"></div>
+<p style="color:#888;font-size:13px">పాట నొక్కితే పదాలు కనబడతాయి. కొత్త పాట కావాలంటే అడ్మిన్ చాట్ లో చెప్పండి.</p>
 </div>
 
-<div class="vakya-card" id="topCard" onclick="openPost(0)">
-  <img id="topImage" src="">
-  <div>💬 వాక్యం - నొక్కి పూర్తిగా చదవండి ➡️</div>
-  <div id="topTitle" style="font-weight:bold;margin:12px 0;font-size:20px;color:#8B0000">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
-  <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
-  <audio id="topAudio" controls style="width:100%;margin-top:12px;display:none" onclick="event.stopPropagation()"></audio>
-  <div id="topDate">📅 4/11/2026</div>
+<div id="voice" class="section">
+<h3>🎤 వాయిస్ / మెసేజ్</h3>
+<p>ఇక్కడ మెసేజ్ లు వస్తాయి. పాటల్లోకి వెళ్లాలంటే పైన పాటలు నొక్కండి.</p>
+<button onclick="showSection('songs')" class="row button" style="background:#ff9933;color:#fff;border:none;padding:10px 14px;border-radius:10px">పాటలకు వెళ్ళండి</button>
 </div>
 
-<div style="text-align:center">
-<button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button>
+<div id="chat" class="section">
+<h3>💬 అడ్మిన్ చాట్ - సైట్ లోనే</h3>
+<p style="font-size:13px;color:#666">ఇది వాట్సాప్ కాదు. నంబర్ అవసరం లేదు. మెసేజ్ ఇక్కడే సేవ్ అవుతుంది.</p>
+<div id="chatBox"></div>
+<div class="row">
+<input id="chatInput" placeholder="మీ సలహా / మెసేజ్ రాయండి...">
+<button onclick="sendMsg()">పంపు</button>
+</div>
+<div style="margin-top:10px;text-align:center">
+<button onclick="adminLogin()" style="background:#333;color:#fff;border:none;padding:8px 14px;border-radius:20px">నేనే అడ్మిన్ - మెసేజ్ లు చూడాలి</button>
+</div>
 </div>
 
-<input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ" oninput="renderPosts()">
+<div class="topbtn" onclick="window.open('https://youtube.com','_blank')">▶️ యూట్యూబ్ ఛానల్ చూడండి</div>
 
-<div class="section">
-<h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే! - నొక్కితే ఓపెన్ అవుతుంది!</h3>
-<div style="display:flex;gap:8px;margin-bottom:10px">
-<a href="gallery.html" style="flex:1;background:#4CAF50;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ</a>
-<a href="archive.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📜 పాత మెసేజ్ లు</a>
-<a href="books.html" style="flex:1;background:#673AB7;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📚 బుక్స్</a>
-<a href="schedule.html" style="flex:1;background:#2196F3;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🗓️ షెడ్యూల్</a>
-</div>
-<div id="postsList">లోడ్ అవుతోంది...</div>
-</div>
-
-<div class="section qr-box">
-<h3>📱 QR - స్కాన్ చేయండి - కానుక కోసం</h3>
-<img src="ms2-qr.jpg" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
-<div id="qrError" style="display:none;color:red;font-size:13px;margin-top:8px">⚠️ ms2-qr.jpg - GitHub లో లేదు! మీరు పంపిన QR ని ms2-qr.jpg పేరుతో అప్లోడ్ చేయండి!</div>
-<p style="font-weight:bold">Ms2 Bible Mission</p>
-<div class="upi-box">
-<b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br>
-<small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small>
-</div>
-<p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
-</div>
-
-<div id="modal"><div id="modalBox"><button class="closeBtn" onclick="closeModal()">✖ మూసేయండి</button><div id="modalContent"></div></div></div>
+<footer>మహిమ సన్నిధి • బైబిల్ మిషన్ • మరనాత!</footer>
 
 <script>
-let allPosts = [];
-function getField(p, names){ for(let n of names){ if(p[n]!==undefined && p[n]!==null && String(p[n]).trim()!=='') return p[n]; } return ''; }
-function norm(p){ return { title: getField(p,['title','heading','name','subject'])||'మరనాత', content: getField(p,['content','message','text','desc','description','body','vakya'])||'', date: getField(p,['date','time','day'])||'', image: getField(p,['image','photo','img','pic'])||'', audio: getField(p,['audio','voice','sound'])||'' }; }
-async function loadPosts(){
-  try{ let r = await fetch('posts.json?v='+Date.now()); if(!r.ok) throw new Error('no'); let j = await r.json(); let arr = Array.isArray(j)?j:(j.posts||j.data||[]); allPosts = arr.map(norm); }catch(e){ allPosts = []; }
-  if(allPosts.length>0){
-    let p = allPosts[0];
-    let ti = document.getElementById('topImage');
-    if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; }
-    document.getElementById('topTitle').innerText = p.title;
-    document.getElementById('topContent').innerText = p.content || '( ఈ మెసేజ్ లో వివరణ లేదు - అడ్మిన్ లో Message లో రాయండి )';
-    document.getElementById('topDate').innerText = '📅 ' + (p.date||'');
-    let ta = document.getElementById('topAudio');
-    if(p.audio){ ta.src=p.audio; ta.style.display='block'; } else { ta.style.display='none'; }
-  }
-  renderPosts();
+// 1. పాటల డేటా - మీరు ఇక్కడ పాటలు పెంచుకోవచ్చు
+let songs = [
+{no:1, name:"ఆమోసు", text:"ఆమోసు పాట పదాలు ఇక్కడ... ప్రభువు నీతో ఉన్నాడు."},
+{no:2, name:"యేసయ్యా నీ ప్రేమ", text:"యేసయ్యా నీ ప్రేమ ఎంతో గొప్పది..."},
+{no:3, name:"మహిమ సన్నిధి", text:"మహిమ సన్నిధిలో నిలిచి..."},
+{no:4, name:"మరనాత ప్రభువు వస్తున్నాడు", text:"మరనాత! ప్రభువు వస్తున్నాడు..."},
+{no:5, name:"దేవా నీ సన్నిధి", text:"దేవా నీ సన్నిధి చాలు నాకు..."},
+{no:12, name:"ఆమోసు - 12", text:"ఆమోసు 12వ పాట..."},
+{no:101, name:"స్తోత్రం యేసయ్యా", text:"స్తోత్రం యేసయ్యా..."}
+];
+
+function showSection(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+renderSongs(songs);
+if(id==='chat') renderChat();
+window.scrollTo(0,0);
 }
-function renderPosts(){
-  let q = document.getElementById('searchBox').value.toLowerCase();
-  let list = allPosts.map((p,i)=>({...p,idx:i})).filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
-  let box = document.getElementById('postsList');
-  if(list.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు! అడ్మిన్ లో ఒక్క పోస్ట్ పెట్టండి!'; return; }
-  box.innerHTML = list.map(p=>{
-    let img = p.image ? `<img src="${p.image}">` : '';
-    let aud = p.audio ? `<audio controls src="${p.audio}" onclick="event.stopPropagation()"></audio>` : '';
-    let short = p.content ? (p.content.length>120 ? p.content.substring(0,120)+'... చదవడానికి నొక్కండి ➡️' : p.content) : '<span style="color:red">⚠️ వివరణ ఖాళీగా ఉంది - అడ్మిన్ లో Message రాయండి!</span>';
-    return `<div class="post" onclick="openPost(${p.idx})">${img}<div class="p-title">${p.title}</div><div class="p-content">${short}</div>${aud}<div class="p-date">📅 ${p.date||''}</div></div>`;
-  }).join('');
+
+function renderSongs(list){
+let html = "";
+if(list.length===0) html = "<p>ఏ పాట దొరకలేదు. వేరే పేరు / నంబర్ ప్రయత్నించండి.</p>";
+list.forEach(s=>{
+html += `<div class="song" onclick="alert('🎵 '+${s.no}+' - '+s.name+'\\n\\n'+s.text)"><span><b>${s.no}</b> - ${s.name}</span><span>▶️</span></div>`;
+});
+document.getElementById('songList').innerHTML = html;
 }
-function openPost(i){ let p=allPosts[i]; if(!p) return; document.getElementById('modal').style.display='block'; document.getElementById('modalContent').innerHTML=`<h2 style="color:#8B0000">${p.title}</h2>${p.image?`<img src="${p.image}">`:''}<div style="font-size:18px;margin-top:12px">${(p.content||'ఈ మెసేజ్ లో వివరణ లేదు').replace(/\n/g,'<br>')}</div>${p.audio?`<audio controls src="${p.audio}" style="width:100%;margin-top:12px"></audio>`:''}<div style="color:gray;margin-top:10px">📅 ${p.date}</div>`; }
-function closeModal(){ document.getElementById('modal').style.display='none'; }
-document.getElementById('modal').onclick=(e)=>{ if(e.target.id=='modal') closeModal(); };
-loadPosts();
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
-document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+
+// 2. సెర్చ్ ఫిక్స్ - పేరు + నంబర్ రెండూ
+function doSearch(){
+let q = document.getElementById('searchInput').value.toLowerCase().trim();
+showSection('songs');
+if(!q){ renderSongs(songs); return; }
+let filtered = songs.filter(s => s.name.toLowerCase().includes(q) || String(s.no).includes(q));
+renderSongs(filtered);
+}
+
+// 3. సైట్ లోనే చాట్ - localStorage లో సేవ్
+let isAdmin = false;
+function getMsgs(){ return JSON.parse(localStorage.getItem('bm_chat')||'[]'); }
+function renderChat(){
+let msgs = getMsgs();
+let html = "";
+if(msgs.length===0) html = "<p style='color:#888'>ఇంకా మెసేజ్ లేదు. మొదటి మెసేజ్ మీరే పెట్టండి.</p>";
+msgs.forEach(m=>{
+html += `<div class="msg ${m.who==='admin'?'admin':''}"><b>${m.who==='admin'?'అడ్మిన్':'భక్తుడు'}:</b> ${m.text}<br><small style="color:#888">${m.time}</small></div>`;
+});
+document.getElementById('chatBox').innerHTML = html;
+document.getElementById('chatBox').scrollTop = 9999;
+}
+function sendMsg(){
+let inp = document.getElementById('chatInput');
+if(!inp.value.trim()) return;
+let msgs = getMsgs();
+msgs.push({who: isAdmin ? 'admin' : 'user', text: inp.value, time: new Date().toLocaleString('te-IN')});
+localStorage.setItem('bm_chat', JSON.stringify(msgs));
+inp.value = "";
+renderChat();
+alert(isAdmin ? "అడ్మిన్ రిప్లై పంపబడింది!" : "మీ మెసేజ్ అడ్మిన్ కి చేరింది! సైట్ లోనే చూడండి.");
+}
+function adminLogin(){
+let p = prompt("అడ్మిన్ పాస్ వర్డ్ పెట్టండి (ఇప్పుడు: admin123)");
+if(p==="admin123"){ isAdmin=true; alert("అడ్మిన్ గా లాగిన్ అయ్యారు! ఇప్పుడు రిప్లై ఇవ్వగలరు."); renderChat(); }
+else alert("తప్పు పాస్ వర్డ్!");
+}
+renderSongs(songs);
+renderChat();
 </script>
 </body>
 </html>
