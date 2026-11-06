@@ -1,1 +1,66 @@
+<!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BM మహిమ సన్నిధి - పాటలు</title>
+<style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:90px} .head{background:#0B3D2E;color:white;padding:28px 18px 20px;text-align:center;border-radius:0 0 28px 28px} .head a{color:white;text-decoration:none;font-weight:bold} .head h2{margin:8px 0 4px;font-size:26px} .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
+.bookHead{background:white;border-radius:20px;padding:16px;margin:14px 0;box-shadow:0 2px 10px #0001;text-align:center} .bookHead b{font-size:20px;color:#0B3D2E} .bookHead p{color:#666;font-size:14px;margin:6px 0 0}
+.song{background:white;border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #0001;cursor:pointer;display:flex;gap:12px;align-items:center} .song .cover{width:58px;height:76px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;flex-shrink:0;background:#FF9800} .song .num{background:#0B3D2E;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0} .song h3{margin:0;color:#0B3D2E} .song p{color:#555;font-size:14px;margin:4px 0}
+.page{background:#FFFDE7;border:1px solid #FFE0B2;border-radius:20px;padding:22px;margin:12px 0;box-shadow:0 2px 8px #0001;line-height:2;white-space:pre-line;text-align:center} .btn{background:#0B3D2E;color:white;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:10px 0 14px;box-shadow:0 -2px 10px #0001}.bottom div{text-align:center;font-size:12px;color:#888;cursor:pointer}.bottom div.active{color:#0B3D2E;font-weight:bold}
+</style></head>
+<body>
+<div class="head"><a href="index.html">⬅ హోమ్</a><h2>📖 BM మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div>
+<div class="wrap">
+<div class="bookHead"><b>🎵 ఆంధ్ర క్రైస్తవ కీర్తనలు</b><p>ఆంధ్ర క్రైస్తవ కీర్తనలు - పాటలు</p></div>
+<input id="search" placeholder="🔍 పాట వెతకండి..." oninput="renderSongs()">
+<div id="box"></div><div id="detail"></div>
+</div>
+<div class="bottom"><div onclick="location.href='index.html'">🏠<br>హోమ్</div><div onclick="location.href='books.html'">📚<br>పుస్తకాలు</div><div class="active">🎵<br>పాటలు</div><div onclick="location.href='admin.html'">⚙️<br>సెట్టింగ్</div></div>
+<script>
+let SONGS=[
+{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",desc:"రాగం: జంఝూట్ | తాళం: ఏక",content:`1. త్రియేక దేవునికి - స్తుతి
 
+రాగం: జంఝూట్          తాళం: ఏక
+
+శుభాకరా! శుద్ధాకరా! వి - శుద్ధ వందనమ్ =
+నభా నభూమి సర్వ్యో - నృత్య వందనమ్
+
+1. యెహోవా! స్రష్ట! జనక! నీకు - నెంతయు బ్రణుతి =
+మహోన్నతుండ! దివ్యుడా! ఘన - మహిమ సంస్తుతి
+|| శుభా ||
+
+2. విమోచకా! పిత్రాత్మజుండ! - విజయ మంగళమ్ =
+సమస్త సృష్టి సాధనంబు! - సవ్య మంగళమ్
+|| శుభా ||
+
+3. వరాత్మ! పితాపుత్ర నిర్గమ - పరుడ! స్తోత్రము =
+వరప్రదుండ! భక్త హృదయ - వాస! స్తోత్రము
+|| శుభా ||
+
+1. శుభమునకు ఉనికిపట్టు
+2. ఆకాశమందు
+3. స్తుతి
+4. తండ్రి యొక్క కుమారుడా!
+5. తండ్రి నుండియు కుమారుని నుండియు బయలుదేరిన దేవా!`}
+];
+let cur=null;
+async function loadAll(){
+  try{let r=await fetch('songs.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length){ 
+    // songs.json లో ఉన్నా - ఈ 1వ పాటే మొదట ఉండేలా
+    let first=SONGS[0]; let rest=j.filter(s=>!((s.title||'').includes('త్రియేక')));
+    SONGS=[first,...rest]; 
+  }}}catch(e){}
+  try{let s=localStorage.getItem('ms_songs');if(s){let j=JSON.parse(s);if(j&&j.length) SONGS=j;}}catch(e){}
+  renderSongs();
+}
+function renderSongs(){
+  let q=(document.getElementById('search').value||'').toLowerCase();
+  document.getElementById('detail').innerHTML='';
+  let list=SONGS.filter(s=>((s.title||'')+(s.content||'')+(s.book||'')).toLowerCase().includes(q));
+  if(!list.length){document.getElementById('box').innerHTML='<p style="text-align:center">📭 పాట దొరకలేదు!</p>';return;}
+  document.getElementById('box').innerHTML='<h3 style="color:#0B3D2E">🎵 ఆంధ్ర క్రైస్తవ కీర్తనలు - పాటలు</h3>'+list.map((s)=>`<div class="song" onclick="openSong(${SONGS.indexOf(s)})"><div class="num">${s.num||SONGS.indexOf(s)+1}</div><div class="cover">🎵</div><div><h3>${s.num||''}. ${s.title}</h3><p>${s.desc||''}</p><div style="font-size:13px;color:gray">${s.book||'ఆంధ్ర క్రైస్తవ కీర్తనలు'} - నొక్కి చదవండి ➡️</div></div></div>`).join('');
+}
+function openSong(i){
+  cur=SONGS[i]; document.getElementById('box').innerHTML='';
+  document.getElementById('detail').innerHTML=`<button class="btn" onclick="renderSongs()">⬅ అన్ని పాటలు</button><div class="page"><p style="color:#2E7D32;font-weight:bold">${cur.book||'ఆంధ్ర క్రైస్తవ కీర్తనలు'}</p><h3 style="color:#0B3D2E">${cur.num||''}. ${cur.title}</h3><p style="color:#666;font-size:14px">${cur.desc||''}</p><div>${(cur.content||'').replace(/\n/g,'<br>')}</div></div>`;
+  window.scrollTo(0,0);
+}
+loadAll();
+</script></body></html>
