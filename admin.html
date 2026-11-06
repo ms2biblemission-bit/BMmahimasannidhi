@@ -19,6 +19,9 @@ button.big{width:100%;padding:14px;background:#2E7D32;color:white;border:none;bo
 button.orange{background:#ff9800} button.red{background:#8B0000}
 .pageEdit{background:#FFF8E1;border-left:5px solid #FF9800;padding:14px;border-radius:12px;margin-top:14px}
 .small-del{background:#E53935;color:white;border:none;padding:9px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:10px}
+.pageNav{background:#FFF3E0;border:1px solid #FFCC80;padding:12px;border-radius:12px;margin:10px 0}
+.pageNav b{color:#8B0000}
+.pageNav div{padding:6px 0;border-bottom:1px dashed #FFE0B2;cursor:pointer}
 small{color:#666} .hidden{display:none}
 </style>
 </head>
@@ -33,7 +36,6 @@ small{color:#666} .hidden{display:none}
 <div class="wrap">
 <div id="status" style="text-align:center;font-weight:bold;color:#8B0000;margin:8px"></div>
 
-<!-- 1 MESSAGE - పాతదే - ఏమీ మార్చలేదు -->
 <div id="tab1">
 <div class="card"><label>రకం</label><select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
 <label>టైటిల్</label><input id="title" placeholder="ఉదా: అమోసు 3:8">
@@ -44,24 +46,26 @@ small{color:#666} .hidden{display:none}
 <h3>ఉన్న మెసేజ్ లు</h3><div id="list">లోడ్ అవుతోంది...</div>
 </div>
 
-<!-- 2 SCHEDULE -->
 <div id="tab2" class="hidden">
 <div class="card"><label>📅 రోజు</label><select id="schDay"><option>ఆదివారం</option><option>సోమవారం</option><option>మంగళవారం</option><option>బుధవారం</option><option>గురువారం</option><option>శుక్రవారం</option><option>శనివారం</option></select>
 <label>⏰ టైమ్</label><input id="schTime" placeholder="ఉదా: సాయంత్రం 7:00"><label>📝 కార్యక్రమం</label><input id="schTitle" placeholder="ఉదా: బైబిల్ అధ్యయనం">
 <button class="big orange" onclick="addSchedule()">✅ షెడ్యూల్ సేవ్</button></div><div id="schList"></div>
 </div>
 
-<!-- 3 BOOKS - 1వ ఇమేజ్ లాగా - ఒక్కటే స్క్రీన్ - కింద లిస్ట్ లేదు -->
+<!-- BOOKS - 1వ ఇమేజ్ లాగానే + పాత పేజీలు కనబడేలా -->
 <div id="tab3" class="hidden">
 <div class="card">
 <h3 style="margin:0">📚 బుక్స్ - ఇక్కడే మార్చండి!</h3>
-<label>బుక్ ఎంచుకోండి</label>
-<select id="bookSelect" onchange="loadBookToEditor()"></select>
+<label>బుక్ ఎంచుకోండి</label><select id="bookSelect" onchange="loadBookToEditor()"></select>
 <label>📖 బుక్ పేరు</label><input id="bookTitle" placeholder="📖 బుక్ 1 ఆమోసు" oninput="updateBookField('title',this.value)">
 <label>📝 బుక్ వివరణ</label><textarea id="bookDesc" rows="2" placeholder="యెహోవా ఆజ్ఞ - సింహం గర్జన" oninput="updateBookField('desc',this.value)"></textarea>
 <label>📄 PDF ఫైల్ (ఉంటే)</label><input type="file" id="bookFile" accept="application/pdf"><small id="bookFileName"></small>
+
+<!-- పాత పేజీలు - ముందు చూడటానికి -->
+<div id="pagesNav" class="pageNav"></div>
+
 <div style="margin-top:15px;border-top:2px dashed #FF9800;padding-top:10px">
-<h3>📄 ఈ బుక్ లో పేజీలు</h3>
+<h3>📄 ఈ బుక్ లో పేజీలు - పాతవి + కొత్తవి</h3>
 <div id="pagesInEdit"></div>
 <button class="big orange" onclick="addPage()">➕ కొత్త అధ్యాయం / పేజీ పెట్టండి</button>
 <button class="big" onclick="saveBook()">💾 బుక్స్ సేవ్ చేయండి!</button>
@@ -71,7 +75,6 @@ small{color:#666} .hidden{display:none}
 </div>
 </div>
 
-<!-- 4 SETTINGS -->
 <div id="tab4" class="hidden">
 <div class="card" style="background:#e8f5e9"><b>🔑 GitHub సెట్టింగ్</b><label>Token (ghp_...)</label><input id="token" type="password" placeholder="టోకెన్ ఇక్కడ పేస్ట్ చేయండి"><label>Owner</label><input id="owner" value="ms2biblemission-bit"><label>Repo</label><input id="repo" value="BMmahimasannidhi"><button class="big" style="background:#4caf50" onclick="saveSettings()">💾 సెట్టింగ్ సేవ్</button></div>
 <button class="big red" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
@@ -97,21 +100,32 @@ function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<d
 async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; if(!title||!content){alert('టైటిల్ + వాక్యం రాయండి అండీ'); return;} publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:""}); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render();} else {setStatus('❌ కాలేదు!'); posts.shift();}}
 async function delPost(i){if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; render();}}
 async function loadSch(){try{let j=await getFile('schedule.json'); schSha=j.sha; schedule=JSON.parse(b64Dec(j.content));}catch(e){schedule=[]; schSha="";} renderSch();}
-function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${s.day||''} - ${s.time||''}</b><br>${s.title||''}<div class="row" style="display:flex;gap:8px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editSch(${i})">✏️ ఎడిట్</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
+function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${s.day||''} - ${s.time||''}</b><br>${s.title||''}<div style="display:flex;gap:8px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editSch(${i})">✏️ ఎడిట్</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
 async function addSchedule(){let day=document.getElementById('schDay').value, time=document.getElementById('schTime').value.trim(), title=document.getElementById('schTitle').value.trim(); if(!time||!title){alert('టైమ్ + కార్యక్రమం రాయండి'); return;} if(editingSch>=0){schedule[editingSch]={day,time,title}; editingSch=-1;} else schedule.push({day,time,title}); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; setStatus('✅ షెడ్యూల్ సేవ్ అయ్యింది!'); document.getElementById('schTime').value=''; document.getElementById('schTitle').value=''; renderSch();}}
 function editSch(i){editingSch=i; let s=schedule[i]; document.getElementById('schDay').value=s.day; document.getElementById('schTime').value=s.time; document.getElementById('schTitle').value=s.title; showTab(2);}
 async function delSch(i){if(!confirm('తీసేయమంటారా?')) return; schedule.splice(i,1); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; renderSch();}}
-// BOOKS - 1వ ఇమేజ్ లాగా మాత్రమే
-async function loadBooks(){try{let j=await getFile('books.json'); bookSha=j.sha; books=JSON.parse(b64Dec(j.content));}catch(e){books=[]; bookSha="";} if(!books.length) books=[{title:'📖 బుక్ 1 - ఆదికాండం వివరణ',desc:'యెహోవా ఆజ్ఞ - సింహం గర్జన',pages:[{title:'అధ్యాయం 3 : 8',content:'*మా సందేశం మహిమ*\n\n*మరనాత*'}],pdf:''}]; editingBook=0; renderBookSelect(); loadBookToEditor();}
+// BOOKS - పాత ఫార్మాట్ కూడా చదివేలా
+function fixBook(b){
+  if(!b.pages) b.pages=[];
+  // పాత ఫార్మాట్ 1: content ఒక్కటే ఉంటే -> పేజీ 1 గా మార్చు
+  if(b.pages.length===0 && b.content){ b.pages=[{title:b.chapterTitle||b.pageTitle||'పేజీ 1', content:b.content}]; }
+  // పాత ఫార్మాట్ 2: chapters ఉంటే
+  if(b.pages.length===0 && b.chapters && b.chapters.length){ b.pages=b.chapters.map(c=>({title:c.title||c.name||'', content:c.content||c.text||''})); }
+  // పాత ఫార్మాట్ 3: text ఉంటే
+  if(b.pages.length===0 && b.text){ b.pages=[{title:'పేజీ 1', content:b.text}]; }
+  return b;
+}
+async function loadBooks(){try{let j=await getFile('books.json'); bookSha=j.sha; books=JSON.parse(b64Dec(j.content));}catch(e){books=[]; bookSha="";} books=books.map(fixBook); if(!books.length) books=[{title:'📖 బుక్ 1 - ఆదికాండం వివరణ',desc:'యెహోవా ఆజ్ఞ - సింహం గర్జన',pages:[{title:'అధ్యాయం 3 : 8',content:'*మా సందేశం మహిమ*\n\n*మరనాత*'}],pdf:''}]; editingBook=0; renderBookSelect(); loadBookToEditor();}
 function renderBookSelect(){let s=document.getElementById('bookSelect'); s.innerHTML=books.map((b,i)=>`<option value="${i}">${b.title||('బుక్ '+(i+1))}</option>`).join(''); s.value=editingBook;}
-function loadBookToEditor(){editingBook=parseInt(document.getElementById('bookSelect').value||0); let b=books[editingBook]; if(!b) return; if(!b.pages) b.pages=[]; document.getElementById('bookTitle').value=b.title||''; document.getElementById('bookDesc').value=b.desc||''; document.getElementById('bookFileName').innerText=b.pdf?'✅ పాత PDF ఉంది':'PDF లేదు'; renderPagesInEdit();}
+function loadBookToEditor(){editingBook=parseInt(document.getElementById('bookSelect').value||0); let b=books[editingBook]; if(!b) return; b=fixBook(b); document.getElementById('bookTitle').value=b.title||''; document.getElementById('bookDesc').value=b.desc||b.description||''; document.getElementById('bookFileName').innerText=b.pdf?'✅ పాత PDF ఉంది':'PDF లేదు'; renderPagesInEdit(); renderPagesNav();}
 function updateBookField(k,v){if(books[editingBook]) books[editingBook][k]=v; renderBookSelect(); document.getElementById('bookSelect').value=editingBook;}
-function renderPagesInEdit(){let b=books[editingBook]; if(!b) return; if(!b.pages) b.pages=[]; let box=document.getElementById('pagesInEdit'); if(!b.pages.length){box.innerHTML='<p style="color:gray">ఇంకా పేజీలు లేవు - కింద బటన్ నొక్కి యాడ్ చేయండి!</p>'; return;} box.innerHTML=b.pages.map((p,idx)=>`<div class="pageEdit"><h4 style="margin:0 0 8px">పేజీ ${idx+1}</h4><input value="${(p.title||'').replace(/"/g,'&quot;')}" placeholder="ఉదా: అధ్యాయం 3 : 8" oninput="books[${editingBook}].pages[${idx}].title=this.value"><textarea style="min-height:130px;margin-top:8px" placeholder="ఈ పేజీలో వాక్యం రాయండి..." oninput="books[${editingBook}].pages[${idx}].content=this.value">${p.content||''}</textarea><button class="small-del" onclick="delPage(${idx})">🗑️ ఈ పేజీ తీసేయి</button></div>`).join('');}
-function addPage(){if(!books[editingBook]) return; if(!books[editingBook].pages) books[editingBook].pages=[]; books[editingBook].pages.push({title:'',content:''}); renderPagesInEdit();}
-function delPage(idx){if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return; books[editingBook].pages.splice(idx,1); renderPagesInEdit();}
+function renderPagesNav(){let b=books[editingBook]; if(!b) return; let box=document.getElementById('pagesNav'); if(!b.pages || !b.pages.length){ box.innerHTML='<b>📄 ఈ బుక్ లో పేజీలు: 0</b><br><small>పాత మెసేజ్ లేదు - కొత్త పేజీ పెట్టండి!</small>'; return;} box.innerHTML=`<b>📄 ఈ బుక్ లో పేజీలు: ${b.pages.length} - ముందు ఇవి చదివి, తర్వాత పేజీ పెట్టండి!</b>`+b.pages.map((p,i)=>`<div onclick="document.getElementById('page-${i}').scrollIntoView({behavior:'smooth',block:'center'})">➡️ ${i+1}. ${p.title||'పేజీ '+(i+1)} - ${(p.content||'').slice(0,50)}...</div>`).join('');}
+function renderPagesInEdit(){let b=books[editingBook]; if(!b) return; if(!b.pages) b.pages=[]; let box=document.getElementById('pagesInEdit'); if(!b.pages.length){box.innerHTML='<p style="color:gray">ఇంకా పేజీలు లేవు - కింద బటన్ నొక్కి యాడ్ చేయండి!</p>'; return;} box.innerHTML=b.pages.map((p,idx)=>`<div class="pageEdit" id="page-${idx}"><h4 style="margin:0 0 8px">పేజీ ${idx+1}</h4><input value="${(p.title||'').replace(/"/g,'&quot;')}" placeholder="ఉదా: అధ్యాయం 3 : 8" oninput="books[${editingBook}].pages[${idx}].title=this.value;renderPagesNav()"><textarea style="min-height:130px;margin-top:8px" placeholder="ఈ పేజీలో వాక్యం రాయండి..." oninput="books[${editingBook}].pages[${idx}].content=this.value;renderPagesNav()">${p.content||''}</textarea><button class="small-del" onclick="delPage(${idx})">🗑️ ఈ పేజీ తీసేయి</button></div>`).join('');}
+function addPage(){if(!books[editingBook]) return; if(!books[editingBook].pages) books[editingBook].pages=[]; books[editingBook].pages.push({title:'',content:''}); renderPagesInEdit(); renderPagesNav(); setTimeout(()=>{let el=document.getElementById('page-'+(books[editingBook].pages.length-1)); if(el) el.scrollIntoView({behavior:'smooth'});},100);}
+function delPage(idx){if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return; books[editingBook].pages.splice(idx,1); renderPagesInEdit(); renderPagesNav();}
 function newBook(){books.push({title:'📖 కొత్త బుక్',desc:'',pages:[{title:'',content:''}],pdf:''}); editingBook=books.length-1; renderBookSelect(); loadBookToEditor();}
 function delCurrentBook(){if(!confirm('ఈ బుక్ తీసేయమంటారా?')) return; books.splice(editingBook,1); if(editingBook>=books.length) editingBook=Math.max(0,books.length-1); saveBook(); renderBookSelect(); loadBookToEditor();}
-async function saveBook(){let t=document.getElementById('bookTitle').value.trim(), d=document.getElementById('bookDesc').value.trim(); if(!t){alert('బుక్ పేరు రాయండి'); return;} if(books[editingBook]){books[editingBook].title=t; books[editingBook].desc=d; if(bookPdfData) books[editingBook].pdf=bookPdfData;} let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; setStatus('✅ బుక్ సేవ్ అయ్యింది!'); bookPdfData=''; renderBookSelect();} else setStatus('❌ బుక్ సేవ్ కాలేదు');}
+async function saveBook(){let t=document.getElementById('bookTitle').value.trim(), d=document.getElementById('bookDesc').value.trim(); if(!t){alert('బుక్ పేరు రాయండి'); return;} if(books[editingBook]){books[editingBook].title=t; books[editingBook].desc=d; if(bookPdfData) books[editingBook].pdf=bookPdfData;} let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; setStatus('✅ బుక్ సేవ్ అయ్యింది!'); bookPdfData=''; renderBookSelect(); renderPagesNav();} else setStatus('❌ బుక్ సేవ్ కాలేదు');}
 load(); loadBooks(); loadSch();
 </script>
 </body>
