@@ -77,8 +77,8 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="card-text">వాట్సాప్ ఛానల్</div>
 </a>
 <button class="card" onclick="openChat()">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Chat">
-<div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:gray;font-size:12px">ప్రైవేట్ - మీకు మాత్రమే</small></div>
+<div style="font-size:55px">💬</div>
+<div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:gray;font-size:12px">సైట్ లోనే మెసేజ్ చేయండి</small></div>
 </button>
 </div>
 
@@ -119,13 +119,12 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
 
-<!-- POST OPEN MODAL - సెర్చ్ లో నొక్కితే అదే ఓపెన్ -->
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 
-<!-- ADMIN CHAT - ప్రైవేట్ -->
+<!-- ADMIN CHAT - కోడ్ కనబడదు - పాతదానిలా -->
 <div class="modal" id="chatModal"><div class="modalBox">
-<h3 style="margin:0;color:#8B0000">💬 అడ్మిన్ చాట్ - ప్రైవేట్</h3>
-<p style="font-size:13px;color:gray">🔒 మీ మెసేజ్ మీకు మాత్రమే కనబడుతుంది. మీ సీక్రెట్ నెంబర్: <b id="myCodeShow"></b> - ఎవరికీ చెప్పవద్దు!</p>
+<h3 style="margin:0;color:#8B0000">💬 అడ్మిన్ చాట్</h3>
+<p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!</p>
 <label style="font-weight:bold">మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు">
 <div id="chatMsgs"></div>
 <textarea id="chatText" rows="3" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ ప్రార్థన రాయండి..."></textarea>
@@ -176,7 +175,6 @@ function renderPosts(){
       return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div></div>`;
     }).join('');
   }
-  // సెర్చ్ లో బుక్ ఉంటే - బుక్ కూడా చూపించు
   let bBox=document.getElementById('booksResult');
   if(q && allBooks.length){
     let bl=allBooks.filter(b=>((b.title||'')+(b.desc||'')).toLowerCase().includes(q));
@@ -197,36 +195,40 @@ window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferred
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
-// ===== ADMIN CHAT - ప్రైవేట్ - ఎవరిది వాళ్లకే =====
+// ===== ADMIN CHAT - కోడ్ లోపలే ఉంటుంది - బయట కనబడదు =====
+const CHAT_TOKEN = 'PASTE_YOUR_SAME_ADMIN_TOKEN_HERE';
+const CHAT_REPO = 'mission-bit/mission-bit.github.io';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
-function openChat(){
-  document.getElementById('chatModal').style.display='flex';
-  document.getElementById('myCodeShow').innerText=getMyCode();
-  document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||'';
-  loadMyChat();
-}
+function openChat(){ document.getElementById('chatModal').style.display='flex'; document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; loadMyChat(); }
 async function loadMyChat(){
-  let code=getMyCode(); let box=document.getElementById('chatMsgs');
-  let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){}
-  let fromServer=[];
-  try{ let r=await fetch('chat.json?v='+Date.now()); if(r.ok){ let all=await r.json(); fromServer=all.filter(m=>String(m.userCode)===String(code)); } }catch(e){}
-  // నా ఫోన్ లో ఉన్నవి + అడ్మిన్ రిప్లై లు (chat.json నుండి) - రెండూ కలిపి - నావి మాత్రమే
-  let all=[...local, ...fromServer.filter(s=>s.from==='admin')];
-  if(all.length===0){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; return; }
-  box.innerHTML=all.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#ffecb3':'#e8f5e9'}"><b>${m.from==='admin'?'✝️ అడ్మిన్':m.userName||'మీరు'}</b> <small>${m.time||''}</small><br>${m.msg}</div>`).join('');
+  let code=getMyCode(); let box=document.getElementById('chatMsgs'); box.innerHTML='లోడ్ అవుతోంది...';
+  try{
+    let r=await fetch('chat.json?v='+Date.now());
+    if(!r.ok) throw new Error('no chat');
+    let all=await r.json(); let mine=all.filter(m=>String(m.userCode)===String(code));
+    if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; return; }
+    box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'మీరు:':'భక్తుడు:'} ${m.msg}</b><br><small>📅 ${m.time||''}</small></div>`).join('');
+  }catch(e){ box.innerHTML='<p style="color:gray">ఇంకా చాట్ లేదు</p>'; }
 }
-function sendUserChat(){
+async function sendUserChat(){
   let name=document.getElementById('chatName').value.trim()||'భక్తుడు';
   let msg=document.getElementById('chatText').value.trim();
   if(!msg){ alert('మెసేజ్ రాయండి'); return; }
+  if(CHAT_TOKEN==='PASTE_YOUR_SAME_ADMIN_TOKEN_HERE'){ alert('⚠️ TOKEN పెట్టలేదు అండీ! admin.html లో TOKEN కాపీ చేసి ఇక్కడ పెట్టండి! లేకపోతే అడ్మిన్ కి వెళ్ళదు!'); return; }
   localStorage.setItem('ms_chat_name',name);
-  let newMsg={userCode:getMyCode(),userName:name,msg:msg,from:'user',time:new Date().toLocaleString('te-IN')};
-  let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); local.push(newMsg); localStorage.setItem('ms_my_chats_local',JSON.stringify(local));
-  document.getElementById('chatText').value='';
-  loadMyChat();
-  alert('✅ పంపించారు! మీ మెసేజ్ మీకు మాత్రమే కనబడుతుంది. అడ్మిన్ రిప్లై ఇస్తారు! మీ కోడ్: '+getMyCode()+' - అడ్మిన్ కి ఈ కోడ్ చెప్తే చాలు!');
+  try{
+    let getR=await fetch(`https://api.github.com/repos/${CHAT_REPO}/contents/chat.json`);
+    let getJ=await getR.json(); let sha=getJ.sha;
+    let all=[]; try{ all=JSON.parse(decodeURIComponent(escape(atob(getJ.content.replace(/\n/g,''))))); }catch(e){ all=[]; }
+    all.push({userCode:getMyCode(),userName:name,msg:msg,from:'user',time:new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})});
+    let putR=await fetch(`https://api.github.com/repos/${CHAT_REPO}/contents/chat.json`,{method:'PUT',headers:{Authorization:'token '+CHAT_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({message:'new chat',content:btoa(unescape(encodeURIComponent(JSON.stringify(all)))),sha:sha})});
+    if(!putR.ok) throw new Error('put fail');
+    document.getElementById('chatText').value='';
+    alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!');
+    loadMyChat();
+  }catch(e){ alert('❌ పంపలేదు! TOKEN తప్పు లేదా chat.json లేదు! admin.html లో TOKEN చూసి మళ్ళీ పెట్టండి!'); }
 }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') document.getElementById('chatModal').style.display='none'; });
 </script>
 </body>
-  </html>
+</html>
