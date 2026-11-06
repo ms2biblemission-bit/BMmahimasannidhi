@@ -58,6 +58,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
   <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
   <a href="books.html"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">📚</div><div class="lname">బుక్స్</div></a>
+  <a href="songs.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF8E1">🎵</div><div class="lname">పాటలు</div></a>
   <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
   <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
   <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
@@ -65,6 +66,14 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 
 <div class="grid">
+<a class="card" href="songs.html">
+<div style="font-size:55px">🎵</div>
+<div class="card-text">పాటలు<br><small style="font-weight:normal;color:gray;font-size:12px">ఆంధ్ర క్రైస్తవ కీర్తనలు</small></div>
+</a>
+<a class="card" href="books.html">
+<div style="font-size:55px">📚</div>
+<div class="card-text">బుక్స్<br><small style="font-weight:normal;color:gray;font-size:12px">పుస్తకాలు చదవండి</small></div>
+</a>
 <a class="card" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank">
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg" alt="YouTube">
 <div class="card-text">యూట్యూబ్ ఛానల్</div>
@@ -99,10 +108,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 
 <div class="section">
 <h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే!</h3>
-<div style="display:flex;gap:8px;margin-bottom:10px">
+<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
 <a href="gallery.html" style="flex:1;background:#2E7D32;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ</a>
 <a href="archive.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📜 పాత మెసేజ్ లు</a>
 <a href="books.html" style="flex:1;background:#2196F3;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📚 బుక్స్</a>
+<a href="songs.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🎵 పాటలు</a>
 </div>
 <div id="postsList">లోడ్ అవుతోంది...</div>
 <div id="booksResult"></div>
@@ -147,7 +157,6 @@ function fixT(s){
   }catch(e){}
   return s;
 }
-// బుక్స్ లో chapters / pages రెండూ సెర్చ్ కోసం - నేను యాడ్ చేసింది
 function bookText(b){
   let t=(b.title||'')+' '+(b.desc||b.description||'')+' ';
   let arr=b.pages||b.chapters||b.items||[];
