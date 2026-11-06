@@ -6,9 +6,9 @@
 <title>BM మహిమ సన్నిధి - Admin</title>
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:30px}
-.header{background:#0B3D2E;color:white;padding:20px 15px;position:sticky;top:0;z-index:10}
-.header h2{margin:0;font-size:22px} .header p{margin:4px 0 0;font-size:13px;opacity:.9}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#E8F5E9;position:sticky;top:72px;z-index:9}
+.header{background:#0B3D2E;color:white;padding:12px 15px;position:relative;z-index:10}
+.header h2{margin:0;font-size:20px} .header p{margin:4px 0 0;font-size:13px;opacity:.9}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#E8F5E9;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #0002}
 .tabs button{white-space:nowrap;padding:10px 16px;border-radius:25px;border:1px solid #C8E6C9;background:white;font-size:15px;font-weight:bold;cursor:pointer}
 .tabs button.active{background:#0B3D2E;color:white}
 .wrap{padding:0 12px;max-width:700px;margin:auto}
@@ -68,8 +68,6 @@ small{color:#666} .hidden{display:none}
 </div>
 </div>
 </div>
-
-<!-- 🎵 పాటలు - కొత్త ట్యాబ్ -->
 <div id="tab5" class="hidden">
 <div class="card">
 <h3 style="margin:0">🎵 పాటలు - ఆంధ్ర క్రైస్తవ కీర్తనలు</h3>
@@ -85,7 +83,6 @@ small{color:#666} .hidden{display:none}
 </div>
 <div id="songList"></div>
 </div>
-
 <div id="tab4" class="hidden">
 <div class="card" style="background:#E8F5E9"><b>🔑 GitHub సెట్టింగ్</b><label>Token (ghp_...)</label><input id="token" type="password" placeholder="టోకెన్ ఇక్కడ పేస్ట్ చేయండి"><label>Owner</label><input id="owner" value="ms2biblemission-bit"><label>Repo</label><input id="repo" value="BMmahimasannidhi"><button class="big" style="background:#2E7D32" onclick="saveSettings()">💾 సెట్టింగ్ సేవ్</button></div>
 <button class="big red" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
@@ -140,13 +137,11 @@ function delPage(idx){if(!confirm('ఈ పేజీ తీసేయమంటా�
 function newBook(){books.push({title:'📖 కొత్త బుక్',desc:'',pages:[{title:'',content:''}],pdf:'',_foundKey:'new'}); editingBook=books.length-1; renderBookSelect(); loadBookToEditor();}
 function delCurrentBook(){if(!confirm('ఈ బుక్ తీసేయమంటారా?')) return; books.splice(editingBook,1); if(editingBook>=books.length) editingBook=Math.max(0,books.length-1); saveBook(); renderBookSelect(); loadBookToEditor();}
 async function saveBook(){let t=document.getElementById('bookTitle').value.trim(), d=document.getElementById('bookDesc').value.trim(); if(!t){alert('బుక్ పేరు రాయండి'); return;} if(books[editingBook]){books[editingBook].title=t; books[editingBook].desc=d; if(bookPdfData) books[editingBook].pdf=bookPdfData; delete books[editingBook]._foundKey; delete books[editingBook].chapters;} let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; setStatus('✅ బుక్ సేవ్ అయ్యింది!'); bookPdfData=''; renderBookSelect(); renderPagesNav();} else setStatus('❌ బుక్ సేవ్ కాలేదు');}
-
-// 🎵 SONGS - అడ్మిన్ లోనే పాటలు!
 async function loadSongs(){
   try{let j=await getFile('songs.json'); songSha=j.sha; songs=JSON.parse(b64Dec(j.content));}
   catch(e){ songs=[]; songSha=""; }
   if(!songs.length){
-    songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",desc:"రాగం: జంఝూట్ | తాళం: ఏక",content:`1. త్రియేక దేవునికి - స్తుతి\n\nరాగం: జంఝూట్          తాళం: ఏక\n\nశుభాకరా! శుద్ధాకరా! వి - శుద్ధ వందనమ్ =\nనభా నభూమి సర్వ్యో - నృత్య వందనమ్\n\n1. యెహోవా! స్రష్ట! జనక! నీకు - నెంతయు బ్రణుతి =\nమహోన్నతుండ! దివ్యుడా! ఘన - మహిమ సంస్తుతి\n|| శుభా ||\n\n2. విమోచకా! పిత్రాత్మజుండ! - విజయ మంగళమ్ =\nసమస్త సృష్టి సాధనంబు! - సవ్య మంగళమ్\n|| శుభా ||\n\n3. వరాత్మ! పితాపుత్ర నిర్గమ - పరుడ! స్తోత్రము =\nవరప్రదుండ! భక్త హృదయ - వాస! స్తోత్రము\n|| శుభా ||\n\n-----------------------------------------\n1. శుభమునకు ఉనికిపట్టు\n2. ఆకాశమందు\n3. స్తుతి\n4. తండ్రి యొక్క కుమారుడా!\n5. తండ్రి నుండియు కుమారుని నుండియు బయలుదేరిన దేవా!`}];
+    songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",desc:"రాగం: జంఝూట్ | తాళం: ఏక",content:`1. త్రియేక దేవునికి - స్తుతి\n\nరాగం: జంఝూట్          తాళం: ఏక\n\nశుభాకరా! శుద్ధాకరా! వి - శుద్ధ వందనమ్ =\nనభా నభూమి సర్వ్యో - నృత్య వందనమ్\n\n1. యెహోవా! స్రష్ట! జనక! నీకు - నెంతయు బ్రణుతి =\nమహోన్నతుండ! దివ్యుడా! ఘన - మహిమ సంస్తుతి\n|| శుభా ||\n\n2. విమోచకా! పిత్రాత్మజుండ! - విజయ మంగళమ్ =\nసమస్త సృష్టి సాధనంబు! - సవ్య మంగళమ్\n|| శుభా ||\n\n3. వరాత్మ! పితాపుత్ర నిర్గమ - పరుడ! స్తోత్రము =\nవరప్రదుండ! భక్త హృదయ - వాస! స్తోత్రము\n|| శుభా ||`}];
   }
   editingSong=0; renderSongSelect(); loadSongToEditor(); renderSongList();
 }
@@ -168,7 +163,6 @@ async function saveSong(){
   else setStatus('❌ పాట సేవ్ కాలేదు');
 }
 async function delCurrentSong(){if(!confirm('ఈ పాట తీసేయమంటారా?')) return; songs.splice(editingSong,1); if(editingSong>=songs.length) editingSong=Math.max(0,songs.length-1); let j=await putFile('songs.json',songSha,songs); if(j.content){songSha=j.content.sha; setStatus('✅ పాట తీసేసాను!'); renderSongSelect(); loadSongToEditor(); renderSongList();}}
-
 load(); loadBooks(); loadSch(); loadSongs();
 </script>
 </body>
