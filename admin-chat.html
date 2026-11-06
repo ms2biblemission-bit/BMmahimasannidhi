@@ -1,89 +1,113 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Chat</title></head>
-<body style="font-family:system-ui;padding:15px;background:#fff8e6">
-<h2 style="color:#8B0000">💬 అడ్మిన్ చాట్ - మీరు మాత్రమే</h2>
-<p id="status" style="color:green;font-weight:bold">కనెక్ట్ అవుతోంది...</p>
-<div id="lockBox" style="background:#fff;padding:15px;border-radius:10px">
-<input id="passInput" type="password" placeholder="అడ్మిన్ పాస్ వర్డ్" style="padding:12px;width:70%;border-radius:10px;border:1px solid #ccc">
-<button onclick="checkPass()" style="background:#8B0000;color:#fff;padding:12px 18px;border:none;border-radius:10px">ఓపెన్</button>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Chat - మహిమ సన్నిధి</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:12px}
+h2{color:#8B0000;text-align:center}
+.box{background:white;padding:12px;border-radius:12px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+select,input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin:6px 0;font-size:15px}
+button{padding:12px;background:#8B0000;color:white;border:none;border-radius:20px;font-weight:bold;width:100%;font-size:15px;cursor:pointer}
+.msg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
+.small{font-size:13px;color:gray}
+</style>
+</head>
+<body>
+<h2>💬 Admin Chat</h2>
+
+<div class="box" id="status">లోడ్ అవుతోంది...</div>
+
+<div class="box">
+<b>ఎవరికి రిప్లై ఇవ్వాలో ఎంచుకోండి:</b>
+<select id="userSelect" onchange="showUser()"><option value="">-- ఎంచుకోండి --</option></select>
+<button onclick="loadAll()" style="background:#4CAF50;margin-top:8px">🔄 రిఫ్రెష్</button>
 </div>
-<div id="mainBox" style="display:none">
-<div style="margin-bottom:10px">ఎవరికి రిప్లై ఇవ్వాలో ఎంచుకోండి:<br><select id="userSelect" onchange="renderChats()" style="padding:10px;width:100%;border-radius:10px"></select></div>
-<div id="chatBox" style="height:380px;overflow-y:auto;border:1px solid #ddd;padding:10px;background:#fff;border-radius:10px"></div>
-<div style="display:flex;gap:8px;margin-top:10px">
-<input id="chatInput" placeholder="రిప్లై రాయండి..." style="flex:1;padding:12px;border-radius:20px;border:1px solid #ccc">
-<button onclick="sendReply()" style="background:#8B0000;color:#fff;padding:12px 18px;border-radius:20px;border:none">రిప్లై</button>
+
+<div class="box" id="chatBox">ఒకరిని ఎంచుకోండి</div>
+
+<div class="box">
+<textarea id="replyText" rows="3" placeholder="రిప్లై రాయండి..."></textarea>
+<button onclick="sendReply()">📩 రిప్లై</button>
+<button onclick="deleteUser()" style="background:#FF9800;margin-top:8px">🗑️ ఈ భక్తుడిని తీసేయి</button>
 </div>
-<button onclick="clearAll()" style="margin-top:15px;background:#eee;border:none;padding:8px 12px;border-radius:8px">అన్నీ డిలీట్ చేయి (పాత మెసేజ్ లు పోవాలంటే)</button>
-</div>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyB4tURHEEjunEIMO12Bf-yAfNDGXsavTco",
-  authDomain: "mahima-sannidhi.firebaseapp.com",
-  databaseURL: "https://mahima-sannidhi-default-rtdb.firebaseio.com",
-  projectId: "mahima-sannidhi",
-  storageBucket: "mahima-sannidhi.firebasestorage.app",
-  messagingSenderId: "646668774021",
-  appId: "1:646668774021:web:af80fff2ace542ae6957ec"
-};
-if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-let db = firebase.database();
-let allMsgs = {};
-function checkPass(){
-  if(document.getElementById('passInput').value === "Mahima@123"){
-    document.getElementById('lockBox').style.display="none";
-    document.getElementById('mainBox').style.display="block";
-    loadChats();
-  } else { alert("తప్పు పాస్ వర్డ్!"); }
-}
-function fmtTime(t){
-  if(!t) return "టైమ్ లేదు - పాత మెసేజ్";
-  let d = new Date(t);
-  let date = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-  let h = d.getHours(); let ampm = h>=12 ? "PM" : "AM"; h = h%12 || 12;
-  let min = String(d.getMinutes()).padStart(2,'0');
-  let today = new Date(); let isToday = d.toDateString()===today.toDateString();
-  let y = new Date(); y.setDate(y.getDate()-1); let isYest = d.toDateString()===y.toDateString();
-  let label = isToday ? "ఈరోజు" : isYest ? "నిన్న" : date;
-  return "📅 " + label + " - " + h + ":" + min + " " + ampm;
-}
-function loadChats(){
-  db.ref('messages').on('value', snap=>{
-    allMsgs = snap.val() || {};
-    document.getElementById('status').innerText = "✅ కనెక్ట్ అయింది! మొత్తం మెసేజ్ లు: " + Object.keys(allMsgs).length;
-    let users = {};
-    Object.entries(allMsgs).forEach(([k,m])=>{ if(m.uid){ if(!users[m.uid]) users[m.uid]={last:0, count:0}; if(m.time>users[m.uid].last) users[m.uid].last=m.time; if(m.who==='user') users[m.uid].count++; }});
-    let sortedUsers = Object.keys(users).sort((a,b)=>users[a].last - users[b].last);
-    let sel = document.getElementById('userSelect');
-    let cur = sel.value;
-    sel.innerHTML = sortedUsers.map(u=>`<option value="${u}">${fmtTime(users[u].last)} - భక్తుడు (${users[u].count} మెసేజ్ లు) - ${u.slice(-4)}</option>`).join('') || "<option>ఇంకా మెసేజ్ లేదు</option>";
-    if(cur && users[cur]) sel.value = cur;
-    renderChats();
+const TOPIC='ms2-mahima-sannidhi-chat-2026';
+let allMsgs=[];
+
+async function loadAll(){
+  document.getElementById('status').innerText='లోడ్ అవుతోంది...';
+  try{
+    let r=await fetch('https://ntfy.sh/'+TOPIC+'/json?since=all&poll=1');
+    let txt=await r.text();
+    allMsgs=[];
+    txt.split('\n').filter(Boolean).forEach(l=>{
+      try{
+        let j=JSON.parse(l);
+        if(j.message && j.message.startsWith('USER_MSG_')){
+          let parts=j.message.replace('USER_MSG_','').split('|');
+          allMsgs.push({userCode:parts[0],userName:parts[1],msg:parts[2],time:parts[3]||new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})});
+        }
+      }catch(e){}
+    });
+  }catch(e){}
+
+  // పాత chat.json లో ఉన్నవి కూడా - ఉంటే - చూపించు
+  try{
+    let r2=await fetch('chat.json?v='+Date.now());
+    if(r2.ok){
+      let old=await r2.json();
+      old.forEach(m=>{ if(m.from==='user') allMsgs.push(m); });
+    }
+  }catch(e){}
+
+  let users={};
+  allMsgs.forEach(m=>{
+    if(!users[m.userCode]) users[m.userCode]={name:m.userName,msgs:[],last:m.time};
+    users[m.userCode].msgs.push(m);
+    users[m.userCode].last=m.time;
   });
+
+  let sel=document.getElementById('userSelect');
+  let cur=sel.value;
+  sel.innerHTML='<option value="">-- ఎంచుకోండి --</option>'+Object.keys(users).map(code=>`<option value="${code}">${users[code].last} - ${users[code].name} (${users[code].msgs.length} మెసేజ్ లు) - ${code}</option>`).join('');
+  if(cur) sel.value=cur;
+  document.getElementById('status').innerText='✅ కనెక్ట్ అయ్యింది! మొత్తం మెసేజ్ లు: '+allMsgs.length;
+  if(cur) showUser();
 }
-function renderChats(){
-  let uid = document.getElementById('userSelect').value;
-  let list = [];
-  Object.entries(allMsgs).forEach(([k,m])=>{
-    if(m.uid === uid || (m.who==='admin' && m.toUid === uid)){ list.push({k:k, m:m}); }
-  });
-  list.sort((a,b)=>(a.m.time||0)-(b.m.time||0));
-  let html = "";
-  list.forEach(({k,m})=>{
-    html+=`<div style="background:${m.who==='admin'?'#d9f2ff':'#ffe9c4'};padding:10px;border-radius:10px;margin:8px 0"><b>${m.who==='admin'?'మీరు':'భక్తుడు'}:</b> ${m.text}<br><small style="color:#666;font-size:12px">${fmtTime(m.time)}</small> <button onclick="delMsg('${k}')" style="float:right;border:none;background:none">❌</button></div>`;
-  });
-  let box=document.getElementById('chatBox');
-  box.innerHTML = html || "ఈ భక్తుడి నుండి ఇంకా మెసేజ్ లేదు";
-  box.scrollTop=box.scrollHeight;
+
+function showUser(){
+  let code=document.getElementById('userSelect').value;
+  if(!code){ document.getElementById('chatBox').innerHTML='ఒకరిని ఎంచుకోండి'; return; }
+  let mine=allMsgs.filter(m=>String(m.userCode)===String(code));
+  document.getElementById('chatBox').innerHTML=mine.map(m=>`<div class="msg" style="background:#fff3cd"><b>భక్తుడు: ${m.msg}</b><br><small class="small">📅 ${m.time}</small></div>`).join('')||'ఏమీ లేదు';
 }
-function sendReply(){
-  let inp=document.getElementById('chatInput');
-  let uid=document.getElementById('userSelect').value;
-  if(!inp.value.trim() || !uid) return;
-  db.ref('messages').push({who:'admin', uid: uid, toUid: uid, text: inp.value, time: Date.now()});
-  inp.value="";
+
+async function sendReply(){
+  let code=document.getElementById('userSelect').value;
+  let txt=document.getElementById('replyText').value.trim();
+  if(!code){ alert('ఒకరిని ఎంచుకోండి'); return; }
+  if(!txt){ alert('రిప్లై రాయండి'); return; }
+  await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_REPLY_'+code+':'+txt});
+  document.getElementById('replyText').value='';
+  alert('✅ రిప్లై పంపించారు! భక్తుడికి - వాళ్ల ఫోన్ లో - వస్తుంది!');
 }
-function delMsg(k){ if(confirm("డిలీట్ చేయాలా?")) db.ref('messages/'+k).remove(); }
-function clearAll(){ if(confirm("అన్నీ డిలీట్ చేయాలా? పాత మెసేజ్ లు పోతాయి!")) db.ref('messages').remove(); }
-</script></body></html>
+
+function deleteUser(){
+  let code=document.getElementById('userSelect').value;
+  if(!code) return;
+  if(!confirm('ఈ భక్తుడిని తీసేయాలా?')) return;
+  allMsgs=allMsgs.filter(m=>String(m.userCode)!==String(code));
+  document.getElementById('userSelect').value='';
+  document.getElementById('chatBox').innerHTML='తీసేసారు';
+  loadAll();
+}
+
+loadAll();
+setInterval(loadAll,15000);
+</script>
+</body>
+</html>
