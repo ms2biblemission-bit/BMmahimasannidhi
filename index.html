@@ -109,8 +109,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 
 <div class="section qr-box">
 <h3>📱 QR - స్కాన్ చేయండి - కానుక కోసం</h3>
-<img src="ms2-qr.jpg" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
-<div id="qrError" style="display:none;color:red;font-size:13px;margin-top:8px">⚠️ ms2-qr.jpg - GitHub లో లేదు!</div>
+<!-- QR ప్లేస్ లోనే - మీ బ్యానర్ -->
+<img src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #8B0000;margin-bottom:12px" alt="Mahima Sannidhi Banner">
+<!-- QR ప్లేస్ లోనే - మీ QR -->
+<img src="IMG-20261106-WA0037.jpg" style="width:260px;max-width:100%;height:auto" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
+<div id="qrError" style="display:none;color:red;font-size:13px;margin-top:8px">⚠️ QR - GitHub లో లేదు!</div>
 <p style="font-weight:bold">Ms2 Bible Mission</p>
 <div class="upi-box">
 <b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br>
@@ -193,8 +196,6 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
-
-// ===== ADMIN CHAT - పాతదానిలా - TOKEN లేదు - కోడ్ కనబడదు =====
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
 function openChat(){ document.getElementById('chatModal').style.display='flex'; document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; loadMyChat(); }
