@@ -14,6 +14,7 @@
 <style>
 *{box-sizing:border-box}
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
+body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:25px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px}
 .logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
 .logo img{width:100%;height:100%;object-fit:cover}
@@ -41,8 +42,9 @@ html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100
 input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;align-items:flex-end;justify-content:center}
-.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto}
+.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
+#chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 </style>
 </head>
 <body>
@@ -135,17 +137,22 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 
 <div class="modal" id="chatModal"><div class="modalBox">
 <h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3>
-<p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!</p>
-<label style="font-weight:bold">మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు">
+<p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు! ఏదైనా ఒకటి రాసినా చాలు - సెండ్ అవుతుంది!</p>
+<label style="font-weight:bold">👤 మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు">
+<label style="font-weight:bold">🏡 మీ ఊరు</label><input id="chatVillage" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
+<label style="font-weight:bold">📞 ఫోన్ నంబర్ <small style="font-weight:normal;color:gray">(ఉంటే రాయండి - లేకపోతే వదిలేయండి)</small></label><input id="chatPhone" type="tel" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: 98765 43210">
 <div id="chatMsgs"></div>
 <textarea id="chatText" rows="3" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ ప్రార్థన రాయండి..."></textarea>
 <button onclick="sendUserChat()" style="width:100%;padding:13px;background:#0B3D2E;color:white;border:none;border-radius:25px;font-weight:bold;font-size:16px;margin-top:8px">📩 పంపండి</button>
-<button onclick="document.getElementById('chatModal').style.display='none'" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
+<button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
 </div></div>
 
 <script>
 let allPosts = [];
 let allBooks = [];
+let _scrollY=0;
+function lockBody(){ if(document.body.classList.contains('lock')) return; _scrollY=window.scrollY; document.body.classList.add('lock'); document.body.style.top='-'+_scrollY+'px'; }
+function unlockBody(){ if(!document.body.classList.contains('lock')) return; document.body.classList.remove('lock'); document.body.style.top=''; window.scrollTo(0,_scrollY); }
 function fixT(s){
   if(!s) return '';
   try{
@@ -202,9 +209,9 @@ function renderPosts(){
 function openPost(i){
   let p=allPosts[i]; if(!p) return;
   document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p>`;
-  document.getElementById('postModal').style.display='flex';
+  document.getElementById('postModal').style.display='flex'; lockBody();
 }
-function closePost(){ document.getElementById('postModal').style.display='none'; }
+function closePost(){ document.getElementById('postModal').style.display='none'; unlockBody(); }
 document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.id==='postModal') closePost(); });
 loadPosts();
 let deferredPrompt;
@@ -213,13 +220,14 @@ document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredP
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
-function openChat(){ document.getElementById('chatModal').style.display='flex'; document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; loadMyChat(); }
+function openChat(){ document.getElementById('chatModal').style.display='flex'; lockBody(); document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; loadMyChat(); }
+function closeChat(){ document.getElementById('chatModal').style.display='none'; unlockBody(); }
 async function loadMyChat(){
   let code=getMyCode(); let box=document.getElementById('chatMsgs');
   let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){}
   let mine=local.filter(m=>String(m.userCode)===String(code));
   if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; }
-  else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'మీరు:':'భక్తుడు:'} ${m.msg}</b><br><small>📅 ${m.time||''}</small></div>`).join(''); }
+  else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'మీరు:':'భక్తుడు:'} ${m.msg}</b><br><small>📅 ${m.time||''} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small></div>`).join(''); box.scrollTop=box.scrollHeight; }
   try{
     let r=await fetch('https://ntfy.sh/'+CHAT_TOPIC+'/json?since=all&poll=1');
     let txt=await r.text(); let hasNew=false;
@@ -228,19 +236,28 @@ async function loadMyChat(){
   }catch(e){}
 }
 async function sendUserChat(){
-  let name=document.getElementById('chatName').value.trim()||'భక్తుడు';
+  let name=document.getElementById('chatName').value.trim();
+  let village=document.getElementById('chatVillage').value.trim();
+  let phone=document.getElementById('chatPhone').value.trim();
   let msg=document.getElementById('chatText').value.trim();
-  if(!msg){ alert('మెసేజ్ రాయండి'); return; }
+  if(!name && !village && !phone && !msg){ alert('ఏదైనా ఒకటి రాయండి అండీ!'); return; }
+  if(!name) name='భక్తుడు';
+  if(!msg){
+    if(village || phone) msg=(village?'🏡 '+village+' ':'')+(phone?'📞 '+phone:'')+' 🙏';
+    else msg='🙏';
+  }
   localStorage.setItem('ms_chat_name',name);
+  localStorage.setItem('ms_chat_village',village);
+  localStorage.setItem('ms_chat_phone',phone);
   let code=getMyCode();
   let time=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
-  let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); local.push({userCode:code,userName:name,msg:msg,from:'user',time:time}); localStorage.setItem('ms_my_chats_local',JSON.stringify(local));
-  try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+msg+'|'+time}); }catch(e){}
+  let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); local.push({userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}); localStorage.setItem('ms_my_chats_local',JSON.stringify(local));
+  try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+village+'|'+phone+'|'+msg+'|'+time}); }catch(e){}
   document.getElementById('chatText').value='';
   alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!');
   loadMyChat();
 }
-document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') document.getElementById('chatModal').style.display='none'; });
+document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
 </html>
