@@ -45,6 +45,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
+.old-box{display:block;background:#FF9800;color:white;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:12px}
 </style>
 </head>
 <body>
@@ -83,15 +84,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div style="text-align:center"><button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button></div>
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ / బుక్" oninput="renderPosts()">
 <div class="section">
-<h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే!</h3>
-<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-<a href="gallery.html" style="flex:1;background:#2E7D32;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ</a>
-<a href="archive.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📜 పాత మెసేజ్ లు</a>
-<a href="books.html" style="flex:1;background:#2196F3;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📚 బుక్స్</a>
-<a href="songs.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🎵 పాటలు</a>
-</div>
+<h3>📜 నిన్నటి వాక్యం - 1 మాత్రమే!</h3>
 <div id="postsList">లోడ్ అవుతోంది...</div>
 <div id="booksResult"></div>
+<a href="archive.html" class="old-box">📜 పాత మెసేజ్ లు అన్నీ చూడండి ➡️</a>
+<div style="text-align:center;color:gray;font-size:13px;margin-top:8px">పాత వాక్యాలన్నీ - ఆ బాక్స్ లో ఉంటాయి!</div>
 </div>
 <div class="section qr-box">
 <h3>🙏 మా సేవ అభివృద్ధికై</h3>
@@ -138,7 +135,6 @@ function bookText(b){
   if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); });
   return t;
 }
-// ⭐ కొత్తది - షెడ్యూల్ టైమ్ వచ్చాకే చూపించు!
 function isPublished(p){
   if(!p || !p.publishAt) return true;
   try{ return new Date(p.publishAt) <= new Date(); }catch(e){ return true; }
@@ -166,9 +162,11 @@ async function loadPosts(){
 function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase().trim();
   let vis = visiblePosts();
-  let list = vis.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
+  let filtered = vis.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
+  // ⭐ హోమ్ లో - వెతకనప్పుడు - పైది వదిలి - నిన్నటి 1 మాత్రమే!
+  let list = q ? filtered : filtered.slice(1,2);
   let box = document.getElementById('postsList');
-  if(list.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు!'; } else {
+  if(list.length==0){ box.innerHTML = q ? '📭 ఇంకా ఏమీ లేవు!' : '📭 నిన్నటి వాక్యం లేదు!'; } else {
     box.innerHTML = list.map(p=>{
       let idx = allPosts.indexOf(p);
       let img = p.image ? `<img src="${p.image}">` : '';
@@ -247,4 +245,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-  </html>
+</html>
