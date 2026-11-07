@@ -138,6 +138,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="modal" id="chatModal"><div class="modalBox">
 <h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3>
 <p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు! ఏదైనా ఒకటి రాసినా చాలు - సెండ్ అవుతుంది!</p>
+<div id="blockedBanner" style="display:none;background:#FFEBEE;border:2px solid #E53935;padding:10px;border-radius:10px;color:#C62828;font-weight:bold;text-align:center;margin-bottom:10px">🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!</div>
 <label style="font-weight:bold">👤 మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు">
 <label style="font-weight:bold">🏡 మీ ఊరు</label><input id="chatVillage" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
 <label style="font-weight:bold">📞 ఫోన్ నంబర్ <small style="font-weight:normal;color:gray">(ఉంటే రాయండి - లేకపోతే వదిలేయండి)</small></label><input id="chatPhone" type="tel" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: 98765 43210">
@@ -220,22 +221,36 @@ document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredP
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
-function openChat(){ document.getElementById('chatModal').style.display='flex'; lockBody(); document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; loadMyChat(); }
+function isBlocked(){ return localStorage.getItem('ms_im_blocked')==='1'; }
+function chatMsgId(m){ return ((m.userCode||getMyCode())+'|'+(m.time||'')+'|'+(m.msg||'')).slice(0,200); }
+function openChat(){ document.getElementById('chatModal').style.display='flex'; lockBody(); document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; document.getElementById('blockedBanner').style.display=isBlocked()?'block':'none'; loadMyChat(); }
 function closeChat(){ document.getElementById('chatModal').style.display='none'; unlockBody(); }
 async function loadMyChat(){
   let code=getMyCode(); let box=document.getElementById('chatMsgs');
   let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){}
   let mine=local.filter(m=>String(m.userCode)===String(code));
+  // ⭐ పాత మెసేజ్ లకి id లేకపోతే - ఇప్పుడు కలిపేస్తాం - అప్పుడే డిలీట్ మ్యాచ్ అవుతుంది!
+  let idChanged=false; mine.forEach(m=>{ if(!m.id){ m.id=chatMsgId(m); idChanged=true; } });
+  if(idChanged){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); }
   if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; }
   else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'మీరు:':'భక్తుడు:'} ${m.msg}</b><br><small>📅 ${m.time||''} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small></div>`).join(''); box.scrollTop=box.scrollHeight; }
   try{
     let r=await fetch('https://ntfy.sh/'+CHAT_TOPIC+'/json?since=all&poll=1');
     let txt=await r.text(); let hasNew=false;
-    txt.split('\n').filter(Boolean).forEach(l=>{ try{ let j=JSON.parse(l); if(j.message && j.message.includes('ADMIN_REPLY_'+code)){ let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } } }catch(e){} });
+    txt.split('\n').filter(Boolean).forEach(l=>{ try{
+      let j=JSON.parse(l); if(!j.message) return;
+      // ⭐ BLOCK - అడ్మిన్ బ్లాక్ చేస్తే!
+      if(j.message.includes('ADMIN_BLOCK_'+code)){ localStorage.setItem('ms_im_blocked','1'); document.getElementById('blockedBanner').style.display='block'; return; }
+      // ⭐ DELETE - అడ్మిన్ ఒక్క మెసేజ్ డిలీట్ చేస్తే!
+      if(j.message.includes('ADMIN_DELETE_'+code)){ let delId=j.message.split('ADMIN_DELETE_'+code+':')[1]; if(delId){ let before=local.length; local=local.filter(m=> (m.id||chatMsgId(m))!==delId.trim()); if(local.length!==before){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); hasNew=true; } } return; }
+      // ⭐ REPLY - పాతది అలాగే!
+      if(j.message.includes('ADMIN_REPLY_'+code)){ let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } }
+    }catch(e){} });
     if(hasNew){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); loadMyChat(); }
   }catch(e){}
 }
 async function sendUserChat(){
+  if(isBlocked()){ alert('🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!'); return; }
   let name=document.getElementById('chatName').value.trim();
   let village=document.getElementById('chatVillage').value.trim();
   let phone=document.getElementById('chatPhone').value.trim();
@@ -251,7 +266,7 @@ async function sendUserChat(){
   localStorage.setItem('ms_chat_phone',phone);
   let code=getMyCode();
   let time=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
-  let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); local.push({userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}); localStorage.setItem('ms_my_chats_local',JSON.stringify(local));
+  let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); let newMsg={userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}; newMsg.id=chatMsgId(newMsg); local.push(newMsg); localStorage.setItem('ms_my_chats_local',JSON.stringify(local));
   try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+village+'|'+phone+'|'+msg+'|'+time}); }catch(e){}
   document.getElementById('chatText').value='';
   alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!');
