@@ -20,30 +20,25 @@ button{padding:12px;background:#8B0000;color:white;border:none;border-radius:20p
 </head>
 <body>
 <h2>💬 Admin Chat</h2>
-
 <div class="box" id="status">లోడ్ అవుతోంది...</div>
-
 <div class="box">
 <b>ఎవరికి రిప్లై ఇవ్వాలో ఎంచుకోండి:</b>
 <select id="userSelect" onchange="showUser()"><option value="">-- ఎంచుకోండి --</option></select>
 <button onclick="loadAll()" style="background:#4CAF50;margin-top:8px">🔄 రిఫ్రెష్</button>
 <div id="blockedBox" style="margin-top:10px"></div>
 </div>
-
 <div class="box" id="chatBox">ఒకరిని ఎంచుకోండి</div>
-
 <div class="box">
 <div id="replyToBox" style="display:none" class="replyBox"><b>↩️ దీనికి రిప్లై ఇస్తున్నారు:</b><div id="replyToText"></div><button onclick="clearReplyTo()" style="background:#999;padding:6px;width:auto;font-size:12px;margin-top:6px">✖️ రిప్లై తీసేయి</button></div>
 <textarea id="replyText" rows="3" placeholder="రిప్లై రాయండి..."></textarea>
 <button onclick="sendReply()">📩 రిప్లై</button>
 <button onclick="blockUser()" style="background:#E53935;margin-top:8px">🚫 ఈ భక్తుడిని టోటల్ గా బ్లాక్ చేయి</button>
-<button onclick="deleteUser()" style="background:#FF9800;margin-top:8px">🗑️ ఈ భక్తుడిని తీసేయి (మీ దాంట్లో మాత్రమే)</button>
+<button onclick="deleteUser()" style="background:#FF9800;margin-top:8px">🗑️ ఈ భక్తుడిని లిస్ట్ లో నుంచి దాచేయి (మీ దాంట్లో మాత్రమే)</button>
 </div>
-
 <script>
 const TOPIC='ms2-mahima-sannidhi-chat-2026';
 let allMsgs=[];
-let selectedReply=null; // {id, msg}
+let selectedReply=null;
 function getDeleted(){ try{return JSON.parse(localStorage.getItem('ms_admin_deleted')||'[]')}catch(e){return []} }
 function getBlocked(){ try{return JSON.parse(localStorage.getItem('ms_admin_blocked')||'[]')}catch(e){return []} }
 function saveDeleted(a){ localStorage.setItem('ms_admin_deleted',JSON.stringify(a)); }
@@ -59,15 +54,24 @@ async function loadAll(){
     txt.split('\n').filter(Boolean).forEach(l=>{
       try{
         let j=JSON.parse(l);
+        let t=new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
         if(j.message && j.message.startsWith('USER_MSG_')){
           let parts=j.message.replace('USER_MSG_','').split('|');
-          // కొత్త ఫార్మాట్: CODE|NAME|VILLAGE|PHONE|MSG|TIME , పాతది: CODE|NAME|MSG|TIME
           let code=parts[0], name=parts[1]||'భక్తుడు', village='', phone='', msg='', time='';
           if(parts.length>=6){ village=parts[2]||''; phone=parts[3]||''; msg=parts.slice(4,parts.length-1).join('|'); time=parts[parts.length-1]; }
           else if(parts.length>=4){ msg=parts.slice(2,parts.length-1).join('|'); time=parts[parts.length-1]; }
           else { msg=parts[2]||''; time=''; }
-          if(!time) time=new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
-          allMsgs.push({userCode:code,userName:name,village:village,phone:phone,msg:msg,time:time});
+          if(!time) time=t;
+          allMsgs.push({userCode:code,userName:name,village:village,phone:phone,msg:msg,time:time,from:'user'});
+        }
+        // ⭐⭐ ఫిక్స్ 1 - మీ రిప్లై కూడా చదవడం!
+        if(j.message && j.message.startsWith('ADMIN_REPLY_')){
+          let rest=j.message.replace('ADMIN_REPLY_','');
+          let idx=rest.indexOf(':');
+          if(idx>-1){
+            let code=rest.slice(0,idx); let msg=rest.slice(idx+1);
+            allMsgs.push({userCode:code,userName:'మీరు',msg:msg,time:t,from:'admin'});
+          }
         }
       }catch(e){}
     });
@@ -76,27 +80,24 @@ async function loadAll(){
     let r2=await fetch('chat.json?v='+Date.now());
     if(r2.ok){
       let old=await r2.json();
-      old.forEach(m=>{ if(m.from==='user') allMsgs.push(m); });
+      old.forEach(m=>{ if(m.from==='user') allMsgs.push({userCode:m.userCode,userName:m.userName,msg:m.msg,time:m.time,from:'user',village:m.village,phone:m.phone}); });
     }
   }catch(e){}
-
-  // ⭐ డిలీట్ చేసినవి + బ్లాక్ చేసినవి దాచేయి
   let del=getDeleted(); let blk=getBlocked();
-  allMsgs=allMsgs.filter(m=>!del.includes(msgId(m)));
+  allMsgs=allMsgs.filter(m=> !(m.from==='user' && del.includes(msgId(m))));
   renderBlockedBox();
   let users={};
   allMsgs.forEach(m=>{
     if(!users[m.userCode]) users[m.userCode]={name:m.userName,msgs:[],last:m.time,village:m.village,phone:m.phone};
-    users[m.userCode].msgs.push(m);
-    users[m.userCode].last=m.time;
-    if(m.village) users[m.userCode].village=m.village;
-    if(m.phone) users[m.userCode].phone=m.phone;
+    if(m.from==='user'){ users[m.userCode].msgs.push(m); users[m.userCode].last=m.time; if(m.village) users[m.userCode].village=m.village; if(m.phone) users[m.userCode].phone=m.phone; if(m.userName) users[m.userCode].name=m.userName; }
+    else { users[m.userCode].last=m.time; }
   });
   let sel=document.getElementById('userSelect');
   let cur=sel.value;
   sel.innerHTML='<option value="">-- ఎంచుకోండి --</option>'+Object.keys(users).map(code=>{
     let isB=blk.includes(code)?' 🚫 BLOCKED':''; 
-    return `<option value="${code}">${users[code].last} - ${users[code].name} ${users[code].village?'| 🏡 '+users[code].village:''} ${users[code].phone?'| 📞 '+users[code].phone:''} (${users[code].msgs.length} మెసేజ్ లు) - ${code}${isB}</option>`;
+    let cnt=allMsgs.filter(x=>String(x.userCode)===String(code)&&x.from==='user').length;
+    return `<option value="${code}">${users[code].last} - ${users[code].name} ${users[code].village?'| 🏡 '+users[code].village:''} ${users[code].phone?'| 📞 '+users[code].phone:''} (${cnt} మెసేజ్ లు) - ${code}${isB}</option>`;
   }).join('');
   if(cur) sel.value=cur;
   document.getElementById('status').innerText='✅ కనెక్ట్ అయ్యింది! మొత్తం మెసేజ్ లు: '+allMsgs.length;
@@ -114,23 +115,25 @@ function showUser(){
   let blk=getBlocked();
   let isBlocked=blk.includes(code);
   let mine=allMsgs.filter(m=>String(m.userCode)===String(code));
-  let head=isBlocked?'<div class="blocked" style="padding:10px;border-radius:10px;margin-bottom:10px"><b>🚫 ఈ వ్యక్తి బ్లాక్ అయ్యారు!</b><br><small>వీళ్ళ మెసేజ్ లు మీకు రావు - వీళ్ళకి కూడా మీ రిప్లై వెళ్ళదు.</small></div>':'';
-  document.getElementById('chatBox').innerHTML=head+mine.map((m,idx)=>{
-    let id=msgId(m);
-    return `<div class="msg" style="background:#fff3cd"><b>భక్తుడు: ${m.msg}</b><br><small class="small">📅 ${m.time} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small><br><button class="msgBtn" style="background:#2196F3" onclick="selectReply(${idx})">↩️ దీనికి రిప్లై</button><button class="msgBtn" style="background:#E53935" onclick="deleteOneMsg(${idx})">🗑️ ఈ మెసేజ్ డిలీట్</button></div>`;
-  }).join('')||'ఏమీ లేదు';
-  // idx మారకుండా - mine array ని గ్లోబల్ లో పెట్టు
   window._curMine=mine;
+  let head=isBlocked?'<div class="blocked" style="padding:10px;border-radius:10px;margin-bottom:10px"><b>🚫 ఈ వ్యక్తి బ్లాక్ అయ్యారు!</b><br><small>వీళ్ళ మెసేజ్ లు మీకు రావు - వీళ్ళకి కూడా మీ రిప్లై వెళ్ళదు.</small></div>':'';
+  if(!mine.length){ document.getElementById('chatBox').innerHTML=head+'ఏమీ లేదు'; return; }
+  document.getElementById('chatBox').innerHTML=head+mine.map((m,idx)=>{
+    // ⭐⭐ ఫిక్స్ 1 - మీ రిప్లై నీలం కలర్ లో!
+    if(m.from==='admin'){
+      return `<div class="msg" style="background:#cfe8ff;border-left:4px solid #2196F3"><b>💙 మీరు: ${m.msg}</b><br><small class="small">📅 ${m.time}</small></div>`;
+    }
+    return `<div class="msg" style="background:#fff3cd;border-left:4px solid #FFC107"><b>💛 భక్తుడు: ${m.msg}</b><br><small class="small">📅 ${m.time} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small><br><button class="msgBtn" style="background:#2196F3" onclick="selectReply(${idx})">↩️ దీనికి రిప్లై</button><button class="msgBtn" style="background:#E53935" onclick="deleteOneMsg(${idx})">🗑️ ఈ మెసేజ్ డిలీట్</button></div>`;
+  }).join('');
 }
 function selectReply(idx){
-  let m=window._curMine[idx]; if(!m) return;
+  let m=window._curMine[idx]; if(!m||m.from!=='user') return;
   selectedReply={id:msgId(m),msg:m.msg};
   document.getElementById('replyToBox').style.display='block';
   document.getElementById('replyToText').innerText='భక్తుడు: '+m.msg;
   document.getElementById('replyText').focus();
 }
 function clearReplyTo(){ selectedReply=null; document.getElementById('replyToBox').style.display='none'; }
-
 async function sendReply(){
   let code=document.getElementById('userSelect').value;
   let txt=document.getElementById('replyText').value.trim();
@@ -138,24 +141,25 @@ async function sendReply(){
   if(!txt){ alert('రిప్లై రాయండి'); return; }
   let blk=getBlocked();
   if(blk.includes(code)){ if(!confirm('ఈ వ్యక్తి బ్లాక్ లో ఉన్నారు - అయినా రిప్లై పంపాలా? ముందు Unblock చేయండి!')) return; }
-  // ⭐ Reply To ఉంటే - అది కలిపి పంపు - భక్తుడికి ఏదానికి రిప్లై ఇచ్చారో తెలుస్తుంది!
   let full=txt;
   if(selectedReply) full='[Reply to: '+selectedReply.msg.slice(0,80)+'] '+txt;
   await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_REPLY_'+code+':'+full});
   document.getElementById('replyText').value='';
   clearReplyTo();
-  alert('✅ రిప్లై పంపించారు! భక్తుడికి - వాళ్ల ఫోన్ లో - వస్తుంది!');
+  // ⭐⭐ ఫిక్స్ 2 - పంపిన వెంటనే మీ రిప్లై కనిపించాలి - రిఫ్రెష్ కోసం ఆగకుండా!
+  let t=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
+  allMsgs.push({userCode:code,userName:'మీరు',msg:full,time:t,from:'admin'});
+  showUser();
+  alert('✅ రిప్లై పంపించారు!');
 }
-// ⭐ ఒక్క మెసేజ్ డిలీట్ - భక్తుడి ఫోన్ లో కూడా డిలీట్ అవ్వాలి అంటే - index.html లో కూడా చిన్న ప్యాచ్ కావాలి - కింద చూడండి!
 async function deleteOneMsg(idx){
-  let m=window._curMine[idx]; if(!m) return;
+  let m=window._curMine[idx]; if(!m||m.from!=='user') return;
   if(!confirm('ఈ ఒక్క మెసేజ్ డిలీట్ చేయాలా?\n\n"'+m.msg.slice(0,60)+'"')) return;
   let id=msgId(m);
   let del=getDeleted(); if(!del.includes(id)) del.push(id); saveDeleted(del);
-  // భక్తుడి ఫోన్ కి - డిలీట్ సిగ్నల్ పంపు!
   try{ await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_DELETE_'+m.userCode+':'+id}); }catch(e){}
-  allMsgs=allMsgs.filter(x=>msgId(x)!==id);
-  alert('✅ ఈ మెసేజ్ డిలీట్ చేసారు! భక్తుడు చాట్ మళ్ళీ ఓపెన్ చేస్తే - వాడి దాంట్లో కూడా పోతుంది! (index.html ప్యాచ్ వేస్తేనే!)');
+  allMsgs=allMsgs.filter(x=>!(x.from==='user'&&msgId(x)===id));
+  alert('✅ ఈ మెసేజ్ డిలీట్ చేసారు!');
   showUser();
 }
 async function blockUser(){
@@ -164,21 +168,23 @@ async function blockUser(){
   if(!confirm('🚫 ఈ భక్తుడిని టోటల్ గా బ్లాక్ చేయాలా?\nఇంక వీళ్ళ మెసేజ్ లు మీకు రావు!')) return;
   let blk=getBlocked(); if(!blk.includes(code)) blk.push(code); saveBlocked(blk);
   try{ await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_BLOCK_'+code+':blocked'}); }catch(e){}
-  alert('🚫 బ్లాక్ చేసారు! ఇంక వీళ్ళ మెసేజ్ లు రావు!');
+  alert('🚫 బ్లాక్ చేసారు!');
   loadAll();
 }
-function unblockUser(code){
+// ⭐⭐ ఫిక్స్ 3 - Unblock - భక్తుడి ఫోన్ లో కూడా పోతుంది!
+async function unblockUser(code){
   let blk=getBlocked().filter(c=>c!==code); saveBlocked(blk);
-  alert('✅ Unblock చేసారు!');
+  try{ await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_UNBLOCK_'+code+':unblocked'}); }catch(e){}
+  alert('✅ Unblock చేసారు! ఇప్పుడు వాళ్ళు మళ్ళీ మెసేజ్ పంపొచ్చు!');
   loadAll();
 }
 function deleteUser(){
   let code=document.getElementById('userSelect').value;
   if(!code) return;
-  if(!confirm('ఈ భక్తుడిని తీసేయాలా? (మీ దాంట్లో మాత్రమే - వాడి ఫోన్ లో ఉంటుంది!)')) return;
+  if(!confirm('ఈ భక్తుడిని లిస్ట్ లో నుంచి దాచేయాలా? (మీ దాంట్లో మాత్రమే!)')) return;
   allMsgs=allMsgs.filter(m=>String(m.userCode)!==String(code));
   document.getElementById('userSelect').value='';
-  document.getElementById('chatBox').innerHTML='తీసేసారు';
+  document.getElementById('chatBox').innerHTML='దాచేసారు';
   loadAll();
 }
 loadAll();
