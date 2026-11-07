@@ -22,6 +22,7 @@ button.orange{background:#FF9800} button.red{background:#0B3D2E}
 .pageNav{background:#FFF3E0;border:1px solid #FFCC80;padding:12px;border-radius:12px;margin:10px 0}
 .debug{background:#E3F2FD;border:1px solid #90CAF9;padding:10px;border-radius:10px;font-size:13px;word-break:break-all}
 small{color:#666} .hidden{display:none}
+.folderCard{background:white;padding:15px;border-radius:20px;margin:12px 0;box-shadow:0 2px 10px #0001;cursor:pointer}
 </style>
 </head>
 <body>
@@ -71,18 +72,11 @@ small{color:#666} .hidden{display:none}
 
 <div id="tab5" class="hidden">
 <div class="card">
-<h3 style="margin:0">🎵 పాటలు - ఫోల్డర్ వైజ్</h3>
-<p style="color:gray;font-size:13px;margin:6px 0">ఉదా: దేవదాసు అయ్యగారి పాటలు / అన్నమ్మ గారి పాటలు / ఆంధ్ర క్రైస్తవ కీర్తనలు</p>
-<label>పాట ఎంచుకోండి</label><select id="songSelect" onchange="loadSongToEditor()"></select>
-<label>📁 ఫోల్డర్ / ఎవరి పాటలు</label><input id="songBook" placeholder="ఉదా: దేవదాసు అయ్యగారి పాటలు">
-<label>🔢 పాట నంబర్</label><input id="songNum" type="number" placeholder="1">
-<label>🎵 పాట టైటిల్</label><input id="songTitle" placeholder="ఉదా: ఆదరణ కర్త స్తుతి">
-<label>📝 పాట - పూర్తిగా</label><textarea id="songContent" rows="12" placeholder="ఇక్కడ పాట మొత్తం రాయండి..."></textarea>
-<button class="big" onclick="saveSong()">💾 పాట సేవ్ చేయండి!</button>
-<button class="big orange" onclick="newSong()">➕ కొత్త పాట పెట్టండి</button>
-<button class="big" style="background:#E53935" onclick="delCurrentSong()">🗑️ ఈ పాట తీసేయండి</button>
+<h3 style="margin:0">🎵 పాటలు - బుక్స్ లాగానే!</h3>
+<p style="color:gray;font-size:13px;margin:6px 0">బుక్ / ఫోల్డర్ నొక్కండి - ఆ బుక్ ఓపెన్ అవుతుంది - అందులోనే ఒక్కో పేజీ యాడ్ చేసుకోండి!</p>
 </div>
-<div id="songList"></div>
+<div id="songFolderView"></div>
+<div id="songBookOpenView"></div>
 </div>
 
 <div id="tab4" class="hidden">
@@ -94,6 +88,7 @@ small{color:#666} .hidden{display:none}
 let posts=[], postSha="", imageDataUrl="", books=[], bookSha="", bookPdfData="", editingBook=0;
 let schedule=[], schSha="", editingSch=-1;
 let songs=[], songSha="", editingSong=0;
+let curSongFolder="", editingSongInFolder=-1;
 let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit', repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi', token=localStorage.getItem('ms_token')||'';
 document.getElementById('owner').value=owner; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
 document.getElementById('date').value=new Date().toISOString().slice(0,10);
@@ -140,37 +135,84 @@ function newBook(){books.push({title:'📖 కొత్త బుక్',desc:''
 function delCurrentBook(){if(!confirm('ఈ బుక్ తీసేయమంటారా?')) return; books.splice(editingBook,1); if(editingBook>=books.length) editingBook=Math.max(0,books.length-1); saveBook(); renderBookSelect(); loadBookToEditor();}
 async function saveBook(){let t=document.getElementById('bookTitle').value.trim(), d=document.getElementById('bookDesc').value.trim(); if(!t){alert('బుక్ పేరు రాయండి'); return;} if(books[editingBook]){books[editingBook].title=t; books[editingBook].desc=d; if(bookPdfData) books[editingBook].pdf=bookPdfData; delete books[editingBook]._foundKey; delete books[editingBook].chapters;} let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; setStatus('✅ బుక్ సేవ్ అయ్యింది!'); bookPdfData=''; renderBookSelect(); renderPagesNav();} else setStatus('❌ బుక్ సేవ్ కాలేదు');}
 
-// 🎵 SONGS - ఫోల్డర్ వైజ్ - రాగం / తాళం లేదు!
+// 🎵 SONGS - బుక్స్ లాగానే - ఫోల్డర్ ఓపెన్ చేసి - అందులోనే పేజీ యాడ్!
+function getSongFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
+function getSongsInFolder(f){ return songs.filter(s=>getSongFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0)); }
 async function loadSongs(){
   try{let j=await getFile('songs.json'); songSha=j.sha; songs=JSON.parse(b64Dec(j.content));}
   catch(e){ songs=[]; songSha=""; }
   if(!songs.length){
-    songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",content:`1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా! వి - శుద్ధ వందనమ్\nనభా నభూమి సర్వ్యో - నృత్య వందనమ్`}];
+    songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",content:`1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా!`}];
   }
-  // పాత పాటల్లో desc ఉంటే తీసేయడం - ఫోల్డర్ గా book మాత్రమే ఉంచడం
   songs=songs.map(s=>({num:s.num||1, book:(s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(), title:s.title||"", content:s.content||""}));
-  editingSong=0; renderSongSelect(); loadSongToEditor(); renderSongList();
+  // ⭐ పాత నంబర్లు 1,9 లాంటివి ఉంటే - ఫోల్డర్ వారీగా మళ్ళీ 1,2,3 చేసేయడం!
+  let byFolder={};
+  songs.forEach(s=>{ let f=getSongFolder(s); byFolder[f]=byFolder[f]||[]; byFolder[f].push(s); });
+  Object.keys(byFolder).forEach(f=>{
+    byFolder[f].sort((a,b)=>(a.num||0)-(b.num||0));
+    byFolder[f].forEach((s,i)=>{ s.num=i+1; });
+  });
+  curSongFolder=""; editingSongInFolder=-1;
+  renderSongFolders();
 }
-function renderSongSelect(){let s=document.getElementById('songSelect'); s.innerHTML=songs.map((sg,i)=>`<option value="${i}">${sg.num||i+1}. ${sg.title||('పాట '+(i+1))} - [${sg.book||''}]</option>`).join(''); s.value=editingSong;}
-function loadSongToEditor(){editingSong=parseInt(document.getElementById('songSelect').value||0); let sg=songs[editingSong]; if(!sg) return; document.getElementById('songBook').value=sg.book||'ఆంధ్ర క్రైస్తవ కీర్తనలు'; document.getElementById('songNum').value=sg.num||editingSong+1; document.getElementById('songTitle').value=sg.title||''; document.getElementById('songContent').value=sg.content||''; }
-function renderSongList(){
-  let folders={}; songs.forEach(s=>{let f=s.book||"ఆంధ్ర క్రైస్తవ కీర్తనలు"; folders[f]=(folders[f]||0)+1;});
-  let fHtml=Object.keys(folders).map(f=>`<span style="display:inline-block;background:#FFF3E0;border:1px solid #FFCC80;padding:6px 12px;border-radius:20px;margin:3px;font-size:13px">📁 ${f} - ${folders[f]} పాటలు</span>`).join('');
-  document.getElementById('songList').innerHTML='<h3>📁 ఫోల్డర్లు</h3>'+fHtml+'<h3>ఉన్న పాటలు - '+songs.length+'</h3>'+songs.map((sg,i)=>`<div class="card"><b>${sg.num||i+1}. ${sg.title}</b><br><small>📁 ${sg.book||''}</small><br><small>${(sg.content||'').slice(0,80)}...</small></div>`).join('');
+function renderSongFolders(){
+  document.getElementById('songBookOpenView').innerHTML='';
+  let folders={}; songs.forEach(s=>{let f=getSongFolder(s); folders[f]=(folders[f]||0)+1;});
+  let keys=Object.keys(folders).sort();
+  let h=`<h3>📁 పాటల బుక్స్ - బుక్ నొక్కండి!</h3>`;
+  h+=keys.map(f=>`<div class="folderCard" onclick="openSongFolder('${f.replace(/'/g,"\\'")}')"><b style="font-size:19px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి లోపలికి వెళ్ళండి ➡️</div></div>`).join('');
+  h+=`<div class="card" style="background:#FFF8E1"><b>➕ కొత్త పాటల బుక్ / ఫోల్డర్</b><input id="newSongBook" placeholder="ఉదా: అన్నమ్మగారి పాటలు"><button class="big orange" onclick="createSongBook()">📁 కొత్త బుక్ తయారు చేయండి</button></div>`;
+  document.getElementById('songFolderView').innerHTML=h;
 }
-function newSong(){let n=songs.length+1; songs.push({num:n,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"",content:""}); editingSong=songs.length-1; renderSongSelect(); loadSongToEditor(); renderSongList();}
-async function saveSong(){
-  let book=document.getElementById('songBook').value.trim()||'ఆంధ్ర క్రైస్తవ కీర్తనలు';
-  let num=parseInt(document.getElementById('songNum').value)||editingSong+1;
-  let title=document.getElementById('songTitle').value.trim();
-  let content=document.getElementById('songContent').value.trim();
-  if(!title||!content){alert('పాట టైటిల్ + పాట రాయండి అండీ'); return;}
-  songs[editingSong]={num,book,title,content};
+function createSongBook(){
+  let f=document.getElementById('newSongBook').value.trim(); if(!f) return alert('బుక్ పేరు రాయండి!');
+  openSongFolder(f);
+}
+function openSongFolder(f){
+  curSongFolder=f; editingSongInFolder=-1;
+  document.getElementById('songFolderView').innerHTML='';
+  let list=getSongsInFolder(f);
+  let h=`<button class="big red" onclick="renderSongFolders()">⬅ అన్ని పాటల బుక్స్</button>`;
+  h+=`<div class="card" style="text-align:center"><b style="font-size:20px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">మొత్తం పాటలు - ${list.length} | ఈ బుక్ లో 1,2,3 వరుసగా వస్తాయి!</div></div>`;
+  // ➕ ఈ బుక్ లో కొత్త పేజీ యాడ్ - బుక్స్ లాగానే!
+  h+=`<div class="card" style="background:#FFF8E1;border-left:5px solid #FF9800"><h3 style="margin:0">➕ ఈ బుక్ లో కొత్త పేజీ / పాట యాడ్ చేయండి</h3><small>ఈ పాట ఆటోమేటిక్ గా ${list.length+1} వ నంబర్ అవుతుంది!</small><label>🎵 పాట టైటిల్</label><input id="newSongTitle" placeholder="ఉదా: నీ సన్నిధి నిలుపు"><label>📝 పాట - పూర్తిగా</label><textarea id="newSongContent" rows="8" placeholder="ఇక్కడ పాట మొత్తం రాయండి..."></textarea><button class="big" onclick="addSongInFolder()">✅ ఈ బుక్ లోనే సేవ్ చేయండి</button></div>`;
+  h+=`<h3>📄 ఈ బుక్ లో పేజీలు</h3>`;
+  if(!list.length) h+=`<p style="color:gray;text-align:center">ఇంకా పాటలు లేవు - పైన యాడ్ చేయండి!</p>`;
+  h+=list.map((sg,idx)=>{
+    let gi=songs.indexOf(sg);
+    return `<div class="pageEdit" id="song-page-${idx}"><h4 style="margin:0 0 8px">పేజీ ${idx+1} - ${sg.title||''}</h4><input value="${(sg.title||'').replace(/"/g,'&quot;')}" placeholder="పాట టైటిల్" oninput="songs[${gi}].title=this.value"><textarea style="min-height:130px;margin-top:8px" placeholder="పాట రాయండి..." oninput="songs[${gi}].content=this.value">${sg.content||''}</textarea><div style="display:flex;gap:8px;margin-top:8px"><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#2E7D32;color:white;font-weight:bold" onclick="saveSongInFolder(${gi})">💾 ఈ పేజీ సేవ్</button><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#E53935;color:white;font-weight:bold" onclick="delSongInFolder(${gi})">🗑️ ఈ పేజీ తీసేయి</button></div></div>`;
+  }).join('');
+  document.getElementById('songBookOpenView').innerHTML=h;
+  window.scrollTo(0,0);
+}
+async function addSongInFolder(){
+  let title=document.getElementById('newSongTitle').value.trim();
+  let content=document.getElementById('newSongContent').value.trim();
+  if(!title||!content) return alert('టైటిల్ + పాట రెండూ రాయండి అండీ!');
+  let list=getSongsInFolder(curSongFolder);
+  songs.push({num:list.length+1, book:curSongFolder, title, content});
   let j=await putFile('songs.json',songSha,songs);
-  if(j.content){songSha=j.content.sha; setStatus('✅ పాట సేవ్ అయ్యింది!'); renderSongSelect(); renderSongList(); loadSongToEditor();}
+  if(j.content){songSha=j.content.sha; setStatus('✅ పాట సేవ్ అయ్యింది! '+curSongFolder+' లో '+(list.length+1)+' వ పాట!'); openSongFolder(curSongFolder);}
   else setStatus('❌ పాట సేవ్ కాలేదు');
 }
-async function delCurrentSong(){if(!confirm('ఈ పాట తీసేయమంటారా?')) return; songs.splice(editingSong,1); if(editingSong>=songs.length) editingSong=Math.max(0,songs.length-1); let j=await putFile('songs.json',songSha,songs); if(j.content){songSha=j.content.sha; setStatus('✅ పాట తీసేసాను!'); renderSongSelect(); loadSongToEditor(); renderSongList();}}
+async function saveSongInFolder(gi){
+  // సేవ్ చేసే ముందు - అదే ఫోల్డర్ లో మళ్ళీ 1,2,3 వరుస సరిచేయడం!
+  let f=getSongFolder(songs[gi]);
+  let list=getSongsInFolder(f);
+  list.forEach((s,i)=>{ s.num=i+1; });
+  let j=await putFile('songs.json',songSha,songs);
+  if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ సేవ్ అయ్యింది!'); openSongFolder(f);}
+  else setStatus('❌ సేవ్ కాలేదు');
+}
+async function delSongInFolder(gi){
+  if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return;
+  let f=getSongFolder(songs[gi]);
+  songs.splice(gi,1);
+  let list=getSongsInFolder(f);
+  list.forEach((s,i)=>{ s.num=i+1; });
+  let j=await putFile('songs.json',songSha,songs);
+  if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ తీసేసాను!'); openSongFolder(f);}
+}
 
 load(); loadBooks(); loadSch(); loadSongs();
 </script>
