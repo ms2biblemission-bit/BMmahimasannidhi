@@ -28,18 +28,42 @@ let DEFAULT_BOOKS=[
 let currentBook=null; let currentIdx=0;
 let lastRead={idx:0,page:0};
 try{let lr=localStorage.getItem('ms_last_read_books');if(lr){let j=JSON.parse(lr); if(j.idx!=null) lastRead=j; else if(j.id!=null) lastRead={idx:0,page:j.page||0};}}catch(e){}
+// ⭐ FIX - 1 2 3 -> A to Z -> అ to ఱ - సరైన ఆర్డర్
+function teluguKey(s){
+  s=(s||'').toString();
+  // "📖 బుక్ 1 - ఆదికాండం వివరణ" -> "ఆదికాండం వివరణ" - అసలు పేరుతోనే సార్ట్
+  if(s.includes(' - ')) s=s.split(' - ').pop();
+  s=s.replace(/[^A-Za-z0-9\u0C00-\u0C7F ]/g,'').trim();
+  return s;
+}
+function teluguCompare(a,b){
+  let ka=teluguKey(a), kb=teluguKey(b);
+  function group(str){
+    let ch=str.charAt(0);
+    if(ch>='0' && ch<='9') return 0; // 1 2 3 ముందు
+    if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z')) return 1; // A to Z తర్వాత
+    return 2; // అ to ఱ చివర
+  }
+  let ga=group(ka), gb=group(kb);
+  if(ga!==gb) return ga-gb;
+  if(ga===0){
+    let na=parseInt(ka)||0, nb=parseInt(kb)||0;
+    if(na!==nb) return na-nb; // 2 < 10 అవ్వడానికి
+  }
+  if(ka<kb) return -1;
+  if(ka>kb) return 1;
+  return 0;
+}
 async function loadAll(){
   BOOKS=JSON.parse(JSON.stringify(DEFAULT_BOOKS));
   try{let s=localStorage.getItem('ms_books');if(s){let j=JSON.parse(s);if(j&&j.length) BOOKS=j;}}catch(e){}
   try{let r=await fetch('books.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) BOOKS=j;}}catch(e){}
-  // FIX 1: id లేని కొత్త బుక్ కి id ఇవ్వడం
   BOOKS=BOOKS.map((b,i)=>{ if(b.id==null) b.id=1000+i; return b; });
   try{
     let posts=[];let r1=await fetch('posts.json?v='+Date.now());if(r1.ok){let j=await r1.json();posts=Array.isArray(j)?j:(j.posts||[]);}
     let now=new Date();
     try{let r2=await fetch('scheduled.json?v='+Date.now());if(r2.ok){let sj=await r2.json();if(Array.isArray(sj)) sj.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}}catch(e){}
     try{let ls=JSON.parse(localStorage.getItem('ms_sched')||'[]');ls.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}catch(e){}
-    // FIX 2: రోజువారీ బుక్ ని టైటిల్ తో వెతకడం - చివరి బుక్ ని పాడు చేయకుండా
     let b6=BOOKS.find(b=>(b.title||'').includes('రోజువారీ'))||BOOKS.find(b=>b.id==6);
     if(b6 && posts.length){b6.chapters=posts.map(p=>({t:(p.title||'మెసేజ్')+' - '+(p.date||''),c:(p.content||p.message||''),img:p.image||'',audio:p.audio||''}));}
   }catch(e){}
@@ -51,9 +75,11 @@ function renderBooks(){
   let q=(document.getElementById('search').value||'').toLowerCase();
   let box=document.getElementById('box');document.getElementById('detail').innerHTML='';
   let list=BOOKS.filter(b=>((b.title||'')+(b.desc||'')+getChapters(b).map(c=>c.t||'').join(' ')).toLowerCase().includes(q));
+  // ⭐ FIX - ఇక్కడే సార్ట్ - 1 2 3 -> A to Z -> అ to ఱ
+  list.sort((a,b)=>teluguCompare(a.title||'', b.title||''));
   if(!list.length){box.innerHTML='<p style="text-align:center">📭 బుక్ దొరకలేదు!</p>';return;}
   let colors=['#FF9800','#2E7D32','#1976D2','#8E24AA','#E91E63','#009688'];
-  let h='<div style="display:flex;justify-content:space-between;align-items:center"><h3>📚 పుస్తకాలు</h3><span style="color:#2E7D32;font-weight:bold">అన్నీ చూడండి ›</span></div><div class="scroll">';
+  let h='<div style="display:flex;justify-content:space-between;align-items:center"><h3>📚 పుస్తకాలు</h3><span style="color:#2E7D32;font-weight:bold">🔤 1 2 3 → A-Z → అ-ఱ</span></div><div class="scroll">';
   list.forEach((b)=>{let ci=BOOKS.indexOf(b);h+=`<div class="hcard" onclick="openBookByIndex(${ci})"><div class="cover" style="background:${colors[ci%6]}">📖</div><b>${b.title}</b><small>📄 ${getChapters(b).length} పేజీలు</small><br><small style="color:#2E7D32;font-weight:bold">▶ చదవడం కొనసాగించు</small></div>`;});
   h+='</div><h3>📖 అన్ని పుస్తకాలు - లిస్ట్</h3>';
   h+=list.map(b=>{let ci=BOOKS.indexOf(b);return `<div class="book" onclick="openBookByIndex(${ci})"><div class="cover" style="background:${colors[ci%6]}">📖</div><div><h3>${b.title}</h3><p>${b.desc||''}</p><div style="font-size:13px;color:gray">📄 ${getChapters(b).length} పేజీలు - నొక్కి చదవండి ➡️</div></div></div>`;}).join('');
