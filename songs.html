@@ -31,26 +31,24 @@ input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-s
 <div id="folderView"></div>
 <div id="songView" style="display:none"></div>
 </div>
-
 <div class="modal" id="songModal"><div class="modalBox"><div style="text-align:right"><button onclick="closeSong()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="songModalContent"></div></div></div>
-
 <div class="bottom">
 <a href="index.html">🏠<br>హోమ్</a>
 <a href="books.html">📚<br>పుస్తకాలు</a>
 <a href="songs.html" class="active">🎵<br>పాటలు</a>
 <a href="admin.html">⚙️<br>సెట్టింగ్</a>
 </div>
-
 <script>
 let allSongs=[];
 let curFolder="";
 let colors=["#FF9800","#2E7D32","#2196F3","#9C27B0","#E91E63","#009688","#FF5722","#673AB7"];
 async function load(){
   try{let r=await fetch('songs.json?v='+Date.now()); allSongs=await r.json();}catch(e){allSongs=[];}
+  try{let ls=JSON.parse(localStorage.getItem('ms_songs')||'[]'); if(ls.length) allSongs=ls;}catch(e){}
   showFolders();
 }
 function getFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
-// ⭐ FIX - 1 2 3 -> A to Z -> అ to ఱ - సరైన ఆర్డర్
+// ⭐ ఫోల్డర్లు - 1 2 3 -> A-Z -> అ to ఱ
 function teluguKey(s){
   s=(s||'').toString();
   if(s.includes(' - ')) s=s.split(' - ').pop();
@@ -61,25 +59,26 @@ function teluguCompare(a,b){
   let ka=teluguKey(a), kb=teluguKey(b);
   function group(str){
     let ch=str.charAt(0);
-    if(ch>='0' && ch<='9') return 0; // 1 2 3 ముందు
-    if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z')) return 1; // A to Z తర్వాత
-    return 2; // అ to ఱ చివర
+    if(ch>='0' && ch<='9') return 0;
+    if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z')) return 1;
+    return 2;
   }
   let ga=group(ka), gb=group(kb);
   if(ga!==gb) return ga-gb;
-  if(ga===0){
-    let na=parseInt(ka)||0, nb=parseInt(kb)||0;
-    if(na!==nb) return na-nb;
-  }
   if(ka<kb) return -1;
   if(ka>kb) return 1;
   return 0;
+}
+// ⭐ ఫోల్డర్ లో వరుస నంబర్ - 1,2,3 - అసలు బుక్ నంబర్ కాదు!
+function getDisplayNum(song){
+  let list=allSongs.filter(s=>getFolder(s)===getFolder(song)).sort((a,b)=>(a.num||0)-(b.num||0));
+  let idx=list.indexOf(song);
+  return idx>=0 ? idx+1 : (song.num||1);
 }
 function showFolders(){
   document.getElementById('songView').style.display='none';
   let folders={};
   allSongs.forEach(s=>{let f=getFolder(s); folders[f]=(folders[f]||0)+1;});
-  // ⭐ FIX 1 - ఫోల్డర్లు - 1 2 3 -> A-Z -> అ to ఱ
   let keys=Object.keys(folders).sort(teluguCompare);
   let html=`<div style="background:white;padding:16px;border-radius:18px;text-align:center;box-shadow:0 2px 8px #0001"><div style="font-size:28px">🎵</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">పాటలు - ఫోల్డర్లు</div><div style="color:gray">మొత్తం ఫోల్డర్లు - ${keys.length} | మొత్తం పాటలు - ${allSongs.length}</div><div style="color:#2E7D32;font-size:13px;margin-top:4px">🔤 1 2 3 → A-Z → అ-ఱ ఆర్డర్ లో</div></div>`;
   html+=`<input id="searchFolder" placeholder="🔍 ఫోల్డర్ వెతకండి... దేవదాసు / అన్నమ్మ" oninput="filterFolders()" style="margin-top:12px">`;
@@ -98,17 +97,15 @@ function filterFolders(){
 function openFolder(f){
   curFolder=f;
   document.getElementById('folderView').style.display='none';
-  // ⭐ FIX 2 - పాటలు - ముందు నంబర్ 1,2,3 - నంబర్ ఒకటే అయితే పేరు వారీగా 1-2-3 / A-Z / అ-ఱ
-  let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>{
-    if((a.num||0)!==(b.num||0)) return (a.num||0)-(b.num||0);
-    return teluguCompare(a.title||'', b.title||'');
-  });
+  // లోపల పాటలు - అసలు నంబర్ ప్రకారం సార్ట్ - కానీ చూపించేది మాత్రం 1,2,3 వరుస!
+  let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
   let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
   <div style="background:white;padding:16px;border-radius:18px;text-align:center;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="font-size:28px">📁</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">${f}</div><div style="color:gray">మొత్తం పాటలు - ${list.length}</div></div>
   <input id="searchSong" placeholder="🔍 పాట వెతకండి..." oninput="filterSongs()" style="margin-top:12px">`;
   html+=`<div id="songList">`+list.map((s,idx)=>{
     let gi=allSongs.indexOf(s);
-    return `<div class="card" onclick="openSong(${gi})"><div class="num">${s.num||idx+1}</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E">${s.num||idx+1}. ${s.title||''}</div><div style="color:gray;font-size:13px">📁 ${f} - నొక్కి చదవండి ➡️</div></div></div>`;
+    let dNum=idx+1; // ⭐ ఇక్కడే ఫిక్స్ - 1,2,3 వరుస!
+    return `<div class="card" onclick="openSong(${gi})"><div class="num">${dNum}</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E">${dNum}. ${s.title||''}</div><div style="color:gray;font-size:13px">📁 ${f} - నొక్కి చదవండి ➡️</div></div></div>`;
   }).join('')+`</div>`;
   let v=document.getElementById('songView'); v.innerHTML=html; v.style.display='block';
   window.scrollTo(0,0);
@@ -119,7 +116,8 @@ function filterSongs(){
 }
 function openSong(i){
   let s=allSongs[i]; if(!s) return;
-  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${getFolder(s)}</div><h2 style="color:#0B3D2E;margin:6px 0">${s.num||''}. ${s.title||''}</h2><div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center">${(s.content||'').replace(/\n/g,'<br>')}</div></div>`;
+  let dNum=getDisplayNum(s);
+  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${getFolder(s)}</div><h2 style="color:#0B3D2E;margin:6px 0">${dNum}. ${s.title||''}</h2><div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center">${(s.content||'').replace(/\n/g,'<br>')}</div></div>`;
   document.getElementById('songModal').style.display='flex';
 }
 function closeSong(){ document.getElementById('songModal').style.display='none'; }
