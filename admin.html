@@ -24,7 +24,6 @@ button.orange{background:#FF9800} button.red{background:#0B3D2E}
 .debug{background:#E3F2FD;border:1px solid #90CAF9;padding:10px;border-radius:10px;font-size:13px;word-break:break-all}
 small{color:#666} .hidden{display:none}
 .folderCard{background:white;padding:15px;border-radius:20px;margin:12px 0;box-shadow:0 2px 10px #0001;cursor:pointer}
-/* ⭐ స్క్రోలింగ్ ఫిక్స్ - లోపలది మాత్రమే స్క్రోల్, వెనకది లాక్ */
 .scrollBox{max-height:68vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px}
 .scrollBox::-webkit-scrollbar{width:6px} .scrollBox::-webkit-scrollbar-thumb{background:#C8E6C9;border-radius:10px}
 .modalBox{background:white;border-radius:20px;max-height:82vh;overflow-y:auto;overscroll-behavior:contain}
@@ -43,7 +42,6 @@ small{color:#666} .hidden{display:none}
 <div id="status" style="text-align:center;font-weight:bold;color:#0B3D2E;margin:8px"></div>
 <div id="tab1">
 <div class="card"><label>రకం</label><select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
-<!-- ⭐ ప్రార్థన ఫారం లాగే - సేమ్ ఫారం! -->
 <label>👤 మీ పేరు *</label><input id="senderName" placeholder="ఉదా: రమేష్">
 <label>🏡 మీ ఊరు *</label><input id="senderVillage" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
 <label>📞 ఫోన్ నంబర్ <small>(ఉంటే రాయండి - లేకపోతే వదిలేయండి - అయినా సెండ్ అవుతుంది)</small></label><input id="senderPhone" type="tel" placeholder="ఉదా: 98765 43210">
@@ -51,7 +49,8 @@ small{color:#666} .hidden{display:none}
 <label>🖼️ ఫోటో</label><input type="file" id="imageFile" accept="image/*"><img id="preview" style="display:none;width:100%;border-radius:10px">
 <label>వాక్యం / పాట</label><textarea id="content" rows="8" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
 <label>చూపించే డేట్</label><input type="date" id="date"><label>⏰ షెడ్యూల్</label><input type="datetime-local" id="publishAt">
-<button class="big orange" onclick="addPost()">✅ Add చేసి Auto Save</button></div>
+<button class="big orange" id="savePostBtn" onclick="addPost()">✅ Add చేసి Auto Save</button>
+<button class="big" id="cancelEditBtn" style="display:none;background:#666" onclick="cancelEditPost()">❌ Edit ఆపేయండి</button></div>
 <h3>ఉన్న మెసేజ్ లు</h3><div id="list" class="scrollBox">లోడ్ అవుతోంది...</div>
 </div>
 <div id="tab2" class="hidden">
@@ -78,7 +77,6 @@ small{color:#666} .hidden{display:none}
 </div>
 </div>
 </div>
-
 <div id="tab5" class="hidden">
 <div class="card">
 <h3 style="margin:0">🎵 పాటలు - బుక్స్ లాగానే!</h3>
@@ -87,7 +85,6 @@ small{color:#666} .hidden{display:none}
 <div id="songFolderView" class="scrollBox"></div>
 <div id="songBookOpenView" class="scrollBox"></div>
 </div>
-
 <div id="tab4" class="hidden">
 <div class="card" style="background:#E8F5E9"><b>🔑 GitHub సెట్టింగ్</b><label>Token (ghp_...)</label><input id="token" type="password" placeholder="టోకెన్ ఇక్కడ పేస్ట్ చేయండి"><label>Owner</label><input id="owner" value="ms2biblemission-bit"><label>Repo</label><input id="repo" value="BMmahimasannidhi"><button class="big" style="background:#2E7D32" onclick="saveSettings()">💾 సెట్టింగ్ సేవ్</button></div>
 <button class="big red" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
@@ -98,11 +95,11 @@ let posts=[], postSha="", imageDataUrl="", books=[], bookSha="", bookPdfData="",
 let schedule=[], schSha="", editingSch=-1;
 let songs=[], songSha="", editingSong=0;
 let curSongFolder="", editingSongInFolder=-1;
+let editingPost=-1;
 let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit', repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi', token=localStorage.getItem('ms_token')||'';
 document.getElementById('owner').value=owner; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
 document.getElementById('date').value=new Date().toISOString().slice(0,10);
 function showTab(n){unlockBody(); [1,2,3,4,5].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);}); window.scrollTo(0,0);}
-// ⭐ స్క్రోల్ లాక్ - మెసేజ్ / బుక్ ఓపెన్ అయితే వెనకది ఆగుతుంది, లోపలది మాత్రమే కదులుతుంది!
 let _scrollY=0;
 function lockBody(){ if(document.body.classList.contains('lock')) return; _scrollY=window.scrollY; document.body.classList.add('lock'); document.body.style.top='-'+_scrollY+'px'; }
 function unlockBody(){ if(!document.body.classList.contains('lock')) return; document.body.classList.remove('lock'); document.body.style.top=''; window.scrollTo(0,_scrollY); }
@@ -115,28 +112,18 @@ function saveSettings(){token=document.getElementById('token').value.trim(); own
 document.getElementById('imageFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block';}; r.readAsDataURL(f);});
 document.getElementById('bookFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{bookPdfData=r.result; document.getElementById('bookFileName').innerText='✅ '+f.name; if(books[editingBook]) books[editingBook].pdf=bookPdfData;}; r.readAsDataURL(f);});
 async function load(){if(!token){document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return;} try{let j=await getFile('posts.json'); postSha=j.sha; posts=JSON.parse(b64Dec(j.content)); setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు'); render();}catch(e){setStatus('❌ టోకెన్ తప్పు అండీ');}}
-function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${p.title||''}</b><br><small>${p.date||''} ${p.name?(' | 👤 '+(p.name||'')):''} ${p.village?(' | 🏡 '+(p.village||'')):''} ${p.phone?(' | 📞 '+(p.phone||'')):''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px">`:''}<br><button class="big" style="background:#f44336;padding:8px;font-size:14px" onclick="delPost(${i})">Delete</button></div>`).join('')||'ఇంకా లేవు';}
-// ⭐ ప్రార్థన ఫారం లాగే - ఫోన్ లేకపోయినా సెండ్ అవుతుంది! పేరు + ఊరు + వాక్యం ఉంటే చాలు!
-async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; let senderName=document.getElementById('senderName').value.trim(), senderVillage=document.getElementById('senderVillage').value.trim(), senderPhone=document.getElementById('senderPhone').value.trim(); if(!title||!content){alert('టైటిల్ + వాక్యం రాయండి అండీ'); return;} if(!senderName||!senderVillage){ if(!confirm('పేరు / ఊరు రాయలేదు - అయినా సెండ్ చేయమంటారా?')) return; } publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:"",name:senderName,village:senderVillage,phone:senderPhone}); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; document.getElementById('senderName').value=''; document.getElementById('senderVillage').value=''; document.getElementById('senderPhone').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render();} else {setStatus('❌ కాలేదు!'); posts.shift();}}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${esc(p.title)}</b><br><small>${esc(p.date)} ${p.name?(' | 👤 '+esc(p.name)):''} ${p.village?(' | 🏡 '+esc(p.village)):''} ${p.phone?(' | 📞 '+esc(p.phone)):''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px;margin-top:8px">`:''}<div style="white-space:pre-wrap;background:#F1F8E9;padding:10px;border-radius:10px;margin-top:8px;font-size:15px">${esc(p.content)}</div><div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editPost(${i})">✏️ Edit</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delPost(${i})">🗑️ Delete</button></div></div>`).join('')||'ఇంకా లేవు';}
+function editPost(i){editingPost=i; let p=posts[i]; document.getElementById('title').value=p.title||''; document.getElementById('content').value=p.content||''; document.getElementById('type').value=p.type||'vakayam'; document.getElementById('date').value=p.date||''; document.getElementById('senderName').value=p.name||''; document.getElementById('senderVillage').value=p.village||''; document.getElementById('senderPhone').value=p.phone||''; if(p.image){imageDataUrl=p.image; let pr=document.getElementById('preview'); pr.src=p.image; pr.style.display='block';} document.getElementById('savePostBtn').innerText='💾 Edit Save చేయండి'; document.getElementById('cancelEditBtn').style.display='block'; window.scrollTo(0,0); setStatus('✏️ Edit చేస్తున్నారు - మార్చి Save నొక్కండి!');}
+function cancelEditPost(){editingPost=-1; document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('senderName').value=''; document.getElementById('senderVillage').value=''; document.getElementById('senderPhone').value=''; document.getElementById('publishAt').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; document.getElementById('savePostBtn').innerText='✅ Add చేసి Auto Save'; document.getElementById('cancelEditBtn').style.display='none'; setStatus('');}
+async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; let senderName=document.getElementById('senderName').value.trim(), senderVillage=document.getElementById('senderVillage').value.trim(), senderPhone=document.getElementById('senderPhone').value.trim(); if(!title||!content){alert('టైటిల్ + వాక్యం రాయండి అండీ'); return;} if(!senderName||!senderVillage){ if(!confirm('పేరు / ఊరు రాయలేదు - అయినా సెండ్ చేయమంటారా?')) return; } publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); if(editingPost>=0){posts[editingPost]={...posts[editingPost],title,content,type,date,publishAt,name:senderName,village:senderVillage,phone:senderPhone,image:imageDataUrl||posts[editingPost].image||""};} else {posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:"",name:senderName,village:senderVillage,phone:senderPhone});} let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); cancelEditPost(); render();} else {setStatus('❌ కాలేదు!'); if(editingPost<0) posts.shift();}}
 async function delPost(i){if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; render();}}
 async function loadSch(){try{let j=await getFile('schedule.json'); schSha=j.sha; schedule=JSON.parse(b64Dec(j.content));}catch(e){schedule=[]; schSha="";} renderSch();}
-function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${s.day||''} - ${s.time||''}</b><br>${s.title||''}<div style="display:flex;gap:8px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editSch(${i})">✏️ ఎడిట్</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
+function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${esc(s.day)} - ${esc(s.time)}</b><br>${esc(s.title)}<div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editSch(${i})">✏️ ఎడిట్</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
 async function addSchedule(){let day=document.getElementById('schDay').value, time=document.getElementById('schTime').value.trim(), title=document.getElementById('schTitle').value.trim(); if(!time||!title){alert('టైమ్ + కార్యక్రమం రాయండి'); return;} if(editingSch>=0){schedule[editingSch]={day,time,title}; editingSch=-1;} else schedule.push({day,time,title}); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; setStatus('✅ షెడ్యూల్ సేవ్ అయ్యింది!'); document.getElementById('schTime').value=''; document.getElementById('schTitle').value=''; renderSch();}}
 function editSch(i){editingSch=i; let s=schedule[i]; document.getElementById('schDay').value=s.day; document.getElementById('schTime').value=s.time; document.getElementById('schTitle').value=s.title; showTab(2);}
 async function delSch(i){if(!confirm('తీసేయమంటారా?')) return; schedule.splice(i,1); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; renderSch();}}
-function normalizePages(b){
-  let arr=null;
-  let keys=['pages','chapters','items','entries','list','data','sections','parts','adhyayamulu','pejilu'];
-  for(let k of keys){ if(Array.isArray(b[k]) && b[k].length){ arr=b[k]; b._foundKey=k; break; } }
-  if(!arr && b.content && typeof b.content==='string' && b.content.length>5){ arr=[{title:b.chapterTitle||'పేజీ 1', content:b.content}]; b._foundKey='content-string'; }
-  if(!arr && b.text && typeof b.text==='string'){ arr=[{title:'పేజీ 1', content:b.text}]; b._foundKey='text'; }
-  if(!arr){ b._foundKey='NONE - ఏమీ లేదు'; arr=[]; }
-  b.pages = arr.map(p=>{
-    if(typeof p==='string') return {title:p, content:''};
-    return {title:p.title||p.t||p.name||p.heading||p.person||p.memberName||'', content:p.content||p.c||p.text||p.body||p.description||p.desc||p.message||'', pdf:p.pdf||''};
-  });
-  return b;
-}
+function normalizePages(b){let arr=null;let keys=['pages','chapters','items','entries','list','data','sections','parts','adhyayamulu','pejilu'];for(let k of keys){ if(Array.isArray(b[k]) && b[k].length){ arr=b[k]; b._foundKey=k; break; } }if(!arr && b.content && typeof b.content==='string' && b.content.length>5){ arr=[{title:b.chapterTitle||'పేజీ 1', content:b.content}]; b._foundKey='content-string'; }if(!arr && b.text && typeof b.text==='string'){ arr=[{title:'పేజీ 1', content:b.text}]; b._foundKey='text'; }if(!arr){ b._foundKey='NONE - ఏమీ లేదు'; arr=[]; }b.pages = arr.map(p=>{if(typeof p==='string') return {title:p, content:''};return {title:p.title||p.t||p.name||p.heading||p.person||p.memberName||'', content:p.content||p.c||p.text||p.body||p.description||p.desc||p.message||'', pdf:p.pdf||''};});return b;}
 async function loadBooks(){try{let j=await getFile('books.json'); bookSha=j.sha; books=JSON.parse(b64Dec(j.content));}catch(e){books=[]; bookSha="";} books=books.map(normalizePages); if(!books.length) books=[{title:'📖 బుక్ 1 - ఆదికాండం వివరణ',desc:'యెహోవా ఆజ్ఞ',pages:[{title:'అధ్యాయం 3 : 8',content:'*మా సందేశం మహిమ*'}],pdf:'',_foundKey:'demo'}]; editingBook=0; renderBookSelect(); loadBookToEditor();}
 function renderBookSelect(){let s=document.getElementById('bookSelect'); s.innerHTML=books.map((b,i)=>`<option value="${i}">${b.title||('బుక్ '+(i+1))}</option>`).join(''); s.value=editingBook;}
 function loadBookToEditor(){editingBook=parseInt(document.getElementById('bookSelect').value||0); let b=books[editingBook]; if(!b) return; b=normalizePages(b); document.getElementById('bookTitle').value=b.title||''; document.getElementById('bookDesc').value=b.desc||b.description||''; document.getElementById('bookFileName').innerText=b.pdf?'✅ పాత PDF ఉంది':'PDF లేదు'; document.getElementById('debugBox').innerHTML='<b>🔍 ఈ బుక్ లో ఏముంది?</b><br>కీ: '+b._foundKey+'<br>పేజీలు: '+b.pages.length+'<br>అన్ని కీలు: '+Object.keys(b).join(', '); renderPagesInEdit(); renderPagesNav();}
@@ -148,87 +135,17 @@ function delPage(idx){if(!confirm('ఈ పేజీ తీసేయమంటా�
 function newBook(){books.push({title:'📖 కొత్త బుక్',desc:'',pages:[{title:'',content:''}],pdf:'',_foundKey:'new'}); editingBook=books.length-1; renderBookSelect(); loadBookToEditor();}
 function delCurrentBook(){if(!confirm('ఈ బుక్ తీసేయమంటారా?')) return; books.splice(editingBook,1); if(editingBook>=books.length) editingBook=Math.max(0,books.length-1); saveBook(); renderBookSelect(); loadBookToEditor();}
 async function saveBook(){let t=document.getElementById('bookTitle').value.trim(), d=document.getElementById('bookDesc').value.trim(); if(!t){alert('బుక్ పేరు రాయండి'); return;} if(books[editingBook]){books[editingBook].title=t; books[editingBook].desc=d; if(bookPdfData) books[editingBook].pdf=bookPdfData; delete books[editingBook]._foundKey; delete books[editingBook].chapters;} let j=await putFile('books.json',bookSha,books); if(j.content){bookSha=j.content.sha; setStatus('✅ బుక్ సేవ్ అయ్యింది!'); bookPdfData=''; renderBookSelect(); renderPagesNav();} else setStatus('❌ బుక్ సేవ్ కాలేదు');}
-
-// 🎵 SONGS - బుక్స్ లాగానే - ఫోల్డర్ ఓపెన్ చేసి - అందులోనే పేజీ యాడ్!
 function getSongFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
 function getSongsInFolder(f){ return songs.filter(s=>getSongFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0)); }
-async function loadSongs(){
-  try{let j=await getFile('songs.json'); songSha=j.sha; songs=JSON.parse(b64Dec(j.content));}
-  catch(e){ songs=[]; songSha=""; }
-  if(!songs.length){
-    songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",content:`1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా!`}];
-  }
-  songs=songs.map(s=>({num:s.num||1, book:(s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(), title:s.title||"", content:s.content||""}));
-  let byFolder={};
-  songs.forEach(s=>{ let f=getSongFolder(s); byFolder[f]=byFolder[f]||[]; byFolder[f].push(s); });
-  Object.keys(byFolder).forEach(f=>{
-    byFolder[f].sort((a,b)=>(a.num||0)-(b.num||0));
-    byFolder[f].forEach((s,i)=>{ s.num=i+1; });
-  });
-  curSongFolder=""; editingSongInFolder=-1;
-  renderSongFolders();
-}
-function renderSongFolders(){
-  unlockBody();
-  document.getElementById('songBookOpenView').innerHTML='';
-  let folders={}; songs.forEach(s=>{let f=getSongFolder(s); folders[f]=(folders[f]||0)+1;});
-  let keys=Object.keys(folders).sort();
-  let h=`<h3>📁 పాటల బుక్స్ - బుక్ నొక్కండి!</h3>`;
-  h+=keys.map(f=>`<div class="folderCard" onclick="openSongFolder('${f.replace(/'/g,"\\'")}')"><b style="font-size:19px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి లోపలికి వెళ్ళండి ➡️</div></div>`).join('');
-  h+=`<div class="card" style="background:#FFF8E1"><b>➕ కొత్త పాటల బుక్ / ఫోల్డర్</b><input id="newSongBook" placeholder="ఉదా: అన్నమ్మగారి పాటలు"><button class="big orange" onclick="createSongBook()">📁 కొత్త బుక్ తయారు చేయండి</button></div>`;
-  document.getElementById('songFolderView').innerHTML=h;
-}
-function createSongBook(){
-  let f=document.getElementById('newSongBook').value.trim(); if(!f) return alert('బుక్ పేరు రాయండి!');
-  openSongFolder(f);
-}
-function openSongFolder(f){
-  curSongFolder=f; editingSongInFolder=-1;
-  document.getElementById('songFolderView').innerHTML='';
-  let list=getSongsInFolder(f);
-  let h=`<button class="big red" onclick="renderSongFolders()">⬅ అన్ని పాటల బుక్స్</button>`;
-  h+=`<div class="card" style="text-align:center"><b style="font-size:20px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">మొత్తం పాటలు - ${list.length} | ఈ బుక్ లో 1,2,3 వరుసగా వస్తాయి!</div></div>`;
-  h+=`<div class="card" style="background:#FFF8E1;border-left:5px solid #FF9800"><h3 style="margin:0">➕ ఈ బుక్ లో కొత్త పేజీ / పాట యాడ్ చేయండి</h3><small>ఈ పాట ఆటోమేటిక్ గా ${list.length+1} వ నంబర్ అవుతుంది!</small><label>🎵 పాట టైటిల్</label><input id="newSongTitle" placeholder="ఉదా: నీ సన్నిధి నిలుపు"><label>📝 పాట - పూర్తిగా</label><textarea id="newSongContent" rows="8" placeholder="ఇక్కడ పాట మొత్తం రాయండి..."></textarea><button class="big" onclick="addSongInFolder()">✅ ఈ బుక్ లోనే సేవ్ చేయండి</button></div>`;
-  h+=`<h3>📄 ఈ బుక్ లో పేజీలు</h3>`;
-  if(!list.length) h+=`<p style="color:gray;text-align:center">ఇంకా పాటలు లేవు - పైన యాడ్ చేయండి!</p>`;
-  h+=list.map((sg,idx)=>{
-    let gi=songs.indexOf(sg);
-    return `<div class="pageEdit" id="song-page-${idx}"><h4 style="margin:0 0 8px">పేజీ ${idx+1} - ${sg.title||''}</h4><input value="${(sg.title||'').replace(/"/g,'&quot;')}" placeholder="పాట టైటిల్" oninput="songs[${gi}].title=this.value"><textarea style="min-height:130px;margin-top:8px" placeholder="పాట రాయండి..." oninput="songs[${gi}].content=this.value">${sg.content||''}</textarea><div style="display:flex;gap:8px;margin-top:8px"><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#2E7D32;color:white;font-weight:bold" onclick="saveSongInFolder(${gi})">💾 ఈ పేజీ సేవ్</button><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#E53935;color:white;font-weight:bold" onclick="delSongInFolder(${gi})">🗑️ ఈ పేజీ తీసేయి</button></div></div>`;
-  }).join('');
-  document.getElementById('songBookOpenView').innerHTML=h;
-  window.scrollTo(0,0);
-}
-async function addSongInFolder(){
-  let title=document.getElementById('newSongTitle').value.trim();
-  let content=document.getElementById('newSongContent').value.trim();
-  if(!title||!content) return alert('టైటిల్ + పాట రెండూ రాయండి అండీ!');
-  let list=getSongsInFolder(curSongFolder);
-  songs.push({num:list.length+1, book:curSongFolder, title, content});
-  let j=await putFile('songs.json',songSha,songs);
-  if(j.content){songSha=j.content.sha; setStatus('✅ పాట సేవ్ అయ్యింది! '+curSongFolder+' లో '+(list.length+1)+' వ పాట!'); openSongFolder(curSongFolder);}
-  else setStatus('❌ పాట సేవ్ కాలేదు');
-}
-async function saveSongInFolder(gi){
-  let f=getSongFolder(songs[gi]);
-  let list=getSongsInFolder(f);
-  list.forEach((s,i)=>{ s.num=i+1; });
-  let j=await putFile('songs.json',songSha,songs);
-  if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ సేవ్ అయ్యింది!'); openSongFolder(f);}
-  else setStatus('❌ సేవ్ కాలేదు');
-}
-async function delSongInFolder(gi){
-  if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return;
-  let f=getSongFolder(songs[gi]);
-  songs.splice(gi,1);
-  let list=getSongsInFolder(f);
-  list.forEach((s,i)=>{ s.num=i+1; });
-  let j=await putFile('songs.json',songSha,songs);
-  if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ తీసేసాను!'); openSongFolder(f);}
-}
-// ⭐ ఏదైనా textarea / input లో టైప్ చేస్తే - వెనక స్క్రోల్ ఆగుతుంది, ఆ బాక్స్ మాత్రమే స్క్రోల్ అవుతుంది!
+async function loadSongs(){try{let j=await getFile('songs.json'); songSha=j.sha; songs=JSON.parse(b64Dec(j.content));}catch(e){ songs=[]; songSha=""; }if(!songs.length){songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",content:`1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా!`}];}songs=songs.map(s=>({num:s.num||1, book:(s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(), title:s.title||"", content:s.content||""}));let byFolder={};songs.forEach(s=>{ let f=getSongFolder(s); byFolder[f]=byFolder[f]||[]; byFolder[f].push(s); });Object.keys(byFolder).forEach(f=>{byFolder[f].sort((a,b)=>(a.num||0)-(b.num||0));byFolder[f].forEach((s,i)=>{ s.num=i+1; });});curSongFolder=""; editingSongInFolder=-1;renderSongFolders();}
+function renderSongFolders(){unlockBody();document.getElementById('songBookOpenView').innerHTML='';let folders={}; songs.forEach(s=>{let f=getSongFolder(s); folders[f]=(folders[f]||0)+1;});let keys=Object.keys(folders).sort();let h=`<h3>📁 పాటల బుక్స్ - బుక్ నొక్కండి!</h3>`;h+=keys.map(f=>`<div class="folderCard" onclick="openSongFolder('${f.replace(/'/g,"\\'")}')"><b style="font-size:19px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి లోపలికి వెళ్ళండి ➡️</div></div>`).join('');h+=`<div class="card" style="background:#FFF8E1"><b>➕ కొత్త పాటల బుక్ / ఫోల్డర్</b><input id="newSongBook" placeholder="ఉదా: అన్నమ్మగారి పాటలు"><button class="big orange" onclick="createSongBook()">📁 కొత్త బుక్ తయారు చేయండి</button></div>`;document.getElementById('songFolderView').innerHTML=h;}
+function createSongBook(){let f=document.getElementById('newSongBook').value.trim(); if(!f) return alert('బుక్ పేరు రాయండి!');openSongFolder(f);}
+function openSongFolder(f){curSongFolder=f; editingSongInFolder=-1;document.getElementById('songFolderView').innerHTML='';let list=getSongsInFolder(f);let h=`<button class="big red" onclick="renderSongFolders()">⬅ అన్ని పాటల బుక్స్</button>`;h+=`<div class="card" style="text-align:center"><b style="font-size:20px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">మొత్తం పాటలు - ${list.length} | ఈ బుక్ లో 1,2,3 వరుసగా వస్తాయి!</div></div>`;h+=`<div class="card" style="background:#FFF8E1;border-left:5px solid #FF9800"><h3 style="margin:0">➕ ఈ బుక్ లో కొత్త పేజీ / పాట యాడ్ చేయండి</h3><small>ఈ పాట ఆటోమేటిక్ గా ${list.length+1} వ నంబర్ అవుతుంది!</small><label>🎵 పాట టైటిల్</label><input id="newSongTitle" placeholder="ఉదా: నీ సన్నిధి నిలుపు"><label>📝 పాట - పూర్తిగా</label><textarea id="newSongContent" rows="8" placeholder="ఇక్కడ పాట మొత్తం రాయండి..."></textarea><button class="big" onclick="addSongInFolder()">✅ ఈ బుక్ లోనే సేవ్ చేయండి</button></div>`;h+=`<h3>📄 ఈ బుక్ లో పేజీలు</h3>`;if(!list.length) h+=`<p style="color:gray;text-align:center">ఇంకా పాటలు లేవు - పైన యాడ్ చేయండి!</p>`;h+=list.map((sg,idx)=>{let gi=songs.indexOf(sg);return `<div class="pageEdit" id="song-page-${idx}"><h4 style="margin:0 0 8px">పేజీ ${idx+1} - ${sg.title||''}</h4><input value="${(sg.title||'').replace(/"/g,'&quot;')}" placeholder="పాట టైటిల్" oninput="songs[${gi}].title=this.value"><textarea style="min-height:130px;margin-top:8px" placeholder="పాట రాయండి..." oninput="songs[${gi}].content=this.value">${sg.content||''}</textarea><div style="display:flex;gap:8px;margin-top:8px"><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#2E7D32;color:white;font-weight:bold" onclick="saveSongInFolder(${gi})">💾 ఈ పేజీ సేవ్</button><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#E53935;color:white;font-weight:bold" onclick="delSongInFolder(${gi})">🗑️ ఈ పేజీ తీసేయి</button></div></div>`;}).join('');document.getElementById('songBookOpenView').innerHTML=h;window.scrollTo(0,0);}
+async function addSongInFolder(){let title=document.getElementById('newSongTitle').value.trim();let content=document.getElementById('newSongContent').value.trim();if(!title||!content) return alert('టైటిల్ + పాట రెండూ రాయండి అండీ!');let list=getSongsInFolder(curSongFolder);songs.push({num:list.length+1, book:curSongFolder, title, content});let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పాట సేవ్ అయ్యింది! '+curSongFolder+' లో '+(list.length+1)+' వ పాట!'); openSongFolder(curSongFolder);}else setStatus('❌ పాట సేవ్ కాలేదు');}
+async function saveSongInFolder(gi){let f=getSongFolder(songs[gi]);let list=getSongsInFolder(f);list.forEach((s,i)=>{ s.num=i+1; });let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ సేవ్ అయ్యింది!'); openSongFolder(f);}else setStatus('❌ సేవ్ కాలేదు');}
+async function delSongInFolder(gi){if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return;let f=getSongFolder(songs[gi]);songs.splice(gi,1);let list=getSongsInFolder(f);list.forEach((s,i)=>{ s.num=i+1; });let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ తీసేసాను!'); openSongFolder(f);}}
 document.addEventListener('focusin',e=>{ if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'){ let box=e.target.closest('.scrollBox'); if(box) lockBody(); }});
 document.addEventListener('focusout',e=>{ if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'){ setTimeout(()=>{ if(!document.activeElement || (document.activeElement.tagName!=='TEXTAREA'&&document.activeElement.tagName!=='INPUT')) unlockBody(); },200); }});
-
 load(); loadBooks(); loadSch(); loadSongs();
 </script>
 </body>
