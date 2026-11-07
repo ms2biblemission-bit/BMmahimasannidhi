@@ -54,8 +54,9 @@ function showFolders(){
   document.getElementById('songView').style.display='none';
   let folders={};
   allSongs.forEach(s=>{let f=getFolder(s); folders[f]=(folders[f]||0)+1;});
-  let keys=Object.keys(folders).sort();
-  let html=`<div style="background:white;padding:16px;border-radius:18px;text-align:center;box-shadow:0 2px 8px #0001"><div style="font-size:28px">🎵</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">పాటలు - ఫోల్డర్లు</div><div style="color:gray">మొత్తం ఫోల్డర్లు - ${keys.length} | మొత్తం పాటలు - ${allSongs.length}</div></div>`;
+  // ⭐ FIX 1 - ఫోల్డర్లు పేరు వారీగా - అ, ఆ, ఇ, ఈ ఆర్డర్ లో
+  let keys=Object.keys(folders).sort((a,b)=>a.localeCompare(b,'te'));
+  let html=`<div style="background:white;padding:16px;border-radius:18px;text-align:center;box-shadow:0 2px 8px #0001"><div style="font-size:28px">🎵</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">పాటలు - ఫోల్డర్లు</div><div style="color:gray">మొత్తం ఫోల్డర్లు - ${keys.length} | మొత్తం పాటలు - ${allSongs.length}</div><div style="color:#2E7D32;font-size:13px;margin-top:4px">🔤 పేరు వారీగా - A to Z ఆర్డర్ లో</div></div>`;
   html+=`<input id="searchFolder" placeholder="🔍 ఫోల్డర్ వెతకండి... దేవదాసు / అన్నమ్మ" oninput="filterFolders()" style="margin-top:12px">`;
   html+=`<div id="folderList">`+keys.map((f,i)=>{
     let c=colors[i%colors.length];
@@ -72,7 +73,11 @@ function filterFolders(){
 function openFolder(f){
   curFolder=f;
   document.getElementById('folderView').style.display='none';
-  let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
+  // ⭐ FIX 2 - పాటలు నంబర్ వారీగా, నంబర్ ఒకటే అయితే పేరు వారీగా
+  let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>{
+    if((a.num||0)!==(b.num||0)) return (a.num||0)-(b.num||0);
+    return (a.title||'').localeCompare(b.title||'','te');
+  });
   let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
   <div style="background:white;padding:16px;border-radius:18px;text-align:center;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="font-size:28px">📁</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">${f}</div><div style="color:gray">మొత్తం పాటలు - ${list.length}</div></div>
   <input id="searchSong" placeholder="🔍 పాట వెతకండి..." oninput="filterSongs()" style="margin-top:12px">`;
