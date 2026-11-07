@@ -138,6 +138,12 @@ function bookText(b){
   if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); });
   return t;
 }
+// ⭐ కొత్తది - షెడ్యూల్ టైమ్ వచ్చాకే చూపించు!
+function isPublished(p){
+  if(!p || !p.publishAt) return true;
+  try{ return new Date(p.publishAt) <= new Date(); }catch(e){ return true; }
+}
+function visiblePosts(){ return allPosts.filter(isPublished); }
 async function loadPosts(){
   try{
     let r = await fetch('posts.json?v='+Date.now());
@@ -146,8 +152,9 @@ async function loadPosts(){
     allPosts = allPosts.map(p=>({title:fixT(p.title), content:fixT(p.content), date:p.date, image:p.image, audio:p.audio, type:p.type, publishAt:p.publishAt}));
   }catch(e){ allPosts = []; }
   try{ let rb=await fetch('books.json?v='+Date.now()); if(rb.ok) allBooks=await rb.json(); }catch(e){ allBooks=[]; }
-  if(allPosts.length>0){
-    let p = allPosts[0];
+  let vis = visiblePosts();
+  if(vis.length>0){
+    let p = vis[0];
     let ti = document.getElementById('topImage');
     if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; }
     document.getElementById('topTitle').innerHTML = p.title || '';
@@ -158,7 +165,8 @@ async function loadPosts(){
 }
 function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase().trim();
-  let list = allPosts.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
+  let vis = visiblePosts();
+  let list = vis.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
   let box = document.getElementById('postsList');
   if(list.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు!'; } else {
     box.innerHTML = list.map(p=>{
@@ -205,13 +213,9 @@ async function loadMyChat(){
     let txt=await r.text(); let hasNew=false;
     txt.split('\n').filter(Boolean).forEach(l=>{ try{
       let j=JSON.parse(l); if(!j.message) return;
-      // ⭐⭐ ఫిక్స్ - UNBLOCK - మీరు Unblock చేస్తే - భక్తుడి ఫోన్ లో బ్లాక్ పోతుంది!
       if(j.message.includes('ADMIN_UNBLOCK_'+code)){ localStorage.removeItem('ms_im_blocked'); document.getElementById('blockedBanner').style.display='none'; hasNew=true; return; }
-      // ⭐ BLOCK
       if(j.message.includes('ADMIN_BLOCK_'+code)){ localStorage.setItem('ms_im_blocked','1'); document.getElementById('blockedBanner').style.display='block'; return; }
-      // ⭐ DELETE
       if(j.message.includes('ADMIN_DELETE_'+code)){ let delId=j.message.split('ADMIN_DELETE_'+code+':')[1]; if(delId){ let before=local.length; local=local.filter(m=> (m.id||chatMsgId(m))!==delId.trim()); if(local.length!==before){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); hasNew=true; } } return; }
-      // ⭐ REPLY
       if(j.message.includes('ADMIN_REPLY_'+code)){ let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } }
     }catch(e){} });
     if(hasNew){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); loadMyChat(); }
@@ -243,4 +247,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+  </html>
