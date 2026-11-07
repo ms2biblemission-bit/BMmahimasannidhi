@@ -1,45 +1,100 @@
-<!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BM మహిమ సన్నిధి - పాటలు</title>
-<style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:90px} .head{background:#0B3D2E;color:white;padding:28px 18px 20px;text-align:center;border-radius:0 0 28px 28px} .head a{color:white;text-decoration:none;font-weight:bold} .head h2{margin:8px 0 4px;font-size:26px} .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
-.bookHead{background:white;border-radius:20px;padding:16px;margin:14px 0;box-shadow:0 2px 10px #0001;text-align:center} .bookHead b{font-size:20px;color:#0B3D2E} .bookHead p{color:#666;font-size:14px;margin:6px 0 0}
-.song{background:white;border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #0001;cursor:pointer;display:flex;gap:12px;align-items:center} .song .cover{width:58px;height:76px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;flex-shrink:0;background:#FF9800} .song .num{background:#0B3D2E;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0} .song h3{margin:0;color:#0B3D2E} .song p{color:#555;font-size:14px;margin:4px 0}
-.page{background:#FFFDE7;border:1px solid #FFE0B2;border-radius:20px;padding:22px;margin:12px 0;box-shadow:0 2px 8px #0001;line-height:2;white-space:pre-line;text-align:center} .btn{background:#0B3D2E;color:white;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:10px 0 14px;box-shadow:0 -2px 10px #0001}.bottom div{text-align:center;font-size:12px;color:#888;cursor:pointer}.bottom div.active{color:#0B3D2E;font-weight:bold}
-</style></head>
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵 పాటలు - BM మహిమ సన్నిధి</title>
+<style>
+*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:80px}
+.header{background:#0B3D2E;color:white;padding:20px 12px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:white;text-decoration:none;font-weight:bold}
+.wrap{padding:12px;max-width:700px;margin:auto}
+.card{background:white;padding:15px;border-radius:18px;margin:12px 0;box-shadow:0 2px 8px #0001;cursor:pointer;display:flex;gap:12px;align-items:center}
+.icon{width:68px;height:68px;min-width:68px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:bold}
+input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-size:16px;background:white}
+.num{width:44px;height:44px;min-width:44px;border-radius:50%;background:#0B3D2E;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;align-items:flex-end;justify-content:center}
+.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #ddd;z-index:50}
+.bottom a{text-decoration:none;color:#666;text-align:center;font-size:13px}
+.bottom a.active{color:#0B3D2E;font-weight:bold}
+.back{background:#0B3D2E;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
+</style>
+</head>
 <body>
-<div class="head"><a href="index.html">⬅ హోమ్</a><h2>📖 BM మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div>
-<div class="wrap">
-<div class="bookHead"><b>🎵 ఆంధ్ర క్రైస్తవ కీర్తనలు</b><p id="count">లోడ్ అవుతోంది...</p></div>
-<input id="search" placeholder="🔍 పాట వెతకండి..." oninput="renderSongs()">
-<div id="box"></div><div id="detail"></div>
+<div class="header">
+<a href="index.html">← హోమ్</a>
+<h2 style="margin:8px 0 0">📖 BM మహిమ సన్నిధి</h2>
+<div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
 </div>
-<div class="bottom"><div onclick="location.href='index.html'">🏠<br>హోమ్</div><div onclick="location.href='books.html'">📚<br>పుస్తకాలు</div><div class="active">🎵<br>పాటలు</div><div onclick="location.href='admin.html'">⚙️<br>సెట్టింగ్</div></div>
+<div class="wrap">
+<div id="folderView"></div>
+<div id="songView" style="display:none"></div>
+</div>
+
+<div class="modal" id="songModal"><div class="modalBox"><div style="text-align:right"><button onclick="closeSong()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="songModalContent"></div></div></div>
+
+<div class="bottom">
+<a href="index.html">🏠<br>హోమ్</a>
+<a href="books.html">📚<br>పుస్తకాలు</a>
+<a href="songs.html" class="active">🎵<br>పాటలు</a>
+<a href="admin.html">⚙️<br>సెట్టింగ్</a>
+</div>
+
 <script>
-let SONGS=[];
-async function loadAll(){
-  // FIX: ముందు songs.json నే చూడాలి - localStorage ని కాదు!
-  try{
-    let r=await fetch('songs.json?v='+Date.now());
-    if(r.ok){ let j=await r.json(); if(Array.isArray(j)&&j.length){ SONGS=j; } }
-  }catch(e){}
-  if(!SONGS.length){
-    // songs.json లేకపోతేనే - పాత పాట చూపించు
-    SONGS=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",desc:"రాగం: జంఝూట్ | తాళం: ఏక",content:"1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా!"}];
-  }
-  SONGS.sort((a,b)=>(a.num||0)-(b.num||0));
-  document.getElementById('count').innerText='మొత్తం పాటలు - '+SONGS.length;
-  renderSongs();
+let allSongs=[];
+let curFolder="";
+let colors=["#FF9800","#2E7D32","#2196F3","#9C27B0","#E91E63","#009688","#FF5722","#673AB7"];
+async function load(){
+  try{let r=await fetch('songs.json?v='+Date.now()); allSongs=await r.json();}catch(e){allSongs=[];}
+  showFolders();
 }
-function renderSongs(){
-  let q=(document.getElementById('search').value||'').toLowerCase();
-  document.getElementById('detail').innerHTML='';
-  let list=SONGS.filter(s=>((s.title||'')+(s.content||'')+(s.book||'')).toLowerCase().includes(q));
-  if(!list.length){document.getElementById('box').innerHTML='<p style="text-align:center">📭 పాట దొరకలేదు! అడ్మిన్ లో పాట సేవ్ చేసారా?</p>';return;}
-  document.getElementById('box').innerHTML=list.map((s)=>`<div class="song" onclick="openSong(${SONGS.indexOf(s)})"><div class="num">${s.num||SONGS.indexOf(s)+1}</div><div class="cover">🎵</div><div><h3>${s.num||''}. ${s.title}</h3><p>${s.desc||''}</p><div style="font-size:13px;color:gray">${s.book||'ఆంధ్ర క్రైస్తవ కీర్తనలు'} - నొక్కి చదవండి ➡️</div></div></div>`).join('');
+function getFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
+function showFolders(){
+  document.getElementById('songView').style.display='none';
+  let folders={};
+  allSongs.forEach(s=>{let f=getFolder(s); folders[f]=(folders[f]||0)+1;});
+  let keys=Object.keys(folders).sort();
+  let html=`<div style="background:white;padding:16px;border-radius:18px;text-align:center;box-shadow:0 2px 8px #0001"><div style="font-size:28px">🎵</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">పాటలు - ఫోల్డర్లు</div><div style="color:gray">మొత్తం ఫోల్డర్లు - ${keys.length} | మొత్తం పాటలు - ${allSongs.length}</div></div>`;
+  html+=`<input id="searchFolder" placeholder="🔍 ఫోల్డర్ వెతకండి... దేవదాసు / అన్నమ్మ" oninput="filterFolders()" style="margin-top:12px">`;
+  html+=`<div id="folderList">`+keys.map((f,i)=>{
+    let c=colors[i%colors.length];
+    return `<div class="card" onclick="openFolder('${f.replace(/'/g,"\\'")}')"><div class="icon" style="background:${c}">📁</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E">${f}</div><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి చదవండి ➡️</div></div></div>`;
+  }).join('')+`</div>`;
+  if(!keys.length) html+=`<p style="text-align:center;color:gray">📭 ఇంకా పాటలు లేవు!</p>`;
+  document.getElementById('folderView').innerHTML=html;
+  document.getElementById('folderView').style.display='block';
 }
-function openSong(i){
-  let cur=SONGS[i]; document.getElementById('box').innerHTML='';
-  document.getElementById('detail').innerHTML=`<button class="btn" onclick="renderSongs()">⬅ అన్ని పాటలు</button><div class="page"><p style="color:#2E7D32;font-weight:bold">${cur.book||'ఆంధ్ర క్రైస్తవ కీర్తనలు'}</p><h3 style="color:#0B3D2E">${cur.num||''}. ${cur.title}</h3><p style="color:#666;font-size:14px">${cur.desc||''}</p><div>${(cur.content||'').replace(/\n/g,'<br>')}</div></div>`;
+function filterFolders(){
+  let q=document.getElementById('searchFolder').value.toLowerCase();
+  document.querySelectorAll('#folderList .card').forEach(c=>{ c.style.display=c.innerText.toLowerCase().includes(q)?'flex':'none'; });
+}
+function openFolder(f){
+  curFolder=f;
+  document.getElementById('folderView').style.display='none';
+  let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
+  let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
+  <div style="background:white;padding:16px;border-radius:18px;text-align:center;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="font-size:28px">📁</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">${f}</div><div style="color:gray">మొత్తం పాటలు - ${list.length}</div></div>
+  <input id="searchSong" placeholder="🔍 పాట వెతకండి..." oninput="filterSongs()" style="margin-top:12px">`;
+  html+=`<div id="songList">`+list.map((s,idx)=>{
+    let gi=allSongs.indexOf(s);
+    return `<div class="card" onclick="openSong(${gi})"><div class="num">${s.num||idx+1}</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E">${s.num||idx+1}. ${s.title||''}</div><div style="color:gray;font-size:13px">📁 ${f} - నొక్కి చదవండి ➡️</div></div></div>`;
+  }).join('')+`</div>`;
+  let v=document.getElementById('songView'); v.innerHTML=html; v.style.display='block';
   window.scrollTo(0,0);
 }
-loadAll();
-</script></body></html>
+function filterSongs(){
+  let q=document.getElementById('searchSong').value.toLowerCase();
+  document.querySelectorAll('#songList .card').forEach(c=>{ c.style.display=c.innerText.toLowerCase().includes(q)?'flex':'none'; });
+}
+function openSong(i){
+  let s=allSongs[i]; if(!s) return;
+  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${getFolder(s)}</div><h2 style="color:#0B3D2E;margin:6px 0">${s.num||''}. ${s.title||''}</h2><div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center">${(s.content||'').replace(/\n/g,'<br>')}</div></div>`;
+  document.getElementById('songModal').style.display='flex';
+}
+function closeSong(){ document.getElementById('songModal').style.display='none'; }
+document.getElementById('songModal').addEventListener('click',e=>{ if(e.target.id==='songModal') closeSong(); });
+load();
+</script>
+</body>
+</html>
