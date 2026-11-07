@@ -6,6 +6,7 @@
 <title>BM మహిమ సన్నిధి - Admin</title>
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:30px}
+body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:12px 15px;position:relative;z-index:10}
 .header h2{margin:0;font-size:20px} .header p{margin:4px 0 0;font-size:13px;opacity:.9}
 .tabs{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#E8F5E9;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #0002}
@@ -23,6 +24,10 @@ button.orange{background:#FF9800} button.red{background:#0B3D2E}
 .debug{background:#E3F2FD;border:1px solid #90CAF9;padding:10px;border-radius:10px;font-size:13px;word-break:break-all}
 small{color:#666} .hidden{display:none}
 .folderCard{background:white;padding:15px;border-radius:20px;margin:12px 0;box-shadow:0 2px 10px #0001;cursor:pointer}
+/* ⭐ స్క్రోలింగ్ ఫిక్స్ - లోపలది మాత్రమే స్క్రోల్, వెనకది లాక్ */
+.scrollBox{max-height:68vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px}
+.scrollBox::-webkit-scrollbar{width:6px} .scrollBox::-webkit-scrollbar-thumb{background:#C8E6C9;border-radius:10px}
+.modalBox{background:white;border-radius:20px;max-height:82vh;overflow-y:auto;overscroll-behavior:contain}
 </style>
 </head>
 <body>
@@ -38,17 +43,21 @@ small{color:#666} .hidden{display:none}
 <div id="status" style="text-align:center;font-weight:bold;color:#0B3D2E;margin:8px"></div>
 <div id="tab1">
 <div class="card"><label>రకం</label><select id="type"><option value="vakayam">📖 వాక్యం</option><option value="paata">🎵 పాట</option></select>
+<!-- ⭐ ప్రార్థన ఫారం లాగే - సేమ్ ఫారం! -->
+<label>👤 మీ పేరు *</label><input id="senderName" placeholder="ఉదా: రమేష్">
+<label>🏡 మీ ఊరు *</label><input id="senderVillage" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
+<label>📞 ఫోన్ నంబర్ <small>(ఉంటే రాయండి - లేకపోతే వదిలేయండి - అయినా సెండ్ అవుతుంది)</small></label><input id="senderPhone" type="tel" placeholder="ఉదా: 98765 43210">
 <label>టైటిల్</label><input id="title" placeholder="ఉదా: అమోసు 3:8">
 <label>🖼️ ఫోటో</label><input type="file" id="imageFile" accept="image/*"><img id="preview" style="display:none;width:100%;border-radius:10px">
 <label>వాక్యం / పాట</label><textarea id="content" rows="8" placeholder="ఇక్కడ వాక్యం రాయండి..."></textarea>
 <label>చూపించే డేట్</label><input type="date" id="date"><label>⏰ షెడ్యూల్</label><input type="datetime-local" id="publishAt">
 <button class="big orange" onclick="addPost()">✅ Add చేసి Auto Save</button></div>
-<h3>ఉన్న మెసేజ్ లు</h3><div id="list">లోడ్ అవుతోంది...</div>
+<h3>ఉన్న మెసేజ్ లు</h3><div id="list" class="scrollBox">లోడ్ అవుతోంది...</div>
 </div>
 <div id="tab2" class="hidden">
 <div class="card"><label>📅 రోజు</label><select id="schDay"><option>ఆదివారం</option><option>సోమవారం</option><option>మంగళవారం</option><option>బుధవారం</option><option>గురువారం</option><option>శుక్రవారం</option><option>శనివారం</option></select>
 <label>⏰ టైమ్</label><input id="schTime" placeholder="ఉదా: సాయంత్రం 7:00"><label>📝 కార్యక్రమం</label><input id="schTitle" placeholder="ఉదా: బైబిల్ అధ్యయనం">
-<button class="big orange" onclick="addSchedule()">✅ షెడ్యూల్ సేవ్</button></div><div id="schList"></div>
+<button class="big orange" onclick="addSchedule()">✅ షెడ్యూల్ సేవ్</button></div><div id="schList" class="scrollBox"></div>
 </div>
 <div id="tab3" class="hidden">
 <div class="card">
@@ -61,7 +70,7 @@ small{color:#666} .hidden{display:none}
 <div id="pagesNav" class="pageNav"></div>
 <div style="margin-top:15px;border-top:2px dashed #FF9800;padding-top:10px">
 <h3>📄 ఈ బుక్ లో పేజీలు - పాతవి చూసి, కొత్తది పెట్టండి!</h3>
-<div id="pagesInEdit"></div>
+<div id="pagesInEdit" class="scrollBox"></div>
 <button class="big orange" onclick="addPage()">➕ కొత్త అధ్యాయం / పేజీ పెట్టండి</button>
 <button class="big" onclick="saveBook()">💾 బుక్స్ సేవ్ చేయండి!</button>
 <button class="big red" onclick="newBook()">📚 కొత్త బుక్ పెట్టండి!</button>
@@ -75,8 +84,8 @@ small{color:#666} .hidden{display:none}
 <h3 style="margin:0">🎵 పాటలు - బుక్స్ లాగానే!</h3>
 <p style="color:gray;font-size:13px;margin:6px 0">బుక్ / ఫోల్డర్ నొక్కండి - ఆ బుక్ ఓపెన్ అవుతుంది - అందులోనే ఒక్కో పేజీ యాడ్ చేసుకోండి!</p>
 </div>
-<div id="songFolderView"></div>
-<div id="songBookOpenView"></div>
+<div id="songFolderView" class="scrollBox"></div>
+<div id="songBookOpenView" class="scrollBox"></div>
 </div>
 
 <div id="tab4" class="hidden">
@@ -92,7 +101,11 @@ let curSongFolder="", editingSongInFolder=-1;
 let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit', repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi', token=localStorage.getItem('ms_token')||'';
 document.getElementById('owner').value=owner; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
 document.getElementById('date').value=new Date().toISOString().slice(0,10);
-function showTab(n){[1,2,3,4,5].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);});}
+function showTab(n){unlockBody(); [1,2,3,4,5].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);}); window.scrollTo(0,0);}
+// ⭐ స్క్రోల్ లాక్ - మెసేజ్ / బుక్ ఓపెన్ అయితే వెనకది ఆగుతుంది, లోపలది మాత్రమే కదులుతుంది!
+let _scrollY=0;
+function lockBody(){ if(document.body.classList.contains('lock')) return; _scrollY=window.scrollY; document.body.classList.add('lock'); document.body.style.top='-'+_scrollY+'px'; }
+function unlockBody(){ if(!document.body.classList.contains('lock')) return; document.body.classList.remove('lock'); document.body.style.top=''; window.scrollTo(0,_scrollY); }
 function setStatus(t){document.getElementById('status').innerText=t;}
 function b64Dec(b){let bin=atob(b.replace(/\n/g,'')); let u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(u);}
 function b64Enc(s){let u=new TextEncoder().encode(s); let bin=''; u.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin);}
@@ -102,8 +115,9 @@ function saveSettings(){token=document.getElementById('token').value.trim(); own
 document.getElementById('imageFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block';}; r.readAsDataURL(f);});
 document.getElementById('bookFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{bookPdfData=r.result; document.getElementById('bookFileName').innerText='✅ '+f.name; if(books[editingBook]) books[editingBook].pdf=bookPdfData;}; r.readAsDataURL(f);});
 async function load(){if(!token){document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return;} try{let j=await getFile('posts.json'); postSha=j.sha; posts=JSON.parse(b64Dec(j.content)); setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు'); render();}catch(e){setStatus('❌ టోకెన్ తప్పు అండీ');}}
-function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${p.title||''}</b><br><small>${p.date||''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px">`:''}<br><button class="big" style="background:#f44336;padding:8px;font-size:14px" onclick="delPost(${i})">Delete</button></div>`).join('')||'ఇంకా లేవు';}
-async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; if(!title||!content){alert('టైటిల్ + వాక్యం రాయండి అండీ'); return;} publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:""}); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render();} else {setStatus('❌ కాలేదు!'); posts.shift();}}
+function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${p.title||''}</b><br><small>${p.date||''} ${p.name?(' | 👤 '+(p.name||'')):''} ${p.village?(' | 🏡 '+(p.village||'')):''} ${p.phone?(' | 📞 '+(p.phone||'')):''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px">`:''}<br><button class="big" style="background:#f44336;padding:8px;font-size:14px" onclick="delPost(${i})">Delete</button></div>`).join('')||'ఇంకా లేవు';}
+// ⭐ ప్రార్థన ఫారం లాగే - ఫోన్ లేకపోయినా సెండ్ అవుతుంది! పేరు + ఊరు + వాక్యం ఉంటే చాలు!
+async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; let senderName=document.getElementById('senderName').value.trim(), senderVillage=document.getElementById('senderVillage').value.trim(), senderPhone=document.getElementById('senderPhone').value.trim(); if(!title||!content){alert('టైటిల్ + వాక్యం రాయండి అండీ'); return;} if(!senderName||!senderVillage){ if(!confirm('పేరు / ఊరు రాయలేదు - అయినా సెండ్ చేయమంటారా?')) return; } publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:"",name:senderName,village:senderVillage,phone:senderPhone}); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('publishAt').value=''; document.getElementById('imageFile').value=''; document.getElementById('senderName').value=''; document.getElementById('senderVillage').value=''; document.getElementById('senderPhone').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; render();} else {setStatus('❌ కాలేదు!'); posts.shift();}}
 async function delPost(i){if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; render();}}
 async function loadSch(){try{let j=await getFile('schedule.json'); schSha=j.sha; schedule=JSON.parse(b64Dec(j.content));}catch(e){schedule=[]; schSha="";} renderSch();}
 function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${s.day||''} - ${s.time||''}</b><br>${s.title||''}<div style="display:flex;gap:8px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editSch(${i})">✏️ ఎడిట్</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
@@ -145,7 +159,6 @@ async function loadSongs(){
     songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",content:`1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా!`}];
   }
   songs=songs.map(s=>({num:s.num||1, book:(s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(), title:s.title||"", content:s.content||""}));
-  // ⭐ పాత నంబర్లు 1,9 లాంటివి ఉంటే - ఫోల్డర్ వారీగా మళ్ళీ 1,2,3 చేసేయడం!
   let byFolder={};
   songs.forEach(s=>{ let f=getSongFolder(s); byFolder[f]=byFolder[f]||[]; byFolder[f].push(s); });
   Object.keys(byFolder).forEach(f=>{
@@ -156,6 +169,7 @@ async function loadSongs(){
   renderSongFolders();
 }
 function renderSongFolders(){
+  unlockBody();
   document.getElementById('songBookOpenView').innerHTML='';
   let folders={}; songs.forEach(s=>{let f=getSongFolder(s); folders[f]=(folders[f]||0)+1;});
   let keys=Object.keys(folders).sort();
@@ -174,7 +188,6 @@ function openSongFolder(f){
   let list=getSongsInFolder(f);
   let h=`<button class="big red" onclick="renderSongFolders()">⬅ అన్ని పాటల బుక్స్</button>`;
   h+=`<div class="card" style="text-align:center"><b style="font-size:20px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">మొత్తం పాటలు - ${list.length} | ఈ బుక్ లో 1,2,3 వరుసగా వస్తాయి!</div></div>`;
-  // ➕ ఈ బుక్ లో కొత్త పేజీ యాడ్ - బుక్స్ లాగానే!
   h+=`<div class="card" style="background:#FFF8E1;border-left:5px solid #FF9800"><h3 style="margin:0">➕ ఈ బుక్ లో కొత్త పేజీ / పాట యాడ్ చేయండి</h3><small>ఈ పాట ఆటోమేటిక్ గా ${list.length+1} వ నంబర్ అవుతుంది!</small><label>🎵 పాట టైటిల్</label><input id="newSongTitle" placeholder="ఉదా: నీ సన్నిధి నిలుపు"><label>📝 పాట - పూర్తిగా</label><textarea id="newSongContent" rows="8" placeholder="ఇక్కడ పాట మొత్తం రాయండి..."></textarea><button class="big" onclick="addSongInFolder()">✅ ఈ బుక్ లోనే సేవ్ చేయండి</button></div>`;
   h+=`<h3>📄 ఈ బుక్ లో పేజీలు</h3>`;
   if(!list.length) h+=`<p style="color:gray;text-align:center">ఇంకా పాటలు లేవు - పైన యాడ్ చేయండి!</p>`;
@@ -196,7 +209,6 @@ async function addSongInFolder(){
   else setStatus('❌ పాట సేవ్ కాలేదు');
 }
 async function saveSongInFolder(gi){
-  // సేవ్ చేసే ముందు - అదే ఫోల్డర్ లో మళ్ళీ 1,2,3 వరుస సరిచేయడం!
   let f=getSongFolder(songs[gi]);
   let list=getSongsInFolder(f);
   list.forEach((s,i)=>{ s.num=i+1; });
@@ -213,6 +225,9 @@ async function delSongInFolder(gi){
   let j=await putFile('songs.json',songSha,songs);
   if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ తీసేసాను!'); openSongFolder(f);}
 }
+// ⭐ ఏదైనా textarea / input లో టైప్ చేస్తే - వెనక స్క్రోల్ ఆగుతుంది, ఆ బాక్స్ మాత్రమే స్క్రోల్ అవుతుంది!
+document.addEventListener('focusin',e=>{ if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'){ let box=e.target.closest('.scrollBox'); if(box) lockBody(); }});
+document.addEventListener('focusout',e=>{ if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'){ setTimeout(()=>{ if(!document.activeElement || (document.activeElement.tagName!=='TEXTAREA'&&document.activeElement.tagName!=='INPUT')) unlockBody(); },200); }});
 
 load(); loadBooks(); loadSch(); loadSongs();
 </script>
