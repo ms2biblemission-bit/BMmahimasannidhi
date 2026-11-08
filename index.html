@@ -14,11 +14,11 @@
 <style>
 *{box-sizing:border-box}
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
-body{padding-bottom:95px}
+body{padding-bottom:80px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:25px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px}
-.logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
-.logo img{width:100%;height:100%;object-fit:cover}
+.logo{width:165px;height:165px;border-radius:50%;background:white;margin:0 auto 12px;overflow:hidden;border:4px solid gold}
+.logo img{width:100%;height:100%;object-fit:cover;object-position:center 25%}
 .logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:white;margin:10px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .logo-row a{text-align:center;text-decoration:none;min-width:68px}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
@@ -47,9 +47,9 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 .old-box{display:block;background:#FF9800;color:white;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:12px}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
-.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.bottom-nav .b-icon{font-size:22px;line-height:1}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:6px 2px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:11px;font-weight:bold;padding:4px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px}
+.bottom-nav .b-icon{font-size:19px;line-height:1}
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 #appSplash,#splashScreen,#splash,.splash,.splashBox,.splash-screen,[id*="splash"],[id*="Splash"],[class*="splash"],[class*="Splash"]{display:none!important;visibility:hidden!important;height:0!important;opacity:0!important;pointer-events:none!important}
 @media (display-mode: standalone){ #installBtn,.install-btn{ display:none !important; } }
@@ -154,7 +154,6 @@ let deferredPrompt;
 function isApp(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
 if(isApp()){ var ib=document.getElementById('installBtn'); if(ib) ib.style.display='none'; } else { window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; }); }
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
-// కొత్త క్లీన్ sw.js - నెట్ లేకపోయినా ఓపెన్ అవుతుంది, పసుపు బోర్డు రాదు
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=2').then(r=>r.update()).catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
