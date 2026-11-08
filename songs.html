@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎵 పాటలు - BM మహిమ సన్నిధి</title>
 <style>
-*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:80px}
+*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
 .header{background:#0B3D2E;color:white;padding:20px 12px;text-align:center;border-radius:0 0 28px 28px}
 .header a{color:white;text-decoration:none;font-weight:bold}
 .wrap{padding:12px;max-width:700px;margin:auto}
@@ -15,10 +15,12 @@ input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-s
 .num{width:44px;height:44px;min-width:44px;border-radius:50%;background:#0B3D2E;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;align-items:flex-end;justify-content:center}
 .modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #ddd;z-index:50}
-.bottom a{text-decoration:none;color:#666;text-align:center;font-size:13px}
-.bottom a.active{color:#0B3D2E;font-weight:bold}
 .back{background:#0B3D2E;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
+/* FIX: కింద బార్ - సెట్టింగ్ లేదు, అన్ని పేజీల్లో ఒకేలా */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .b-icon{font-size:22px;line-height:1}
+.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 </style>
 </head>
 <body>
@@ -32,12 +34,14 @@ input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-s
 <div id="songView" style="display:none"></div>
 </div>
 <div class="modal" id="songModal"><div class="modalBox"><div style="text-align:right"><button onclick="closeSong()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="songModalContent"></div></div></div>
-<div class="bottom">
-<a href="index.html">🏠<br>హోమ్</a>
-<a href="books.html">📚<br>పుస్తకాలు</a>
-<a href="songs.html" class="active">🎵<br>పాటలు</a>
-<a href="admin.html">⚙️<br>సెట్టింగ్</a>
-</div>
+<!-- FIX: కొత్త కింద బార్ - సెట్టింగ్ తీసేసాము -->
+<nav class="bottom-nav">
+  <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
+  <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
+  <a href="songs.html" class="active"><span class="b-icon">🎵</span>పాటలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
+  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+</nav>
 <script>
 let allSongs=[];
 let curFolder="";
@@ -48,7 +52,6 @@ async function load(){
   showFolders();
 }
 function getFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
-// ⭐ ఫోల్డర్లు - 1 2 3 -> A-Z -> అ to ఱ
 function teluguKey(s){
   s=(s||'').toString();
   if(s.includes(' - ')) s=s.split(' - ').pop();
@@ -69,7 +72,6 @@ function teluguCompare(a,b){
   if(ka>kb) return 1;
   return 0;
 }
-// ⭐ ఫోల్డర్ లో వరుస నంబర్ - 1,2,3 - అసలు బుక్ నంబర్ కాదు!
 function getDisplayNum(song){
   let list=allSongs.filter(s=>getFolder(s)===getFolder(song)).sort((a,b)=>(a.num||0)-(b.num||0));
   let idx=list.indexOf(song);
@@ -97,14 +99,13 @@ function filterFolders(){
 function openFolder(f){
   curFolder=f;
   document.getElementById('folderView').style.display='none';
-  // లోపల పాటలు - అసలు నంబర్ ప్రకారం సార్ట్ - కానీ చూపించేది మాత్రం 1,2,3 వరుస!
   let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
   let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
   <div style="background:white;padding:16px;border-radius:18px;text-align:center;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="font-size:28px">📁</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">${f}</div><div style="color:gray">మొత్తం పాటలు - ${list.length}</div></div>
   <input id="searchSong" placeholder="🔍 పాట వెతకండి..." oninput="filterSongs()" style="margin-top:12px">`;
   html+=`<div id="songList">`+list.map((s,idx)=>{
     let gi=allSongs.indexOf(s);
-    let dNum=idx+1; // ⭐ ఇక్కడే ఫిక్స్ - 1,2,3 వరుస!
+    let dNum=idx+1;
     return `<div class="card" onclick="openSong(${gi})"><div class="num">${dNum}</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E">${dNum}. ${s.title||''}</div><div style="color:gray;font-size:13px">📁 ${f} - నొక్కి చదవండి ➡️</div></div></div>`;
   }).join('')+`</div>`;
   let v=document.getElementById('songView'); v.innerHTML=html; v.style.display='block';
