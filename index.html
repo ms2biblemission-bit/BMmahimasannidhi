@@ -51,25 +51,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
-/* SPLASH KILLER - కొత్తగా పెట్టిన స్ప్లాష్ ఏ పేరుతో ఉన్నా సరే ఇక రాదు */
 #appSplash,#splashScreen,#splash,.splash,.splashBox,.splash-screen,[id*="splash"],[id*="Splash"],[class*="splash"],[class*="Splash"]{display:none!important;visibility:hidden!important;height:0!important;opacity:0!important;pointer-events:none!important}
-@media (display-mode: standalone){
-  #installBtn,.install-btn{ display:none !important; }
-}
+@media (display-mode: standalone){ #installBtn,.install-btn{ display:none !important; } }
 </style>
 </head>
 <body>
 <script>
-// పాత స్ప్లాష్ ని టెక్స్ట్ చూసి కూడా తీసేస్తాము
 function killSplash(){
   document.body.classList.remove('lock'); document.body.style.position=''; document.body.style.top=''; document.body.style.overflow='';
   ['appSplash','splashScreen','splash'].forEach(id=>{let e=document.getElementById(id); if(e) e.remove();});
-  document.querySelectorAll('div,section').forEach(el=>{
-    let t=el.innerText||'';
-    if((t.includes('యాప్ లాగా ఇన్‌స్టాల్ చేసుకోండి') && t.includes('ఇన్స్టాల్ వద్దు')) || t.includes('ఒక్కసారి నొక్కండి - హోమ్')){
-      if(el.id && el.id.toLowerCase().includes('splash')) el.remove();
-    }
-  });
   localStorage.removeItem('splashShown'); sessionStorage.removeItem('splashShown');
 }
 killSplash(); setInterval(killSplash,500);
@@ -164,8 +154,8 @@ let deferredPrompt;
 function isApp(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
 if(isApp()){ var ib=document.getElementById('installBtn'); if(ib) ib.style.display='none'; } else { window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; }); }
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
-// పాత sw.js ని తీసేస్తాము - ఇదే పాత స్ప్లాష్ ని పట్టుకుని ఉంది
-if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(regs=>{ regs.forEach(r=>r.unregister()); }); if('caches' in window){ caches.keys().then(keys=>{ keys.forEach(k=>caches.delete(k)); }); } }
+// కొత్త క్లీన్ sw.js - నెట్ లేకపోయినా ఓపెన్ అవుతుంది, పసుపు బోర్డు రాదు
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=2').then(r=>r.update()).catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
 function isBlocked(){ return localStorage.getItem('ms_im_blocked')==='1'; }
