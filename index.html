@@ -14,11 +14,11 @@
 <style>
 *{box-sizing:border-box}
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
-body{padding-bottom:80px}
+body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:25px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px}
-.logo{width:165px;height:165px;border-radius:50%;background:white;margin:0 auto 12px;overflow:hidden;border:4px solid gold}
-.logo img{width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
+.logo img{width:100%;height:100%;object-fit:cover}
 .logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:white;margin:10px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .logo-row a{text-align:center;text-decoration:none;min-width:68px}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
@@ -47,12 +47,18 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 .old-box{display:block;background:#FF9800;color:white;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:12px}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:6px 2px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
-.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:11px;font-weight:bold;padding:4px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px}
-.bottom-nav .b-icon{font-size:19px;line-height:1}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .b-icon{font-size:22px;line-height:1}
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 #appSplash,#splashScreen,#splash,.splash,.splashBox,.splash-screen,[id*="splash"],[id*="Splash"],[class*="splash"],[class*="Splash"]{display:none!important;visibility:hidden!important;height:0!important;opacity:0!important;pointer-events:none!important}
 @media (display-mode: standalone){ #installBtn,.install-btn{ display:none !important; } }
+/* CHAT FIX - రాసే బాక్స్ ఎప్పుడూ కింద కనిపించేలా */
+#chatModal .modalBox{display:flex!important;flex-direction:column!important;height:88vh!important;overflow:hidden!important;padding-bottom:0!important}
+#chatModal .chatScroll{flex:1!important;overflow-y:auto!important;padding-bottom:10px!important}
+#chatModal #chatMsgs{max-height:none!important}
+#chatModal .chatInputWrap{background:#fff!important;padding:10px 0 14px 0!important;border-top:1px solid #eee!important}
+#chatModal textarea{min-height:50px!important}
 </style>
 </head>
 <body>
@@ -123,6 +129,7 @@ killSplash(); setInterval(killSplash,500);
 </nav>
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 <div class="modal" id="chatModal"><div class="modalBox">
+<div class="chatScroll">
 <h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3>
 <p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు! ఏదైనా ఒకటి రాసినా చాలు - సెండ్ అవుతుంది!</p>
 <div id="blockedBanner" style="display:none;background:#FFEBEE;border:2px solid #E53935;padding:10px;border-radius:10px;color:#C62828;font-weight:bold;text-align:center;margin-bottom:10px">🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!</div>
@@ -130,9 +137,12 @@ killSplash(); setInterval(killSplash,500);
 <label style="font-weight:bold">🏡 మీ ఊరు</label><input id="chatVillage" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
 <label style="font-weight:bold">📞 ఫోన్ నంబర్ <small style="font-weight:normal;color:gray">(ఉంటే రాయండి - లేకపోతే వదిలేయండి)</small></label><input id="chatPhone" type="tel" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: 98765 43210">
 <div id="chatMsgs"></div>
+</div>
+<div class="chatInputWrap">
 <textarea id="chatText" rows="3" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ ప్రార్థన రాయండి..."></textarea>
 <button onclick="sendUserChat()" style="width:100%;padding:13px;background:#0B3D2E;color:white;border:none;border-radius:25px;font-weight:bold;font-size:16px;margin-top:8px">📩 పంపండి</button>
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
+</div>
 </div></div>
 <script>
 let allPosts = [];
