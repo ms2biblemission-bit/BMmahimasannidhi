@@ -1,6 +1,5 @@
 <!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ఫోటోలు - మహిమ సన్నిధి</title>
 <style>body{font-family:system-ui;background:#f5f5f5;margin:0;padding-bottom:130px} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .item{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer} .item img{width:100%;height:180px;object-fit:cover;display:block} .item div{padding:8px;text-align:center;font-weight:bold;color:#8B0000;font-size:14px} #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999;text-align:center} #modal img{width:95%;max-width:600px;border-radius:12px;margin-top:20px} #modal div{color:white;padding:15px}
-/* FIX: కింద బార్ - అన్ని పేజీల్లో ఒకేలా */
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
@@ -10,16 +9,15 @@
 <div class="head"><a href="index.html">⬅ హోమ్</a><h2>🖼️ ఫోటో గ్యాలరీ</h2><div>మెసేజ్ లో పెట్టిన ఫోటోలు - అన్నీ ఇక్కడే!</div></div>
 <div class="wrap"><div id="grid" class="grid">లోడ్ అవుతోంది...</div><p style="text-align:center;color:gray;font-size:13px">అడ్మిన్ లో మెసేజ్ కి ఫోటో పెడితే - ఇక్కడ ఆటోమేటిక్ గా వస్తుంది!</p></div>
 <div id="modal" onclick="this.style.display='none'"><img id="bigImg"><div id="bigTxt"></div><div>నొక్కితే మూసుకుంటుంది ✖</div></div>
-<!-- FIX: కొత్త కింద బార్ -->
 <nav class="bottom-nav">
   <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
   <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
   <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
-  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
-  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+  <a href="gallery.html" class="active"><span class="b-icon">🖼️</span>ఫోటోలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్</a>
 </nav>
 <script>
-async function load(){let pics=[];try{let r=await fetch('posts.json?v='+Date.now());let j=await r.json();let a=Array.isArray(j)?j:(j.posts||[]);a.forEach(p=>{let img=p.image||p.photo||p.img;if(img) pics.push({img:img,title:p.title||'మరనాత',date:p.date||''});});}catch(e){} 
+async function load(){let pics=[];try{let r=await fetch('posts.json?v='+Date.now());let j=await r.json();let a=Array.isArray(j)?j:(j.posts||[]);a.forEach(p=>{let img=p.image||p.photo||p.img;if(img) pics.push({img:img,title:(p.title||'').trim()||'📷 ఫోటో',date:p.date||''});});}catch(e){} 
 let extra=["IMG-20261104-WA0008.jpg"];
 extra.forEach(f=>{ if(!pics.find(x=>x.img==f)) pics.push({img:f,title:"మహిమ సన్నిధి",date:""}); });
 let g=document.getElementById('grid');if(!pics.length){g.innerHTML='📭 ఇంకా ఫోటోలు లేవు!';return;} g.innerHTML=pics.map((p,i)=>`<div class="item" onclick="openBig('${p.img}','${p.title} - ${p.date}')"><img src="${p.img}" onerror="this.parentElement.style.display='none'"><div>${p.title}<br><small style="color:gray;font-weight:normal">${p.date}</small></div></div>`).join('');}
