@@ -41,10 +41,9 @@ body{padding-bottom:95px}
 .install-btn{display:none;background:#0B3D2E;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
 input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;align-items:flex-end;justify-content:center}
-.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;align-items:flex-end;justify-content:center}
+.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
-#chatMsgs{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .old-box{display:block;background:#FF9800;color:white;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:12px}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
@@ -52,27 +51,17 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 #appSplash,#splashScreen,#splash,.splash,.splashBox,.splash-screen,[id*="splash"],[id*="Splash"],[class*="splash"],[class*="Splash"]{display:none!important;visibility:hidden!important;height:0!important;opacity:0!important;pointer-events:none!important}
 @media (display-mode: standalone){ #installBtn,.install-btn{ display:none !important; } }
-/* FINAL FIX - చాట్ ఓపెన్ అయితే కింద మెనూ పూర్తిగా పోతుంది */
-body.modal-open{overflow:hidden!important}
-body.modal-open .bottom-nav{display:none!important}
-#chatModal{z-index:999!important;overscroll-behavior:contain}
-#chatModal .modalBox{display:flex!important;flex-direction:column!important;height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;padding:0!important;border-radius:0!important}
-#chatModal .chatScroll{flex:1!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:14px 14px 10px 14px!important}
-#chatModal .chatInputWrap{background:#fff!important;padding:10px 10px calc(12px + env(safe-area-inset-bottom)) 10px!important;border-top:1px solid #eee!important;flex-shrink:0!important}
+/* SIMPLE FIX - సైజ్ చిన్నది, మెనూ ఉంటుంది, పైకి-కిందకి స్క్రోల్ అవుతుంది */
+#chatModal{align-items:flex-end!important;z-index:90!important}
+#chatModal .modalBox{display:flex!important;flex-direction:column!important;height:70vh!important;max-height:70vh!important;overflow:hidden!important;padding:0!important;border-radius:20px 20px 0 0!important;margin-bottom:70px!important}
+#chatModal .chatScroll{flex:1!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;padding:14px!important}
+#chatModal .chatInputWrap{background:#fff!important;padding:10px!important;border-top:1px solid #eee!important;flex-shrink:0!important}
 #chatModal .chatRow{display:flex!important;gap:8px!important;align-items:flex-end!important}
-#chatModal #chatText{flex:1!important;min-height:48px!important;max-height:110px!important;resize:none!important}
+#chatModal #chatText{flex:1!important;min-height:48px!important;resize:none!important}
 #chatModal .sendBtn{flex-shrink:0!important;width:72px!important;padding:13px 5px!important;background:#0B3D2E!important;color:#fff!important;border:none!important;border-radius:25px!important;font-weight:bold!important;font-size:15px!important}
 </style>
 </head>
 <body>
-<script>
-function killSplash(){
-  if(document.body.classList.contains('modal-open')) return;
-  document.body.style.position=''; document.body.style.top=''; document.body.style.overflow='';
-  ['appSplash','splashScreen','splash'].forEach(id=>{let e=document.getElementById(id); if(e) e.remove();});
-}
-killSplash(); setInterval(killSplash,500);
-</script>
 <div class="header">
 <div class="logo"><img src="IMG-20261104-WA0008.jpg"></div>
 <h1>📖 BM మహిమ సన్నిధి</h1>
@@ -134,7 +123,7 @@ killSplash(); setInterval(killSplash,500);
 <div class="modal" id="chatModal"><div class="modalBox">
 <div class="chatScroll">
 <h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3>
-<p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు! ఏదైనా ఒకటి రాసినా చాలు - సెండ్ అవుతుంది!</p>
+<p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!</p>
 <div id="blockedBanner" style="display:none;background:#FFEBEE;border:2px solid #E53935;padding:10px;border-radius:10px;color:#C62828;font-weight:bold;text-align:center;margin-bottom:10px">🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!</div>
 <label style="font-weight:bold">👤 మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు">
 <label style="font-weight:bold">🏡 మీ ఊరు</label><input id="chatVillage" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
@@ -152,31 +141,8 @@ killSplash(); setInterval(killSplash,500);
 <script>
 let allPosts = [];
 let allBooks = [];
-let _chatY = 0;
-function lockBody(){
-  if(document.body.classList.contains('modal-open')) return;
-  _chatY = window.scrollY || 0;
-  document.body.classList.add('modal-open');
-  document.body.style.position = 'fixed';
-  document.body.style.top = '-' + _chatY + 'px';
-  document.body.style.left = '0';
-  document.body.style.right = '0';
-  document.body.style.width = '100%';
-  document.documentElement.style.overflow = 'hidden';
-  var bn = document.querySelector('.bottom-nav'); if(bn) bn.style.display = 'none';
-}
-function unlockBody(){
-  if(!document.body.classList.contains('modal-open')) return;
-  document.body.classList.remove('modal-open');
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.left = '';
-  document.body.style.right = '';
-  document.body.style.width = '';
-  document.documentElement.style.overflow = '';
-  var bn = document.querySelector('.bottom-nav'); if(bn) bn.style.display = '';
-  window.scrollTo(0, _chatY);
-}
+function lockBody(){}
+function unlockBody(){}
 function scrollChatToBottom(){ let s=document.querySelector('#chatModal .chatScroll'); if(s){ s.scrollTop=s.scrollHeight; } }
 function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){ let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let decoded = new TextDecoder('utf-8').decode(bytes); if(decoded && decoded.indexOf('[STRIPPED 3 bytes]')===-1) return decoded; } }catch(e){} return s; }
 function bookText(b){ let t=(b.title||'')+' '+(b.desc||b.description||'')+' '; let arr=b.pages||b.chapters||b.items||[]; if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); }); return t; }
@@ -184,8 +150,8 @@ function isPublished(p){ if(!p || !p.publishAt) return true; try{ return new Dat
 function visiblePosts(){ return allPosts.filter(isPublished); }
 async function loadPosts(){ try{ let r = await fetch('posts.json?v='+Date.now()); if(!r.ok) throw new Error('no posts'); allPosts = await r.json(); allPosts = allPosts.map(p=>({title:fixT(p.title), content:fixT(p.content), date:p.date, image:p.image, audio:p.audio, type:p.type, publishAt:p.publishAt})); }catch(e){ allPosts = []; } try{ let rb=await fetch('books.json?v='+Date.now()); if(rb.ok) allBooks=await rb.json(); }catch(e){ allBooks=[]; } let vis = visiblePosts(); if(vis.length>0){ let p = vis[0]; let ti = document.getElementById('topImage'); if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; } document.getElementById('topTitle').innerHTML = p.title || ''; document.getElementById('topContent').innerText = p.content || ''; document.getElementById('topDate').innerText = '📅 ' + (p.date||''); } renderPosts(); }
 function renderPosts(){ let q = document.getElementById('searchBox').value.toLowerCase().trim(); let vis = visiblePosts(); let filtered = vis.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q)); let list = q ? filtered : filtered.slice(1,2); let box = document.getElementById('postsList'); if(list.length==0){ box.innerHTML = q ? '📭 ఇంకా ఏమీ లేవు!' : '📭 నిన్నటి వాక్యం లేదు!'; } else { box.innerHTML = list.map(p=>{ let idx = allPosts.indexOf(p); let img = p.image ? `<img src="${p.image}">` : ''; return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div></div>`; }).join(''); } let bBox=document.getElementById('booksResult'); if(q && allBooks.length){ let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q)); if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map(b=>`<div class="post" onclick="location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content">${b.desc||''}</div><div class="p-date">👆 నొక్కితే బుక్స్ ఓపెన్ అవుతుంది</div></div>`).join(''); else bBox.innerHTML=''; } else bBox.innerHTML=''; }
-function openPost(i){ let p=allPosts[i]; if(!p) return; document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p>`; document.getElementById('postModal').style.display='flex'; lockBody(); }
-function closePost(){ document.getElementById('postModal').style.display='none'; unlockBody(); }
+function openPost(i){ let p=allPosts[i]; if(!p) return; document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p>`; document.getElementById('postModal').style.display='flex'; }
+function closePost(){ document.getElementById('postModal').style.display='none'; }
 document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.id==='postModal') closePost(); });
 loadPosts();
 let deferredPrompt;
@@ -197,10 +163,10 @@ const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
 function isBlocked(){ return localStorage.getItem('ms_im_blocked')==='1'; }
 function chatMsgId(m){ return ((m.userCode||getMyCode())+'|'+(m.time||'')+'|'+(m.msg||'')).slice(0,200); }
-function openChat(){ document.getElementById('chatModal').style.display='flex'; lockBody(); document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; document.getElementById('blockedBanner').style.display=isBlocked()?'block':'none'; loadMyChat(); setTimeout(scrollChatToBottom,150); setTimeout(scrollChatToBottom,400); }
-function closeChat(){ document.getElementById('chatModal').style.display='none'; unlockBody(); }
-async function loadMyChat(){ let code=getMyCode(); let box=document.getElementById('chatMsgs'); let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){} let mine=local.filter(m=>String(m.userCode)===String(code)); let idChanged=false; mine.forEach(m=>{ if(!m.id){ m.id=chatMsgId(m); idChanged=true; } }); if(idChanged){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); } if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; } else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'💙 అడ్మిన్:':'💛 మీరు:'} ${m.msg}</b><br><small>📅 ${m.time||''} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small></div>`).join(''); } setTimeout(scrollChatToBottom,50); try{ let r=await fetch('https://ntfy.sh/'+CHAT_TOPIC+'/json?since=all&poll=1'); let txt=await r.text(); let hasNew=false; txt.split('\n').filter(Boolean).forEach(l=>{ try{ let j=JSON.parse(l); if(!j.message) return; if(j.message.includes('ADMIN_UNBLOCK_'+code)){ localStorage.removeItem('ms_im_blocked'); document.getElementById('blockedBanner').style.display='none'; hasNew=true; return; } if(j.message.includes('ADMIN_BLOCK_'+code)){ localStorage.setItem('ms_im_blocked','1'); document.getElementById('blockedBanner').style.display='block'; return; } if(j.message.includes('ADMIN_DELETE_'+code)){ let delId=j.message.split('ADMIN_DELETE_'+code+':')[1]; if(delId){ let before=local.length; local=local.filter(m=> (m.id||chatMsgId(m))!==delId.trim()); if(local.length!==before){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); hasNew=true; } } return; } if(j.message.includes('ADMIN_REPLY_'+code)){ let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } } }catch(e){} }); if(hasNew){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); loadMyChat(); } }catch(e){} }
-async function sendUserChat(){ if(isBlocked()){ alert('🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!'); return; } let name=document.getElementById('chatName').value.trim(); let village=document.getElementById('chatVillage').value.trim(); let phone=document.getElementById('chatPhone').value.trim(); let msg=document.getElementById('chatText').value.trim(); if(!name && !village && !phone && !msg){ alert('ఏదైనా ఒకటి రాయండి అండీ!'); return; } if(!name) name='భక్తుడు'; if(!msg){ if(village || phone) msg=(village?'🏡 '+village+' ':'')+(phone?'📞 '+phone:'')+' 🙏'; else msg='🙏'; } localStorage.setItem('ms_chat_name',name); localStorage.setItem('ms_chat_village',village); localStorage.setItem('ms_chat_phone',phone); let code=getMyCode(); let time=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true}); let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); let newMsg={userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}; newMsg.id=chatMsgId(newMsg); local.push(newMsg); localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+village+'|'+phone+'|'+msg+'|'+time}); }catch(e){} document.getElementById('chatText').value=''; alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!'); loadMyChat(); setTimeout(scrollChatToBottom,100); setTimeout(scrollChatToBottom,400); }
+function openChat(){ document.getElementById('chatModal').style.display='flex'; document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; document.getElementById('blockedBanner').style.display=isBlocked()?'block':'none'; loadMyChat(); setTimeout(scrollChatToBottom,200); }
+function closeChat(){ document.getElementById('chatModal').style.display='none'; }
+async function loadMyChat(){ let code=getMyCode(); let box=document.getElementById('chatMsgs'); let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){} let mine=local.filter(m=>String(m.userCode)===String(code)); let idChanged=false; mine.forEach(m=>{ if(!m.id){ m.id=chatMsgId(m); idChanged=true; } }); if(idChanged){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); } if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; } else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'💙 అడ్మిన్:':'💛 మీరు:'} ${m.msg}</b><br><small>📅 ${m.time||''} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small></div>`).join(''); } setTimeout(scrollChatToBottom,100); try{ let r=await fetch('https://ntfy.sh/'+CHAT_TOPIC+'/json?since=all&poll=1'); let txt=await r.text(); let hasNew=false; txt.split('\n').filter(Boolean).forEach(l=>{ try{ let j=JSON.parse(l); if(!j.message) return; if(j.message.includes('ADMIN_UNBLOCK_'+code)){ localStorage.removeItem('ms_im_blocked'); document.getElementById('blockedBanner').style.display='none'; hasNew=true; return; } if(j.message.includes('ADMIN_BLOCK_'+code)){ localStorage.setItem('ms_im_blocked','1'); document.getElementById('blockedBanner').style.display='block'; return; } if(j.message.includes('ADMIN_DELETE_'+code)){ let delId=j.message.split('ADMIN_DELETE_'+code+':')[1]; if(delId){ let before=local.length; local=local.filter(m=> (m.id||chatMsgId(m))!==delId.trim()); if(local.length!==before){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); hasNew=true; } } return; } if(j.message.includes('ADMIN_REPLY_'+code)){ let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } } }catch(e){} }); if(hasNew){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); loadMyChat(); } }catch(e){} }
+async function sendUserChat(){ if(isBlocked()){ alert('🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!'); return; } let name=document.getElementById('chatName').value.trim(); let village=document.getElementById('chatVillage').value.trim(); let phone=document.getElementById('chatPhone').value.trim(); let msg=document.getElementById('chatText').value.trim(); if(!name && !village && !phone && !msg){ alert('ఏదైనా ఒకటి రాయండి అండీ!'); return; } if(!name) name='భక్తుడు'; if(!msg){ if(village || phone) msg=(village?'🏡 '+village+' ':'')+(phone?'📞 '+phone:'')+' 🙏'; else msg='🙏'; } localStorage.setItem('ms_chat_name',name); localStorage.setItem('ms_chat_village',village); localStorage.setItem('ms_chat_phone',phone); let code=getMyCode(); let time=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true}); let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); let newMsg={userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}; newMsg.id=chatMsgId(newMsg); local.push(newMsg); localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+village+'|'+phone+'|'+msg+'|'+time}); }catch(e){} document.getElementById('chatText').value=''; alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!'); loadMyChat(); setTimeout(scrollChatToBottom,200); }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
