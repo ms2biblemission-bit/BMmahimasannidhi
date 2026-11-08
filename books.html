@@ -1,11 +1,15 @@
 <!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BM మహిమ సన్నిధి - బుక్స్</title>
-<style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:90px} .head{background:#0B3D2E;color:white;padding:28px 18px 20px;text-align:center;border-radius:0 0 28px 28px} .head a{color:white;text-decoration:none;font-weight:bold} .head h2{margin:8px 0 4px;font-size:26px} .head p{margin:0;font-size:13px;opacity:.9} .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
+<style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:130px} .head{background:#0B3D2E;color:white;padding:28px 18px 20px;text-align:center;border-radius:0 0 28px 28px} .head a{color:white;text-decoration:none;font-weight:bold} .head h2{margin:8px 0 4px;font-size:26px} .head p{margin:0;font-size:13px;opacity:.9} .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
 h3{color:#0B3D2E;margin:16px 0 8px}
 .scroll{display:flex;gap:12px;overflow-x:auto;padding:6px 2px 12px;scroll-snap-type:x mandatory}.scroll::-webkit-scrollbar{display:none}.hcard{min-width:155px;width:155px;background:white;border-radius:20px;padding:12px;box-shadow:0 2px 10px #0001;cursor:pointer;scroll-snap-align:start}.hcard .cover{height:110px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:44px;color:white}.hcard b{display:block;margin-top:8px;font-size:15px;color:#0B3D2E;line-height:1.3}.hcard small{color:#888}
 .book{background:white;border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #0001;cursor:pointer;display:flex;gap:12px;align-items:center} .book .cover{width:58px;height:76px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;flex-shrink:0} .book h3{margin:0;color:#0B3D2E} .book p{color:#555;font-size:14px;margin:4px 0}
 .continue{background:#D9EAD3;border:2px solid #2E7D32;padding:16px;border-radius:20px;margin:14px 0;cursor:pointer} .continue b{font-size:19px;color:#0B3D2E} .bar{height:8px;background:#C8E6C9;border-radius:10px;margin-top:10px;overflow:hidden} .bar i{display:block;height:100%;background:#2E7D32}
 .chap{background:#FFF8E1;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer;border-left:4px solid #FF9800} .page{background:#FFFDE7;border:1px solid #FFE0B2;border-radius:20px;padding:20px;margin:12px 0;box-shadow:0 2px 8px #0001;line-height:1.9;white-space:pre-line;text-align:center} .page img{width:100%;border-radius:12px;margin:10px 0} .btn{background:#0B3D2E;color:white;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer} .btn2{background:#2E7D32;color:white;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin:4px} .btnOrange{background:#FF9800}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:10px 0 14px;box-shadow:0 -2px 10px #0001}.bottom div{text-align:center;font-size:12px;color:#888;cursor:pointer}.bottom div.active{color:#0B3D2E;font-weight:bold}
+/* FIX: కింద బార్ - సెట్టింగ్ లేదు */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .b-icon{font-size:22px;line-height:1}
+.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 </style></head>
 <body>
 <div class="head"><a href="index.html">⬅ హోమ్</a><h2>📖 BM మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div>
@@ -14,7 +18,14 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 <div id="box">లోడ్ అవుతోంది...</div>
 <div id="detail"></div>
 </div>
-<div class="bottom"><div onclick="location.href='index.html'">🏠<br>హోమ్</div><div class="active">📚<br>పుస్తకాలు</div><div onclick="location.href='index.html'">📝<br>గమనికలు</div><div onclick="location.href='admin.html'">⚙️<br>సెట్టింగ్</div></div>
+<!-- FIX: కొత్త కింద బార్ - సెట్టింగ్ తీసేసాము -->
+<nav class="bottom-nav">
+  <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
+  <a href="books.html" class="active"><span class="b-icon">📚</span>పుస్తకాలు</a>
+  <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
+  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+</nav>
 <script>
 let BOOKS=[];
 let DEFAULT_BOOKS=[
@@ -28,10 +39,8 @@ let DEFAULT_BOOKS=[
 let currentBook=null; let currentIdx=0;
 let lastRead={idx:0,page:0};
 try{let lr=localStorage.getItem('ms_last_read_books');if(lr){let j=JSON.parse(lr); if(j.idx!=null) lastRead=j; else if(j.id!=null) lastRead={idx:0,page:j.page||0};}}catch(e){}
-// ⭐ FIX - 1 2 3 -> A to Z -> అ to ఱ - సరైన ఆర్డర్
 function teluguKey(s){
   s=(s||'').toString();
-  // "📖 బుక్ 1 - ఆదికాండం వివరణ" -> "ఆదికాండం వివరణ" - అసలు పేరుతోనే సార్ట్
   if(s.includes(' - ')) s=s.split(' - ').pop();
   s=s.replace(/[^A-Za-z0-9\u0C00-\u0C7F ]/g,'').trim();
   return s;
@@ -40,15 +49,15 @@ function teluguCompare(a,b){
   let ka=teluguKey(a), kb=teluguKey(b);
   function group(str){
     let ch=str.charAt(0);
-    if(ch>='0' && ch<='9') return 0; // 1 2 3 ముందు
-    if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z')) return 1; // A to Z తర్వాత
-    return 2; // అ to ఱ చివర
+    if(ch>='0' && ch<='9') return 0;
+    if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z')) return 1;
+    return 2;
   }
   let ga=group(ka), gb=group(kb);
   if(ga!==gb) return ga-gb;
   if(ga===0){
     let na=parseInt(ka)||0, nb=parseInt(kb)||0;
-    if(na!==nb) return na-nb; // 2 < 10 అవ్వడానికి
+    if(na!==nb) return na-nb;
   }
   if(ka<kb) return -1;
   if(ka>kb) return 1;
@@ -75,7 +84,6 @@ function renderBooks(){
   let q=(document.getElementById('search').value||'').toLowerCase();
   let box=document.getElementById('box');document.getElementById('detail').innerHTML='';
   let list=BOOKS.filter(b=>((b.title||'')+(b.desc||'')+getChapters(b).map(c=>c.t||'').join(' ')).toLowerCase().includes(q));
-  // ⭐ FIX - ఇక్కడే సార్ట్ - 1 2 3 -> A to Z -> అ to ఱ
   list.sort((a,b)=>teluguCompare(a.title||'', b.title||''));
   if(!list.length){box.innerHTML='<p style="text-align:center">📭 బుక్ దొరకలేదు!</p>';return;}
   let colors=['#FF9800','#2E7D32','#1976D2','#8E24AA','#E91E63','#009688'];
