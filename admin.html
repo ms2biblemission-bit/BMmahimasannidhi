@@ -24,21 +24,17 @@ button.orange{background:#FF9800} button.red{background:#0B3D2E}
 .debug{background:#E3F2FD;border:1px solid #90CAF9;padding:10px;border-radius:10px;font-size:13px;word-break:break-all}
 small{color:#666} .hidden{display:none}
 .folderCard{background:white;padding:15px;border-radius:20px;margin:12px 0;box-shadow:0 2px 10px #0001;cursor:pointer}
-/* FIX: స్క్రోల్ ఆగకుండా - max-height తీసేసాము */
 .scrollBox{overflow:visible;padding:2px;padding-bottom:30px}
 .modalBox{background:white;border-radius:20px;max-height:82vh;overflow-y:auto;overscroll-behavior:contain}
-/* FIX: పాస్వర్డ్ లాక్ స్క్రీన్ */
 #lockScreen{position:fixed;inset:0;background:#0B3D2E;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
 .lockBox{background:white;width:100%;max-width:380px;border-radius:20px;padding:24px;text-align:center}
 .lockBox input{font-size:18px;text-align:center}
-/* FIX: కింద బార్ - సెట్టింగ్ లేదు */
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
 </style>
 </head>
 <body>
-<!-- FIX: పాస్వర్డ్ లాక్ - ముందు ఇదే వస్తుంది -->
 <div id="lockScreen">
   <div class="lockBox">
     <div style="font-size:50px">🔒</div>
@@ -50,7 +46,6 @@ small{color:#666} .hidden{display:none}
     <p id="passError" style="color:red;display:none;font-weight:bold">❌ పాస్వర్డ్ తప్పు!</p>
   </div>
 </div>
-
 <div class="header"><h2>📖 BM మహిమ సన్నిధి - Admin</h2><p>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</p></div>
 <div class="tabs">
 <button id="t1" class="active" onclick="showTab(1)">📝 మెసేజ్</button>
@@ -111,8 +106,6 @@ small{color:#666} .hidden{display:none}
 <button class="big red" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
 </div>
 </div>
-
-<!-- FIX: కింద బార్ -->
 <nav class="bottom-nav">
   <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
   <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
@@ -120,10 +113,8 @@ small{color:#666} .hidden{display:none}
   <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
   <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
-
 <script>
-// FIX: పాస్వర్డ్ లాక్ - ఇక్కడ పాస్వర్డ్ మార్చుకోండి
-const ADMIN_PASSWORD = 'mahima123';
+const ADMIN_PASSWORD = 'MS2BMapbp';
 function checkAdminPass(){
   let v = document.getElementById('adminPass').value;
   if(v === ADMIN_PASSWORD){
@@ -186,8 +177,7 @@ function openSongFolder(f){curSongFolder=f; editingSongInFolder=-1;document.getE
 async function addSongInFolder(){let title=document.getElementById('newSongTitle').value.trim();let content=document.getElementById('newSongContent').value.trim();if(!title||!content) return alert('టైటిల్ + పాట రెండూ రాయండి అండీ!');let list=getSongsInFolder(curSongFolder);songs.push({num:list.length+1, book:curSongFolder, title, content});let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పాట సేవ్ అయ్యింది! '+curSongFolder+' లో '+(list.length+1)+' వ పాట!'); openSongFolder(curSongFolder);}else setStatus('❌ పాట సేవ్ కాలేదు');}
 async function saveSongInFolder(gi){let f=getSongFolder(songs[gi]);let list=getSongsInFolder(f);list.forEach((s,i)=>{ s.num=i+1; });let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ సేవ్ అయ్యింది!'); openSongFolder(f);}else setStatus('❌ సేవ్ కాలేదు');}
 async function delSongInFolder(gi){if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return;let f=getSongFolder(songs[gi]);songs.splice(gi,1);let list=getSongsInFolder(f);list.forEach((s,i)=>{ s.num=i+1; });let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ తీసేసాను!'); openSongFolder(f);}}
-// FIX: focus మీద బాడీ లాక్ తీసేసాము - అదే స్క్రోల్ ఆపేసేది
 load(); loadBooks(); loadSch(); loadSongs();
 </script>
 </body>
-  </html>
+</html>
