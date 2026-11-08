@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BM మహిమ సన్నిధి - Admin</title>
 <style>
-*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:30px}
+*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:12px 15px;position:relative;z-index:10}
 .header h2{margin:0;font-size:20px} .header p{margin:4px 0 0;font-size:13px;opacity:.9}
@@ -24,12 +24,33 @@ button.orange{background:#FF9800} button.red{background:#0B3D2E}
 .debug{background:#E3F2FD;border:1px solid #90CAF9;padding:10px;border-radius:10px;font-size:13px;word-break:break-all}
 small{color:#666} .hidden{display:none}
 .folderCard{background:white;padding:15px;border-radius:20px;margin:12px 0;box-shadow:0 2px 10px #0001;cursor:pointer}
-.scrollBox{max-height:68vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px}
-.scrollBox::-webkit-scrollbar{width:6px} .scrollBox::-webkit-scrollbar-thumb{background:#C8E6C9;border-radius:10px}
+/* FIX: స్క్రోల్ ఆగకుండా - max-height తీసేసాము */
+.scrollBox{overflow:visible;padding:2px;padding-bottom:30px}
 .modalBox{background:white;border-radius:20px;max-height:82vh;overflow-y:auto;overscroll-behavior:contain}
+/* FIX: పాస్వర్డ్ లాక్ స్క్రీన్ */
+#lockScreen{position:fixed;inset:0;background:#0B3D2E;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.lockBox{background:white;width:100%;max-width:380px;border-radius:20px;padding:24px;text-align:center}
+.lockBox input{font-size:18px;text-align:center}
+/* FIX: కింద బార్ - సెట్టింగ్ లేదు */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .b-icon{font-size:22px;line-height:1}
 </style>
 </head>
 <body>
+<!-- FIX: పాస్వర్డ్ లాక్ - ముందు ఇదే వస్తుంది -->
+<div id="lockScreen">
+  <div class="lockBox">
+    <div style="font-size:50px">🔒</div>
+    <h2 style="color:#0B3D2E;margin:8px 0">అడ్మిన్ మాత్రమే</h2>
+    <p style="color:gray;font-size:14px">పాస్వర్డ్ వేయండి అండీ</p>
+    <input id="adminPass" type="password" placeholder="పాస్వర్డ్" onkeydown="if(event.key==='Enter') checkAdminPass()">
+    <button class="big" onclick="checkAdminPass()">🔓 ఓపెన్ చేయండి</button>
+    <button class="big" style="background:#999" onclick="location.href='index.html'">⬅️ హోమ్ కి వెళ్ళండి</button>
+    <p id="passError" style="color:red;display:none;font-weight:bold">❌ పాస్వర్డ్ తప్పు!</p>
+  </div>
+</div>
+
 <div class="header"><h2>📖 BM మహిమ సన్నిధి - Admin</h2><p>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</p></div>
 <div class="tabs">
 <button id="t1" class="active" onclick="showTab(1)">📝 మెసేజ్</button>
@@ -90,7 +111,31 @@ small{color:#666} .hidden{display:none}
 <button class="big red" onclick="window.open('index.html','_blank')">👀 సైట్ చూడండి</button>
 </div>
 </div>
+
+<!-- FIX: కింద బార్ -->
+<nav class="bottom-nav">
+  <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
+  <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
+  <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
+  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+</nav>
+
 <script>
+// FIX: పాస్వర్డ్ లాక్ - ఇక్కడ పాస్వర్డ్ మార్చుకోండి
+const ADMIN_PASSWORD = 'mahima123';
+function checkAdminPass(){
+  let v = document.getElementById('adminPass').value;
+  if(v === ADMIN_PASSWORD){
+    document.getElementById('lockScreen').style.display='none';
+    sessionStorage.setItem('ms_admin_ok','1');
+  } else {
+    document.getElementById('passError').style.display='block';
+  }
+}
+if(sessionStorage.getItem('ms_admin_ok')==='1'){
+  document.getElementById('lockScreen').style.display='none';
+}
 let posts=[], postSha="", imageDataUrl="", books=[], bookSha="", bookPdfData="", editingBook=0;
 let schedule=[], schSha="", editingSch=-1;
 let songs=[], songSha="", editingSong=0;
@@ -99,10 +144,7 @@ let editingPost=-1;
 let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit', repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi', token=localStorage.getItem('ms_token')||'';
 document.getElementById('owner').value=owner; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
 document.getElementById('date').value=new Date().toISOString().slice(0,10);
-function showTab(n){unlockBody(); [1,2,3,4,5].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);}); window.scrollTo(0,0);}
-let _scrollY=0;
-function lockBody(){ if(document.body.classList.contains('lock')) return; _scrollY=window.scrollY; document.body.classList.add('lock'); document.body.style.top='-'+_scrollY+'px'; }
-function unlockBody(){ if(!document.body.classList.contains('lock')) return; document.body.classList.remove('lock'); document.body.style.top=''; window.scrollTo(0,_scrollY); }
+function showTab(n){ [1,2,3,4,5].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);}); window.scrollTo(0,0);}
 function setStatus(t){document.getElementById('status').innerText=t;}
 function b64Dec(b){let bin=atob(b.replace(/\n/g,'')); let u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(u);}
 function b64Enc(s){let u=new TextEncoder().encode(s); let bin=''; u.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin);}
@@ -138,15 +180,14 @@ async function saveBook(){let t=document.getElementById('bookTitle').value.trim(
 function getSongFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
 function getSongsInFolder(f){ return songs.filter(s=>getSongFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0)); }
 async function loadSongs(){try{let j=await getFile('songs.json'); songSha=j.sha; songs=JSON.parse(b64Dec(j.content));}catch(e){ songs=[]; songSha=""; }if(!songs.length){songs=[{num:1,book:"ఆంధ్ర క్రైస్తవ కీర్తనలు",title:"త్రియేక దేవునికి - స్తుతి",content:`1. త్రియేక దేవునికి - స్తుతి\n\nశుభాకరా! శుద్ధాకరా!`}];}songs=songs.map(s=>({num:s.num||1, book:(s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(), title:s.title||"", content:s.content||""}));let byFolder={};songs.forEach(s=>{ let f=getSongFolder(s); byFolder[f]=byFolder[f]||[]; byFolder[f].push(s); });Object.keys(byFolder).forEach(f=>{byFolder[f].sort((a,b)=>(a.num||0)-(b.num||0));byFolder[f].forEach((s,i)=>{ s.num=i+1; });});curSongFolder=""; editingSongInFolder=-1;renderSongFolders();}
-function renderSongFolders(){unlockBody();document.getElementById('songBookOpenView').innerHTML='';let folders={}; songs.forEach(s=>{let f=getSongFolder(s); folders[f]=(folders[f]||0)+1;});let keys=Object.keys(folders).sort();let h=`<h3>📁 పాటల బుక్స్ - బుక్ నొక్కండి!</h3>`;h+=keys.map(f=>`<div class="folderCard" onclick="openSongFolder('${f.replace(/'/g,"\\'")}')"><b style="font-size:19px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి లోపలికి వెళ్ళండి ➡️</div></div>`).join('');h+=`<div class="card" style="background:#FFF8E1"><b>➕ కొత్త పాటల బుక్ / ఫోల్డర్</b><input id="newSongBook" placeholder="ఉదా: అన్నమ్మగారి పాటలు"><button class="big orange" onclick="createSongBook()">📁 కొత్త బుక్ తయారు చేయండి</button></div>`;document.getElementById('songFolderView').innerHTML=h;}
+function renderSongFolders(){document.getElementById('songBookOpenView').innerHTML='';let folders={}; songs.forEach(s=>{let f=getSongFolder(s); folders[f]=(folders[f]||0)+1;});let keys=Object.keys(folders).sort();let h=`<h3>📁 పాటల బుక్స్ - బుక్ నొక్కండి!</h3>`;h+=keys.map(f=>`<div class="folderCard" onclick="openSongFolder('${f.replace(/'/g,"\\'")}')"><b style="font-size:19px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి లోపలికి వెళ్ళండి ➡️</div></div>`).join('');h+=`<div class="card" style="background:#FFF8E1"><b>➕ కొత్త పాటల బుక్ / ఫోల్డర్</b><input id="newSongBook" placeholder="ఉదా: అన్నమ్మగారి పాటలు"><button class="big orange" onclick="createSongBook()">📁 కొత్త బుక్ తయారు చేయండి</button></div>`;document.getElementById('songFolderView').innerHTML=h;}
 function createSongBook(){let f=document.getElementById('newSongBook').value.trim(); if(!f) return alert('బుక్ పేరు రాయండి!');openSongFolder(f);}
 function openSongFolder(f){curSongFolder=f; editingSongInFolder=-1;document.getElementById('songFolderView').innerHTML='';let list=getSongsInFolder(f);let h=`<button class="big red" onclick="renderSongFolders()">⬅ అన్ని పాటల బుక్స్</button>`;h+=`<div class="card" style="text-align:center"><b style="font-size:20px;color:#0B3D2E">📁 ${f}</b><div style="color:gray">మొత్తం పాటలు - ${list.length} | ఈ బుక్ లో 1,2,3 వరుసగా వస్తాయి!</div></div>`;h+=`<div class="card" style="background:#FFF8E1;border-left:5px solid #FF9800"><h3 style="margin:0">➕ ఈ బుక్ లో కొత్త పేజీ / పాట యాడ్ చేయండి</h3><small>ఈ పాట ఆటోమేటిక్ గా ${list.length+1} వ నంబర్ అవుతుంది!</small><label>🎵 పాట టైటిల్</label><input id="newSongTitle" placeholder="ఉదా: నీ సన్నిధి నిలుపు"><label>📝 పాట - పూర్తిగా</label><textarea id="newSongContent" rows="8" placeholder="ఇక్కడ పాట మొత్తం రాయండి..."></textarea><button class="big" onclick="addSongInFolder()">✅ ఈ బుక్ లోనే సేవ్ చేయండి</button></div>`;h+=`<h3>📄 ఈ బుక్ లో పేజీలు</h3>`;if(!list.length) h+=`<p style="color:gray;text-align:center">ఇంకా పాటలు లేవు - పైన యాడ్ చేయండి!</p>`;h+=list.map((sg,idx)=>{let gi=songs.indexOf(sg);return `<div class="pageEdit" id="song-page-${idx}"><h4 style="margin:0 0 8px">పేజీ ${idx+1} - ${sg.title||''}</h4><input value="${(sg.title||'').replace(/"/g,'&quot;')}" placeholder="పాట టైటిల్" oninput="songs[${gi}].title=this.value"><textarea style="min-height:130px;margin-top:8px" placeholder="పాట రాయండి..." oninput="songs[${gi}].content=this.value">${sg.content||''}</textarea><div style="display:flex;gap:8px;margin-top:8px"><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#2E7D32;color:white;font-weight:bold" onclick="saveSongInFolder(${gi})">💾 ఈ పేజీ సేవ్</button><button style="flex:1;padding:10px;border:none;border-radius:12px;background:#E53935;color:white;font-weight:bold" onclick="delSongInFolder(${gi})">🗑️ ఈ పేజీ తీసేయి</button></div></div>`;}).join('');document.getElementById('songBookOpenView').innerHTML=h;window.scrollTo(0,0);}
 async function addSongInFolder(){let title=document.getElementById('newSongTitle').value.trim();let content=document.getElementById('newSongContent').value.trim();if(!title||!content) return alert('టైటిల్ + పాట రెండూ రాయండి అండీ!');let list=getSongsInFolder(curSongFolder);songs.push({num:list.length+1, book:curSongFolder, title, content});let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పాట సేవ్ అయ్యింది! '+curSongFolder+' లో '+(list.length+1)+' వ పాట!'); openSongFolder(curSongFolder);}else setStatus('❌ పాట సేవ్ కాలేదు');}
 async function saveSongInFolder(gi){let f=getSongFolder(songs[gi]);let list=getSongsInFolder(f);list.forEach((s,i)=>{ s.num=i+1; });let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ సేవ్ అయ్యింది!'); openSongFolder(f);}else setStatus('❌ సేవ్ కాలేదు');}
 async function delSongInFolder(gi){if(!confirm('ఈ పేజీ తీసేయమంటారా?')) return;let f=getSongFolder(songs[gi]);songs.splice(gi,1);let list=getSongsInFolder(f);list.forEach((s,i)=>{ s.num=i+1; });let j=await putFile('songs.json',songSha,songs);if(j.content){songSha=j.content.sha; setStatus('✅ పేజీ తీసేసాను!'); openSongFolder(f);}}
-document.addEventListener('focusin',e=>{ if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'){ let box=e.target.closest('.scrollBox'); if(box) lockBody(); }});
-document.addEventListener('focusout',e=>{ if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT'){ setTimeout(()=>{ if(!document.activeElement || (document.activeElement.tagName!=='TEXTAREA'&&document.activeElement.tagName!=='INPUT')) unlockBody(); },200); }});
+// FIX: focus మీద బాడీ లాక్ తీసేసాము - అదే స్క్రోల్ ఆపేసేది
 load(); loadBooks(); loadSch(); loadSongs();
 </script>
 </body>
-</html>
+  </html>
