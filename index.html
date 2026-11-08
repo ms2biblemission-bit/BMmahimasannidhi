@@ -14,6 +14,7 @@
 <style>
 *{box-sizing:border-box}
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
+body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:25px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px}
 .logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
@@ -46,6 +47,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 .old-box{display:block;background:#FF9800;color:white;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:12px}
+/* FIX: కింద ఫిక్స్ డ్ బార్ - సెట్టింగ్ లేదు */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .b-icon{font-size:22px;line-height:1}
+.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 </style>
 </head>
 <body>
@@ -99,6 +105,16 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="upi-box"><b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br><small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small></div>
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
+
+<!-- FIX: కొత్త కింద బార్ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="active"><span class="b-icon">🏠</span>హోమ్</a>
+  <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
+  <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
+  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+</nav>
+
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 <div class="modal" id="chatModal"><div class="modalBox">
 <h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3>
@@ -163,7 +179,6 @@ function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase().trim();
   let vis = visiblePosts();
   let filtered = vis.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
-  // ⭐ హోమ్ లో - వెతకనప్పుడు - పైది వదిలి - నిన్నటి 1 మాత్రమే!
   let list = q ? filtered : filtered.slice(1,2);
   let box = document.getElementById('postsList');
   if(list.length==0){ box.innerHTML = q ? '📭 ఇంకా ఏమీ లేవు!' : '📭 నిన్నటి వాక్యం లేదు!'; } else {
@@ -245,4 +260,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+  </html>
