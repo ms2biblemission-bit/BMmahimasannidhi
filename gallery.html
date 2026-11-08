@@ -1,13 +1,13 @@
 <!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ఫోటోలు - మహిమ సన్నిధి</title>
-<style>body{font-family:system-ui;background:#f5f5f5;margin:0;padding-bottom:130px} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .item{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer} .item img{width:100%;height:180px;object-fit:cover;display:block} .item div{padding:8px;text-align:center;font-weight:bold;color:#8B0000;font-size:14px} #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999;text-align:center} #modal img{width:95%;max-width:600px;border-radius:12px;margin-top:20px} #modal div{color:white;padding:15px}
+<style>body{font-family:system-ui;background:#f5f5f5;margin:0;padding-bottom:130px} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .item{background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer} .item img{width:100%;height:180px;object-fit:cover;display:block} .item div{padding:8px;text-align:center;font-weight:bold;color:#8B0000;font-size:14px} .folder{background:white;border-radius:16px;padding:18px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;display:flex;justify-content:space-between;align-items:center} .folder b{font-size:19px;color:#8B0000} .folder span{color:gray;font-size:13px} .backBtn{background:#0B3D2E;color:white;border:none;padding:12px 18px;border-radius:25px;font-weight:bold;width:100%;font-size:16px;margin-bottom:10px} #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999;text-align:center} #modal img{width:95%;max-width:600px;border-radius:12px;margin-top:20px} #modal div{color:white;padding:15px}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 </style></head>
 <body>
-<div class="head"><a href="index.html">⬅ హోమ్</a><h2>🖼️ ఫోటో గ్యాలరీ</h2><div>మెసేజ్ లో పెట్టిన ఫోటోలు - అన్నీ ఇక్కడే!</div></div>
-<div class="wrap"><div id="grid" class="grid">లోడ్ అవుతోంది...</div><p style="text-align:center;color:gray;font-size:13px">అడ్మిన్ లో మెసేజ్ కి ఫోటో పెడితే - ఇక్కడ ఆటోమేటిక్ గా వస్తుంది!</p></div>
+<div class="head"><a href="index.html">⬅ హోమ్</a><h2>🖼️ ఫోటో గ్యాలరీ</h2><div>నెల వారీగా - ఏ నెల ఈవెంట్ ఆ నెలలో!</div></div>
+<div class="wrap"><div id="main">లోడ్ అవుతోంది...</div><p style="text-align:center;color:gray;font-size:13px">అడ్మిన్ లో ఫోటో పెట్టేటప్పుడు డేట్ పెడితే - ఆ నెల ఫోల్డర్ లో ఆటోమేటిక్ గా వస్తుంది!</p></div>
 <div id="modal" onclick="this.style.display='none'"><img id="bigImg"><div id="bigTxt"></div><div>నొక్కితే మూసుకుంటుంది ✖</div></div>
 <nav class="bottom-nav">
   <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
@@ -17,10 +17,46 @@
   <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్</a>
 </nav>
 <script>
-async function load(){let pics=[];try{let r=await fetch('posts.json?v='+Date.now());let j=await r.json();let a=Array.isArray(j)?j:(j.posts||[]);a.forEach(p=>{let img=p.image||p.photo||p.img;if(img) pics.push({img:img,title:(p.title||'').trim()||'📷 ఫోటో',date:p.date||''});});}catch(e){} 
-let extra=["IMG-20261104-WA0008.jpg"];
-extra.forEach(f=>{ if(!pics.find(x=>x.img==f)) pics.push({img:f,title:"మహిమ సన్నిధి",date:""}); });
-let g=document.getElementById('grid');if(!pics.length){g.innerHTML='📭 ఇంకా ఫోటోలు లేవు!';return;} g.innerHTML=pics.map((p,i)=>`<div class="item" onclick="openBig('${p.img}','${p.title} - ${p.date}')"><img src="${p.img}" onerror="this.parentElement.style.display='none'"><div>${p.title}<br><small style="color:gray;font-weight:normal">${p.date}</small></div></div>`).join('');}
+let allPics=[];
+let curMonth="";
+const telMonths={"01":"జనవరి","02":"ఫిబ్రవరి","03":"మార్చి","04":"ఏప్రిల్","05":"మే","06":"జూన్","07":"జూలై","08":"ఆగస్టు","09":"సెప్టెంబర్","10":"అక్టోబర్","11":"నవంబర్","12":"డిసెంబర్"};
+function getMonthKey(dateStr){
+  if(!dateStr) return "తేదీ లేనివి";
+  dateStr=String(dateStr).trim();
+  let y="",m="";
+  if(dateStr.includes("-")){ let p=dateStr.split("-"); if(p[0].length==4){ y=p[0]; m=p[1]; } else { y=p[2]; m=p[1]; } }
+  else if(dateStr.includes("/")){ let p=dateStr.split("/"); if(p[2] && p[2].length==4){ y=p[2]; m=p[1]; } else { y=p[0]; m=p[1]; } }
+  else return "తేదీ లేనివి";
+  m=String(m).padStart(2,"0");
+  if(!telMonths[m]) return "తేదీ లేనివి";
+  return telMonths[m]+" "+y;
+}
+function monthSort(a,b){
+  if(a=="తేదీ లేనివి") return 1; if(b=="తేదీ లేనివి") return -1;
+  let pa=a.split(" "), pb=b.split(" "); let ya=parseInt(pa[1]||0), yb=parseInt(pb[1]||0); if(ya!==yb) return yb-ya;
+  let months=Object.values(telMonths); return months.indexOf(pb[0])-months.indexOf(pa[0]);
+}
+async function load(){
+  let pics=[];
+  try{let r=await fetch('posts.json?v='+Date.now());let j=await r.json();let a=Array.isArray(j)?j:(j.posts||[]);a.forEach(p=>{let img=p.image||p.photo||p.img;if(img) pics.push({img:img,title:(p.title||'').trim()||'📷 ఫోటో',date:p.date||'',month:getMonthKey(p.date)});});}catch(e){}
+  let extra=["IMG-20261104-WA0008.jpg"];
+  extra.forEach(f=>{ if(!pics.find(x=>x.img==f)) pics.push({img:f,title:"మహిమ సన్నిధి",date:"",month:"తేదీ లేనివి"}); });
+  allPics=pics; renderFolders();
+}
+function renderFolders(){
+  let box=document.getElementById('main'); curMonth="";
+  if(!allPics.length){box.innerHTML='📭 ఇంకా ఫోటోలు లేవు!';return;}
+  let groups={}; allPics.forEach(p=>{ groups[p.month]=groups[p.month]||[]; groups[p.month].push(p); });
+  let keys=Object.keys(groups).sort(monthSort);
+  box.innerHTML=`<h3 style="text-align:center;color:#8B0000">📁 నెల వారీగా - ఫోల్డర్ నొక్కండి!</h3>`+keys.map(k=>`<div class="folder" onclick="openMonth('${k}')"><div><b>📁 ${k}</b><div style="color:gray;font-size:13px">${groups[k].length} ఫోటోలు</div></div><div style="font-size:22px">➡️</div></div>`).join('');
+  window.scrollTo(0,0);
+}
+function openMonth(m){
+  curMonth=m; let list=allPics.filter(p=>p.month===m);
+  let box=document.getElementById('main');
+  box.innerHTML=`<button class="backBtn" onclick="renderFolders()">⬅ అన్ని నెలలు</button><h3 style="text-align:center;color:#8B0000">📁 ${m} - ${list.length} ఫోటోలు</h3><div class="grid">`+list.map(p=>`<div class="item" onclick="openBig('${p.img}','${p.title} - ${p.date}')"><img src="${p.img}" onerror="this.parentElement.style.display='none'"><div>${p.title}<br><small style="color:gray;font-weight:normal">${p.date}</small></div></div>`).join('')+`</div>`;
+  window.scrollTo(0,0);
+}
 function openBig(img,txt){document.getElementById('modal').style.display='block';document.getElementById('bigImg').src=img;document.getElementById('bigTxt').innerText=txt;}
 load();
 </script></body></html>
