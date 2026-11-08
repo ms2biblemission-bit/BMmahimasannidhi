@@ -32,6 +32,9 @@ small{color:#666} .hidden{display:none}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
+.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
+.galItem{background:white;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);margin:10px 0}
+.galItem img{width:100%;max-height:280px;object-fit:cover;display:block}
 </style>
 </head>
 <body>
@@ -49,6 +52,7 @@ small{color:#666} .hidden{display:none}
 <div class="header"><h2>📖 BM మహిమ సన్నిధి - Admin</h2><p>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</p></div>
 <div class="tabs">
 <button id="t1" class="active" onclick="showTab(1)">📝 మెసేజ్</button>
+<button id="t6" onclick="showTab(6)">🖼️ గ్యాలరీ</button>
 <button id="t2" onclick="showTab(2)">📅 షెడ్యూల్</button>
 <button id="t3" onclick="showTab(3)">📚 బుక్స్</button>
 <button id="t5" onclick="showTab(5)">🎵 పాటలు</button>
@@ -68,6 +72,10 @@ small{color:#666} .hidden{display:none}
 <button class="big orange" id="savePostBtn" onclick="addPost()">✅ Add చేసి Auto Save</button>
 <button class="big" id="cancelEditBtn" style="display:none;background:#666" onclick="cancelEditPost()">❌ Edit ఆపేయండి</button></div>
 <h3>ఉన్న మెసేజ్ లు</h3><div id="list" class="scrollBox">లోడ్ అవుతోంది...</div>
+</div>
+<div id="tab6" class="hidden">
+<div class="card"><h3 style="margin:0">🖼️ గ్యాలరీ - నెల వారీగా</h3><p style="color:gray;font-size:13px">నచ్చని ఫోటోని ఇక్కడే తీసేయవచ్చు. Edit నొక్కితే టైటిల్ / డేట్ మార్చవచ్చు.</p></div>
+<div id="galleryAdminList" class="scrollBox">లోడ్ అవుతోంది...</div>
 </div>
 <div id="tab2" class="hidden">
 <div class="card"><label>📅 రోజు</label><select id="schDay"><option>ఆదివారం</option><option>సోమవారం</option><option>మంగళవారం</option><option>బుధవారం</option><option>గురువారం</option><option>శుక్రవారం</option><option>శనివారం</option></select>
@@ -107,11 +115,11 @@ small{color:#666} .hidden{display:none}
 </div>
 </div>
 <nav class="bottom-nav">
-  <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
+  <button class="active" onclick="showTab(1)"><span class="b-icon">📝</span>అడ్మిన్</button>
   <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
   <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
-  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
-  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+  <a href="gallery.html"><span class="b-icon">🖼️</span>ఫోటోలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్</a>
 </nav>
 <script>
 const ADMIN_PASSWORD = 'MS2BMapbp';
@@ -132,10 +140,11 @@ let schedule=[], schSha="", editingSch=-1;
 let songs=[], songSha="", editingSong=0;
 let curSongFolder="", editingSongInFolder=-1;
 let editingPost=-1;
+let postsLoaded=false, isSavingPost=false;
 let owner=localStorage.getItem('ms_owner')||'ms2biblemission-bit', repo=localStorage.getItem('ms_repo')||'BMmahimasannidhi', token=localStorage.getItem('ms_token')||'';
 document.getElementById('owner').value=owner; document.getElementById('repo').value=repo; document.getElementById('token').value=token;
 document.getElementById('date').value=new Date().toISOString().slice(0,10);
-function showTab(n){ [1,2,3,4,5].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);}); window.scrollTo(0,0);}
+function showTab(n){ [1,2,3,4,5,6].forEach(i=>{document.getElementById('tab'+i).classList.toggle('hidden',i!==n); let tb=document.getElementById('t'+i); if(tb) tb.classList.toggle('active',i===n);}); window.scrollTo(0,0);}
 function setStatus(t){document.getElementById('status').innerText=t;}
 function b64Dec(b){let bin=atob(b.replace(/\n/g,'')); let u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder('utf-8').decode(u);}
 function b64Enc(s){let u=new TextEncoder().encode(s); let bin=''; u.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin);}
@@ -144,13 +153,36 @@ async function putFile(n,sha,obj){let r=await fetch(`https://api.github.com/repo
 function saveSettings(){token=document.getElementById('token').value.trim(); owner=document.getElementById('owner').value.trim(); repo=document.getElementById('repo').value.trim(); localStorage.setItem('ms_token',token); localStorage.setItem('ms_owner',owner); localStorage.setItem('ms_repo',repo); alert('సేవ్ అయ్యింది అండీ!'); load(); loadBooks(); loadSch(); loadSongs();}
 document.getElementById('imageFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{imageDataUrl=r.result; let p=document.getElementById('preview'); p.src=imageDataUrl; p.style.display='block';}; r.readAsDataURL(f);});
 document.getElementById('bookFile').addEventListener('change',e=>{let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=()=>{bookPdfData=r.result; document.getElementById('bookFileName').innerText='✅ '+f.name; if(books[editingBook]) books[editingBook].pdf=bookPdfData;}; r.readAsDataURL(f);});
-async function load(){if(!token){document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return;} try{let j=await getFile('posts.json'); postSha=j.sha; posts=JSON.parse(b64Dec(j.content)); setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు'); render();}catch(e){setStatus('❌ టోకెన్ తప్పు అండీ');}}
+async function load(){if(!token){document.getElementById('list').innerHTML='ముందు టోకెన్ పెట్టండి అండీ!'; return;} postsLoaded=false; setStatus('⏳ పాత మెసేజ్ లు లోడ్ అవుతున్నాయి... కొంచెం ఆగండి'); try{let j=await getFile('posts.json'); if(!j.content) throw new Error('no content'); postSha=j.sha; posts=JSON.parse(b64Dec(j.content)); postsLoaded=true; setStatus('✅ కనెక్ట్ అయ్యింది! '+posts.length+' పోస్టులు - ఇప్పుడు సేవ్ చేయవచ్చు'); render(); renderGalleryAdmin();}catch(e){postsLoaded=false; setStatus('❌ లోడ్ కాలేదు! Save నొక్కవద్దు - పేజ్ రిఫ్రెష్ చేయండి');}}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${esc(p.title)}</b><br><small>${esc(p.date)} ${p.name?(' | 👤 '+esc(p.name)):''} ${p.village?(' | 🏡 '+esc(p.village)):''} ${p.phone?(' | 📞 '+esc(p.phone)):''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px;margin-top:8px">`:''}<div style="white-space:pre-wrap;background:#F1F8E9;padding:10px;border-radius:10px;margin-top:8px;font-size:15px">${esc(p.content)}</div><div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editPost(${i})">✏️ Edit</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delPost(${i})">🗑️ Delete</button></div></div>`).join('')||'ఇంకా లేవు';}
+function render(){document.getElementById('list').innerHTML=posts.map((p,i)=>`<div class="card"><b>${esc(p.title||'📷 ఫోటో')}</b><br><small>${esc(p.date)} ${p.name?(' | 👤 '+esc(p.name)):''} ${p.village?(' | 🏡 '+esc(p.village)):''} ${p.phone?(' | 📞 '+esc(p.phone)):''}</small>${p.image?`<img src="${p.image}" style="width:100%;border-radius:10px;margin-top:8px">`:''}<div style="white-space:pre-wrap;background:#F1F8E9;padding:10px;border-radius:10px;margin-top:8px;font-size:15px">${esc(p.content||'')}</div><div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editPost(${i})">✏️ Edit</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delPost(${i})">🗑️ Delete</button></div></div>`).join('')||'ఇంకా లేవు';}
+const telMonths={"01":"జనవరి","02":"ఫిబ్రవరి","03":"మార్చి","04":"ఏప్రిల్","05":"మే","06":"జూన్","07":"జూలై","08":"ఆగస్టు","09":"సెప్టెంబర్","10":"అక్టోబర్","11":"నవంబర్","12":"డిసెంబర్"};
+function getMonthKey(dateStr){ if(!dateStr) return "తేదీ లేనివి"; dateStr=String(dateStr).trim(); let y="",m=""; if(dateStr.includes("-")){ let p=dateStr.split("-"); if(p[0].length==4){ y=p[0]; m=p[1]; } else { y=p[2]; m=p[1]; } } else if(dateStr.includes("/")){ let p=dateStr.split("/"); if(p[2] && p[2].length==4){ y=p[2]; m=p[1]; } else { y=p[0]; m=p[1]; } } else return "తేదీ లేనివి"; m=String(m).padStart(2,"0"); if(!telMonths[m]) return "తేదీ లేనివి"; return telMonths[m]+" "+y; }
+function renderGalleryAdmin(){
+  let box=document.getElementById('galleryAdminList');
+  let withImg=posts.map((p,i)=>({...p,idx:i})).filter(p=>p.image);
+  if(!withImg.length){ box.innerHTML='<p style="text-align:center;color:gray">📭 ఇంకా గ్యాలరీ లో ఫోటోలు లేవు!</p>'; return; }
+  let groups={}; withImg.forEach(p=>{ let k=getMonthKey(p.date); groups[k]=groups[k]||[]; groups[k].push(p); });
+  box.innerHTML=Object.keys(groups).map(k=>`<h3 style="color:#8B0000">📁 ${k} - ${groups[k].length} ఫోటోలు</h3>`+groups[k].map(p=>`<div class="galItem"><img src="${p.image}"><div style="padding:12px"><b>${esc(p.title||'📷 ఫోటో')}</b><br><small style="color:gray">📅 ${esc(p.date||'')} ${p.content?(' | '+esc(p.content.slice(0,40))):''}</small><div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editPost(${p.idx});showTab(1)">✏️ Edit</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delGalleryImage(${p.idx})">🗑️ Delete</button></div></div></div>`).join('')).join('');
+}
+async function delGalleryImage(i){
+  if(!postsLoaded){alert('⏳ ముందు లోడ్ అవ్వనివ్వండి!'); return;}
+  let p=posts[i];
+  let hasContent=(p.content||'').trim()!=='';
+  if(hasContent){
+    if(!confirm('ఈ ఫోటో మాత్రమే తీసేయమంటారా? వాక్యం అలాగే ఉంటుంది.')) return;
+    posts[i]={...p,image:""};
+  } else {
+    if(!confirm('ఈ ఫోటో తీసేయమంటారా?')) return;
+    posts.splice(i,1);
+  }
+  let j=await putFile('posts.json',postSha,posts);
+  if(j.content){ postSha=j.content.sha; setStatus('✅ ఫోటో తీసేసాను!'); render(); renderGalleryAdmin(); } else { setStatus('❌ తీసేయలేకపోయాను, మళ్ళీ ట్రై చేయండి'); }
+}
 function editPost(i){editingPost=i; let p=posts[i]; document.getElementById('title').value=p.title||''; document.getElementById('content').value=p.content||''; document.getElementById('type').value=p.type||'vakayam'; document.getElementById('date').value=p.date||''; document.getElementById('senderName').value=p.name||''; document.getElementById('senderVillage').value=p.village||''; document.getElementById('senderPhone').value=p.phone||''; if(p.image){imageDataUrl=p.image; let pr=document.getElementById('preview'); pr.src=p.image; pr.style.display='block';} document.getElementById('savePostBtn').innerText='💾 Edit Save చేయండి'; document.getElementById('cancelEditBtn').style.display='block'; window.scrollTo(0,0); setStatus('✏️ Edit చేస్తున్నారు - మార్చి Save నొక్కండి!');}
-function cancelEditPost(){editingPost=-1; document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('senderName').value=''; document.getElementById('senderVillage').value=''; document.getElementById('senderPhone').value=''; document.getElementById('publishAt').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; document.getElementById('savePostBtn').innerText='✅ Add చేసి Auto Save'; document.getElementById('cancelEditBtn').style.display='none'; setStatus('');}
-async function addPost(){let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; let senderName=document.getElementById('senderName').value.trim(), senderVillage=document.getElementById('senderVillage').value.trim(), senderPhone=document.getElementById('senderPhone').value.trim(); let hasImage = imageDataUrl || (editingPost>=0 && posts[editingPost].image); if(!title && !content && !hasImage){alert('ఏదో ఒకటి పెట్టండి అండీ - టైటిల్ / వాక్యం / ఫోటో'); return;} if(!senderName||!senderVillage){ if(!confirm('పేరు / ఊరు రాయలేదు - అయినా సెండ్ చేయమంటారా?')) return; } publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); if(editingPost>=0){posts[editingPost]={...posts[editingPost],title,content,type,date,publishAt,name:senderName,village:senderVillage,phone:senderPhone,image:imageDataUrl||posts[editingPost].image||""};} else {posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:"",name:senderName,village:senderVillage,phone:senderPhone});} let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ!'); cancelEditPost(); render();} else {setStatus('❌ కాలేదు!'); if(editingPost<0) posts.shift();}}
-async function delPost(i){if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; render();}}
+function cancelEditPost(){editingPost=-1; document.getElementById('title').value=''; document.getElementById('content').value=''; document.getElementById('senderName').value=''; document.getElementById('senderVillage').value=''; document.getElementById('senderPhone').value=''; document.getElementById('publishAt').value=''; imageDataUrl=''; document.getElementById('preview').style.display='none'; document.getElementById('savePostBtn').innerText='✅ Add చేసి Auto Save'; document.getElementById('cancelEditBtn').style.display='none'; setStatus(postsLoaded?('✅ '+posts.length+' పోస్టులు'): '');}
+async function addPost(){if(!postsLoaded){alert('⏳ పాత మెసేజ్ లు ఇంకా లోడ్ అవ్వలేదు అండీ! కొంచెం ఆగి, పైన ✅ కనెక్ట్ అయ్యింది అని వచ్చాక Save నొక్కండి. లేకపోతే పాతవి పోతాయి!'); return;} if(isSavingPost){alert('⏳ ఇప్పుడే ఒకటి సేవ్ అవుతుంది, కొంచెం ఆగండి!'); return;} let title=document.getElementById('title').value.trim(), content=document.getElementById('content').value.trim(), type=document.getElementById('type').value, date=document.getElementById('date').value||new Date().toISOString().slice(0,10), publishAt=document.getElementById('publishAt').value; let senderName=document.getElementById('senderName').value.trim(), senderVillage=document.getElementById('senderVillage').value.trim(), senderPhone=document.getElementById('senderPhone').value.trim(); let hasImage = imageDataUrl || (editingPost>=0 && posts[editingPost].image); if(!title && !content && !hasImage){alert('ఏదో ఒకటి పెట్టండి అండీ - టైటిల్ / వాక్యం / ఫోటో'); return;} if(!senderName||!senderVillage){ if(!confirm('పేరు / ఊరు రాయలేదు - అయినా సెండ్ చేయమంటారా?')) return; } publishAt=publishAt?new Date(publishAt).toISOString():new Date().toISOString(); isSavingPost=true; setStatus('⏳ సేవ్ అవుతుంది... ఆగండి'); try{ let fresh=await getFile('posts.json'); if(fresh.content){ postSha=fresh.sha; posts=JSON.parse(b64Dec(fresh.content)); } }catch(e){} if(editingPost>=0){posts[editingPost]={...posts[editingPost],title,content,type,date,publishAt,name:senderName,village:senderVillage,phone:senderPhone,image:imageDataUrl||posts[editingPost].image||""};} else {posts.unshift({title,content,type,date,publishAt,image:imageDataUrl,audio:"",name:senderName,village:senderVillage,phone:senderPhone});} let j=await putFile('posts.json',postSha,posts); isSavingPost=false; if(j.content){postSha=j.content.sha; setStatus('✅ అయిపోయింది అండీ! ఇప్పుడు మొత్తం '+posts.length+' పోస్టులు'); cancelEditPost(); render(); renderGalleryAdmin();} else {setStatus('❌ కాలేదు! మళ్ళీ ట్రై చేయండి - పేజ్ రిఫ్రెష్ చేయండి'); if(editingPost<0) posts.shift();}}
+async function delPost(i){if(!postsLoaded){alert('⏳ ముందు లోడ్ అవ్వనివ్వండి!'); return;} if(!confirm('తీసేయమంటారా?')) return; posts.splice(i,1); let j=await putFile('posts.json',postSha,posts); if(j.content){postSha=j.content.sha; render(); renderGalleryAdmin();}}
 async function loadSch(){try{let j=await getFile('schedule.json'); schSha=j.sha; schedule=JSON.parse(b64Dec(j.content));}catch(e){schedule=[]; schSha="";} renderSch();}
 function renderSch(){document.getElementById('schList').innerHTML=schedule.map((s,i)=>`<div class="card"><b>${esc(s.day)} - ${esc(s.time)}</b><br>${esc(s.title)}<div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#2196F3;font-weight:bold" onclick="editSch(${i})">✏️ ఎడిట్</button><button style="flex:1;padding:10px;border:none;border-radius:10px;color:white;background:#f44336;font-weight:bold" onclick="delSch(${i})">🗑️ Delete</button></div></div>`).join('')||'షెడ్యూల్ లేదు';}
 async function addSchedule(){let day=document.getElementById('schDay').value, time=document.getElementById('schTime').value.trim(), title=document.getElementById('schTitle').value.trim(); if(!time||!title){alert('టైమ్ + కార్యక్రమం రాయండి'); return;} if(editingSch>=0){schedule[editingSch]={day,time,title}; editingSch=-1;} else schedule.push({day,time,title}); let j=await putFile('schedule.json',schSha,schedule); if(j.content){schSha=j.content.sha; setStatus('✅ షెడ్యూల్ సేవ్ అయ్యింది!'); document.getElementById('schTime').value=''; document.getElementById('schTitle').value=''; renderSch();}}
