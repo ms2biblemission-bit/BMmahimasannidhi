@@ -52,10 +52,10 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 #appSplash,#splashScreen,#splash,.splash,.splashBox,.splash-screen,[id*="splash"],[id*="Splash"],[class*="splash"],[class*="Splash"]{display:none!important;visibility:hidden!important;height:0!important;opacity:0!important;pointer-events:none!important}
 @media (display-mode: standalone){ #installBtn,.install-btn{ display:none !important; } }
-/* FINAL FIX - కింద మెనూ చాట్ ని కప్పకుండా, పంపండి ఎప్పుడూ కనిపించేలా */
+/* FINAL FIX - చాట్ ఓపెన్ అయితే కింద మెనూ పూర్తిగా పోతుంది */
 body.modal-open{overflow:hidden!important}
 body.modal-open .bottom-nav{display:none!important}
-#chatModal{z-index:200!important;overscroll-behavior:contain}
+#chatModal{z-index:999!important;overscroll-behavior:contain}
 #chatModal .modalBox{display:flex!important;flex-direction:column!important;height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;padding:0!important;border-radius:0!important}
 #chatModal .chatScroll{flex:1!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;padding:14px 14px 10px 14px!important}
 #chatModal .chatInputWrap{background:#fff!important;padding:10px 10px calc(12px + env(safe-area-inset-bottom)) 10px!important;border-top:1px solid #eee!important;flex-shrink:0!important}
@@ -67,9 +67,9 @@ body.modal-open .bottom-nav{display:none!important}
 <body>
 <script>
 function killSplash(){
-  document.body.classList.remove('lock'); document.body.style.position=''; document.body.style.top=''; document.body.style.overflow='';
+  if(document.body.classList.contains('modal-open')) return;
+  document.body.style.position=''; document.body.style.top=''; document.body.style.overflow='';
   ['appSplash','splashScreen','splash'].forEach(id=>{let e=document.getElementById(id); if(e) e.remove();});
-  localStorage.removeItem('splashShown'); sessionStorage.removeItem('splashShown');
 }
 killSplash(); setInterval(killSplash,500);
 </script>
@@ -163,6 +163,7 @@ function lockBody(){
   document.body.style.right = '0';
   document.body.style.width = '100%';
   document.documentElement.style.overflow = 'hidden';
+  var bn = document.querySelector('.bottom-nav'); if(bn) bn.style.display = 'none';
 }
 function unlockBody(){
   if(!document.body.classList.contains('modal-open')) return;
@@ -173,6 +174,7 @@ function unlockBody(){
   document.body.style.right = '';
   document.body.style.width = '';
   document.documentElement.style.overflow = '';
+  var bn = document.querySelector('.bottom-nav'); if(bn) bn.style.display = '';
   window.scrollTo(0, _chatY);
 }
 function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){ let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let decoded = new TextDecoder('utf-8').decode(bytes); if(decoded && decoded.indexOf('[STRIPPED 3 bytes]')===-1) return decoded; } }catch(e){} return s; }
