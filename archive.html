@@ -1,9 +1,23 @@
 <!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>పాత మెసేజ్ లు - మహిమ సన్నిధి</title>
-<style>body{font-family:system-ui;background:#f5f5f5;margin:0} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .post{background:white;border-radius:16px;padding:16px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;text-align:center} .post img{width:100%;border-radius:12px;max-height:320px;object-fit:cover} .post h3{color:#8B0000;margin:8px 0} .post div{white-space:pre-line;line-height:1.7} .btn{background:#8B0000;color:white;border:none;padding:12px;border-radius:30px;font-weight:bold;width:100%} input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box} #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;overflow-y:auto} #modalBox{background:white;margin:20px;border-radius:16px;padding:20px;text-align:center;line-height:1.8;white-space:pre-line}</style></head>
+<style>body{font-family:system-ui;background:#f5f5f5;margin:0;padding-bottom:130px} .head{background:#8B0000;color:white;padding:20px;text-align:center} .head a{color:white} .wrap{padding:12px;max-width:700px;margin:auto} .post{background:white;border-radius:16px;padding:16px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer;text-align:center} .post img{width:100%;border-radius:12px;max-height:320px;object-fit:cover} .post h3{color:#8B0000;margin:8px 0} .post div{white-space:pre-line;line-height:1.7} .btn{background:#8B0000;color:white;border:none;padding:12px;border-radius:30px;font-weight:bold;width:100%} input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px;box-sizing:border-box} #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;overflow-y:auto} #modalBox{background:white;margin:20px;border-radius:16px;padding:20px;text-align:center;line-height:1.8;white-space:pre-line}
+/* FIX: కింద బార్ - అన్ని పేజీల్లో ఒకేలా */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .b-icon{font-size:22px;line-height:1}
+.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
+</style></head>
 <body>
 <div class="head"><a href="index.html">⬅ హోమ్</a><h2>📖 పాత మెసేజ్ లు - అన్నీ ఇక్కడే!</h2><div>నొక్కితే - పూర్తి మెసేజ్ ఓపెన్ అవుతుంది!</div></div>
 <div class="wrap"><input id="search" placeholder="🔍 వెతకండి... తేదీ / వాక్యం" oninput="render()"><div id="list">లోడ్ అవుతోంది...</div></div>
 <div id="modal"><div id="modalBox"><button class="btn" onclick="closeM()">✖ మూసేయండి</button><div id="mContent"></div></div></div>
+<!-- FIX: కొత్త కింద బార్ -->
+<nav class="bottom-nav">
+  <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
+  <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
+  <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
+  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
+  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+</nav>
 <script>
 let all=[];
 function get(p,names){for(let n of names){if(p[n]!==undefined && p[n]!==null && String(p[n]).trim()!=='') return p[n];} return '';}
