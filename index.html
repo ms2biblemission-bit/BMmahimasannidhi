@@ -51,7 +51,10 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
-@media (display-mode: standalone){ #installBtn{ display:none !important; } }
+/* FIX 1: యాప్ లో ఓపెన్ చేస్తే - ఇన్స్టాల్ బటన్ / స్ప్లాష్ ఏదీ రాకూడదు - డైరెక్ట్ హోమ్ మాత్రమే */
+@media (display-mode: standalone){
+  #installBtn, #appSplash, #splashScreen, .install-btn, .splashBox { display:none !important; }
+}
 </style>
 </head>
 <body>
@@ -87,6 +90,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
   <div id="topDate">📅 4/11/2026</div>
 </div>
+<!-- FIX 2: ఈ నల్ల బటన్ Chrome లో మాత్రమే వస్తుంది - యాప్ లో రాదు - పెద్దవాళ్ళ కోసం అలాగే ఉంచాము -->
 <div style="text-align:center"><button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button></div>
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ / బుక్" oninput="renderPosts()">
 <div class="section">
@@ -137,7 +141,7 @@ function fixT(s){
     if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){
       let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255));
       let decoded = new TextDecoder('utf-8').decode(bytes);
-      if(decoded && decoded.indexOf('�')===-1) return decoded;
+      if(decoded && decoded.indexOf('[STRIPPED 3 bytes]')===-1) return decoded;
     }
   }catch(e){}
   return s;
@@ -202,8 +206,12 @@ document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.i
 loadPosts();
 let deferredPrompt;
 function isApp(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+// యాప్ లో అయితే ఇన్స్టాల్ బటన్ / పసుపు బోర్డు చూపించొద్దు - డైరెక్ట్ హోమ్ మాత్రమే
+// Chrome లో అయితే చూపించాలి - పెద్దవాళ్ళు ఇన్స్టాల్ చేసుకుంటారు
 if(isApp()){
-  document.getElementById('installBtn').style.display='none';
+  var ib=document.getElementById('installBtn'); if(ib) ib.style.display='none';
+  var sp=document.getElementById('appSplash'); if(sp) sp.style.display='none';
+  var sp2=document.getElementById('splashScreen'); if(sp2) sp2.style.display='none';
 } else {
   window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
 }
@@ -262,4 +270,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+  </html>
