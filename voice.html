@@ -10,8 +10,14 @@ body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0;padding-bottom
 .header{background:#8B0000;color:white;padding:20px;text-align:center}
 .box{background:white;margin:12px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1);text-align:center}
 .box h3{color:#8B0000;margin:0 0 8px}
+.box img{width:100%;border-radius:12px;max-height:300px;object-fit:cover;margin:10px 0}
+.box p{white-space:pre-line;line-height:1.7}
 audio{width:100%;margin-top:10px}
 .back{display:block;text-align:center;background:#8B0000;color:white;padding:12px;border-radius:25px;margin:12px;text-decoration:none;font-weight:bold}
+.ytBox{margin:10px 0}
+.ytBox img{width:100%;border-radius:12px}
+.ytBtn{display:block;background:#FF0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin-top:6px}
+.linkBtn{display:block;background:#8B0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:10px 0}
 /* FIX: కింద బార్ - అన్ని పేజీల్లో ఒకేలా */
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
@@ -29,7 +35,6 @@ audio{width:100%;margin-top:10px}
 
 <a class="back" href="index.html">🏠 హోమ్ కి వెళ్ళండి</a>
 
-<!-- FIX: కొత్త కింద బార్ -->
 <nav class="bottom-nav">
   <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
   <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
@@ -39,27 +44,49 @@ audio{width:100%;margin-top:10px}
 </nav>
 
 <script>
+function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s)||s.indexOf('Ã')>=0){ let b=new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let d=new TextDecoder('utf-8').decode(b); if(d.indexOf('[STRIPPED 3 bytes]')===-1) return d; } }catch(e){} return s; }
+function fmtDate(d){ if(!d) return ''; if(String(d).includes('T')){ let dt=new Date(d); if(!isNaN(dt)) return dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear(); } return d; }
+function linkHTML(l){
+  if(!l) return "";
+  let m=l.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/);
+  if(m) return `<div class="ytBox"><a href="${l}" target="_blank"><img src="https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg"></a><a class="ytBtn" href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a></div>`;
+  if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<audio controls preload="metadata" src="${l}"></audio><br><a href="${l}" download style="color:#8B0000;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a>`;
+  if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
+  return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
+}
 async function loadVoices(){
   let box=document.getElementById('voiceList');
-  try{
-    let r=await fetch('voices.json?v='+Date.now());
-    if(!r.ok) throw new Error('no file');
-    let list=await r.json();
-    if(!list || !list.length){
-      box.innerHTML='<div class="box"><h3>🎤 త్వరలో వాయిస్ సందేశాలు వస్తాయి!</h3><p style="color:gray">దయచేసి కొద్దిసేపు వేచి ఉండండి 🙏</p></div>';
-      return;
-    }
-    box.innerHTML=list.map((v,i)=>`
-      <div class="box">
-        <h3>🎤 ${v.title||('వాయిస్ '+(i+1))}</h3>
-        <p style="color:gray;font-size:13px">📅 ${v.date||''}</p>
-        <audio controls preload="metadata"><source src="${v.file}" type="audio/mpeg">మీ బ్రౌజర్ లో ప్లే అవ్వడం లేదు!</audio>
-        <p><a href="${v.file}" download style="color:#8B0000;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a></p>
-      </div>
-    `).join('');
-  }catch(e){
-    box.innerHTML='<div class="box"><h3>🎤 త్వరలో వాయిస్ సందేశాలు వస్తాయి!</h3><p style="color:gray">దయచేసి కొద్దిసేపు వేచి ఉండండి 🙏</p></div>';
+  let list=[];
+  // ముందు admin సేవ్ చేసే voice.json చదువుతుంది, లేకపోతే పాత voices.json
+  try{ let r=await fetch('voice.json?v='+Date.now()); if(r.ok) list=await r.json(); }catch(e){}
+  if(!list.length){
+    try{ let r2=await fetch('voices.json?v='+Date.now()); if(r2.ok) list=await r2.json(); }catch(e){}
   }
+  if(!list || !list.length){
+    box.innerHTML='<div class="box"><h3>🎤 త్వరలో వాయిస్ సందేశాలు వస్తాయి!</h3><p style="color:gray">దయచేసి కొద్దిసేపు వేచి ఉండండి 🙏</p></div>';
+    return;
+  }
+  box.innerHTML=list.map((v,i)=>{
+    let title=fixT(v.title||'');
+    let msg=fixT(v.msg||v.content||'');
+    let img=v.img||v.image||v.photo||"";
+    let link=v.link||v.url||v.file||"";
+    let audioFile=v.file||v.audio||"";
+    // link లో MP3 ఉంటే అదే ఆడియో, లేకపోతే file
+    let audioSrc = audioFile || (link.match(/\.mp3|\.m4a|\.wav|drive\.google/i) ? link : "");
+    let isYT = link.match(/(?:youtube\.com|youtu\.be|shorts\/)/);
+    return `
+      <div class="box">
+        <h3>🎤 ${title||('వాయిస్ '+(i+1))}</h3>
+        ${img?`<img src="${img}">`:""}
+        ${msg?`<p>${msg}</p>`:""}
+        ${isYT ? linkHTML(link) : ""}
+        ${!isYT && audioSrc ? `<audio controls preload="metadata"><source src="${audioSrc}" type="audio/mpeg">మీ బ్రౌజర్ లో ప్లే అవ్వడం లేదు!</audio><p><a href="${audioSrc}" download style="color:#8B0000;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a></p>` : ""}
+        ${!isYT && link && link!==audioSrc ? linkHTML(link) : ""}
+        <p style="color:gray;font-size:13px">📅 ${fmtDate(v.date||'')}</p>
+      </div>
+    `;
+  }).join('');
 }
 loadVoices();
 </script>
