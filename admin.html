@@ -11,7 +11,6 @@
 <button type="button" onclick="setTab('gallery',this)">🖼️ గ్యాలరీ</button>
 </div>
 <p style="font-size:13px">చాట్ 👉 <b>admin-chat.html</b></p>
-
 <div id="normalBox">
 <p><b id="tabName">📝 వాక్యం</b> - <span id="folderName" style="color:gray">Folder: posts.json</span></p>
 <input type="hidden" id="editIdx" value="-1">
@@ -23,7 +22,6 @@
 <button type="button" onclick="newItem()" style="background:#4CAF50;margin-top:8px">➕ కొత్తది పెట్టండి</button>
 <h3>📂 ఈ ఫోల్డర్ లో ఉన్నవి - <span id="count"></span></h3><div id="list"></div>
 </div>
-
 <div id="songsBox" style="display:none">
 <h3>🎵 పాటలు - బుక్ వైస్!</h3>
 <label>1. 📁 పాటల బుక్ / ఫోల్డర్ ఎంచుకోండి</label><select id="songFolderSelect" onchange="onFolderChange()"></select>
@@ -42,7 +40,6 @@
 <h3>🎵 ఈ ఫోల్డర్ లో పాటలు - <span id="songCount"></span></h3>
 <div id="songsList"></div>
 </div>
-
 <div id="booksBox" style="display:none">
 <h3>📖 బుక్స్</h3>
 <label>బుక్ ఎంచుకోండి</label><select id="bookSelect" onchange="openBook()"></select>
@@ -57,14 +54,13 @@
 <div id="pagesList"></div>
 <button type="button" onclick="addPage()" style="background:#FF9800">➕ ఈ బుక్ లో కొత్త పేజీ</button>
 </div>
-
 <script>
 const OWNER="ms2biblemission-bit", REPO="BMmahimasannidhi";
 let cur="posts", curList=[], curSha="", books=[], booksSha="", curBookIdx=0, SAVED_IMG="";
 let songs=[], songsSha="", curSongFolder="ఆంధ్ర క్రైస్తవ కీర్తనలు", curSongIdx=-1, SONG_IMG="";
 let files={posts:"posts.json",songs:"songs.json",books:"books.json",voice:"voice.json",gallery:"gallery.json"};
 function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('Ã')>=0){ let b=new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let d=new TextDecoder('utf-8').decode(b); if(d.indexOf('[STRIPPED 3 bytes]')===-1) return d; } }catch(e){} return s; }
-function b64e(s){ return btoa(String.fromCharCode(...new TextEncoder().encode(s))); }
+function b64e(s){ let b=new TextEncoder().encode(s), out=""; for(let i=0;i<b.length;i+=30000){ out+=String.fromCharCode.apply(null,b.subarray(i,i+30000)); } return btoa(out); }
 function b64d(s){ return new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g,"")),c=>c.charCodeAt(0))); }
 function getToken(){ let t=document.getElementById('token').value.trim(); localStorage.setItem('gh_token',t); return t; }
 function getImg(p){ return p.img||p.image||p.photo||""; }
@@ -120,7 +116,7 @@ async function savePost(){
   if(!t && !m && !l && !im){ alert("ఏదైనా ఒకటి పెట్టండి"); return; }
   if(idx>=0 && curList[idx]){ curList[idx]={...curList[idx],title:t,msg:m,link:l,img:im}; }
   else curList.unshift({title:t,msg:m,link:l,img:im,date:new Date().toLocaleDateString('en-GB')});
-  let r=await saveCur(); if(r.ok){alert("✅ సేవ్ అయింది!"); newItem(); loadCur();} else alert("❌ Save కాలేదు");
+  try{ let r=await saveCur(); if(r.ok){alert("✅ సేవ్ అయింది!"); newItem(); loadCur();} else alert("❌ Save కాలేదు - Token Expire అయి ఉండొచ్చు"); }catch(e){ alert("❌ Save కాలేదు: "+e.message); }
 }
 async function delOne(i){ if(!confirm("ఇది మాత్రమే Delete చేయాలా?")) return; curList.splice(i,1); let r=await saveCur(); if(r.ok) loadCur(); }
 document.getElementById('photo').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f)return; let rd=new FileReader(); rd.onload=ev=>{let img=new Image(); img.onload=()=>{let c=document.createElement('canvas'); let w=img.width,h=img.height,max=800; if(w>max){h=h*max/w;w=max;} c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h); let s=c.toDataURL('image/jpeg',0.7); SAVED_IMG=s; document.getElementById('preview').src=s; document.getElementById('preview').style.display='block'; document.getElementById('photoMsg').innerText="✅ ఫోటో రెడీ";}; img.src=ev.target.result;}; rd.readAsDataURL(f); });
@@ -163,11 +159,13 @@ function openSongEdit(){
 }
 async function saveSongsToGit(){
   document.getElementById('status').innerText="⏳ పాట సేవ్ అవుతోంది... దయచేసి ఆగండి";
-  let fresh=await getFreshSha("songs.json"); if(fresh) songsSha=fresh;
-  let toSave=songs.map((s,i)=>({title:s.title,content:s.content,msg:s.content,link:s.link,url:s.link,img:s.img,image:s.img,folder:s.folder,book:s.folder,author:s.folder,num:i+1}));
-  let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/songs.json`; let body={message:"update songs",content:b64e(JSON.stringify(toSave))}; if(songsSha) body.sha=songsSha;
-  let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)});
-  if(r.ok){ alert("✅ పాట సేవ్ అయింది!"); loadSongs(); } else { let j=await r.json().catch(()=>({})); alert("❌ సేవ్ కాలేదు: "+(j.message||r.status)); document.getElementById('status').innerText="❌ "+(j.message||r.status); }
+  try{
+    let fresh=await getFreshSha("songs.json"); if(fresh) songsSha=fresh;
+    let toSave=songs.map((s,i)=>({title:s.title,content:s.content,msg:s.content,link:s.link,url:s.link,img:s.img,image:s.img,folder:s.folder,book:s.folder,author:s.folder,num:i+1}));
+    let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/songs.json`; let body={message:"update songs",content:b64e(JSON.stringify(toSave))}; if(songsSha) body.sha=songsSha;
+    let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)});
+    if(r.ok){ alert("✅ పాట సేవ్ అయింది!"); loadSongs(); } else { let j=await r.json().catch(()=>({})); alert("❌ సేవ్ కాలేదు: "+(j.message||r.status)+" - Token Expire అయి ఉండొచ్చు"); document.getElementById('status').innerText="❌ "+(j.message||r.status); }
+  }catch(e){ alert("❌ సేవ్ కాలేదు: "+e.message); document.getElementById('status').innerText="❌ "+e.message; }
 }
 function saveCurrentSong(){
   if(curSongIdx<0){ alert("ముందు పాట ఎంచుకోండి"); return; }
@@ -197,7 +195,7 @@ async function loadBooks(){
   if(books.length) sel.value=String(curBookIdx); document.getElementById('status').innerText="✅ books.json - "+books.length+" బుక్స్"; openBook();
 }
 function openBook(){ let idx=parseInt(document.getElementById('bookSelect').value); if(isNaN(idx)) return; curBookIdx=idx; let b=books[idx]; if(!b) return; document.getElementById('bookTitle').value=b.title; document.getElementById('bookDesc').value=b.desc; document.getElementById('pageCount').innerText=b.pages.length+" పేజీలు"; let box=document.getElementById('pagesList'); box.innerHTML=""; b.pages.forEach((p,pi)=>{ let d=document.createElement('div'); d.className='pageBox'; let b1=document.createElement('b'); b1.textContent=`పేజీ ${pi+1}`; d.appendChild(b1); let l1=document.createElement('label'); l1.textContent='పేజీ శీర్షిక'; d.appendChild(l1); let inp=document.createElement('input'); inp.id='pt_'+pi; inp.value=p.title; d.appendChild(inp); let l2=document.createElement('label'); l2.textContent='పేజీ వివరణ'; d.appendChild(l2); let ta=document.createElement('textarea'); ta.id='pc_'+pi; ta.rows=4; ta.value=p.content; d.appendChild(ta); let row=document.createElement('div'); row.style.cssText='display:flex;gap:6px'; let s1=document.createElement('button'); s1.type='button'; s1.style.background='#2196F3'; s1.textContent='💾 ఈ పేజీ సేవ్'; s1.onclick=()=>savePage(pi); row.appendChild(s1); let d1=document.createElement('button'); d1.type='button'; d1.style.background='red'; d1.textContent='🗑️ ఈ పేజీ తీసేయి'; d1.onclick=()=>delPage(pi); row.appendChild(d1); d.appendChild(row); box.appendChild(d); }); if(!b.pages.length) box.textContent="📭 పేజీలు లేవు"; }
-async function saveBooksToGit(){ let fresh=await getFreshSha("books.json"); if(fresh) booksSha=fresh; let toSave=books.map(b=>({title:b.title, desc:b.desc, description:b.desc, pages:b.pages.map(p=>({title:p.title, content:p.content, msg:p.content}))})); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`; let body={message:"update books",content:b64e(JSON.stringify(toSave))}; if(booksSha) body.sha=booksSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ alert("✅ బుక్ సేవ్ అయింది!"); loadBooks(); } else alert("❌ Save కాలేదు"); }
+async function saveBooksToGit(){ try{ let fresh=await getFreshSha("books.json"); if(fresh) booksSha=fresh; let toSave=books.map(b=>({title:b.title, desc:b.desc, description:b.desc, pages:b.pages.map(p=>({title:p.title, content:p.content, msg:p.content}))})); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`; let body={message:"update books",content:b64e(JSON.stringify(toSave))}; if(booksSha) body.sha=booksSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ alert("✅ బుక్ సేవ్ అయింది!"); loadBooks(); } else alert("❌ Save కాలేదు"); }catch(e){ alert("❌ Save కాలేదు: "+e.message); } }
 function newBook(){ books.unshift({title:"కొత్త బుక్", desc:"", pages:[{title:"పేజీ 1", content:""}]}); curBookIdx=0; saveBooksToGit(); }
 function saveBookInfo(){ if(!books[curBookIdx]) return; books[curBookIdx].title=document.getElementById('bookTitle').value; books[curBookIdx].desc=document.getElementById('bookDesc').value; saveBooksToGit(); }
 function delBook(){ if(!confirm("ఈ బుక్ మొత్తం తీసేయాలా?")) return; books.splice(curBookIdx,1); curBookIdx=0; saveBooksToGit(); }
