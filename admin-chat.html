@@ -11,7 +11,7 @@ h2{color:#8B0000;text-align:center}
 .box{background:white;padding:12px;border-radius:12px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 select,input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin:6px 0;font-size:15px}
 button{padding:12px;background:#8B0000;color:white;border:none;border-radius:20px;font-weight:bold;width:100%;font-size:15px;cursor:pointer}
-.msg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px;position:relative}
+.msg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 .small{font-size:13px;color:gray}
 .msgBtn{padding:6px 10px;font-size:12px;border-radius:20px;width:auto;margin:4px 4px 0 0}
 .replyBox{background:#E3F2FD;border-left:4px solid #2196F3;padding:8px;border-radius:8px;font-size:13px;margin-bottom:8px}
@@ -41,10 +41,11 @@ let allMsgs=[];
 let selectedReply=null;
 function getDeleted(){ try{return JSON.parse(localStorage.getItem('ms_admin_deleted')||'[]')}catch(e){return []} }
 function getBlocked(){ try{return JSON.parse(localStorage.getItem('ms_admin_blocked')||'[]')}catch(e){return []} }
+function getHidden(){ try{return JSON.parse(localStorage.getItem('ms_admin_hidden')||'[]')}catch(e){return []} }
 function saveDeleted(a){ localStorage.setItem('ms_admin_deleted',JSON.stringify(a)); }
 function saveBlocked(a){ localStorage.setItem('ms_admin_blocked',JSON.stringify(a)); }
+function saveHidden(a){ localStorage.setItem('ms_admin_hidden',JSON.stringify(a)); }
 function msgId(m){ return (m.userCode+'|'+m.time+'|'+m.msg).slice(0,200); }
-
 async function loadAll(){
   document.getElementById('status').innerText='లోడ్ అవుతోంది...';
   try{
@@ -64,7 +65,6 @@ async function loadAll(){
           if(!time) time=t;
           allMsgs.push({userCode:code,userName:name,village:village,phone:phone,msg:msg,time:time,from:'user'});
         }
-        // ⭐⭐ ఫిక్స్ 1 - మీ రిప్లై కూడా చదవడం!
         if(j.message && j.message.startsWith('ADMIN_REPLY_')){
           let rest=j.message.replace('ADMIN_REPLY_','');
           let idx=rest.indexOf(':');
@@ -83,8 +83,9 @@ async function loadAll(){
       old.forEach(m=>{ if(m.from==='user') allMsgs.push({userCode:m.userCode,userName:m.userName,msg:m.msg,time:m.time,from:'user',village:m.village,phone:m.phone}); });
     }
   }catch(e){}
-  let del=getDeleted(); let blk=getBlocked();
+  let del=getDeleted(); let blk=getBlocked(); let hid=getHidden();
   allMsgs=allMsgs.filter(m=> !(m.from==='user' && del.includes(msgId(m))));
+  allMsgs=allMsgs.filter(m=> !hid.includes(String(m.userCode)));
   renderBlockedBox();
   let users={};
   allMsgs.forEach(m=>{
@@ -99,9 +100,9 @@ async function loadAll(){
     let cnt=allMsgs.filter(x=>String(x.userCode)===String(code)&&x.from==='user').length;
     return `<option value="${code}">${users[code].last} - ${users[code].name} ${users[code].village?'| 🏡 '+users[code].village:''} ${users[code].phone?'| 📞 '+users[code].phone:''} (${cnt} మెసేజ్ లు) - ${code}${isB}</option>`;
   }).join('');
-  if(cur) sel.value=cur;
+  if(cur && users[cur]) sel.value=cur;
   document.getElementById('status').innerText='✅ కనెక్ట్ అయ్యింది! మొత్తం మెసేజ్ లు: '+allMsgs.length;
-  if(cur) showUser();
+  if(cur && users[cur]) showUser();
 }
 function renderBlockedBox(){
   let blk=getBlocked();
@@ -119,7 +120,6 @@ function showUser(){
   let head=isBlocked?'<div class="blocked" style="padding:10px;border-radius:10px;margin-bottom:10px"><b>🚫 ఈ వ్యక్తి బ్లాక్ అయ్యారు!</b><br><small>వీళ్ళ మెసేజ్ లు మీకు రావు - వీళ్ళకి కూడా మీ రిప్లై వెళ్ళదు.</small></div>':'';
   if(!mine.length){ document.getElementById('chatBox').innerHTML=head+'ఏమీ లేదు'; return; }
   document.getElementById('chatBox').innerHTML=head+mine.map((m,idx)=>{
-    // ⭐⭐ ఫిక్స్ 1 - మీ రిప్లై నీలం కలర్ లో!
     if(m.from==='admin'){
       return `<div class="msg" style="background:#cfe8ff;border-left:4px solid #2196F3"><b>💙 మీరు: ${m.msg}</b><br><small class="small">📅 ${m.time}</small></div>`;
     }
@@ -146,7 +146,6 @@ async function sendReply(){
   await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_REPLY_'+code+':'+full});
   document.getElementById('replyText').value='';
   clearReplyTo();
-  // ⭐⭐ ఫిక్స్ 2 - పంపిన వెంటనే మీ రిప్లై కనిపించాలి - రిఫ్రెష్ కోసం ఆగకుండా!
   let t=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
   allMsgs.push({userCode:code,userName:'మీరు',msg:full,time:t,from:'admin'});
   showUser();
@@ -171,7 +170,6 @@ async function blockUser(){
   alert('🚫 బ్లాక్ చేసారు!');
   loadAll();
 }
-// ⭐⭐ ఫిక్స్ 3 - Unblock - భక్తుడి ఫోన్ లో కూడా పోతుంది!
 async function unblockUser(code){
   let blk=getBlocked().filter(c=>c!==code); saveBlocked(blk);
   try{ await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_UNBLOCK_'+code+':unblocked'}); }catch(e){}
@@ -182,9 +180,10 @@ function deleteUser(){
   let code=document.getElementById('userSelect').value;
   if(!code) return;
   if(!confirm('ఈ భక్తుడిని లిస్ట్ లో నుంచి దాచేయాలా? (మీ దాంట్లో మాత్రమే!)')) return;
+  let hid=getHidden(); if(!hid.includes(String(code))) hid.push(String(code)); saveHidden(hid);
   allMsgs=allMsgs.filter(m=>String(m.userCode)!==String(code));
   document.getElementById('userSelect').value='';
-  document.getElementById('chatBox').innerHTML='దాచేసారు';
+  document.getElementById('chatBox').innerHTML='దాచేసారు - Refresh చేసినా రారు';
   loadAll();
 }
 loadAll();
