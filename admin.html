@@ -1,99 +1,83 @@
 <!DOCTYPE html>
-<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin - Mahima Sannidhi</title><style>body{font-family:system-ui;padding:12px;max-width:600px;margin:auto;background:#fff8ec}input,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}button{background:#b8860b;color:#fff;border:0;padding:12px;border-radius:8px;width:100%;font-size:16px}.tabs{display:flex;gap:5px;flex-wrap:wrap}.tabs button{width:auto;padding:8px 10px;background:#eee;color:#333}.tabs button.on{background:#b8860b;color:#fff}.card{border:1px solid #eee;padding:10px;border-radius:10px;margin:10px 0;background:#fff}img{max-width:100%;border-radius:8px}.chatMsg{padding:10px;border-radius:12px;margin:8px 0;background:#fff3cd}iframe{width:100%;height:200px;border-radius:10px;border:0}audio{width:100%}</style></head><body>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin - Mahima Sannidhi</title><style>body{font-family:system-ui;padding:12px;max-width:650px;margin:auto;background:#fff8ec}input,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}button{background:#b8860b;color:#fff;border:0;padding:12px;border-radius:8px;width:100%;font-size:16px}.tabs{display:flex;gap:5px;flex-wrap:wrap}.tabs button{width:auto;padding:8px 10px;background:#eee;color:#333}.tabs button.on{background:#b8860b;color:#fff}.card{border:1px solid #eee;padding:10px;border-radius:10px;margin:10px 0;background:#fff}img{max-width:100%;border-radius:8px}.small{padding:8px!important;width:auto!important;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid img{height:130px;object-fit:cover}iframe{width:100%;height:200px;border:0;border-radius:10px}audio{width:100%}</style></head><body>
 <h2>🙏 Mahima Sannidhi - Admin</h2>
 <p id="status">Token పెట్టండి</p>
 <label>GitHub Token</label><input id="token" type="password">
 <div class="tabs">
-<button onclick="setTab('posts',this)" class="on">📝 వాక్యం / పోస్ట్</button>
+<button onclick="setTab('posts',this)" class="on">📝 వాక్యం</button>
 <button onclick="setTab('messages',this)">💬 మెసేజ్</button>
 <button onclick="setTab('songs',this)">🎵 పాటలు</button>
 <button onclick="setTab('books',this)">📖 బుక్స్</button>
 <button onclick="setTab('voice',this)">🎙️ వాయిస్</button>
-<button onclick="setTab('gallery',this)">🖼️ గ్యాలరీ - ఫోటో మాత్రమే</button>
-<button onclick="setTab('chat',this)" style="background:#673AB7;color:#fff">💬 అడ్మిన్ చాట్</button>
+<button onclick="setTab('gallery',this)">🖼️ గ్యాలరీ</button>
 </div>
-
+<p style="font-size:13px">చాట్ చూడాలంటే 👉 <b>admin-chat.html</b> ఓపెన్ చేయండి, ఇందులో చాట్ లేదు</p>
 <div id="normalBox">
-<p><b id="tabName">📝 వాక్యం / పోస్ట్</b></p>
-<p id="hint" style="font-size:13px;color:#0B3D2E;background:#E8F5E9;padding:8px;border-radius:8px">వాక్యం / మెసేజ్ కి Title తప్పనిసరి</p>
-<label>Title / శీర్షిక - <span id="titleNote">వాక్యం కి తప్పనిసరి</span></label><input id="title">
-<label>Message / వాక్యం / వివరం</label><textarea id="msg" rows="3"></textarea>
-<label>Link - YouTube / Voice / PDF లింక్ - పనిచేసేది ఇక్కడే చూస్తారు</label><input id="link" placeholder="YouTube లింక్ లేదా Voice MP3 లింక్" oninput="previewLink()">
-<div id="linkPreview"></div>
-<label>Photo - ఫోటో మాత్రమే పెట్టాలంటే ఇది చాలు, Title వద్దు</label><input id="photo" type="file" accept="image/*">
-<img id="preview" style="display:none">
-<button onclick="savePost()">✅ సేవ్ చేయండి</button>
-<h3>ఇప్పటివి - <span id="count"></span></h3><div id="list"></div>
+<p><b id="tabName">📝 వాక్యం</b> - <span id="folderName" style="color:gray">Folder: posts.json</span></p>
+<p id="hint" style="font-size:13px;color:#0B3D2E;background:#E8F5E9;padding:8px;border-radius:8px">వాక్యం కి Title తప్పనిసరి</p>
+<input type="hidden" id="editIdx" value="-1">
+<label>Title / శీర్షిక</label><input id="title">
+<label>Message / వివరం</label><textarea id="msg" rows="3"></textarea>
+<label>Link - YouTube / Voice / PDF</label><input id="link" placeholder="https://..." oninput="previewLink()"><div id="linkPreview"></div>
+<label>Photo - ఫోటో మాత్రమే అయితే Title వద్దు</label><input id="photo" type="file" accept="image/*"><img id="preview" style="display:none">
+<button onclick="savePost()" id="saveBtn">✅ సేవ్ చేయండి</button>
+<button onclick="newItem()" style="background:#4CAF50;margin-top:8px">➕ కొత్తది పెట్టండి - ఖాళీ చేయండి</button>
+<h3>📂 ఈ ఫోల్డర్ లో ఉన్నవి - <span id="count"></span></h3><div id="list"></div>
 </div>
-
-<div id="chatBox" style="display:none">
-<h3>💬 భక్తుల మెసేజ్ లు - అందరివీ</h3>
-<button onclick="loadChat()" style="background:#673AB7">🔄 Refresh</button>
-<div id="chatList" style="margin-top:10px"></div>
-<label>రిప్లై - Code</label><input id="replyCode">
-<textarea id="replyText" rows="2" placeholder="రిప్లై..."></textarea>
-<button onclick="sendReply()" style="background:#0B3D2E">📩 రిప్లై పంపండి</button>
-</div>
-
 <script>
 const OWNER="ms2biblemission-bit", REPO="BMmahimasannidhi";
 let cur="posts", curList=[], curSha="";
 let files={posts:"posts.json",messages:"messages.json",songs:"songs.json",books:"books.json",voice:"voice.json",gallery:"gallery.json"};
 function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('Ã')>=0){ let b=new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let d=new TextDecoder('utf-8').decode(b); if(d.indexOf('[STRIPPED 3 bytes]')===-1) return d; } }catch(e){} return s; }
-function b64e(str){ return btoa(String.fromCharCode(...new TextEncoder().encode(str))); }
-function b64d(str){ return new TextDecoder().decode(Uint8Array.from(atob(str.replace(/\n/g,"")),c=>c.charCodeAt(0))); }
+function b64e(s){ return btoa(String.fromCharCode(...new TextEncoder().encode(s))); }
+function b64d(s){ return new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g,"")),c=>c.charCodeAt(0))); }
 function getToken(){ let t=document.getElementById('token').value.trim(); localStorage.setItem('gh_token',t); return t; }
-function ytId(url){ if(!url) return ""; let m=url.match(/(?:youtube\.com\/.*v=|youtu\.be\/|youtube\.com\/shorts\/)([^&\?\/]+)/); return m?m[1]:""; }
-function linkHTML(link){
-  if(!link) return "";
-  let id=ytId(link);
-  if(id) return `<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe><br><a href="${link}" target="_blank">▶️ YouTube లో చూడండి</a>`;
-  if(link.match(/\.mp3|\.m4a|\.wav|drive\.google|soundcloud/i)) return `<audio controls src="${link}"></audio><br><a href="${link}" target="_blank">🎙️ వాయిస్ వినండి</a>`;
-  return `<a href="${link}" target="_blank">🔗 లింక్ తెరవండి - ${link}</a>`;
-}
+function ytId(u){ if(!u) return ""; let m=u.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/); return m?m[1]:""; }
+function linkHTML(l){ if(!l) return ""; let id=ytId(l); if(id) return `<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe><br><a href="${l}" target="_blank">▶️ YouTube లో చూడండి</a>`; if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<audio controls src="${l}"></audio><br><a href="${l}" target="_blank">🎙️ వినండి</a>`; return `<a href="${l}" target="_blank">🔗 ${l}</a>`; }
 function previewLink(){ document.getElementById('linkPreview').innerHTML=linkHTML(document.getElementById('link').value.trim()); }
 async function loadCur(){
   let token=getToken(); if(!token){ document.getElementById('status').innerText="⚠️ Token పెట్టండి"; return; }
-  document.getElementById('status').innerText="Loading "+cur+"...";
+  document.getElementById('status').innerText="Loading "+files[cur]+"...";
   try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ curSha=j.sha; curList=JSON.parse(b64d(j.content)); } else { curSha=""; curList=[]; } }catch(e){ curSha=""; curList=[]; }
   curList=curList.map(p=>({title:fixT(p.title||""), msg:fixT(p.msg||p.content||""), link:p.link||p.url||"", img:p.img||p.image||"", date:p.date||"", _orig:p}));
-  document.getElementById('status').innerText="✅ "+cur+" రెడీ - "+curList.length+" ఉన్నాయి"; show();
+  document.getElementById('status').innerText="✅ "+files[cur]+" - "+curList.length+" ఉన్నాయి"; show();
 }
 function setTab(t,btn){
   cur=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
-  if(t==='chat'){ document.getElementById('normalBox').style.display='none'; document.getElementById('chatBox').style.display='block'; loadChat(); return; }
-  document.getElementById('normalBox').style.display='block'; document.getElementById('chatBox').style.display='none';
-  document.getElementById('tabName').innerText=btn.innerText;
-  if(t==='gallery'){ document.getElementById('hint').innerText="🖼️ గ్యాలరీ - ఫోటో మాత్రమే చాలు, Title వద్దు! ఫోటో పెట్టి సేవ్ నొక్కండి"; document.getElementById('titleNote').innerText="వద్దు - ఫోటో చాలు"; }
-  else if(t==='posts'||t==='messages'){ document.getElementById('hint').innerText="📝 వాక్యం / మెసేజ్ కి Title తప్పనిసరి"; document.getElementById('titleNote').innerText="తప్పనిసరి"; }
-  else { document.getElementById('hint').innerText="🎵 Title లేకపోయినా పర్లేదు - లింక్ / ఫోటో ఉంటే చాలు"; document.getElementById('titleNote').innerText="లేకపోయినా పర్లేదు"; }
-  document.getElementById('title').value=""; document.getElementById('msg').value=""; document.getElementById('link').value=""; document.getElementById('linkPreview').innerHTML=""; loadCur();
+  document.getElementById('tabName').innerText=btn.innerText; document.getElementById('folderName').innerText="Folder: "+files[cur];
+  document.getElementById('hint').innerText = t==='gallery' ? "🖼️ గ్యాలరీ - ఫోటో మాత్రమే చాలు, Title వద్దు" : (t==='posts'||t==='messages' ? "📝 వాక్యం / మెసేజ్ కి Title తప్పనిసరి" : "🎵 Title లేకపోయినా పర్లేదు - లింక్ / ఫోటో ఉంటే చాలు");
+  newItem(); loadCur();
+}
+function newItem(){ document.getElementById('editIdx').value="-1"; document.getElementById('title').value=""; document.getElementById('msg').value=""; document.getElementById('link').value=""; document.getElementById('linkPreview').innerHTML=""; document.getElementById('preview').style.display='none'; document.getElementById('preview').dataset.img=""; document.getElementById('saveBtn').innerText="✅ సేవ్ చేయండి"; window.scrollTo(0,0); }
+function editOne(i){
+  let p=curList[i]; document.getElementById('editIdx').value=i; document.getElementById('title').value=p.title; document.getElementById('msg').value=p.msg; document.getElementById('link').value=p.link; previewLink();
+  if(p.img){ document.getElementById('preview').src=p.img; document.getElementById('preview').style.display='block'; document.getElementById('preview').dataset.img=p.img; }
+  document.getElementById('saveBtn').innerText="💾 ఈ ఫోల్డర్ లోనే Update చేయండి - "+(p.title||"ఫోటో");
+  window.scrollTo(0,0); alert("✏️ ఎడిట్ ఓపెన్ అయింది - పైన మార్చి Update నొక్కండి");
 }
 function show(){
   document.getElementById('count').innerText=curList.length+" ఉన్నాయి";
-  document.getElementById('list').innerHTML=curList.map((p,i)=>`<div class="card">${p.title?`<b>${p.title}</b>`:""}<p style="white-space:pre-line">${p.msg}</p>${linkHTML(p.link)}${p.img?`<br><img src="${p.img}">`:""}<br><button onclick="delOne(${i})" style="background:red;margin-top:8px">❌ ఇది మాత్రమే Delete</button></div>`).join("")||"ఇంకా లేవు";
+  if(cur==='gallery'){
+    document.getElementById('list').innerHTML = curList.length ? `<div class="grid">`+curList.map((p,i)=>`<div class="card" style="margin:0"><img src="${p.img}"><b>${p.title||"ఫోటో"}</b><br><button class="small" onclick="editOne(${i})" style="background:#2196F3">✏️ ఎడిట్</button> <button class="small" onclick="delOne(${i})" style="background:red">❌ Delete</button></div>`).join('')+`</div>` : "📭 గ్యాలరీ ఖాళీ - ఫోటో పెట్టండి";
+    return;
+  }
+  document.getElementById('list').innerHTML=curList.map((p,i)=>`<div class="card"><b>📂 ${files[cur]} - ${i+1}. ${p.title||"(Title లేదు)"}</b><p style="white-space:pre-line">${p.msg}</p>${linkHTML(p.link)}${p.img?`<br><img src="${p.img}">`:""}<br><button class="small" onclick="editOne(${i})" style="background:#2196F3">✏️ ఎడిట్ - ఈ ఫోల్డర్ లోనే మార్చండి</button> <button class="small" onclick="delOne(${i})" style="background:red">❌ Delete</button></div>`).join("")||"ఇంకా లేవు";
 }
 async function saveCur(){
-  let token=getToken(); let toSave=curList.map(p=>{ let o=p._orig||{}; if(cur==='posts'){ return {...o, title:p.title, content:p.msg, image:p.img, date:p.date}; } return {...o, title:p.title, msg:p.msg, content:p.msg, link:p.link, img:p.img, image:p.img, date:p.date}; });
-  let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`; let body={message:"update "+cur, content:b64e(JSON.stringify(toSave))}; if(curSha) body.sha=curSha;
+  let token=getToken(); let toSave=curList.map(p=>{ let o=p._orig||{}; if(cur==='posts') return {...o,title:p.title,content:p.msg,image:p.img,date:p.date}; return {...o,title:p.title,msg:p.msg,content:p.msg,link:p.link,img:p.img,image:p.img,date:p.date}; });
+  let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`; let body={message:"update "+cur,content:b64e(JSON.stringify(toSave))}; if(curSha) body.sha=curSha;
   return fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"},body:JSON.stringify(body)});
 }
 async function savePost(){
-  let t=document.getElementById('title').value.trim(), m=document.getElementById('msg').value, l=document.getElementById('link').value.trim(), im=document.getElementById('preview').dataset.img||"";
-  // 1. ఇమేజ్ ఒక్కటే ఉంటే Title వద్దు
-  // 2. వాక్యం / మెసేజ్ కి మాత్రమే Title కావాలి
-  if((cur==='posts'||cur==='messages') && !t && !im){ alert("⚠️ వాక్యం / మెసేజ్ కి Title పెట్టండి అండీ"); return; }
-  if(!t && !m && !l && !im){ alert("ఏదైనా ఒకటి పెట్టండి - ఫోటో / మెసేజ్ / లింక్"); return; }
-  if(!t && im) t=""; // గ్యాలరీ - Title లేకుండా ఫోటో మాత్రమే
+  let t=document.getElementById('title').value.trim(), m=document.getElementById('msg').value, l=document.getElementById('link').value.trim(), im=document.getElementById('preview').dataset.img||"", idx=parseInt(document.getElementById('editIdx').value);
+  if((cur==='posts'||cur==='messages') && !t && !im && idx===-1){ alert("⚠️ వాక్యం కి Title పెట్టండి"); return; }
+  if(!t && !m && !l && !im){ alert("ఏదైనా ఒకటి పెట్టండి"); return; }
   await loadCur();
-  curList.unshift({title:t,msg:m,link:l,img:im,date:new Date().toLocaleDateString('en-GB')});
-  let r=await saveCur(); if(r.ok){alert("✅ అయిపోయింది!"); document.getElementById('preview').dataset.img=""; loadCur();} else alert("❌ Save కాలేదు");
+  if(idx>=0 && curList[idx]){ curList[idx]={...curList[idx],title:t,msg:m,link:l,img:im}; }
+  else curList.unshift({title:t,msg:m,link:l,img:im,date:new Date().toLocaleDateString('en-GB')});
+  let r=await saveCur(); if(r.ok){alert(idx>=0?"✅ Update అయింది! అదే ఫోల్డర్ లోనే":"✅ కొత్తది యాడ్ అయింది!"); newItem(); loadCur();} else alert("❌ Save కాలేదు");
 }
-async function delOne(i){ if(!confirm("ఇది మాత్రమే Delete చేయాలా?")) return; await loadCur(); curList.splice(i,1); let r=await saveCur(); if(r.ok) loadCur(); }
+async function delOne(i){ if(!confirm("ఇది మాత్రమే Delete చేయాలా? మిగిలినవి ఉంటాయి")) return; await loadCur(); curList.splice(i,1); let r=await saveCur(); if(r.ok) loadCur(); }
 document.getElementById('photo').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f)return; let rd=new FileReader(); rd.onload=ev=>{let img=new Image(); img.onload=()=>{let c=document.createElement('canvas'); let w=img.width,h=img.height,max=800; if(w>max){h=h*max/w;w=max;} c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h); let s=c.toDataURL('image/jpeg',0.7); document.getElementById('preview').src=s; document.getElementById('preview').style.display='block'; document.getElementById('preview').dataset.img=s;}; img.src=ev.target.result;}; rd.readAsDataURL(f); });
-const TOPIC='ms2-mahima-sannidhi-chat-2026';
-async function loadChat(){ document.getElementById('chatList').innerHTML='లోడ్ అవుతోంది...'; try{ let r=await fetch('https://ntfy.sh/'+TOPIC+'/json?since=all&poll=1'); let txt=await r.text(); let msgs=[]; txt.split('\n').filter(Boolean).forEach(l=>{ try{ let j=JSON.parse(l); if(!j.message) return; if(j.message.startsWith('USER_MSG_')){ let p=j.message.split('|'); msgs.push({code:p[0].replace('USER_MSG_',''),name:p[1]||'',village:p[2]||'',phone:p[3]||'',msg:fixT(p[4]||''),time:p[5]||''}); } }catch(e){} }); if(!msgs.length){ document.getElementById('chatList').innerHTML='📭 ఇంకా మెసేజ్ లు లేవు'; return; } document.getElementById('chatList').innerHTML=msgs.reverse().map(m=>`<div class="chatMsg"><b>👤 ${m.name} | Code: ${m.code}</b><br>🏡 ${m.village} | 📞 ${m.phone}<br>💬 ${m.msg}<br><small>📅 ${m.time}</small><br><button onclick="useCode('${m.code}')" style="background:#673AB7;margin-top:6px;padding:8px">↩️ రిప్లై</button></div>`).join(''); }catch(e){ document.getElementById('chatList').innerHTML='❌ Net లేదు'; } }
-function useCode(c){ document.getElementById('replyCode').value=c; document.getElementById('replyText').focus(); }
-async function sendReply(){ let code=document.getElementById('replyCode').value.trim(), txt=document.getElementById('replyText').value.trim(); if(!code||!txt){alert("Code + రిప్లై రాయండి");return;} await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'ADMIN_REPLY_'+code+':'+txt}); alert('✅ రిప్లై వెళ్ళింది'); document.getElementById('replyText').value=''; }
 document.getElementById('token').value=localStorage.getItem('gh_token')||""; loadCur();
 </script></body></html>
