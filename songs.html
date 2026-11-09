@@ -10,7 +10,7 @@
 .header a{color:white;text-decoration:none;font-weight:bold}
 .wrap{padding:12px;max-width:700px;margin:auto}
 .card{background:white;padding:15px;border-radius:18px;margin:12px 0;box-shadow:0 2px 8px #0001;cursor:pointer;display:flex;gap:12px;align-items:center}
-.icon{width:68px;height:68px;min-width:68px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:bold}
+.icon{width:68px;height:68px;min-width:68px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:bold;overflow:hidden}
 input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-size:16px;background:white}
 .num{width:44px;height:44px;min-width:44px;border-radius:50%;background:#0B3D2E;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
@@ -53,12 +53,12 @@ let curFolder="";
 let colors=["#FF9800","#2E7D32","#2196F3","#9C27B0","#E91E63","#009688","#FF5722","#673AB7"];
 async function load(){
   try{let r=await fetch('songs.json?v='+Date.now()); allSongs=await r.json();}catch(e){allSongs=[];}
-  // FIX: పాత localStorage తో కొత్త songs.json ని తొక్కేయకూడదు. fetch fail అయితే మాత్రమే localStorage వాడాలి
   if(!allSongs.length){ try{let ls=JSON.parse(localStorage.getItem('ms_songs')||'[]'); if(ls.length) allSongs=ls;}catch(e){} }
   else{ try{localStorage.setItem('ms_songs',JSON.stringify(allSongs));}catch(e){} }
   showFolders();
 }
 function getFolder(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim(); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function teluguKey(s){
   s=(s||'').toString();
   if(s.includes(' - ')) s=s.split(' - ').pop();
@@ -98,43 +98,81 @@ function showFolders(){
   let folders={};
   allSongs.forEach(s=>{let f=getFolder(s); folders[f]=(folders[f]||0)+1;});
   let keys=Object.keys(folders).sort(teluguCompare);
+  window._folderKeys=keys; window._folders=folders;
   let html=`<div style="background:white;padding:16px;border-radius:18px;text-align:center;box-shadow:0 2px 8px #0001"><div style="font-size:28px">🎵</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">పాటలు - ఫోల్డర్లు</div><div style="color:gray">మొత్తం ఫోల్డర్లు - ${keys.length} | మొత్తం పాటలు - ${allSongs.length}</div><div style="color:#2E7D32;font-size:13px;margin-top:4px">🔤 1 2 3 → A-Z → అ-ఱ ఆర్డర్ లో</div></div>`;
-  html+=`<input id="searchFolder" placeholder="🔍 ఫోల్డర్ వెతకండి... దేవదాసు / అన్నమ్మ" oninput="filterFolders()" style="margin-top:12px">`;
-  html+=`<div id="folderList"></div>`;
+  html+=`<input id="searchFolder" placeholder="🔍 ఫోల్డర్ / పాట వెతకండి... బైబిల్ / యేసు" oninput="filterFolders()" style="margin-top:12px">`;
+  html+=`<div id="folderList"></div><div id="songSearchList"></div>`;
   if(!keys.length) html+=`<p style="text-align:center;color:gray">📭 ఇంకా పాటలు లేవు!</p>`;
   document.getElementById('folderView').innerHTML=html;
   document.getElementById('folderView').style.display='block';
-  let fl=document.getElementById('folderList');
+  renderFolderCards(keys);
+}
+function renderFolderCards(keys){
+  let fl=document.getElementById('folderList'); if(!fl) return; fl.innerHTML='';
   keys.forEach((f,i)=>{
     let c=colors[i%colors.length];
-    let d=document.createElement('div'); d.className='card';
-    d.innerHTML=`<div class="icon" style="background:${c}">📁</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E"></div><div style="color:gray">🎵 ${folders[f]} పాటలు - నొక్కి చదవండి ➡️</div></div>`;
-    d.querySelector('div div').textContent=f;
+    let d=document.createElement('div'); d.className='card'; d.dataset.folder=f;
+    let icon=document.createElement('div'); icon.className='icon'; icon.style.background=c; icon.textContent='📁';
+    let txt=document.createElement('div');
+    let t1=document.createElement('div'); t1.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; t1.textContent=f;
+    let t2=document.createElement('div'); t2.style.color='gray'; t2.textContent='🎵 '+window._folders[f]+' పాటలు - నొక్కి చదవండి ➡️';
+    txt.appendChild(t1); txt.appendChild(t2);
+    d.appendChild(icon); d.appendChild(txt);
     d.onclick=()=>openFolder(f);
     fl.appendChild(d);
   });
 }
 function filterFolders(){
   let q=(document.getElementById('searchFolder').value||'').toLowerCase().trim();
-  document.querySelectorAll('#folderList .card').forEach(c=>{ c.style.display=(c.textContent||'').toLowerCase().includes(q)?'flex':'none'; });
+  let fl=document.getElementById('folderList');
+  let sl=document.getElementById('songSearchList');
+  if(!q){ renderFolderCards(window._folderKeys||[]); sl.innerHTML=''; return; }
+  // 1. ఫోల్డర్ పేరుతో సరిపోయే ఫోల్డర్లు చూపించు
+  let matchedFolders=(window._folderKeys||[]).filter(f=>f.toLowerCase().includes(q));
+  renderFolderCards(matchedFolders);
+  // 2. పాట పేరుతో సరిపోయే పాటలు కూడా చూపించు - ఇదే కొత్తది!
+  let matchedSongs=allSongs.filter(s=>(s.title||'').toLowerCase().includes(q));
+  sl.innerHTML='';
+  if(matchedSongs.length){
+    let head=document.createElement('div'); head.style.cssText='background:#0B3D2E;color:white;padding:10px 14px;border-radius:12px;margin-top:12px;font-weight:bold'; head.textContent='🎵 పాటలు - '+matchedSongs.length+' దొరికాయి';
+    sl.appendChild(head);
+    matchedSongs.forEach(s=>{
+      let gi=allSongs.indexOf(s);
+      let d=document.createElement('div'); d.className='card';
+      let n=document.createElement('div'); n.className='num'; n.textContent=getDisplayNum(s);
+      let txt=document.createElement('div');
+      let t1=document.createElement('div'); t1.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; t1.textContent=s.title||'';
+      let t2=document.createElement('div'); t2.style.cssText='color:gray;font-size:13px'; t2.textContent='📁 '+getFolder(s)+' - నొక్కి చదవండి ➡️';
+      txt.appendChild(t1); txt.appendChild(t2);
+      d.appendChild(n); d.appendChild(txt);
+      d.onclick=()=>openSong(gi);
+      sl.appendChild(d);
+    });
+  }
+  if(!matchedFolders.length && !matchedSongs.length){
+    sl.innerHTML='<p style="text-align:center;color:gray">📭 ఏమీ దొరకలేదు - వేరే పేరు టైప్ చేయండి</p>';
+  }
 }
 function openFolder(f){
   curFolder=f;
   document.getElementById('folderView').style.display='none';
   let list=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
   let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
-  <div style="background:white;padding:16px;border-radius:18px;text-align:center;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="font-size:28px">📁</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E" id="curFolderName"></div><div style="color:gray">మొత్తం పాటలు - ${list.length}</div></div>
+  <div style="background:white;padding:16px;border-radius:18px;text-align:center;margin-top:12px;box-shadow:0 2px 8px #0001"><div style="font-size:28px">📁</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">${esc(f)}</div><div style="color:gray">మొత్తం పాటలు - ${list.length}</div></div>
   <input id="searchSong" placeholder="🔍 పాట వెతకండి..." oninput="filterSongs()" style="margin-top:12px">`;
   html+=`<div id="songList"></div>`;
   let v=document.getElementById('songView'); v.innerHTML=html; v.style.display='block';
-  document.getElementById('curFolderName').textContent=f;
   let sl=document.getElementById('songList');
   list.forEach((s,idx)=>{
     let gi=allSongs.indexOf(s);
     let dNum=idx+1;
     let d=document.createElement('div'); d.className='card';
-    d.innerHTML=`<div class="num">${dNum}</div><div><div style="font-size:19px;font-weight:bold;color:#0B3D2E"></div><div style="color:gray;font-size:13px">📁 ${f} - నొక్కి చదవండి ➡️</div></div>`;
-    d.querySelectorAll('div div')[0].textContent=dNum+'. '+(s.title||'');
+    let n=document.createElement('div'); n.className='num'; n.textContent=dNum;
+    let txt=document.createElement('div');
+    let t1=document.createElement('div'); t1.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; t1.textContent=dNum+'. '+(s.title||'');
+    let t2=document.createElement('div'); t2.style.cssText='color:gray;font-size:13px'; t2.textContent='📁 '+f+' - నొక్కి చదవండి ➡️';
+    txt.appendChild(t1); txt.appendChild(t2);
+    d.appendChild(n); d.appendChild(txt);
     d.onclick=()=>openSong(gi);
     sl.appendChild(d);
   });
@@ -152,10 +190,9 @@ function openSong(i){
   let link=s.link||s.url||"";
   let msg=fixT(s.content||s.msg||"");
   let title=fixT(s.title||"");
-  let tmp=document.createElement('div'); tmp.textContent=dNum+'. '+title;
-  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${getFolder(s)}</div>${img?`<img class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0" id="songTitleH"></h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center" id="songMsgDiv"></div>${linkHTML(link)}</div>`;
-  document.getElementById('songTitleH').textContent=dNum+'. '+title;
-  document.getElementById('songMsgDiv').textContent=msg;
+  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${esc(getFolder(s))}</div>${img?`<img class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0"></h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center"></div>${linkHTML(link)}</div>`;
+  let h=document.querySelector('#songModalContent h2'); if(h) h.textContent=dNum+'. '+title;
+  let md=document.querySelector('#songModalContent div[style*="white-space"]'); if(md) md.textContent=msg;
   document.getElementById('songModal').style.display='flex';
   let sc=document.querySelector('#songModal .modalScroll'); if(sc) sc.scrollTop=0;
 }
