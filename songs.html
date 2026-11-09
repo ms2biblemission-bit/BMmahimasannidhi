@@ -21,6 +21,12 @@ input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-s
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
 .bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
+.songImg{width:100%;border-radius:12px;max-height:300px;object-fit:cover;margin:10px 0}
+.ytBox{margin:12px 0;text-align:center}
+.ytBox img{width:100%;border-radius:12px}
+.ytBtn{display:block;background:#FF0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin-top:6px}
+.mp3Box audio{width:100%}
+.linkBtn{display:block;background:#0B3D2E;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:12px 0;text-align:center}
 </style>
 </head>
 <body>
@@ -76,6 +82,16 @@ function getDisplayNum(song){
   let idx=list.indexOf(song);
   return idx>=0 ? idx+1 : (song.num||1);
 }
+function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s)||s.indexOf('Ã')>=0){ let b=new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let d=new TextDecoder('utf-8').decode(b); if(d.indexOf('[STRIPPED 3 bytes]')===-1) return d; } }catch(e){} return s; }
+// --- కొత్తది: YouTube / MP3 / PDF ని పాట కింద చూపించేది ---
+function linkHTML(l){
+  if(!l) return "";
+  let m=l.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/);
+  if(m) return `<div class="ytBox"><a href="${l}" target="_blank"><img src="https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg"></a><a class="ytBtn" href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a></div>`;
+  if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<div class="mp3Box"><audio controls src="${l}"></audio><br><a href="${l}" target="_blank">🎙️ వినండి</a></div>`;
+  if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
+  return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
+}
 function showFolders(){
   document.getElementById('songView').style.display='none';
   let folders={};
@@ -117,7 +133,11 @@ function filterSongs(){
 function openSong(i){
   let s=allSongs[i]; if(!s) return;
   let dNum=getDisplayNum(s);
-  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${getFolder(s)}</div><h2 style="color:#0B3D2E;margin:6px 0">${dNum}. ${s.title||''}</h2><div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center">${(s.content||'').replace(/\n/g,'<br>')}</div></div>`;
+  let img=s.img||s.image||s.photo||"";
+  let link=s.link||s.url||"";
+  let msg=fixT(s.content||s.msg||"");
+  let title=fixT(s.title||"");
+  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${getFolder(s)}</div>${img?`<img class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0">${dNum}. ${title}</h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center">${msg.replace(/\n/g,'<br>')}</div>${linkHTML(link)}</div>`;
   document.getElementById('songModal').style.display='flex';
   let sc=document.querySelector('#songModal .modalScroll'); if(sc) sc.scrollTop=0;
 }
