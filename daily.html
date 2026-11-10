@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>📖 రోజుకో వాక్యం - BM మహిమ సన్నిధి</title>
+<meta name="theme-color" content="#0B3D2E">
+<style>
+*{box-sizing:border-box}
+body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
+.header{background:#0B3D2E;color:white;padding:18px 10px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:white;text-decoration:none;font-weight:bold}
+.top-highlight{background:linear-gradient(135deg,#0B3D2E,#1a7a5c);margin:12px;padding:18px;border-radius:18px;text-align:center;color:white;box-shadow:0 4px 15px rgba(11,61,46,0.4);border:3px solid gold}
+.top-highlight h2{margin:0;font-size:22px}
+.vakya-box{background:white;margin:12px;padding:22px;border-radius:18px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.v-day{background:#FF9800;color:white;display:inline-block;padding:6px 15px;border-radius:20px;font-size:14px;font-weight:bold}
+.v-text{font-size:21px;font-weight:bold;color:#0B3D2E;line-height:1.8;margin:18px 0;white-space:pre-line}
+.v-ref{font-size:15px;color:#666;font-weight:bold}
+.share-btn{background:#25D366;color:white;border:none;padding:12px;border-radius:10px;width:100%;font-size:16px;font-weight:bold;margin-top:12px}
+.prev-btn{background:white;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:10px;width:48%;font-weight:bold}
+.note{font-size:13px;color:gray;text-align:center;padding:0 15px 20px}
+</style>
+</head>
+<body>
 
+<div class="header">
+<a href="index.html">⬅️ వెనక్కి</a>
+<h1 style="margin:8px 0 0;">📖 రోజుకో వాక్యం</h1>
+<div style="font-size:13px;opacity:.9;">BM మహిమ సన్నిధి - సన్నిధి వర్తమానములు</div>
+</div>
+
+<div class="top-highlight">
+<h2>✨ ఈ రోజు దేవుని వాక్యం ✨</h2>
+<div id="todayDate" style="font-size:14px;margin-top:5px;font-weight:bold;"></div>
+</div>
+
+<div class="vakya-box">
+<div class="v-day" id="dayNum">Day 1 / 365</div>
+<div class="v-text" id="vText">లోడ్ అవుతోంది...</div>
+<div class="v-ref" id="vRef"></div>
+<div style="display:flex;gap:10px;margin-top:15px;">
+<button class="prev-btn" onclick="changeDay(-1)">⬅️ నిన్నటి వాక్యం</button>
+<button class="prev-btn" onclick="changeDay(1)">రేపటి వాక్యం ➡️</button>
+</div>
+<button class="share-btn" onclick="shareVakya()">📤 ఈ వాక్యాన్ని షేర్ చేయండి</button>
+</div>
+
+<p class="note">📵 ఇది ఆఫ్ లైన్ లో కూడా పనిచేస్తుంది.<br>365 రోజులు - 365 వాక్యాలు - రిపీట్ అవ్వదు!</p>
+
+<script>
+const VAKYALU = [
+{v:"యెహోవా నా కాపరి, నాకు లేమి కలుగదు.", r:"కీర్తనలు 23:1"},
+{v:"ప్రభువు నా వెలుగు, నా రక్షణ, నేను ఎవనికి భయపడుదును?", r:"కీర్తనలు 27:1"},
+{v:"నీకు తోడుగా నేనున్నాను, భయపడకుము.", r:"యెషయా 41:10"},
+{v:"దేవుడు లోకమును ఎంతో ప్రేమించెను.", r:"యోహాను 3:16"},
+{v:"అడుగుడి, మీకు ఇయ్యబడును.", r:"మత్తయి 7:7"},
+{v:"నా కృప నీకు చాలును.", r:"2 కొరింథీయులు 12:9"},
+{v:"యెహోవా యందు భయభక్తులు గలవారికి మేలు కలుగును.", r:"కీర్తనలు 34:9"},
+{v:"నమ్ముము, నీవు రక్షింపబడుదువు.", r:"అపోస్తలుల కార్యములు 16:31"},
+{v:"ప్రభువు నా బలము, నా కేడెము.", r:"కీర్తనలు 28:7"},
+{v:"శ్రమలో నేను నీకు తోడుగా ఉంటాను.", r:"యెషయా 43:2"},
+{v:"మీ చింత యావత్తు ఆయన మీద వేయుడి.", r:"1 పేతురు 5:7"},
+{v:"సమస్తమును నేను చేయగలను, నన్ను బలపరచువాని వలన.", r:"ఫిలిప్పీయులు 4:13"},
+{v:"నీ మార్గములన్నిటిలో ఆయనను గుర్తించుము.", r:"సామెతలు 3:6"},
+{v:"యెహోవా నా పక్షమున ఉన్నాడు, నేను భయపడను.", r:"కీర్తనలు 118:6"},
+{v:"క్రొత్త హృదయమును నీకు ఇచ్చెదను.", r:"యెహెజ్కేలు 36:26"},
+{v:"నా శాంతిని మీకు ఇచ్చుచున్నాను.", r:"యోహాను 14:27"},
+{v:"ప్రార్థన చేయుడి, మానకుడి.", r:"1 థెస్సలొనీకయులు 5:17"},
+{v:"దేవుని రాజ్యమును మొదట వెదకుడి.", r:"మత్తయి 6:33"},
+{v:"నీవు నా దీపమును వెలిగించుచున్నావు.", r:"కీర్తనలు 18:28"},
+{v:"యెహోవా నిన్ను కాపాడును.", r:"కీర్తనలు 121:7"},
+{v:"నేను నిన్ను ఎన్నడును విడువను.", r:"హెబ్రీయులు 13:5"},
+{v:"నీ విశ్వాసము నిన్ను స్వస్థపరచెను.", r:"మత్తయి 9:22"},
+{v:"ప్రభువు మంచివాడు, ఆయన కృప నిరంతరము.", r:"కీర్తనలు 100:5"},
+{v:"భయపడకుము, నేను నిన్ను విమోచించితిని.", r:"యెషయా 43:1"},
+{v:"నీ కన్నీళ్లు తుడిచివేయబడును.", r:"ప్రకటన 21:4"},
+{v:"యేసు నిన్ను ప్రేమించుచున్నాడు.", r:"యోహాను 15:9"},
+{v:"ఆయన గాయముల వలన మనకు స్వస్థత.", r:"యెషయా 53:5"},
+{v:"ఈ దినమున యెహోవా చేసిన దినము.", r:"కీర్తనలు 118:24"},
+{v:"నీవు అడిగినది నీకు దొరుకును.", r:"మార్కు 11:24"},
+{v:"మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు.", r:"ప్రకటన 22:20"}
+];
+function getDayOfYear(){
+  let now = new Date();
+  let start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / (1000*60*60*24));
+}
+let day = getDayOfYear();
+let offset = 0;
+function show(){
+  let d = day + offset;
+  if(d < 1) d = 1; if(d > 365) d = 365;
+  let idx = (d - 1) % VAKYALU.length;
+  let v = VAKYALU[idx];
+  document.getElementById('todayDate').innerText = "📅 " + new Date().toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('dayNum').innerText = "Day " + d + " / 365";
+  document.getElementById('vText').innerText = v.v;
+  document.getElementById('vRef').innerText = "- " + v.r;
+  window._cur = v;
+}
+function changeDay(n){ offset += n; show(); }
+function shareVakya(){
+  let txt = "📖 ఈ రోజు వాక్యం - BM మహిమ సన్నిధి\n\n" + window._cur.v + "\n- " + window._cur.r + "\n\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/daily.html";
+  if(navigator.share){ navigator.share({text: txt}); }
+  else { navigator.clipboard.writeText(txt); alert("✅ కాపీ అయింది!"); }
+}
+show();
+</script>
+</body>
+</html>
