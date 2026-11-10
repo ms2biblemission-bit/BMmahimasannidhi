@@ -1,1 +1,50 @@
-
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🙏 ప్రార్థన డైరీ - BM మహిమ సన్నిధి</title>
+<meta name="theme-color" content="#0B3D2E">
+<style>
+body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
+.header{background:#0B3D2E;color:white;padding:18px 10px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:white;text-decoration:none;font-weight:bold}
+.box{background:white;margin:12px;padding:18px;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin:6px 0;font-size:16px;box-sizing:border-box}
+.btn{background:#673AB7;color:white;border:none;padding:13px;border-radius:25px;width:100%;font-weight:bold;font-size:16px}
+.card{border:1px solid #eee;padding:12px;border-radius:12px;margin:10px 0;background:#FFFBFE}
+.done{background:#E8F5E9;border:2px solid #4CAF50}
+.small{font-size:13px;color:gray}
+</style>
+</head>
+<body>
+<div class="header"><a href="index.html">⬅️ వెనక్కి</a><h1 style="margin:8px 0 0;">🙏 ప్రార్థన డైరీ</h1><div style="font-size:13px;">నా ప్రార్థన - దేవుని జవాబు</div></div>
+<div class="box">
+<input id="pTitle" placeholder="🙏 ఎవరి కోసం? ఉదా: నా కొడుకు ఉద్యోగం">
+<textarea id="pText" rows="3" placeholder="ప్రార్థన వివరంగా రాయండి..."></textarea>
+<button class="btn" onclick="addPrayer()">➕ ప్రార్థన చేర్చండి</button>
+<p style="font-size:13px;color:gray;text-align:center;">📵 ఆఫ్ లైన్ లో కూడా సేవ్ అవుతుంది - మీ ఫోన్ లోనే ఉంటుంది</p>
+</div>
+<div class="box"><h3 style="margin:0;color:#673AB7;">📜 నా ప్రార్థనలు</h3><div id="list"></div></div>
+<script>
+let prayers = JSON.parse(localStorage.getItem('ms_prayers')||'[]');
+function save(){ localStorage.setItem('ms_prayers', JSON.stringify(prayers)); render(); }
+function addPrayer(){
+  let t=document.getElementById('pTitle').value.trim();
+  let d=document.getElementById('pText').value.trim();
+  if(!t && !d){ alert('ఒక్క మాటైనా రాయండి అండీ!'); return; }
+  prayers.unshift({t:t||'ప్రార్థన', d:d, date:new Date().toLocaleDateString('te-IN',{day:'numeric',month:'short',year:'numeric'}), done:false});
+  save(); document.getElementById('pTitle').value=''; document.getElementById('pText').value='';
+  alert('✅ ప్రార్థన సేవ్ అయింది! దేవుడు వింటాడు 🙏');
+}
+function toggle(i){ prayers[i].done = !prayers[i].done; save(); }
+function del(i){ if(confirm('తీసేయమంటారా?')){ prayers.splice(i,1); save(); } }
+function render(){
+  let box=document.getElementById('list');
+  if(!prayers.length){ box.innerHTML='<p style="color:gray;">ఇంకా ప్రార్థనలు లేవు - పైన రాయండి!</p>'; return; }
+  box.innerHTML = prayers.map((p,i)=>`<div class="card ${p.done?'done':''}"><b>${p.done?'✅ ':'🙏 '} ${p.t}</b><div style="white-space:pre-line;margin:6px 0;">${p.d}</div><div class="small">📅 ${p.date}</div><div style="display:flex;gap:8px;margin-top:8px;"><button onclick="toggle(${i})" style="flex:1;padding:9px;border:none;border-radius:8px;background:${p.done?'#4CAF50':'#673AB7'};color:white;font-weight:bold;">${p.done?'✅ జవాబు వచ్చింది - స్తోత్రం':'✓ జవాబు వచ్చింది అని నొక్కండి'}</button><button onclick="del(${i})" style="padding:9px 12px;border:none;border-radius:8px;background:#eee;">🗑️</button></div></div>`).join('');
+}
+render();
+</script>
+</body>
+</html>
