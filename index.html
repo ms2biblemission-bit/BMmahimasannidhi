@@ -15,6 +15,7 @@
 *{box-sizing:border-box}
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
 body{padding-bottom:95px}
+body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:#0B3D2E;color:white;padding:25px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px}
 .logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
 .logo img{width:100%;height:100%;object-fit:cover}
@@ -41,30 +42,10 @@ body{padding-bottom:95px}
 .install-btn{display:none;background:#0B3D2E;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
 input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;align-items:flex-end;justify-content:center}
-.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;align-items:flex-end;justify-content:center}
+.modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
-.old-box{display:block;background:#FF9800;color:white;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:12px}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
-.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.bottom-nav .b-icon{font-size:22px;line-height:1}
-.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
-.clear-chat-btn{background:#FFF3E0;border:1px solid #FF9800;color:#E65100;padding:8px 14px;border-radius:20px;font-weight:bold;font-size:13px;cursor:pointer}
-#appSplash,#splashScreen,#splash,.splash,.splashBox,.splash-screen,[id*="splash"],[id*="Splash"],[class*="splash"],[class*="Splash"]{display:none!important;visibility:hidden!important;height:0!important;opacity:0!important;pointer-events:none!important}
-@media (display-mode: standalone){ #installBtn,.install-btn{ display:none !important; } }
-#chatModal{align-items:flex-end!important;z-index:90!important}
-#chatModal .modalBox{display:flex!important;flex-direction:column!important;height:70vh!important;max-height:70vh!important;overflow:hidden!important;padding:0!important;border-radius:20px 20px 0 0!important;margin-bottom:70px!important}
-#chatModal .chatScroll{flex:1!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;padding:14px!important}
-#chatModal .chatInputWrap{background:#fff!important;padding:10px!important;border-top:1px solid #eee!important;flex-shrink:0!important}
-#chatModal .chatRow{display:flex!important;gap:8px!important;align-items:flex-end!important}
-#chatModal #chatText{flex:1!important;min-height:48px!important;resize:none!important}
-#chatModal .sendBtn{flex-shrink:0!important;width:72px!important;padding:13px 5px!important;background:#0B3D2E!important;color:#fff!important;border:none!important;border-radius:25px!important;font-weight:bold!important;font-size:15px!important}
-.ytBox{margin:10px 0;text-align:center}
-.ytBox img{width:100%;border-radius:12px;display:block}
-.ytBtn{display:block;background:#FF0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin-top:6px}
-.mp3Box{margin:10px 0;text-align:center}
-.mp3Box audio{width:100%}
-.linkBtn{display:block;background:#0B3D2E;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:10px 0;text-align:center}
+#chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 </style>
 </head>
 <body>
@@ -74,6 +55,14 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div style="font-size:14px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
 <div style="margin-top:6px">John Dalli | మరనాత ✝️</div>
 </div>
+
+<!-- ⭐⭐ NEW - పైన 3 హైలైట్ బటన్లు ⭐⭐ -->
+<div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
+  <a href="quiz.html" style="flex:1;background:linear-gradient(135deg,#FF9800,#FF5722);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;box-shadow:0 4px 12px rgba(255,87,34,0.4);">🎯<br>రోజుకో ప్రశ్న<br><small>సాయంత్రం జవాబు</small></a>
+  <a href="daily.html" style="flex:1;background:linear-gradient(135deg,#0B3D2E,#1a7a5c);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;">📖<br>రోజుకో వాక్యం<br><small>365 రోజులు</small></a>
+  <a href="prayer.html" style="flex:1;background:linear-gradient(135deg,#673AB7,#9C27B0);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;">🙏<br>ప్రార్థన డైరీ<br><small>నా ప్రార్థన</small></a>
+</div>
+
 <div class="logo-row">
   <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
@@ -85,6 +74,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
   <a href="#" onclick="openChat();return false"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">💬</div><div class="lname">అడ్మిన్ చాట్</div></a>
 </div>
+
 <div class="grid">
 <a class="card" href="songs.html"><div style="font-size:55px">🎵</div><div class="card-text">పాటలు<br><small style="font-weight:normal;color:gray;font-size:12px">ఆంధ్ర క్రైస్తవ కీర్తనలు</small></div></a>
 <a class="card" href="books.html"><div style="font-size:55px">📚</div><div class="card-text">బుక్స్<br><small style="font-weight:normal;color:gray;font-size:12px">పుస్తకాలు చదవండి</small></div></a>
@@ -93,23 +83,31 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <a class="card" href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"><div class="card-text">వాట్సాప్ ఛానల్</div></a>
 <button class="card" onclick="openChat()"><div style="font-size:55px">💬</div><div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:gray;font-size:12px">సైట్ లోనే మెసేజ్ చేయండి</small></div></button>
 </div>
+
 <div class="vakya-card" id="topCard">
   <img id="topImage" src="">
   <div>💬 వాక్యం</div>
   <div id="topTitle" style="font-weight:bold;margin:12px 0;font-size:20px;color:#0B3D2E">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
   <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
-  <div id="topLink"></div>
   <div id="topDate">📅 4/11/2026</div>
 </div>
+
 <div style="text-align:center"><button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button></div>
+
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ / బుక్" oninput="renderPosts()">
+
 <div class="section">
-<h3>📜 నిన్నటి వాక్యం - 1 మాత్రమే!</h3>
+<h3>📜 అన్ని మెసేజ్ లు - పాతవి కూడా ఇక్కడే!</h3>
+<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+<a href="gallery.html" style="flex:1;background:#2E7D32;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ</a>
+<a href="archive.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📜 పాత మెసేజ్ లు</a>
+<a href="books.html" style="flex:1;background:#2196F3;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📚 బుక్స్</a>
+<a href="songs.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🎵 పాటలు</a>
+</div>
 <div id="postsList">లోడ్ అవుతోంది...</div>
 <div id="booksResult"></div>
-<a href="archive.html" class="old-box">📜 పాత మెసేజ్ లు అన్నీ చూడండి ➡️</a>
-<div style="text-align:center;color:gray;font-size:13px;margin-top:8px">పాత వాక్యాలన్నీ - ఆ బాక్స్ లో ఉంటాయి!</div>
 </div>
+
 <div class="section qr-box">
 <h3>🙏 మా సేవ అభివృద్ధికై</h3>
 <img src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #0B3D2E;margin-bottom:12px" alt="Mahima Sannidhi Banner">
@@ -119,78 +117,144 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="upi-box"><b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br><small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small></div>
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
-<nav class="bottom-nav">
-  <a href="index.html" class="active"><span class="b-icon">🏠</span>హోమ్</a>
-  <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
-  <a href="songs.html"><span class="b-icon">🎵</span>పాటలు</a>
-  <a href="gallery.html"><span class="b-icon">🖼️</span>ఫోటోలు</a>
-  <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్</a>
-</nav>
+
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
+
 <div class="modal" id="chatModal"><div class="modalBox">
-<div class="chatScroll">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
 <h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3>
-<button class="clear-chat-btn" onclick="clearMyChat()">🗑️ చాట్ క్లియర్</button>
-</div>
 <p style="font-size:13px;color:gray">సైట్ లోనే మెసేజ్ చేయండి - అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!</p>
 <div id="blockedBanner" style="display:none;background:#FFEBEE;border:2px solid #E53935;padding:10px;border-radius:10px;color:#C62828;font-weight:bold;text-align:center;margin-bottom:10px">🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!</div>
 <label style="font-weight:bold">👤 మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు">
 <label style="font-weight:bold">🏡 మీ ఊరు</label><input id="chatVillage" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: పలుకుర్తి / వైజాగ్">
-<label style="font-weight:bold">📞 ఫోన్ నంబర్ <small style="font-weight:normal;color:gray">(ఉంటే రాయండి - లేకపోతే వదిలేయండి)</small></label><input id="chatPhone" type="tel" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: 98765 43210">
+<label style="font-weight:bold">📞 ఫోన్ నంబర్ <small style="font-weight:normal;color:gray">(ఉంటే రాయండి)</small></label><input id="chatPhone" type="tel" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: 98765 43210">
 <div id="chatMsgs"></div>
-</div>
-<div class="chatInputWrap">
-<div class="chatRow">
-<textarea id="chatText" rows="2" style="padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ ప్రార్థన రాయండి..."></textarea>
-<button onclick="sendUserChat()" class="sendBtn">📩 పంపండి</button>
-</div>
+<textarea id="chatText" rows="3" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ ప్రార్థన రాయండి..."></textarea>
+<button onclick="sendUserChat()" style="width:100%;padding:13px;background:#0B3D2E;color:white;border:none;border-radius:25px;font-weight:bold;font-size:16px;margin-top:8px">📩 పంపండి</button>
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
-</div>
 </div></div>
+
 <script>
 let allPosts = [];
 let allBooks = [];
-function lockBody(){}
-function unlockBody(){}
-function scrollChatToBottom(){ let s=document.querySelector('#chatModal .chatScroll'); if(s){ s.scrollTop=s.scrollHeight; } }
-function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){ let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let decoded = new TextDecoder('utf-8').decode(bytes); if(decoded && decoded.indexOf('[STRIPPED 3 bytes]')===-1) return decoded; } }catch(e){} return s; }
-function fmtDate(d){ if(!d) return ''; if(String(d).includes('T')){ let dt=new Date(d); if(!isNaN(dt)) return dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear(); } return d; }
-function bookText(b){ let t=(b.title||'')+' '+(b.desc||b.description||'')+' '; let arr=b.pages||b.chapters||b.items||[]; if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); }); return t; }
-function isPublished(p){ if(!p || !p.publishAt) return true; try{ return new Date(p.publishAt) <= new Date(); }catch(e){ return true; } }
-function isVakyaPost(p){ let c=(p.content||'').trim(); let t=(p.title||'').trim(); return c!=='' || (t!=='' && t!=='మరనాత'); }
-function visiblePosts(){ return allPosts.filter(isPublished); }
-function visibleVakyaPosts(){ return visiblePosts().filter(isVakyaPost); }
-// --- ఇదే కొత్తది: YouTube / MP3 / Link ని వాక్యం కింద చూపించేది ---
-function linkHTML(l){
-  if(!l) return "";
-  let m=l.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/);
-  if(m) return `<div class="ytBox"><a href="${l}" target="_blank"><img src="https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg"></a><a class="ytBtn" href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a></div>`;
-  if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<div class="mp3Box"><audio controls src="${l}"></audio><br><a href="${l}" target="_blank">🎙️ వినండి</a></div>`;
-  if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
-  return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
+let _scrollY=0;
+function lockBody(){ if(document.body.classList.contains('lock')) return; _scrollY=window.scrollY; document.body.classList.add('lock'); document.body.style.top='-'+_scrollY+'px'; }
+function unlockBody(){ if(!document.body.classList.contains('lock')) return; document.body.classList.remove('lock'); document.body.style.top=''; window.scrollTo(0,_scrollY); }
+function fixT(s){
+  if(!s) return '';
+  try{
+    if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){
+      let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255));
+      let decoded = new TextDecoder('utf-8').decode(bytes);
+      if(decoded && decoded.indexOf('�')===-1) return decoded;
+    }
+  }catch(e){}
+  return s;
 }
-async function loadPosts(){ try{ let r = await fetch('posts.json?v='+Date.now()); if(!r.ok) throw new Error('no posts'); allPosts = await r.json(); allPosts = allPosts.map(p=>({title:fixT(p.title), content:fixT(p.content||p.msg||''), date:p.date, image:p.image||p.img||p.photo||'', link:p.link||p.url||'', audio:p.audio, type:p.type, publishAt:p.publishAt})); }catch(e){ allPosts = []; } try{ let rb=await fetch('books.json?v='+Date.now()); if(rb.ok) allBooks=await rb.json(); }catch(e){ allBooks=[]; } let vis = visibleVakyaPosts(); if(vis.length>0){ let p = vis[0]; let ti = document.getElementById('topImage'); if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; } document.getElementById('topTitle').innerHTML = p.title || ''; document.getElementById('topContent').innerText = p.content || ''; document.getElementById('topLink').innerHTML = linkHTML(p.link); document.getElementById('topDate').innerText = '📅 ' + fmtDate(p.date||''); } renderPosts(); }
-function renderPosts(){ let q = document.getElementById('searchBox').value.toLowerCase().trim(); let vis = visibleVakyaPosts(); let filtered = vis.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q)); let list = q ? filtered : filtered.slice(1,2); let box = document.getElementById('postsList'); if(list.length==0){ box.innerHTML = q ? '📭 ఇంకా ఏమీ లేవు!' : '📭 నిన్నటి వాక్యం లేదు!'; } else { box.innerHTML = list.map(p=>{ let idx = allPosts.indexOf(p); let img = p.image ? `<img src="${p.image}">` : ''; return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div>${linkHTML(p.link)}<div class="p-date">📅 ${fmtDate(p.date||'')} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div></div>`; }).join(''); } let bBox=document.getElementById('booksResult'); if(q && allBooks.length){ let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q)); if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map(b=>`<div class="post" onclick="location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content">${b.desc||''}</div><div class="p-date">👆 నొక్కితే బుక్స్ ఓపెన్ అవుతుంది</div></div>`).join(''); else bBox.innerHTML=''; } else bBox.innerHTML=''; }
-function openPost(i){ let p=allPosts[i]; if(!p) return; document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div>${linkHTML(p.link)}<p style="text-align:center;color:gray">📅 ${fmtDate(p.date||'')}</p>`; document.getElementById('postModal').style.display='flex'; }
-function closePost(){ document.getElementById('postModal').style.display='none'; }
+function bookText(b){
+  let t=(b.title||'')+' '+(b.desc||b.description||'')+' ';
+  let arr=b.pages||b.chapters||b.items||[];
+  if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); });
+  return t;
+}
+async function loadPosts(){
+  try{
+    let r = await fetch('posts.json?v='+Date.now());
+    if(!r.ok) throw new Error('no posts');
+    allPosts = await r.json();
+    allPosts = allPosts.map(p=>({title:fixT(p.title), content:fixT(p.content), date:p.date, image:p.image, audio:p.audio, type:p.type, publishAt:p.publishAt}));
+  }catch(e){ allPosts = []; }
+  try{ let rb=await fetch('books.json?v='+Date.now()); if(rb.ok) allBooks=await rb.json(); }catch(e){ allBooks=[]; }
+  if(allPosts.length>0){
+    let p = allPosts[0];
+    let ti = document.getElementById('topImage');
+    if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; }
+    document.getElementById('topTitle').innerHTML = p.title || '';
+    document.getElementById('topContent').innerText = p.content || '';
+    document.getElementById('topDate').innerText = '📅 ' + (p.date||'');
+  }
+  renderPosts();
+}
+function renderPosts(){
+  let q = document.getElementById('searchBox').value.toLowerCase().trim();
+  let list = allPosts.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
+  let box = document.getElementById('postsList');
+  if(list.length==0){ box.innerHTML='📭 ఇంకా ఏమీ లేవు!'; } else {
+    box.innerHTML = list.map(p=>{
+      let idx = allPosts.indexOf(p);
+      let img = p.image ? `<img src="${p.image}">` : '';
+      return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div></div>`;
+    }).join('');
+  }
+  let bBox=document.getElementById('booksResult');
+  if(q && allBooks.length){
+    let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q));
+    if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map(b=>`<div class="post" onclick="location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content">${b.desc||''}</div><div class="p-date">👆 నొక్కితే బుక్స్ ఓపెన్ అవుతుంది</div></div>`).join('');
+    else bBox.innerHTML='';
+  } else bBox.innerHTML='';
+}
+function openPost(i){
+  let p=allPosts[i]; if(!p) return;
+  document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p>`;
+  document.getElementById('postModal').style.display='flex'; lockBody();
+}
+function closePost(){ document.getElementById('postModal').style.display='none'; unlockBody(); }
 document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.id==='postModal') closePost(); });
 loadPosts();
 let deferredPrompt;
-function isApp(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
-if(isApp()){ var ib=document.getElementById('installBtn'); if(ib) ib.style.display='none'; } else { window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; }); }
+window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=2').then(r=>r.update()).catch(()=>{}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
 function isBlocked(){ return localStorage.getItem('ms_im_blocked')==='1'; }
 function chatMsgId(m){ return ((m.userCode||getMyCode())+'|'+(m.time||'')+'|'+(m.msg||'')).slice(0,200); }
-function openChat(){ document.getElementById('chatModal').style.display='flex'; document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; document.getElementById('blockedBanner').style.display=isBlocked()?'block':'none'; loadMyChat(); setTimeout(scrollChatToBottom,200); }
-function closeChat(){ document.getElementById('chatModal').style.display='none'; }
-function clearMyChat(){ if(!confirm('🗑️ మీ చాట్ అంతా క్లియర్ చేయాలా?\nమీ ఫోన్ లో మాత్రమే తొలగిపోతుంది.\nమీవి + అడ్మిన్ రిప్లైలు అన్నీ పోతాయి.')) return; let code=getMyCode(); try{ let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); local=local.filter(m=>String(m.userCode)!==String(code)); localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); }catch(e){ localStorage.removeItem('ms_my_chats_local'); } localStorage.setItem('ms_chat_cleared_at', Date.now()+''); loadMyChat(); alert('✅ చాట్ క్లియర్ అయ్యింది! మీవి + అడ్మిన్ వి అన్నీ పోయాయి.'); }
-async function loadMyChat(){ let code=getMyCode(); let clearedAt=parseInt(localStorage.getItem('ms_chat_cleared_at')||'0'); let box=document.getElementById('chatMsgs'); let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){} let mine=local.filter(m=>String(m.userCode)===String(code)); let idChanged=false; mine.forEach(m=>{ if(!m.id){ m.id=chatMsgId(m); idChanged=true; } }); if(idChanged){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); } if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; } else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'💙 అడ్మిన్:':'💛 మీరు:'} ${m.msg}</b><br><small>📅 ${m.time||''} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small></div>`).join(''); } setTimeout(scrollChatToBottom,100); try{ let r=await fetch('https://ntfy.sh/'+CHAT_TOPIC+'/json?since=all&poll=1'); let txt=await r.text(); let hasNew=false; txt.split('\n').filter(Boolean).forEach(l=>{ try{ let j=JSON.parse(l); if(!j.message) return; if(j.message.includes('ADMIN_UNBLOCK_'+code)){ localStorage.removeItem('ms_im_blocked'); document.getElementById('blockedBanner').style.display='none'; hasNew=true; return; } if(j.message.includes('ADMIN_BLOCK_'+code)){ localStorage.setItem('ms_im_blocked','1'); document.getElementById('blockedBanner').style.display='block'; return; } if(j.message.includes('ADMIN_DELETE_'+code)){ let delId=j.message.split('ADMIN_DELETE_'+code+':')[1]; if(delId){ let before=local.length; local=local.filter(m=> (m.id||chatMsgId(m))!==delId.trim()); if(local.length!==before){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); hasNew=true; } } return; } if(j.message.includes('ADMIN_REPLY_'+code)){ let msgTime=(j.time||0)*1000; if(msgTime < clearedAt) return; let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } } }catch(e){} }); if(hasNew){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); loadMyChat(); } }catch(e){} }
-async function sendUserChat(){ if(isBlocked()){ alert('🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!'); return; } let name=document.getElementById('chatName').value.trim(); let village=document.getElementById('chatVillage').value.trim(); let phone=document.getElementById('chatPhone').value.trim(); let msg=document.getElementById('chatText').value.trim(); if(!name && !village && !phone && !msg){ alert('ఏదైనా ఒకటి రాయండి అండీ!'); return; } if(!name) name='భక్తుడు'; if(!msg){ if(village || phone) msg=(village?'🏡 '+village+' ':'')+(phone?'📞 '+phone:'')+' 🙏'; else msg='🙏'; } localStorage.setItem('ms_chat_name',name); localStorage.setItem('ms_chat_village',village); localStorage.setItem('ms_chat_phone',phone); let code=getMyCode(); let time=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true}); let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); let newMsg={userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}; newMsg.id=chatMsgId(newMsg); local.push(newMsg); localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+village+'|'+phone+'|'+msg+'|'+time}); }catch(e){} document.getElementById('chatText').value=''; alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!'); loadMyChat(); setTimeout(scrollChatToBottom,200); }
+function openChat(){ document.getElementById('chatModal').style.display='flex'; lockBody(); document.getElementById('chatName').value=localStorage.getItem('ms_chat_name')||''; document.getElementById('chatVillage').value=localStorage.getItem('ms_chat_village')||''; document.getElementById('chatPhone').value=localStorage.getItem('ms_chat_phone')||''; document.getElementById('blockedBanner').style.display=isBlocked()?'block':'none'; loadMyChat(); }
+function closeChat(){ document.getElementById('chatModal').style.display='none'; unlockBody(); }
+async function loadMyChat(){
+  let code=getMyCode(); let box=document.getElementById('chatMsgs');
+  let local=[]; try{ local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); }catch(e){}
+  let mine=local.filter(m=>String(m.userCode)===String(code));
+  let idChanged=false; mine.forEach(m=>{ if(!m.id){ m.id=chatMsgId(m); idChanged=true; } });
+  if(idChanged){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); }
+  if(!mine.length){ box.innerHTML='<p style="color:gray;font-size:13px">ఇంకా చాట్ లేదు - మొదటి మెసేజ్ రాయండి!</p>'; }
+  else { box.innerHTML=mine.map(m=>`<div class="chatMsg" style="background:${m.from==='admin'?'#cfe8ff':'#fff3cd'}"><b>${m.from==='admin'?'💙 అడ్మిన్:':'💛 మీరు:'} ${m.msg}</b><br><small>📅 ${m.time||''} ${m.village?(' | 🏡 '+m.village):''} ${m.phone?(' | 📞 '+m.phone):''}</small></div>`).join(''); box.scrollTop=box.scrollHeight; }
+  try{
+    let r=await fetch('https://ntfy.sh/'+CHAT_TOPIC+'/json?since=all&poll=1');
+    let txt=await r.text(); let hasNew=false;
+    txt.split('\n').filter(Boolean).forEach(l=>{ try{
+      let j=JSON.parse(l); if(!j.message) return;
+      if(j.message.includes('ADMIN_UNBLOCK_'+code)){ localStorage.removeItem('ms_im_blocked'); document.getElementById('blockedBanner').style.display='none'; hasNew=true; return; }
+      if(j.message.includes('ADMIN_BLOCK_'+code)){ localStorage.setItem('ms_im_blocked','1'); document.getElementById('blockedBanner').style.display='block'; return; }
+      if(j.message.includes('ADMIN_DELETE_'+code)){ let delId=j.message.split('ADMIN_DELETE_'+code+':')[1]; if(delId){ let before=local.length; local=local.filter(m=> (m.id||chatMsgId(m))!==delId.trim()); if(local.length!==before){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); hasNew=true; } } return; }
+      if(j.message.includes('ADMIN_REPLY_'+code)){ let msg=j.message.split('ADMIN_REPLY_'+code+':')[1]; if(msg && !local.some(m=>m.msg===msg && m.from==='admin')){ local.push({userCode:code,msg:msg,from:'admin',time:new Date(j.time*1000).toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); hasNew=true; } }
+    }catch(e){} });
+    if(hasNew){ localStorage.setItem('ms_my_chats_local',JSON.stringify(local)); loadMyChat(); }
+  }catch(e){}
+}
+async function sendUserChat(){
+  if(isBlocked()){ alert('🚫 మీరు బ్లాక్ అయ్యారు - మెసేజ్ పంపలేరు!'); return; }
+  let name=document.getElementById('chatName').value.trim();
+  let village=document.getElementById('chatVillage').value.trim();
+  let phone=document.getElementById('chatPhone').value.trim();
+  let msg=document.getElementById('chatText').value.trim();
+  if(!name && !village && !phone && !msg){ alert('ఏదైనా ఒకటి రాయండి అండీ!'); return; }
+  if(!name) name='భక్తుడు';
+  if(!msg){
+    if(village || phone) msg=(village?'🏡 '+village+' ':'')+(phone?'📞 '+phone:'')+' 🙏';
+    else msg='🙏';
+  }
+  localStorage.setItem('ms_chat_name',name);
+  localStorage.setItem('ms_chat_village',village);
+  localStorage.setItem('ms_chat_phone',phone);
+  let code=getMyCode();
+  let time=new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true});
+  let local=JSON.parse(localStorage.getItem('ms_my_chats_local')||'[]'); let newMsg={userCode:code,userName:name,village:village,phone:phone,msg:msg,from:'user',time:time}; newMsg.id=chatMsgId(newMsg); local.push(newMsg); localStorage.setItem('ms_my_chats_local',JSON.stringify(local));
+  try{ await fetch('https://ntfy.sh/'+CHAT_TOPIC,{method:'POST',body:'USER_MSG_'+code+'|'+name+'|'+village+'|'+phone+'|'+msg+'|'+time}); }catch(e){}
+  document.getElementById('chatText').value='';
+  alert('✅ పంపించారు! అడ్మిన్ ఎప్పుడైనా రిప్లై ఇస్తారు!');
+  loadMyChat();
+}
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+  </html>
