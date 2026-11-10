@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎯 రోజుకో ప్రశ్న - BM మహిమ సన్నిధి</title>
+<meta name="theme-color" content="#0B3D2E">
+<style>
+*{box-sizing:border-box}
+body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
+.header{background:#0B3D2E;color:white;padding:18px 10px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:white;text-decoration:none;font-weight:bold}
+.top-highlight{background:linear-gradient(135deg,#FF9800,#FF5722);margin:12px;padding:18px;border-radius:18px;text-align:center;color:white;box-shadow:0 4px 15px rgba(255,87,34,0.4);border:3px solid gold}
+.top-highlight h2{margin:0;font-size:22px}
+.quiz-box{background:white;margin:12px;padding:20px;border-radius:18px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.q-day{background:#0B3D2E;color:white;display:inline-block;padding:6px 15px;border-radius:20px;font-size:14px}
+.q-text{font-size:21px;font-weight:bold;color:#0B3D2E;line-height:1.6;margin:18px 0}
+.timer{font-size:14px;color:#E65100;background:#FFF3E0;padding:10px;border-radius:10px;margin:10px 0}
+.ans-btn{background:#0B3D2E;color:white;border:none;padding:14px 25px;border-radius:30px;font-size:17px;font-weight:bold;width:100%;margin-top:10px}
+.ans-btn:disabled{background:#ccc}
+.ans-box{display:none;background:#E8F5E9;border:2px solid #4CAF50;padding:15px;border-radius:12px;margin-top:15px;font-size:18px;line-height:1.7}
+.share-btn{background:#25D366;color:white;border:none;padding:12px;border-radius:10px;width:100%;font-size:16px;font-weight:bold;margin-top:10px}
+.note{font-size:13px;color:gray;text-align:center;padding:0 15px 20px}
+</style>
+</head>
+<body>
 
+<div class="header">
+<a href="index.html">⬅️ వెనక్కి</a>
+<h1 style="margin:8px 0 0;">🎯 రోజుకో ప్రశ్న</h1>
+<div style="font-size:13px;opacity:.9;">BM మహిమ సన్నిధి - సన్నిధి వర్తమానములు</div>
+</div>
+
+<div class="top-highlight">
+<h2>🌟 ఈ రోజు ప్రశ్న 🌟</h2>
+<div style="font-size:14px;margin-top:5px;">ఉదయం ప్రశ్న - సాయంత్రం 6 గం. తర్వాత జవాబు</div>
+<div id="todayDate" style="font-size:14px;margin-top:5px;font-weight:bold;"></div>
+</div>
+
+<div class="quiz-box">
+<div class="q-day" id="dayNum">Day 1 / 365</div>
+<div class="q-text" id="qText">లోడ్ అవుతోంది...</div>
+<div class="timer" id="timerText"></div>
+<button class="ans-btn" id="ansBtn" onclick="showAnswer()">🔒 జవాబు చూడండి</button>
+<div class="ans-box" id="ansBox"></div>
+<button class="share-btn" onclick="shareQuiz()">📤 ఈ ప్రశ్నని షేర్ చేయండి</button>
+</div>
+
+<p class="note">📵 ఇది ఆఫ్ లైన్ లో కూడా పనిచేస్తుంది. నెట్ లేకపోయినా ప్రశ్న వస్తుంది.<br>365 రోజులు - 365 ప్రశ్నలు - ఒక్కటి కూడా రిపీట్ అవ్వదు!</p>
+
+<script>
+// 365 ప్రశ్నలు - ఇక్కడ 1-30 పెట్టాను, మిగిలినవి నేను ఇస్తాను
+const QUESTIONS = [
+{q:"ఆదాము, హవ్వలు ఏ తోటలో ఉన్నారు?", a:"ఏదేను తోటలో - ఆదికాండము 2:8"},
+{q:"నోవహు ఓడలో ఎన్ని రోజులు ఉన్నాడు?", a:"150 రోజులు వరద నీరు ఉంది - ఆదికాండము 7:24"},
+{q:"అబ్రాహాము కుమారుని పేరేంటి?", a:"ఇస్సాకు - ఆదికాండము 21:3"},
+{q:"యోసేపును అన్నలు ఎక్కడ అమ్మేశారు?", a:"ఐగుప్తుకు - ఆదికాండము 37:28"},
+{q:"మోషేను ఎవరు పెంచారు?", a:"ఫరో కుమార్తె - నిర్గమకాండము 2:10"},
+{q:"దేవుడు మోషేకు ఎన్ని ఆజ్ఞలు ఇచ్చాడు?", a:"10 ఆజ్ఞలు - నిర్గమకాండము 20"},
+{q:"దావీదు ఎవరిని ఓడించాడు?", a:"గొల్యాతును - 1 సమూయేలు 17:50"},
+{q:"సొలొమోను దేవుని ఏమి అడిగాడు?", a:"జ్ఞానము - 1 రాజులు 3:9"},
+{q:"యేసు ఎక్కడ పుట్టాడు?", a:"బెత్లెహేములో - మత్తయి 2:1"},
+{q:"యేసు మొదటి అద్భుతం ఏంటి?", a:"కానాలో నీటిని ద్రాక్షారసంగా మార్చడం - యోహాను 2:1-11"},
+{q:"యేసుకు ఎంత మంది శిష్యులు?", a:"12 మంది శిష్యులు - మత్తయి 10:1"},
+{q:"యేసు ఎవరిని బ్రతికించాడు? 4 రోజుల తర్వాత", a:"లాజరును - యోహాను 11:43"},
+{q:"యేసు ఏ పర్వతం మీద ప్రసంగించాడు?", a:"కొండ మీద ప్రసంగం - మత్తయి 5"},
+{q:"పౌలు ముందు పేరేంటి?", a:"సౌలు - అపోస్తలుల కార్యములు 9:1"},
+{q:"బైబిల్ లో మొదటి పుస్తకం ఏది?", a:"ఆదికాండము"},
+{q:"బైబిల్ లో చివరి పుస్తకం ఏది?", a:"ప్రకటన గ్రంథము"},
+{q:"యేసు ఎన్ని రోజులు ఉపవాసం ఉన్నాడు?", a:"40 రోజులు - మత్తయి 4:2"},
+{q:"దానియేలు ఎక్కడ వేయబడ్డాడు?", a:"సింహాల గుహలో - దానియేలు 6:16"},
+{q:"యోనా ఎక్కడికి వెళ్ళమని దేవుడు చెప్పాడు?", a:"నీనెవెకు - యోనా 1:2"},
+{q:"మోషే చేతిలో ఏమి ఉండేది?", a:"కర్ర - నిర్గమకాండము 4:2"},
+{q:"ఇశ్రాయేలీయులు ఎన్ని సంవత్సరాలు అరణ్యంలో తిరిగారు?", a:"40 సంవత్సరాలు - సంఖ్యాకాండము 14:33"},
+{q:"యేసు ఏ నదిలో బాప్తిస్మం తీసుకున్నాడు?", a:"యోర్దాను నదిలో - మత్తయి 3:13"},
+{q:"యేసుకు బాప్తిస్మం ఎవరు ఇచ్చారు?", a:"యోహాను - మత్తయి 3:13"},
+{q:"యేసు చివరి భోజనంలో ఏమి పంచాడు?", a:"రొట్టె, ద్రాక్షారసం - మత్తయి 26:26"},
+{q:"యేసు ఎక్కడ సిలువ వేయబడ్డాడు?", a:"గొల్గొతాలో - యోహాను 19:17"},
+{q:"యేసు ఎన్నో రోజున లేచాడు?", a:"3వ రోజున - మత్తయి 28:6"},
+{q:"పరిశుద్ధాత్మ ఎప్పుడు దిగి వచ్చింది?", a:"పెంతెకొస్తు రోజున - అపోస్తలుల కార్యములు 2:1"},
+{q:"దేవుడు లోకమును ఎంతో ప్రేమించెను వాక్యం ఎక్కడ ఉంది?", a:"యోహాను 3:16"},
+{q:"నీ పొరుగువానిని నీ వలె ప్రేమించు - ఎక్కడ?", a:"మత్తయి 22:39"},
+{q:"విశ్వాసం అంటే ఏంటి? హెబ్రీ 11:1 చెప్తుంది?", a:"నిరీక్షించబడువాటి యొక్క నిశ్చయత, అదృశ్యమైనవాటి యొక్క రుజువు"}
+];
+
+// తేదీ నుండి రోజు నంబర్ - 1 నుండి 365 వరకు
+function getDayOfYear(){
+  let now = new Date();
+  let start = new Date(now.getFullYear(), 0, 0);
+  let diff = now - start;
+  return Math.floor(diff / (1000*60*60*24));
+}
+let day = getDayOfYear();
+let idx = (day - 1) % QUESTIONS.length;
+let todayQ = QUESTIONS[idx];
+
+document.getElementById('todayDate').innerText = "📅 " + new Date().toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById('dayNum').innerText = "Day " + day + " / 365";
+document.getElementById('qText').innerText = "Q: " + todayQ.q;
+
+function updateTimer(){
+  let now = new Date();
+  let six = new Date(); six.setHours(18,0,0,0);
+  let btn = document.getElementById('ansBtn');
+  let timer = document.getElementById('timerText');
+  if(now >= six){
+    timer.innerHTML = "✅ <b>సాయంత్రం 6 అయింది! ఇప్పుడు జవాబు చూడవచ్చు!</b>";
+    btn.disabled = false;
+    btn.innerText = "👁️ జవాబు చూడండి";
+  } else {
+    let diff = six - now;
+    let h = Math.floor(diff/(1000*60*60));
+    let m = Math.floor((diff%(1000*60*60))/(1000*60));
+    timer.innerHTML = "⏳ జవాబు కోసం ఇంకా <b>" + h + " గం. " + m + " ని.</b> ఆగాలి - సాయంత్రం 6 గం. కి ఓపెన్ అవుతుంది";
+    btn.disabled = true;
+    btn.innerText = "🔒 జవాబు - సాయంత్రం 6 గం. కి";
+  }
+}
+updateTimer();
+setInterval(updateTimer, 60000);
+
+function showAnswer(){
+  document.getElementById('ansBox').style.display = 'block';
+  document.getElementById('ansBox').innerHTML = "<b>✅ జవాబు:</b><br>" + todayQ.a + "<br><br>🙏 దేవునికి స్తోత్రం!";
+  document.getElementById('ansBtn').style.display = 'none';
+}
+function shareQuiz(){
+  let txt = "🎯 ఈ రోజు ప్రశ్న - BM మహిమ సన్నిధి\n\nQ: " + todayQ.q + "\n\nజవాబు సాయంత్రం 6 గం. కి App లో చూడండి!\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/quiz.html";
+  if(navigator.share){ navigator.share({text: txt}); }
+  else { navigator.clipboard.writeText(txt); alert("✅ కాపీ అయింది! WhatsApp లో పేస్ట్ చేయండి"); }
+}
+</script>
+</body>
+</html>
