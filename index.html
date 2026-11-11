@@ -37,6 +37,11 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .post .p-title{font-weight:bold;color:#0B3D2E;font-size:18px;text-align:center}
 .post .p-content{white-space:pre-line;font-size:16px;text-align:center;line-height:1.7;margin-top:8px}
 .post .p-date{font-size:13px;color:gray;text-align:center;margin-top:6px}
+.share-row{display:flex;gap:8px;margin-top:10px}
+.share-row button{flex:1;border:none;padding:11px 5px;border-radius:10px;font-weight:bold;font-size:14px;cursor:pointer;color:white}
+.btn-fb{background:#1877F2}
+.btn-wa{background:#25D366}
+.btn-copy{background:#0B3D2E}
 .qr-box{text-align:center}
 .qr-box img{width:260px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #0B3D2E}
 .install-btn{display:none;background:#0B3D2E;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
@@ -89,6 +94,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div id="topTitle" style="font-weight:bold;margin:12px 0;font-size:20px;color:#0B3D2E">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
   <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
   <div id="topDate">📅 4/11/2026</div>
+  <div id="topShare" class="share-row"></div>
 </div>
 
 <div style="text-align:center"><button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button></div>
@@ -156,13 +162,10 @@ function bookText(b){
   if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); });
   return t;
 }
-// ⭐⭐ 2-రోజుల రూల్ - నిన్న + ఈ రోజు మాత్రమే ⭐⭐
 function parsePostDate(s){
   if(!s) return null;
   s = String(s).trim();
-  // 2026-11-09T08:25:43... లాంటిది
   if(s.includes('T')){ let d=new Date(s); return isNaN(d)?null:d; }
-  // 11/11/2026 లేదా 4/11/2026
   let m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if(m){ let d=new Date(m[3], m[2]-1, m[1]); return d; }
   let d2 = new Date(s); return isNaN(d2)?null:d2;
@@ -173,10 +176,26 @@ function isRecentPost(p){
   let today = new Date(); today.setHours(0,0,0,0);
   let pd = new Date(d); pd.setHours(0,0,0,0);
   let diff = Math.floor((today - pd)/(1000*60*60*24));
-  return diff >= 0 && diff <= 1; // 0=ఈ రోజు, 1=నిన్న
+  return diff >= 0 && diff <= 1;
 }
 function getRecentPosts(){
   return allPosts.filter(isRecentPost);
+}
+// ⭐⭐ SHARE FUNCTION - Facebook / WhatsApp / Copy ⭐⭐
+function sharePost(i, type){
+  let p = allPosts[i]; if(!p) return;
+  let text = (p.title||'') + '\n\n' + (p.content||'') + '\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు\n' + location.href;
+  if(type==='fb'){
+    window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href)+'&quote='+encodeURIComponent(text), '_blank');
+  } else if(type==='wa'){
+    window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank');
+  } else {
+    if(navigator.clipboard) navigator.clipboard.writeText(text).then(()=>alert('✅ కాపీ అయ్యింది! Facebook / WhatsApp లో పేస్ట్ చేయండి!')).catch(()=>{ prompt('కాపీ చేసుకోండి:', text); });
+    else prompt('కాపీ చేసుకోండి:', text);
+  }
+}
+function shareButtonsHTML(idx){
+  return `<div class="share-row" onclick="event.stopPropagation()"><button class="btn-fb" onclick="sharePost(${idx},'fb')">📘 Facebook</button><button class="btn-wa" onclick="sharePost(${idx},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${idx},'copy')">🔗 కాపీ</button></div>`;
 }
 async function loadPosts(){
   try{
@@ -186,27 +205,27 @@ async function loadPosts(){
     allPosts = allPosts.map(p=>({title:fixT(p.title), content:fixT(p.content), date:p.date, image:p.image, audio:p.audio, type:p.type, publishAt:p.publishAt}));
   }catch(e){ allPosts = []; }
   try{ let rb=await fetch('books.json?v='+Date.now()); if(rb.ok) allBooks=await rb.json(); }catch(e){ allBooks=[]; }
-  // పైన పెద్ద కార్డు - కేవలం నిన్న / ఈ రోజు దే
   let recent = getRecentPosts();
   if(recent.length>0){
     let p = recent[0];
+    let idx = allPosts.indexOf(p);
     let ti = document.getElementById('topImage');
     if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; }
     document.getElementById('topTitle').innerHTML = p.title || '';
     document.getElementById('topContent').innerText = p.content || '';
     document.getElementById('topDate').innerText = '📅 ' + (p.date||'');
+    document.getElementById('topShare').innerHTML = shareButtonsHTML(idx).replace('onclick="event.stopPropagation()"','');
   } else {
-    // ఈ రోజు + నిన్న ఏమీ లేదు - ఖాళీ చూపించు, పాతది చూపించకు!
     document.getElementById('topImage').style.display='none';
     document.getElementById('topTitle').innerHTML = '🙏 ఈ రోజు వాక్యం ఇంకా రాలేదు';
     document.getElementById('topContent').innerText = 'కొంచెం సేపు ఆగండి - అడ్మిన్ త్వరలో పెడతారు. పాతవి చూడాలంటే కింద గ్యాలరీ / పాత మెసేజ్ లు నొక్కండి.';
     document.getElementById('topDate').innerText = '📅 ' + new Date().toLocaleDateString('en-IN');
+    document.getElementById('topShare').innerHTML = '';
   }
   renderPosts();
 }
 function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase().trim();
-  // వెతుకుతుంటే అన్నీ చూపించు, లేదంటే కేవలం నిన్న+ఈ రోజు మాత్రమే
   let base = q ? allPosts : getRecentPosts();
   let list = base.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
   let box = document.getElementById('postsList');
@@ -214,7 +233,7 @@ function renderPosts(){
     box.innerHTML = list.map(p=>{
       let idx = allPosts.indexOf(p);
       let img = p.image ? `<img src="${p.image}">` : '';
-      return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div></div>`;
+      return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div>${shareButtonsHTML(idx)}</div>`;
     }).join('');
   }
   let bBox=document.getElementById('booksResult');
@@ -226,7 +245,7 @@ function renderPosts(){
 }
 function openPost(i){
   let p=allPosts[i]; if(!p) return;
-  document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p>`;
+  document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook లో పెట్టు</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`;
   document.getElementById('postModal').style.display='flex'; lockBody();
 }
 function closePost(){ document.getElementById('postModal').style.display='none'; unlockBody(); }
