@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>BM మహిమ సన్నిధి</title>
+<!-- Facebook లో లోగో బాగా రావడానికి -->
+<meta property="og:title" content="BM మహిమ సన్నిధి">
+<meta property="og:description" content="రోజుకో వాక్యం - మరనాత, ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు">
+<meta property="og:image" content="https://ms2biblemission-bit.github.io/BMmahimasannidhi/IMG-20261104-WA0008.jpg">
+<meta property="og:url" content="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">
+<meta property="og:type" content="website">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0B3D2E">
 <meta name="mobile-web-app-capable" content="yes">
@@ -151,7 +157,7 @@ function fixT(s){
     if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){
       let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255));
       let decoded = new TextDecoder('utf-8').decode(bytes);
-      if(decoded && decoded.indexOf('�')===-1) return decoded;
+      if(decoded && decoded.indexOf('[STRIPPED 3 bytes]')===-1) return decoded;
     }
   }catch(e){}
   return s;
@@ -181,17 +187,34 @@ function isRecentPost(p){
 function getRecentPosts(){
   return allPosts.filter(isRecentPost);
 }
-// ⭐⭐ SHARE FUNCTION - Facebook / WhatsApp / Copy ⭐⭐
-function sharePost(i, type){
+// ⭐⭐ కొత్త SHARE - ఇమేజ్ తో సహా వెళ్తుంది ⭐⭐
+async function sharePost(i, type){
   let p = allPosts[i]; if(!p) return;
-  let text = (p.title||'') + '\n\n' + (p.content||'') + '\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు\n' + location.href;
+  let text = (p.title||'') + '\n\n' + (p.content||'') + '\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు';
+  // 1. ఇమేజ్ ఉంటే - ఫోన్ షేర్ తో ఇమేజ్ తో సహా షేర్ చేయి (Facebook / WhatsApp రెండూ)
+  if(p.image && navigator.share){
+    try{
+      let res = await fetch(p.image);
+      let blob = await res.blob();
+      let file = new File([blob], 'mahima-sannidhi.jpg', {type: blob.type || 'image/jpeg'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({ title: p.title||'BM మహిమ సన్నిధి', text: text, files: [file] });
+        return;
+      }
+    }catch(e){ /* కుదరకపోతే కిందికి వెళ్తుంది */ }
+  }
+  // 2. కుదరకపోతే - పాత దారి
   if(type==='fb'){
-    window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href)+'&quote='+encodeURIComponent(text), '_blank');
+    if(p.image){
+      let a = document.createElement('a'); a.href = p.image; a.download = 'mahima-sannidhi.jpg'; document.body.appendChild(a); a.click(); a.remove();
+      alert('✅ ఇమేజ్ డౌన్లోడ్ అయ్యింది!\n\nఇప్పుడు Facebook లో:\n1. Photo నొక్కి ఈ ఫోటో సెలెక్ట్ చేయండి\n2. వాక్యం కాపీ అయ్యింది, పేస్ట్ చేయండి');
+    }
+    try{ await navigator.clipboard.writeText(text + '\n' + location.href); }catch(e){}
+    window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), '_blank');
   } else if(type==='wa'){
-    window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank');
+    window.open('https://wa.me/?text='+encodeURIComponent(text + '\n' + location.href), '_blank');
   } else {
-    if(navigator.clipboard) navigator.clipboard.writeText(text).then(()=>alert('✅ కాపీ అయ్యింది! Facebook / WhatsApp లో పేస్ట్ చేయండి!')).catch(()=>{ prompt('కాపీ చేసుకోండి:', text); });
-    else prompt('కాపీ చేసుకోండి:', text);
+    try{ await navigator.clipboard.writeText(text + '\n' + location.href); alert('✅ కాపీ అయ్యింది! Facebook / WhatsApp లో పేస్ట్ చేయండి!'); }catch(e){ prompt('కాపీ చేసుకోండి:', text); }
   }
 }
 function shareButtonsHTML(idx){
@@ -308,4 +331,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+  </html>
