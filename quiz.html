@@ -1,128 +1,113 @@
 <!DOCTYPE html>
-<html lang="te">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>📖 BM మహిమ సన్నిధి - రోజుకో ప్రశ్న</title>
-<meta name="theme-color" content="#0B3D2E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>రోజుకో ప్రశ్న - BM మహిమ సన్నిధి</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
-.header{background:#0B3D2E;color:white;padding:18px 10px;text-align:center;border-radius:0 0 28px 28px}
-.header a{color:white;text-decoration:none;font-weight:bold}
-.top-highlight{background:linear-gradient(135deg,#FF9800,#FF5722);margin:12px;padding:18px;border-radius:18px;text-align:center;color:white;box-shadow:0 4px 15px rgba(255,87,34,0.4);border:3px solid gold}
-.top-highlight h2{margin:0;font-size:22px}
-.quiz-box{background:white;margin:12px;padding:20px;border-radius:18px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-.q-day{background:#0B3D2E;color:white;display:inline-block;padding:6px 15px;border-radius:20px;font-size:14px}
-.q-text{font-size:21px;font-weight:bold;color:#0B3D2E;line-height:1.6;margin:18px 0}
-.timer{font-size:14px;color:#E65100;background:#FFF3E0;padding:10px;border-radius:10px;margin:10px 0}
-.ans-btn{background:#0B3D2E;color:white;border:none;padding:14px 25px;border-radius:30px;font-size:17px;font-weight:bold;width:100%;margin-top:10px}
-.ans-btn:disabled{background:#ccc}
-.ans-box{display:none;background:#E8F5E9;border:2px solid #4CAF50;padding:15px;border-radius:12px;margin-top:15px;font-size:18px;line-height:1.7}
-.share-btn{background:#25D366;color:white;border:none;padding:12px;border-radius:10px;width:100%;font-size:16px;font-weight:bold;margin-top:10px}
-.note{font-size:13px;color:gray;text-align:center;padding:0 15px 20px}
+body{font-family:sans-serif;background:#FFF3E0;margin:0;padding-bottom:30px}
+.header{background:#0B3D2E;color:white;padding:20px 10px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:gold;text-decoration:none;font-weight:bold}
+.card{background:white;margin:15px;padding:20px;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:center}
+.q{font-size:20px;font-weight:bold;line-height:1.6;color:#333}
+.ans{margin-top:15px;padding:15px;background:#E8F5E9;border:2px dashed #4CAF50;border-radius:12px;font-size:20px;font-weight:bold;color:#0B3D2E;display:none}
+.wait{margin-top:15px;padding:12px;background:#FFF8E1;border-radius:12px;color:#E65100;font-weight:bold}
+button{padding:12px 22px;border:none;border-radius:30px;background:#FF5722;color:white;font-size:16px;font-weight:bold;cursor:pointer;margin-top:12px}
 </style>
 </head>
 <body>
-
 <div class="header">
-<a href="index.html">⬅️ వెనక్కి</a>
-<div style="font-size:28px;font-weight:bold;color:gold;line-height:1.3;margin-top:8px;">📖 BM మహిమ సన్నిధి</div>
-<div style="font-size:20px;font-weight:bold;margin-top:5px;">🎯 రోజుకో ప్రశ్న</div>
-<div style="font-size:13px;opacity:.85;margin-top:3px;">సన్నిధి వర్తమానములు</div>
+<a href="index.html">⬅️ వెనక్కి వెళ్ళు</a>
+<h1>🎯 రోజుకో ప్రశ్న</h1>
+<div>BM మహిమ సన్నిధి - హార్డ్ మోడ్</div>
+<div style="font-size:13px;margin-top:8px;opacity:.9">⏰ కొత్త ప్రశ్న అర్ధరాత్రి 12 గంటలకు వస్తుంది</div>
 </div>
 
-<div class="top-highlight">
-<h2>🌟 ఈ రోజు ప్రశ్న 🌟</h2>
-<div style="font-size:14px;margin-top:5px;">ఉదయం ప్రశ్న - సాయంత్రం 6 గం. తర్వాత జవాబు</div>
-<div id="todayDate" style="font-size:14px;margin-top:5px;font-weight:bold;"></div>
+<div class="card">
+<div id="dayLabel" style="color:#FF5722;font-weight:bold">Day 316</div>
+<div class="q" id="qText">లోడ్ అవుతోంది...</div>
+<div style="font-size:13px;color:gray;margin-top:8px">జవాబు సింపుల్ గానే ఉంటుంది, కానీ ఆలోచించాలి!</div>
+<div id="waitBox" class="wait">⏳ జవాబు సాయంత్రం 6 గంటలకు వస్తుంది!</div>
+<div id="ansBox" class="ans"></div>
+<button onclick="checkAns()">👁️ జవాబు చూడాలి అంటే నొక్కండి</button>
+<div style="margin-top:15px"><a href="index.html" style="color:#0B3D2E;font-weight:bold">🏠 హోమ్ కి వెళ్ళు</a></div>
 </div>
-
-<div class="quiz-box">
-<div class="q-day" id="dayNum">Day 1 / 365</div>
-<div class="q-text" id="qText">లోడ్ అవుతోంది...</div>
-<div class="timer" id="timerText"></div>
-<button class="ans-btn" id="ansBtn" onclick="showAnswer()">🔒 జవాబు చూడండి</button>
-<div class="ans-box" id="ansBox"></div>
-<button class="share-btn" onclick="shareQuiz()">📤 ఈ ప్రశ్నని షేర్ చేయండి</button>
-</div>
-
-<p class="note">📵 ఇది ఆఫ్ లైన్ లో కూడా పనిచేస్తుంది. నెట్ లేకపోయినా ప్రశ్న వస్తుంది.<br>365 రోజులు - 365 ప్రశ్నలు - ఒక్కటి కూడా రిపీట్ అవ్వదు!</p>
 
 <script>
-const QUESTIONS = [
-{q:"ఆదాము, హవ్వలు ఏ తోటలో ఉన్నారు?", a:"ఏదేను తోటలో - ఆదికాండము 2:8"},
-{q:"నోవహు ఓడలో ఎన్ని రోజులు ఉన్నాడు?", a:"150 రోజులు వరద నీరు ఉంది - ఆదికాండము 7:24"},
-{q:"అబ్రాహాము కుమారుని పేరేంటి?", a:"ఇస్సాకు - ఆదికాండము 21:3"},
-{q:"యోసేపును అన్నలు ఎక్కడ అమ్మేశారు?", a:"ఐగుప్తుకు - ఆదికాండము 37:28"},
-{q:"మోషేను ఎవరు పెంచారు?", a:"ఫరో కుమార్తె - నిర్గమకాండము 2:10"},
-{q:"దేవుడు మోషేకు ఎన్ని ఆజ్ఞలు ఇచ్చాడు?", a:"10 ఆజ్ఞలు - నిర్గమకాండము 20"},
-{q:"దావీదు ఎవరిని ఓడించాడు?", a:"గొల్యాతును - 1 సమూయేలు 17:50"},
-{q:"సొలొమోను దేవుని ఏమి అడిగాడు?", a:"జ్ఞానము - 1 రాజులు 3:9"},
-{q:"యేసు ఎక్కడ పుట్టాడు?", a:"బెత్లెహేములో - మత్తయి 2:1"},
-{q:"యేసు మొదటి అద్భుతం ఏంటి?", a:"కానాలో నీటిని ద్రాక్షారసంగా మార్చడం - యోహాను 2:1-11"},
-{q:"యేసుకు ఎంత మంది శిష్యులు?", a:"12 మంది శిష్యులు - మత్తయి 10:1"},
-{q:"యేసు ఎవరిని బ్రతికించాడు? 4 రోజుల తర్వాత", a:"లాజరును - యోహాను 11:43"},
-{q:"యేసు ఏ పర్వతం మీద ప్రసంగించాడు?", a:"కొండ మీద ప్రసంగం - మత్తయి 5"},
-{q:"పౌలు ముందు పేరేంటి?", a:"సౌలు - అపోస్తలుల కార్యములు 9:1"},
-{q:"బైబిల్ లో మొదటి పుస్తకం ఏది?", a:"ఆదికాండము"},
-{q:"బైబిల్ లో చివరి పుస్తకం ఏది?", a:"ప్రకటన గ్రంథము"},
-{q:"యేసు ఎన్ని రోజులు ఉపవాసం ఉన్నాడు?", a:"40 రోజులు - మత్తయి 4:2"},
-{q:"దానియేలు ఎక్కడ వేయబడ్డాడు?", a:"సింహాల గుహలో - దానియేలు 6:16"},
-{q:"యోనా ఎక్కడికి వెళ్ళమని దేవుడు చెప్పాడు?", a:"నీనెవెకు - యోనా 1:2"},
-{q:"మోషే చేతిలో ఏమి ఉండేది?", a:"కర్ర - నిర్గమకాండము 4:2"},
-{q:"ఇశ్రాయేలీయులు ఎన్ని సంవత్సరాలు అరణ్యంలో తిరిగారు?", a:"40 సంవత్సరాలు - సంఖ్యాకాండము 14:33"},
-{q:"యేసు ఏ నదిలో బాప్తిస్మం తీసుకున్నాడు?", a:"యోర్దాను నదిలో - మత్తయి 3:13"},
-{q:"యేసుకు బాప్తిస్మం ఎవరు ఇచ్చారు?", a:"యోహాను - మత్తయి 3:13"},
-{q:"యేసు చివరి భోజనంలో ఏమి పంచాడు?", a:"రొట్టె, ద్రాక్షారసం - మత్తయి 26:26"},
-{q:"యేసు ఎక్కడ సిలువ వేయబడ్డాడు?", a:"గొల్గొతాలో - యోహాను 19:17"},
-{q:"యేసు ఎన్నో రోజున లేచాడు?", a:"3వ రోజున - మత్తయి 28:6"},
-{q:"పరిశుద్ధాత్మ ఎప్పుడు దిగి వచ్చింది?", a:"పెంతెకొస్తు రోజున - అపోస్తలుల కార్యములు 2:1"},
-{q:"దేవుడు లోకమును ఎంతో ప్రేమించెను వాక్యం ఎక్కడ ఉంది?", a:"యోహాను 3:16"},
-{q:"నీ పొరుగువానిని నీ వలె ప్రేమించు - ఎక్కడ?", a:"మత్తయి 22:39"},
-{q:"విశ్వాసం అంటే ఏంటి? హెబ్రీ 11:1 చెప్తుంది?", a:"నిరీక్షించబడువాటి యొక్క నిశ్చయత, అదృశ్యమైనవాటి యొక్క రుజువు"}
-];
+const quizData = {
+316:{q:"దేవుని మందసాన్ని తాకినందుకు అక్కడికక్కడే పడిపోయిన వ్యక్తి ఎవరు?",a:"ఉజ్జా"},
+317:{q:"తన సొంత అన్నల చేత బావిలో పడవేయబడి, తర్వాత ఐగుప్తుకు రాజైన వాడు ఎవరు?",a:"యోసేపు"},
+318:{q:"సింహాల గుహలో రాత్రంతా ఉండి కూడా ఏ గాయం లేకుండా బయటకు వచ్చిన భక్తుడు ఎవరు?",a:"దానియేలు"},
+319:{q:"తన జుట్టులోనే బలం ఉందని తెలియక, కత్తిరించబడి బలం పోగొట్టుకున్న బలవంతుడు ఎవరు?",a:"సమ్సోను"},
+320:{q:"దేవుని కోసం తన పడవను వదిలి వెంబడించిన మత్స్యకారుడు ఎవరు?",a:"పేతురు"},
+321:{q:"యేసును 30 వెండి నాణేలకు అమ్మేసిన శిష్యుడు ఎవరు?",a:"యూదా"},
+322:{q:"యేసును మూడు సార్లు ఎరుగనని చెప్పి, కోడి కూయగానే ఏడ్చిన శిష్యుడు ఎవరు?",a:"పేతురు"},
+323:{q:"నీటి మీద నడవడానికి ప్రయత్నించి, భయపడి మునిగిపోబోయిన శిష్యుడు ఎవరు?",a:"పేతురు"},
+324:{q:"తన అత్తను వదలకుండా 'నీ దేవుడే నా దేవుడు' అని చెప్పిన స్త్రీ ఎవరు?",a:"రూతు"},
+325:{q:"చిన్న రాయి, వడిసెలతో పెద్ద రాక్షసుడిని పడగొట్టిన గొర్రెల కాపరి ఎవరు?",a:"దావీదు"},
+326:{q:"దేవుని మాట వినక, ఓడలో దాక్కుని పారిపోవడానికి ప్రయత్నించిన ప్రవక్త ఎవరు?",a:"యోనా"},
+327:{q:"అగ్నిగుండంలో వేయబడినా, వెంట్రుక కూడా కాలకుండా బయటకు వచ్చిన ముగ్గురిలో ఒకరు ఎవరు?",a:"షద్రకు / మేషాకు / అబేద్నెగో"},
+328:{q:"తన తండ్రి ఆస్తిలో సగం తీసుకుని, దూరదేశం వెళ్లి అన్నీ పోగొట్టుకుని తిరిగి వచ్చిన కుమారుడు ఏ ఉపమానంలో ఉన్నాడు?",a:"తప్పిపోయిన కుమారుడు"},
+329:{q:"యేసు పుట్టినప్పుడు, నక్షత్రాన్ని చూసి దూరదేశం నుండి బంగారం, సాంబ్రాణి, బోళం తీసుకువచ్చిన వారు ఎవరు?",a:"జ్ఞానులు"},
+330:{q:"యేసుకు బాప్తిస్మం ఇచ్చిన వ్యక్తి, ఒంటె వెంట్రుకల బట్టలు వేసుకునేవాడు ఎవరు?",a:"యోహాను"},
+331:{q:"12 సంవత్సరాలుగా రక్తస్రావంతో బాధపడుతూ, యేసు వస్త్రం అంచును ముట్టుకుని బాగైన స్త్రీ ఏమి చేసింది?",a:"ముట్టుకుంది"},
+332:{q:"లాజరు చనిపోయి 4 రోజులయ్యాక, సమాధి దగ్గరకు వచ్చి 'లాజరూ బయటకు రా' అని పిలిచినది ఎవరు?",a:"యేసు"},
+333:{q:"తన కుమారుడిని బలి ఇవ్వమని దేవుడు అడిగినప్పుడు, కొండ మీద పొట్టేలు దొరికిన తండ్రి ఎవరు?",a:"అబ్రాహాము"},
+334:{q:"దేవుడు మొదటి మనిషిని మట్టితో చేశాడు, అతని పేరు ఏంటి?",a:"ఆదాము"},
+335:{q:"నోవహు ఓడలోకి ఎంతమంది మనుషులు వెళ్లారు?",a:"8 మంది"},
+336:{q:"మోషే చేతిలోని కర్ర ఫరో ముందు ఏమైంది?",a:"పాము"},
+337:{q:"ఎర్ర సముద్రం చీలిపోయినప్పుడు, ఇశ్రాయేలీయులను నడిపించిన నాయకుడు ఎవరు?",a:"మోషే"},
+338:{q:"గోడలు కూలిపోవడానికి, ఇశ్రాయేలీయులు యెరికో పట్టణం చుట్టూ ఎన్నిసార్లు తిరిగారు?",a:"7 సార్లు"},
+339:{q:"దేవునికి ఇష్టమైన రాజు, కీర్తనలు ఎక్కువగా రాసిన రాజు ఎవరు?",a:"దావీదు"},
+340:{q:"తన భార్య మాట విని, మంచి చెడ్డల తెలివినిచ్చే పండు తిన్న మొదటి మనిషి ఎవరు?",a:"ఆదాము"},
+341:{q:"యేసు సిలువ మీద ఉన్నప్పుడు, 'తండ్రీ వీరిని క్షమించుము' అని ఎవరి కోసం ప్రార్థించాడు?",a:"తనను చంపిన వారి కోసం"},
+342:{q:"యేసు 40 రోజులు ఉపవాసం ఉన్న ఎడారిలో, ఆయనను శోధించినది ఎవరు?",a:"సాతాను"},
+343:{q:"ఐదు రొట్టెలు, రెండు చేపలతో ఎంతమందికి భోజనం పెట్టారు?",a:"5000 మంది"},
+344:{q:"తన కలలో నిచ్చెన మీద దేవదూతలు ఎక్కుతూ దిగుతూ కనిపించిన వ్యక్తి ఎవరు?",a:"యాకోబు"},
+345:{q:"దేవుడు 10 ఆజ్ఞలు ఏ కొండ మీద ఇచ్చాడు?",a:"సీనాయి కొండ"},
+346:{q:"యేసు పుట్టిన ఊరు ఏది? పశువుల తొట్టిలో పుట్టాడు కదా?",a:"బేత్లెహేము"},
+347:{q:"మరియ, మార్తల సోదరుడు, చనిపోయి తిరిగి లేచిన వాడు ఎవరు?",a:"లాజరు"},
+348:{q:"తన స్నేహితుడి భార్యను తీసుకున్నందుకు, ప్రవక్తచే గద్దించబడిన రాజు ఎవరు?",a:"దావీదు"},
+349:{q:"దేవుని కోసం పెద్ద మందిరం కట్టిన రాజు ఎవరు?",a:"సొలొమోను"},
+350:{q:"యేసు మరణించిన తర్వాత, మూడవ రోజు సమాధి దగ్గరకు మొదట వెళ్లిన స్త్రీ ఎవరు?",a:"మగ్దలేనే మరియ"},
+351:{q:"తన తమ్ముడిని చంపినందుకు, దేవుని చేత శపించబడిన మొదటి హంతకుడు ఎవరు?",a:"కయీను"},
+352:{q:"ఇశ్రాయేలీయులు 40 సంవత్సరాలు ఎక్కడ తిరిగారు?",a:"అరణ్యంలో"},
+353:{q:"పౌలు కళ్ళు కనిపించకుండా పోయిన రోడ్డు పేరు ఏంటి? అక్కడ యేసు కనిపించాడు.",a:"దమస్కు మార్గం"},
+354:{q:"తన ప్రజలను ఐగుప్తు నుండి విడిపించిన నాయకుడు ఎవరు?",a:"మోషే"},
+355:{q:"చిన్నవాడైనా, దేవుని స్వరం విని 'చిత్తము ప్రభువా' అని చెప్పిన బాలుడు ఎవరు?",a:"సమూయేలు"},
+356:{q:"యేసు తల్లి పేరు ఏంటి?",a:"మరియ"},
+357:{q:"మంచి సమరయుడు కథలో, దొంగల చేత కొట్టబడిన వ్యక్తిని మొదట ఎవరు చూసి వెళ్లిపోయారు?",a:"యాజకుడు, లేవీయుడు"},
+358:{q:"బైబిల్ లో చివరి పుస్తకం ఏది?",a:"ప్రకటన"},
+359:{q:"నీటిని రక్తంగా మార్చిన మొదటి తెగులు ఎవరి కాలంలో జరిగింది?",a:"మోషే"},
+360:{q:"యేసు ఏ వయస్సులో బాప్తిస్మం తీసుకున్నాడు?",a:"30 సంవత్సరాలు"},
+361:{q:"దేవుడు లోకాన్ని ఎంతగా ప్రేమించాడో చెప్పే వచనం ఏది?",a:"యోహాను 3:16"},
+362:{q:"యేసు ఏ పట్టణంలో ఎక్కువ అద్భుతాలు చేశాడు, కానీ వాళ్ళు నమ్మలేదు?",a:"నజరేతు"},
+363:{q:"తన కుమారుడిని దేవుని సేవకు అప్పగించిన తల్లి ఎవరు? ఆ కుమారుడు ఎవరు?",a:"హన్నా - సమూయేలు"},
+364:{q:"యేసు సిలువ వేయబడిన కొండ పేరు ఏంటి?",a:"కల్వరి / గొల్గొతా"},
+365:{q:"బైబిల్ లో మొత్తం ఎన్ని పుస్తకాలు ఉన్నాయి? పాత + కొత్త నిబంధన కలిపి?",a:"66 పుస్తకాలు"}
+};
+
+// ✅ అర్ధరాత్రి 12 గంటలకే కొత్త ప్రశ్న - రోజు మారగానే ఆటోమేటిక్ గా మారిపోతుంది
 function getDayOfYear(){
   let now = new Date();
-  let start = new Date(now.getFullYear(), 0, 0);
-  let diff = now - start;
-  return Math.floor(diff / (1000*60*60*24));
+  let start = new Date(now.getFullYear(),0,0);
+  return Math.floor((now - start) / (1000*60*60*24));
 }
 let day = getDayOfYear();
-let idx = (day - 1) % QUESTIONS.length;
-let todayQ = QUESTIONS[idx];
-document.getElementById('todayDate').innerText = "📅 " + new Date().toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});
-document.getElementById('dayNum').innerText = "Day " + day + " / 365";
-document.getElementById('qText').innerText = "Q: " + todayQ.q;
-function updateTimer(){
-  let now = new Date();
-  let six = new Date(); six.setHours(18,0,0,0);
-  let btn = document.getElementById('ansBtn');
-  let timer = document.getElementById('timerText');
-  if(now >= six){
-    timer.innerHTML = "✅ <b>సాయంత్రం 6 అయింది! ఇప్పుడు జవాబు చూడవచ్చు!</b>";
-    btn.disabled = false;
-    btn.innerText = "👁️ జవాబు చూడండి";
+let data = quizData[day] || {q:"ఈ రోజు ప్రశ్న ఇంకా రాలేదు!", a:""};
+document.getElementById('dayLabel').innerText = "Day " + day;
+document.getElementById('qText').innerText = data.q;
+document.getElementById('ansBox').innerText = "✅ జవాబు: " + data.a;
+
+function checkAns(){
+  let h = new Date().getHours();
+  if(h >= 18){
+    document.getElementById('ansBox').style.display='block';
+    document.getElementById('waitBox').style.display='none';
   } else {
-    let diff = six - now;
-    let h = Math.floor(diff/(1000*60*60));
-    let m = Math.floor((diff%(1000*60*60))/(1000*60));
-    timer.innerHTML = "⏳ జవాబు కోసం ఇంకా <b>" + h + " గం. " + m + " ని.</b> ఆగాలి - సాయంత్రం 6 గం. కి ఓపెన్ అవుతుంది";
-    btn.disabled = true;
-    btn.innerText = "🔒 జవాబు - సాయంత్రం 6 గం. కి";
+    alert("⏳ ఇంకా సాయంత్రం 6 కాలేదు అండి! కొంచెం ఆలోచించండి!");
   }
-}
-updateTimer();
-setInterval(updateTimer, 60000);
-function showAnswer(){
-  document.getElementById('ansBox').style.display = 'block';
-  document.getElementById('ansBox').innerHTML = "<b>✅ జవాబు:</b><br>" + todayQ.a + "<br><br>🙏 దేవునికి స్తోత్రం!";
-  document.getElementById('ansBtn').style.display = 'none';
-}
-function shareQuiz(){
-  let txt = "📖 BM మహిమ సన్నిధి - సన్నిధి వర్తమానములు\n\n🎯 ఈ రోజు ప్రశ్న\n\nQ: " + todayQ.q + "\n\nజవాబు సాయంత్రం 6 గం. కి App లో చూడండి!\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/quiz.html";
-  if(navigator.share){ navigator.share({text: txt}); }
-  else { navigator.clipboard.writeText(txt); alert("✅ కాపీ అయింది! WhatsApp లో పేస్ట్ చేయండి"); }
 }
 </script>
 </body>
