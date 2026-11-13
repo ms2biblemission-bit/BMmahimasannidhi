@@ -28,7 +28,6 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
 .ytBtn{display:block;background:#FF0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin-top:6px}
 .mp3Box audio{width:100%}
 .linkBtn{display:block;background:#0B3D2E;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:12px 0;text-align:center}
-/* ✅ NEW: సెర్చ్ నొక్కగానే కింద వచ్చే లిస్ట్ */
 .searchWrap{position:relative}
 .suggestBox{background:white;border-radius:16px;box-shadow:0 4px 16px #0002;margin-top:8px;overflow:hidden;display:none;max-height:55vh;overflow-y:auto}
 .suggestRow{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #eee;cursor:pointer}
@@ -80,6 +79,7 @@ function linkHTML(l){
   if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
   return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
 }
+// ✅ MAIN PAGE - పైన సెర్చ్ నొక్కగానే అన్ని పాటలు
 function showFolders(){
   document.getElementById('songView').style.display='none';
   let folders={};
@@ -87,12 +87,37 @@ function showFolders(){
   let keys=Object.keys(folders).sort(teluguCompare);
   window._folderKeys=keys; window._folders=folders;
   let html=`<div style="background:white;padding:16px;border-radius:18px;text-align:center;box-shadow:0 2px 8px #0001"><div style="font-size:28px">🎵</div><div style="font-size:22px;font-weight:bold;color:#0B3D2E">పాటలు - ఫోల్డర్లు</div><div style="color:gray">మొత్తం ఫోల్డర్లు - ${keys.length} | మొత్తం పాటలు - ${allSongs.length}</div></div>`;
-  html+=`<input id="searchFolder" placeholder="🔍 ఫోల్డర్ / పాట వెతకండి..." oninput="filterFolders()" style="margin-top:12px">`;
+  html+=`<div class="searchWrap" style="margin-top:12px"><input id="searchFolder" placeholder="🔍 ఫోల్డర్ / పాట వెతకండి..." oninput="filterFolders()" onfocus="showSuggestMain()" autocomplete="off"><div id="suggestMain" class="suggestBox"></div></div>`;
   html+=`<div id="folderList"></div><div id="songSearchList"></div>`;
   if(!keys.length) html+=`<p style="text-align:center;color:gray">📭 ఇంకా పాటలు లేవు!</p>`;
   document.getElementById('folderView').innerHTML=html;
   document.getElementById('folderView').style.display='block';
   renderFolderCards(keys);
+}
+// ✅ పైన సెర్చ్ లో - అన్ని ఫోల్డర్ల పాటలు కలిపి చూపించేది
+function showSuggestMain(){
+  let q=(document.getElementById('searchFolder').value||'').toLowerCase().trim();
+  let box=document.getElementById('suggestMain'); if(!box) return;
+  // q ఖాళీగా ఉంటే అన్ని పాటలు, టైప్ చేస్తే ఆ పాటలు మాత్రమే - అన్ని ఫోల్డర్ల నుండి
+  let filtered=allSongs.filter(s=>((s.title||'')+' '+getFolder(s)).toLowerCase().includes(q));
+  // ఫోల్డర్ వారీగా వరసగా పెట్టు
+  filtered.sort((a,b)=>{ let fa=getFolder(a), fb=getFolder(b); if(fa!==fb) return fa<fb?-1:1; return (a.num||0)-(b.num||0); });
+  if(!filtered.length){ box.style.display='none'; box.innerHTML=''; return; }
+  box.style.display='block';
+  box.innerHTML=`<div style="background:#0B3D2E;color:white;padding:10px 14px;font-weight:bold">🎵 అన్ని పాటలు - ${filtered.length} దొరికాయి <span style="font-weight:normal;font-size:13px;opacity:.85">• నొక్కి చదవండి</span></div>`;
+  filtered.forEach(s=>{
+    let gi=allSongs.indexOf(s);
+    let row=document.createElement('div'); row.className='suggestRow';
+    let n=document.createElement('div'); n.className='num'; n.style.width='36px'; n.style.height='36px'; n.style.fontSize='15px'; n.textContent=getDisplayNum(s);
+    let txt=document.createElement('div'); txt.style.flex='1';
+    let b=document.createElement('b'); b.textContent=s.title||'';
+    let small=document.createElement('div'); small.style.cssText='color:gray;font-size:13px'; small.textContent='📁 '+getFolder(s);
+    txt.appendChild(b); txt.appendChild(small);
+    let arr=document.createElement('div'); arr.textContent='➡️'; arr.style.color='#888';
+    row.appendChild(n); row.appendChild(txt); row.appendChild(arr);
+    row.onclick=()=>{ document.getElementById('searchFolder').value=''; box.style.display='none'; openSong(gi); };
+    box.appendChild(row);
+  });
 }
 function renderFolderCards(keys){
   let fl=document.getElementById('folderList'); if(!fl) return; fl.innerHTML='';
@@ -110,32 +135,14 @@ function renderFolderCards(keys){
   });
 }
 function filterFolders(){
+  showSuggestMain();
   let q=(document.getElementById('searchFolder').value||'').toLowerCase().trim();
   let sl=document.getElementById('songSearchList');
   if(!q){ renderFolderCards(window._folderKeys||[]); sl.innerHTML=''; return; }
   let matchedFolders=(window._folderKeys||[]).filter(f=>f.toLowerCase().includes(q));
   renderFolderCards(matchedFolders);
-  let matchedSongs=allSongs.filter(s=>(s.title||'').toLowerCase().includes(q));
   sl.innerHTML='';
-  if(matchedSongs.length){
-    let head=document.createElement('div'); head.style.cssText='background:#0B3D2E;color:white;padding:10px 14px;border-radius:12px;margin-top:12px;font-weight:bold'; head.textContent='🎵 పాటలు - '+matchedSongs.length+' దొరికాయి';
-    sl.appendChild(head);
-    matchedSongs.forEach(s=>{
-      let gi=allSongs.indexOf(s);
-      let d=document.createElement('div'); d.className='card';
-      let n=document.createElement('div'); n.className='num'; n.textContent=getDisplayNum(s);
-      let txt=document.createElement('div');
-      let t1=document.createElement('div'); t1.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; t1.textContent=s.title||'';
-      let t2=document.createElement('div'); t2.style.cssText='color:gray;font-size:13px'; t2.textContent='📁 '+getFolder(s)+' - నొక్కి చదవండి ➡️';
-      txt.appendChild(t1); txt.appendChild(t2);
-      d.appendChild(n); d.appendChild(txt);
-      d.onclick=()=>openSong(gi);
-      sl.appendChild(d);
-    });
-  }
-  if(!matchedFolders.length && !matchedSongs.length){ sl.innerHTML='<p style="text-align:center;color:gray">📭 ఏమీ దొరకలేదు</p>'; }
 }
-// ✅ ఫోల్డర్ లోపల - పాట వెతకండి నొక్కగానే కింద లిస్ట్
 function openFolder(f){
   curFolder=f;
   document.getElementById('folderView').style.display='none';
@@ -164,7 +171,6 @@ function renderSongCards(list){
     sl.appendChild(d);
   });
 }
-// ✅ నొక్కగానే కింద స్పేస్ లో లిస్ట్ చూపించేది
 function showSuggest(){
   let q=(document.getElementById('searchSong').value||'').toLowerCase().trim();
   let box=document.getElementById('suggestBox'); if(!box) return;
@@ -172,7 +178,7 @@ function showSuggest(){
   if(!filtered.length){ box.style.display='none'; box.innerHTML=''; return; }
   box.style.display='block';
   box.innerHTML='';
-  filtered.forEach((s,idx)=>{
+  filtered.forEach(s=>{
     let gi=allSongs.indexOf(s);
     let row=document.createElement('div'); row.className='suggestRow';
     let n=document.createElement('div'); n.className='num'; n.style.width='36px'; n.style.height='36px'; n.style.fontSize='15px'; n.textContent=curList.indexOf(s)+1;
@@ -186,11 +192,9 @@ function showSuggest(){
 }
 function filterSongs(){
   let q=(document.getElementById('searchSong').value||'').toLowerCase().trim();
-  // కింద లిస్ట్ కూడా ఫిల్టర్ అవుతుంది + సజెస్ట్ బాక్స్ కూడా
   showSuggest();
   let filtered=curList.filter(s=>(s.title||'').toLowerCase().includes(q));
   renderSongCards(filtered);
-  // టైప్ చేస్తుంటే సజెస్ట్ బాక్స్ కనిపించాలి, లేదంటే దాచు
   if(!q){ let box=document.getElementById('suggestBox'); if(box) box.style.display='none'; }
 }
 function openSong(i){
@@ -208,7 +212,7 @@ function openSong(i){
 }
 function closeSong(){ document.getElementById('songModal').style.display='none'; }
 document.getElementById('songModal').addEventListener('click',e=>{ if(e.target.id==='songModal') closeSong(); });
-document.addEventListener('click',e=>{ let box=document.getElementById('suggestBox'); let inp=document.getElementById('searchSong'); if(box && inp && !e.target.closest('.searchWrap')){ box.style.display='none'; } });
+document.addEventListener('click',e=>{ if(!e.target.closest('.searchWrap')){ let b1=document.getElementById('suggestMain'); if(b1) b1.style.display='none'; let b2=document.getElementById('suggestBox'); if(b2) b2.style.display='none'; } });
 load();
 </script>
 </body>
