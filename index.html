@@ -21,9 +21,8 @@
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
 body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
-.header{background:#0B3D2E;color:white;padding:25px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px}
-.logo{width:140px;height:140px;border-radius:50%;background:white;margin:0 auto 15px;overflow:hidden;border:4px solid gold}
-.logo img{width:100%;height:100%;object-fit:cover}
+.header{background:#0B3D2E;color:white;padding:15px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.header img{width:62px;height:62px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
 .logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:white;margin:10px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .logo-row a{text-align:center;text-decoration:none;min-width:68px}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
@@ -59,14 +58,18 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </style>
 </head>
 <body>
+<!-- ✅ కొత్త హెడర్ - లెఫ్ట్ యేసు, రైట్ దేవదాసు -->
 <div class="header">
-<div class="logo"><img src="IMG-20261104-WA0008.jpg"></div>
-<h1>📖 BM మహిమ సన్నిధి</h1>
-<div style="font-size:14px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
-<div style="margin-top:6px">John Dalli | మరనాత ✝️</div>
+  <img src="jesus.jpg" alt="యేసు">
+  <div style="flex:1;text-align:center">
+    <div style="font-size:14px;opacity:.9">📖 BM మహిమ సన్నిధి</div>
+    <h1 style="margin:4px 0;font-size:22px;line-height:1.2">మహిమ సన్నిధి</h1>
+    <div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
+    <div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div>
+  </div>
+  <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
 
-<!-- ✅ కొత్తది - UNIVERSAL SHARE + DOWNLOAD - ఏది షేర్ చేసినా ఇది వస్తుంది -->
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి</div>
   <div style="font-size:12px;color:#666;margin:3px 0 10px">రోజూ వాక్యం - పాటలు - బైబిల్ క్విజ్</div>
@@ -156,10 +159,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div></div>
 
 <script>
-// ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది
 function shareAnyPage(){
-  let link = window.location.href;
-  let text = "🙏 BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్ - తలుపు తెరిచి చూడండి 👇\n" + link;
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let pageName = "BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్";
+  if(pageLink.includes("songs")) pageName = "BM మహిమ సన్నిధి - పాటలు 🎵\nఆంధ్ర క్రైస్తవ కీర్తనలు - పాడండి, షేర్ చేయండి";
+  else if(pageLink.includes("books")) pageName = "BM మహిమ సన్నిధి - బుక్స్ 📚\nపుస్తకాలు చదవండి";
+  else if(pageLink.includes("quiz")) pageName = "BM మహిమ సన్నిధి - బైబిల్ క్విజ్ 🎯\nరోజూ కొత్త హార్డ్ ప్రశ్నలు";
+  else if(pageLink.includes("voice")) pageName = "BM మహిమ సన్నిధి - వాయిస్ 🎤\nవాయిస్ సందేశాలు వినండి";
+  let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
 function installAppUniversal(){
@@ -204,12 +212,11 @@ function isRecentPost(p){
   let diff = Math.floor((today - pd)/(1000*60*60*24));
   return diff >= 0 && diff <= 1;
 }
-function getRecentPosts(){
-  return allPosts.filter(isRecentPost);
-}
+function getRecentPosts(){ return allPosts.filter(isRecentPost); }
 async function sharePost(i, type){
   let p = allPosts[i]; if(!p) return;
-  let text = (p.title||'') + '\n\n' + (p.content||'') + '\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు';
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = (p.title||'') + '\n\n' + (p.content||'') + '\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n' + appLink;
   if(p.image && navigator.share){
     try{
       let res = await fetch(p.image);
