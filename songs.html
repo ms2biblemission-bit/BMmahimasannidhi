@@ -8,8 +8,9 @@
 <meta name="theme-color" content="#0B3D2E">
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
-.header{background:#0B3D2E;color:white;padding:20px 12px;text-align:center;border-radius:0 0 28px 28px}
+.header{background:#0B3D2E;color:white;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .header a{color:white;text-decoration:none;font-weight:bold}
+.header img{width:58px;height:58px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
 .wrap{padding:12px;max-width:700px;margin:auto}
 .card{background:white;padding:15px;border-radius:18px;margin:12px 0;box-shadow:0 2px 8px #0001;cursor:pointer;display:flex;gap:12px;align-items:center}
 .icon{width:68px;height:68px;min-width:68px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:bold;overflow:hidden}
@@ -39,11 +40,8 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
 </style>
 </head>
 <body>
-<div class="header">
-<a href="index.html">← హోమ్</a>
-<h2 style="margin:8px 0 0">📖 BM మహిమ సన్నిధి</h2>
-<div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
-</div>
+<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
 <!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
@@ -69,10 +67,11 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
   <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ✅ UNIVERSAL SHARE + DOWNLOAD FUNCTIONS
+// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
 function shareAnyPage(){
-  let link = window.location.href;
-  let text = "🙏 BM మహిమ సన్నిధి - పాటలు 🎵\nఆంధ్ర క్రైస్తవ కీర్తనలు - పాడండి, షేర్ చేయండి 👇\n" + link;
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = "🙏 BM మహిమ సన్నిధి - పాటలు 🎵\nఆంధ్ర క్రైస్తవ కీర్తనలు - పాడండి, షేర్ చేయండి 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
 let deferredPrompt = null;
