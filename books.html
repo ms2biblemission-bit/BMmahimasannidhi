@@ -1,4 +1,6 @@
 <!DOCTYPE html><html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BM మహిమ సన్నిధి - బుక్స్</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0B3D2E">
 <style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:130px} .head{background:#0B3D2E;color:white;padding:28px 18px 20px;text-align:center;border-radius:0 0 28px 28px} .head a{color:white;text-decoration:none;font-weight:bold} .head h2{margin:8px 0 4px;font-size:26px} .head p{margin:0;font-size:13px;opacity:.9} .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
 h3{color:#0B3D2E;margin:16px 0 8px}
 .scroll{display:flex;gap:12px;overflow-x:auto;padding:6px 2px 12px;scroll-snap-type:x mandatory}.scroll::-webkit-scrollbar{display:none}.hcard{min-width:155px;width:155px;background:white;border-radius:20px;padding:12px;box-shadow:0 2px 10px #0001;cursor:pointer;scroll-snap-align:start}.hcard .cover{height:110px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:44px;color:white}.hcard b{display:block;margin-top:8px;font-size:15px;color:#0B3D2E;line-height:1.3}.hcard small{color:#888}
@@ -12,6 +14,18 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 </style></head>
 <body>
 <div class="head"><a href="index.html">⬅ హోమ్</a><h2>📖 BM మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div>
+
+<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - బుక్స్</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">పుస్తకాలు చదవండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+  </div>
+  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
+</div>
+
 <div class="wrap">
 <input id="search" placeholder="🔍 బుక్ / అధ్యాయం వెతకండి..." oninput="renderBooks()">
 <div id="box">లోడ్ అవుతోంది...</div>
@@ -25,6 +39,25 @@ h3{color:#0B3D2E;margin:16px 0 8px}
   <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
+// ✅ UNIVERSAL SHARE + DOWNLOAD FUNCTIONS
+function shareAnyPage(){
+  let link = window.location.href;
+  let text = "🙏 BM మహిమ సన్నిధి - బుక్స్ 📚\nపుస్తకాలు చదవండి - రోజూ వాక్యం, పాటలు, క్విజ్ 👇\n" + link;
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault(); deferredPrompt = e;
+  let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి";
+});
+function installAppUniversal(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
+  } else {
+    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
+  }
+}
 let BOOKS=[];
 let DEFAULT_BOOKS=[
 {id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక - రోజువారీ మెసేజ్",chapters:[{t:"అధ్యాయం 1 - సృష్టి",c:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.\n\nవివరణ: దేవుడే అన్నిటికి మొదలు. మన జీవితం కూడా ఆయన చేతిలోనే మొదలైంది. భయపడవద్దు, ఆయనే నడిపిస్తాడు.\n\nమరనాత ✝️"},{t:"అధ్యాయం 2 - మనిషి",c:"ఆది 2:7 - దేవుడు మనిషిని మట్టితో చేసి - జీవవాయువు ఊదెను.\n\nవివరణ: మనం మామూలు మట్టి కాదు, దేవుని ఊపిరి ఉన్నవాళ్ళం."},{t:"అధ్యాయం 3 - పాపం - రక్షణ",c:"ఆది 3:15 - స్త్రీ సంతానం - సర్పం తల చితకగొడుతుంది.\n\nవివరణ: పాపం వచ్చినా - దేవుడు అప్పుడే రక్షకుని వాగ్దానం ఇచ్చేసాడు. అదే యేసు ప్రభువు."}]},
@@ -37,7 +70,6 @@ let DEFAULT_BOOKS=[
 let currentBook=null; let currentIdx=0;
 let lastRead={idx:0,page:0};
 try{let lr=localStorage.getItem('ms_last_read_books');if(lr){let j=JSON.parse(lr); if(j.idx!=null) lastRead=j; else if(j.id!=null) lastRead={idx:0,page:j.page||0};}}catch(e){}
-// ✅ FIX: టైటిల్ లో మొదటి నంబర్ ని పట్టుకుని వరస పెట్టడం
 function getBookNum(s){
   s=(s||'').toString();
   let m=s.match(/(\d+)/);
