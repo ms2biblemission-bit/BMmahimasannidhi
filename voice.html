@@ -9,7 +9,8 @@
 <style>
 *{box-sizing:border-box}
 body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0;padding-bottom:130px}
-.header{background:#8B0000;color:white;padding:20px;text-align:center}
+.header{background:#8B0000;color:white;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.header img{width:58px;height:58px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
 .box{background:white;margin:12px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1);text-align:center}
 .box h3{color:#8B0000;margin:0 0 8px}
 .box img{width:100%;border-radius:12px;max-height:300px;object-fit:cover;margin:10px 0}
@@ -27,10 +28,8 @@ audio{width:100%;margin-top:10px}
 </style>
 </head>
 <body>
-<div class="header">
-<h2>🎤 వాయిస్ సందేశాలు</h2>
-<div>మహిమ సన్నిధి బైబిల్ మిషన్ | మరనాత ✝️</div>
-</div>
+<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html" style="color:white;text-decoration:none;font-weight:bold">⬅ హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:15px;font-weight:bold;margin-top:2px">🎤 వాయిస్ సందేశాలు</div><div style="font-size:12px;opacity:.9">మరనాత ✝️</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
 <!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
@@ -56,10 +55,11 @@ audio{width:100%;margin-top:10px}
 </nav>
 
 <script>
-// ✅ UNIVERSAL SHARE + DOWNLOAD FUNCTIONS
+// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
 function shareAnyPage(){
-  let link = window.location.href;
-  let text = "🙏 BM మహిమ సన్నిధి - వాయిస్ 🎤\nవాయిస్ సందేశాలు వినండి - రోజూ వాక్యం, పాటలు, క్విజ్ 👇\n" + link;
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = "🙏 BM మహిమ సన్నిధి - వాయిస్ 🎤\nవాయిస్ సందేశాలు వినండి - రోజూ వాక్యం, పాటలు, క్విజ్ 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
 let deferredPrompt = null;
