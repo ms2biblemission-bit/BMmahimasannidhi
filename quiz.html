@@ -6,8 +6,9 @@
 <title>🎯 క్విజ్ - BM మహిమ సన్నిధి</title>
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:90px}
-.header{background:#0B3D2E;color:white;padding:18px 12px;text-align:center;border-radius:0 0 28px 28px}
+.header{background:#0B3D2E;color:white;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .header a{color:white;text-decoration:none;font-weight:bold}
+.header img{width:58px;height:58px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
 .wrap{padding:14px;max-width:650px;margin:auto}
 .doorWrap{position:relative;height:420px;background:#0B3D2E;border-radius:22px;overflow:hidden;box-shadow:0 6px 20px #0003;border:6px solid #5D4037;cursor:pointer}
 .doorLeft,.doorRight{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(#8D6E63,#5D4037);transition:transform 0.8s ease;z-index:5;display:flex;align-items:center;justify-content:center;color:white;font-size:50px}
@@ -26,7 +27,8 @@
 </style>
 </head>
 <body>
-<div class="header"><a href="index.html">← హోమ్</a><h2 style="margin:8px 0 0">🎯 బైబిల్ క్విజ్ - హార్డ్</h2><div style="font-size:13px;opacity:.9">రోజూ కొత్త ప్రశ్నలు - తలుపు తట్టండి</div></div>
+<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:15px;font-weight:bold;margin-top:2px">🎯 బైబిల్ క్విజ్ - హార్డ్</div><div style="font-size:13px;opacity:.9">రోజూ కొత్త ప్రశ్నలు - తలుపు తట్టండి</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 <div class="wrap">
 <div class="doorWrap" id="door" onclick="openDoor()">
   <div class="doorLeft">🚪<div class="doorHandle handleL"></div></div>
