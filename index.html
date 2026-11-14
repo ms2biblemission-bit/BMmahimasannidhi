@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>BM మహిమ సన్నిధి</title>
-<!-- Facebook లో లోగో బాగా రావడానికి -->
 <meta property="og:title" content="BM మహిమ సన్నిధి">
 <meta property="og:description" content="రోజుకో వాక్యం - మరనాత, ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు">
 <meta property="og:image" content="https://ms2biblemission-bit.github.io/BMmahimasannidhi/IMG-20261104-WA0008.jpg">
@@ -65,6 +64,17 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <h1>📖 BM మహిమ సన్నిధి</h1>
 <div style="font-size:14px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
 <div style="margin-top:6px">John Dalli | మరనాత ✝️</div>
+</div>
+
+<!-- ✅ కొత్తది - UNIVERSAL SHARE + DOWNLOAD - ఏది షేర్ చేసినా ఇది వస్తుంది -->
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">రోజూ వాక్యం - పాటలు - బైబిల్ క్విజ్</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+  </div>
+  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
 </div>
 
 <div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
@@ -146,6 +156,16 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div></div>
 
 <script>
+// ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది
+function shareAnyPage(){
+  let link = window.location.href;
+  let text = "🙏 BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్ - తలుపు తెరిచి చూడండి 👇\n" + link;
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+function installAppUniversal(){
+  if(window.deferredPrompt){ window.deferredPrompt.prompt(); window.deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } window.deferredPrompt=null; }); }
+  else { alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen"); }
+}
 let allPosts = [];
 let allBooks = [];
 let _scrollY=0;
@@ -187,11 +207,9 @@ function isRecentPost(p){
 function getRecentPosts(){
   return allPosts.filter(isRecentPost);
 }
-// ⭐⭐ కొత్త SHARE - ఇమేజ్ తో సహా వెళ్తుంది ⭐⭐
 async function sharePost(i, type){
   let p = allPosts[i]; if(!p) return;
   let text = (p.title||'') + '\n\n' + (p.content||'') + '\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు';
-  // 1. ఇమేజ్ ఉంటే - ఫోన్ షేర్ తో ఇమేజ్ తో సహా షేర్ చేయి (Facebook / WhatsApp రెండూ)
   if(p.image && navigator.share){
     try{
       let res = await fetch(p.image);
@@ -201,9 +219,8 @@ async function sharePost(i, type){
         await navigator.share({ title: p.title||'BM మహిమ సన్నిధి', text: text, files: [file] });
         return;
       }
-    }catch(e){ /* కుదరకపోతే కిందికి వెళ్తుంది */ }
+    }catch(e){}
   }
-  // 2. కుదరకపోతే - పాత దారి
   if(type==='fb'){
     if(p.image){
       let a = document.createElement('a'); a.href = p.image; a.download = 'mahima-sannidhi.jpg'; document.body.appendChild(a); a.click(); a.remove();
@@ -275,7 +292,7 @@ function closePost(){ document.getElementById('postModal').style.display='none';
 document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.id==='postModal') closePost(); });
 loadPosts();
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
+window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; window.deferredPrompt=e; document.getElementById('installBtn').style.display='block'; let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి"; });
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
@@ -331,4 +348,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-  </html>
+</html>
