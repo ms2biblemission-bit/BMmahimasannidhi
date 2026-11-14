@@ -7,8 +7,9 @@
 <meta name="theme-color" content="#0B3D2E">
 <style>
 body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
-.header{background:#0B3D2E;color:white;padding:18px 10px;text-align:center;border-radius:0 0 28px 28px}
+.header{background:#0B3D2E;color:white;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .header a{color:white;text-decoration:none;font-weight:bold}
+.header img{width:58px;height:58px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
 .box{background:white;margin:12px;padding:18px;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
 input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin:6px 0;font-size:16px;box-sizing:border-box}
 .btn{background:#673AB7;color:white;border:none;padding:13px;border-radius:25px;width:100%;font-weight:bold;font-size:16px}
@@ -18,7 +19,8 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
 </style>
 </head>
 <body>
-<div class="header"><a href="index.html">⬅️ వెనక్కి</a><h1 style="margin:8px 0 0;">🙏 ప్రార్థన డైరీ</h1><div style="font-size:13px;">నా ప్రార్థన - దేవుని జవాబు</div></div>
+<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅️ వెనక్కి</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h1 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h1><div style="font-size:15px;font-weight:bold;margin-top:2px">🙏 ప్రార్థన డైరీ</div><div style="font-size:13px;opacity:.9">నా ప్రార్థన - దేవుని జవాబు</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 <div class="box">
 <input id="pTitle" placeholder="🙏 ఎవరి కోసం? ఉదా: నా కొడుకు ఉద్యోగం">
 <textarea id="pText" rows="3" placeholder="ప్రార్థన వివరంగా రాయండి..."></textarea>
