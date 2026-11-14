@@ -1,113 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="te">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>రోజుకో ప్రశ్న - BM మహిమ సన్నిధి</title>
+<title>🎯 క్విజ్ - BM మహిమ సన్నిధి</title>
 <style>
-*{box-sizing:border-box}
-body{font-family:sans-serif;background:#FFF3E0;margin:0;padding-bottom:30px}
-.header{background:#0B3D2E;color:white;padding:20px 10px;text-align:center;border-radius:0 0 28px 28px}
-.header a{color:gold;text-decoration:none;font-weight:bold}
-.card{background:white;margin:15px;padding:20px;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:center}
-.q{font-size:20px;font-weight:bold;line-height:1.6;color:#333}
-.ans{margin-top:15px;padding:15px;background:#E8F5E9;border:2px dashed #4CAF50;border-radius:12px;font-size:20px;font-weight:bold;color:#0B3D2E;display:none}
-.wait{margin-top:15px;padding:12px;background:#FFF8E1;border-radius:12px;color:#E65100;font-weight:bold}
-button{padding:12px 22px;border:none;border-radius:30px;background:#FF5722;color:white;font-size:16px;font-weight:bold;cursor:pointer;margin-top:12px}
+*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:90px}
+.header{background:#0B3D2E;color:white;padding:18px 12px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:white;text-decoration:none;font-weight:bold}
+.wrap{padding:14px;max-width:650px;margin:auto}
+.doorWrap{position:relative;height:420px;background:#0B3D2E;border-radius:22px;overflow:hidden;box-shadow:0 6px 20px #0003;border:6px solid #5D4037;cursor:pointer}
+.doorLeft,.doorRight{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(#8D6E63,#5D4037);transition:transform 0.8s ease;z-index:5;display:flex;align-items:center;justify-content:center;color:white;font-size:50px}
+.doorLeft{left:0;border-right:3px solid #3E2723} .doorRight{right:0;border-left:3px solid #3E2723}
+.doorWrap.open .doorLeft{transform:translateX(-100%)} .doorWrap.open .doorRight{transform:translateX(100%)}
+.doorCenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:4;text-align:center;padding:20px}
+.doorHandle{width:16px;height:16px;background:gold;border-radius:50%;position:absolute;top:50%;z-index:6} .handleL{right:10px} .handleR{left:10px}
+.doorWrap.open .doorHandle{opacity:0}
+.qCard{background:white;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 8px #0001}
+.opt{display:block;width:100%;text-align:left;background:#F1F8E9;border:2px solid #C8E6C9;padding:12px;border-radius:12px;margin:8px 0;font-size:17px;cursor:pointer}
+.opt.correct{background:#C8E6C9;border-color:#2E7D32} .opt.wrong{background:#FFCDD2;border-color:#C62828}
+.closeBtn{background:#C62828;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;padding:8px 2px}
+.bottom-nav a{flex:1;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
 </style>
 </head>
 <body>
-<div class="header">
-<a href="index.html">⬅️ వెనక్కి వెళ్ళు</a>
-<h1>🎯 రోజుకో ప్రశ్న</h1>
-<div>BM మహిమ సన్నిధి - హార్డ్ మోడ్</div>
-<div style="font-size:13px;margin-top:8px;opacity:.9">⏰ కొత్త ప్రశ్న అర్ధరాత్రి 12 గంటలకు వస్తుంది</div>
+<div class="header"><a href="index.html">← హోమ్</a><h2 style="margin:8px 0 0">🎯 బైబిల్ క్విజ్ - హార్డ్</h2><div style="font-size:13px;opacity:.9">రోజూ కొత్త ప్రశ్నలు - తలుపు తట్టండి</div></div>
+<div class="wrap">
+<div class="doorWrap" id="door" onclick="openDoor()">
+  <div class="doorLeft">🚪<div class="doorHandle handleL"></div></div>
+  <div class="doorRight">🚪<div class="doorHandle handleR"></div></div>
+  <div class="doorCenter"><div style="font-size:55px">🎯</div><div style="font-size:26px;font-weight:bold;color:white">ఈరోజు క్విజ్</div><div style="color:#FFE082;margin-top:6px" id="todayLabel">తలుపు నొక్కి ఓపెన్ చేయండి 👆</div><div style="background:gold;color:#3E2723;padding:10px 20px;border-radius:20px;font-weight:bold;margin-top:16px">🚪 తలుపు తెరవండి</div></div>
 </div>
-
-<div class="card">
-<div id="dayLabel" style="color:#FF5722;font-weight:bold">Day 316</div>
-<div class="q" id="qText">లోడ్ అవుతోంది...</div>
-<div style="font-size:13px;color:gray;margin-top:8px">జవాబు సింపుల్ గానే ఉంటుంది, కానీ ఆలోచించాలి!</div>
-<div id="waitBox" class="wait">⏳ జవాబు సాయంత్రం 6 గంటలకు వస్తుంది!</div>
-<div id="ansBox" class="ans"></div>
-<button onclick="checkAns()">👁️ జవాబు చూడాలి అంటే నొక్కండి</button>
-<div style="margin-top:15px"><a href="index.html" style="color:#0B3D2E;font-weight:bold">🏠 హోమ్ కి వెళ్ళు</a></div>
+<div style="text-align:center;color:gray;font-size:13px;margin-top:10px" id="doorHint">తలుపు మూసి ఉంది - నొక్కితే తెరుచుకుంటుంది</div>
+<div id="quizArea" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:19px;color:#0B3D2E">📖 <span id="quizDate"></span> - <span id="score">స్కోర్: 0 / 5</span></b><button class="closeBtn" onclick="closeDoor()">✖️ మూసేయండి</button></div>
+  <div id="qList"></div>
+  <button onclick="closeDoor()" style="width:100%;background:#0B3D2E;color:white;border:none;padding:14px;border-radius:12px;font-weight:bold;font-size:17px;margin-top:10px">🚪 తలుపు మూసేసి బయటకు వెళ్ళండి</button>
 </div>
-
+</div>
+<nav class="bottom-nav"><a href="index.html"><span style="font-size:22px">🏠</span>హోమ్</a><a href="books.html"><span style="font-size:22px">📚</span>పుస్తకాలు</a><a href="songs.html"><span style="font-size:22px">🎵</span>పాటలు</a><a href="quiz.html" class="active"><span style="font-size:22px">🎯</span>క్విజ్</a></nav>
 <script>
-const quizData = {
-316:{q:"దేవుని మందసాన్ని తాకినందుకు అక్కడికక్కడే పడిపోయిన వ్యక్తి ఎవరు?",a:"ఉజ్జా"},
-317:{q:"తన సొంత అన్నల చేత బావిలో పడవేయబడి, తర్వాత ఐగుప్తుకు రాజైన వాడు ఎవరు?",a:"యోసేపు"},
-318:{q:"సింహాల గుహలో రాత్రంతా ఉండి కూడా ఏ గాయం లేకుండా బయటకు వచ్చిన భక్తుడు ఎవరు?",a:"దానియేలు"},
-319:{q:"తన జుట్టులోనే బలం ఉందని తెలియక, కత్తిరించబడి బలం పోగొట్టుకున్న బలవంతుడు ఎవరు?",a:"సమ్సోను"},
-320:{q:"దేవుని కోసం తన పడవను వదిలి వెంబడించిన మత్స్యకారుడు ఎవరు?",a:"పేతురు"},
-321:{q:"యేసును 30 వెండి నాణేలకు అమ్మేసిన శిష్యుడు ఎవరు?",a:"యూదా"},
-322:{q:"యేసును మూడు సార్లు ఎరుగనని చెప్పి, కోడి కూయగానే ఏడ్చిన శిష్యుడు ఎవరు?",a:"పేతురు"},
-323:{q:"నీటి మీద నడవడానికి ప్రయత్నించి, భయపడి మునిగిపోబోయిన శిష్యుడు ఎవరు?",a:"పేతురు"},
-324:{q:"తన అత్తను వదలకుండా 'నీ దేవుడే నా దేవుడు' అని చెప్పిన స్త్రీ ఎవరు?",a:"రూతు"},
-325:{q:"చిన్న రాయి, వడిసెలతో పెద్ద రాక్షసుడిని పడగొట్టిన గొర్రెల కాపరి ఎవరు?",a:"దావీదు"},
-326:{q:"దేవుని మాట వినక, ఓడలో దాక్కుని పారిపోవడానికి ప్రయత్నించిన ప్రవక్త ఎవరు?",a:"యోనా"},
-327:{q:"అగ్నిగుండంలో వేయబడినా, వెంట్రుక కూడా కాలకుండా బయటకు వచ్చిన ముగ్గురిలో ఒకరు ఎవరు?",a:"షద్రకు / మేషాకు / అబేద్నెగో"},
-328:{q:"తన తండ్రి ఆస్తిలో సగం తీసుకుని, దూరదేశం వెళ్లి అన్నీ పోగొట్టుకుని తిరిగి వచ్చిన కుమారుడు ఏ ఉపమానంలో ఉన్నాడు?",a:"తప్పిపోయిన కుమారుడు"},
-329:{q:"యేసు పుట్టినప్పుడు, నక్షత్రాన్ని చూసి దూరదేశం నుండి బంగారం, సాంబ్రాణి, బోళం తీసుకువచ్చిన వారు ఎవరు?",a:"జ్ఞానులు"},
-330:{q:"యేసుకు బాప్తిస్మం ఇచ్చిన వ్యక్తి, ఒంటె వెంట్రుకల బట్టలు వేసుకునేవాడు ఎవరు?",a:"యోహాను"},
-331:{q:"12 సంవత్సరాలుగా రక్తస్రావంతో బాధపడుతూ, యేసు వస్త్రం అంచును ముట్టుకుని బాగైన స్త్రీ ఏమి చేసింది?",a:"ముట్టుకుంది"},
-332:{q:"లాజరు చనిపోయి 4 రోజులయ్యాక, సమాధి దగ్గరకు వచ్చి 'లాజరూ బయటకు రా' అని పిలిచినది ఎవరు?",a:"యేసు"},
-333:{q:"తన కుమారుడిని బలి ఇవ్వమని దేవుడు అడిగినప్పుడు, కొండ మీద పొట్టేలు దొరికిన తండ్రి ఎవరు?",a:"అబ్రాహాము"},
-334:{q:"దేవుడు మొదటి మనిషిని మట్టితో చేశాడు, అతని పేరు ఏంటి?",a:"ఆదాము"},
-335:{q:"నోవహు ఓడలోకి ఎంతమంది మనుషులు వెళ్లారు?",a:"8 మంది"},
-336:{q:"మోషే చేతిలోని కర్ర ఫరో ముందు ఏమైంది?",a:"పాము"},
-337:{q:"ఎర్ర సముద్రం చీలిపోయినప్పుడు, ఇశ్రాయేలీయులను నడిపించిన నాయకుడు ఎవరు?",a:"మోషే"},
-338:{q:"గోడలు కూలిపోవడానికి, ఇశ్రాయేలీయులు యెరికో పట్టణం చుట్టూ ఎన్నిసార్లు తిరిగారు?",a:"7 సార్లు"},
-339:{q:"దేవునికి ఇష్టమైన రాజు, కీర్తనలు ఎక్కువగా రాసిన రాజు ఎవరు?",a:"దావీదు"},
-340:{q:"తన భార్య మాట విని, మంచి చెడ్డల తెలివినిచ్చే పండు తిన్న మొదటి మనిషి ఎవరు?",a:"ఆదాము"},
-341:{q:"యేసు సిలువ మీద ఉన్నప్పుడు, 'తండ్రీ వీరిని క్షమించుము' అని ఎవరి కోసం ప్రార్థించాడు?",a:"తనను చంపిన వారి కోసం"},
-342:{q:"యేసు 40 రోజులు ఉపవాసం ఉన్న ఎడారిలో, ఆయనను శోధించినది ఎవరు?",a:"సాతాను"},
-343:{q:"ఐదు రొట్టెలు, రెండు చేపలతో ఎంతమందికి భోజనం పెట్టారు?",a:"5000 మంది"},
-344:{q:"తన కలలో నిచ్చెన మీద దేవదూతలు ఎక్కుతూ దిగుతూ కనిపించిన వ్యక్తి ఎవరు?",a:"యాకోబు"},
-345:{q:"దేవుడు 10 ఆజ్ఞలు ఏ కొండ మీద ఇచ్చాడు?",a:"సీనాయి కొండ"},
-346:{q:"యేసు పుట్టిన ఊరు ఏది? పశువుల తొట్టిలో పుట్టాడు కదా?",a:"బేత్లెహేము"},
-347:{q:"మరియ, మార్తల సోదరుడు, చనిపోయి తిరిగి లేచిన వాడు ఎవరు?",a:"లాజరు"},
-348:{q:"తన స్నేహితుడి భార్యను తీసుకున్నందుకు, ప్రవక్తచే గద్దించబడిన రాజు ఎవరు?",a:"దావీదు"},
-349:{q:"దేవుని కోసం పెద్ద మందిరం కట్టిన రాజు ఎవరు?",a:"సొలొమోను"},
-350:{q:"యేసు మరణించిన తర్వాత, మూడవ రోజు సమాధి దగ్గరకు మొదట వెళ్లిన స్త్రీ ఎవరు?",a:"మగ్దలేనే మరియ"},
-351:{q:"తన తమ్ముడిని చంపినందుకు, దేవుని చేత శపించబడిన మొదటి హంతకుడు ఎవరు?",a:"కయీను"},
-352:{q:"ఇశ్రాయేలీయులు 40 సంవత్సరాలు ఎక్కడ తిరిగారు?",a:"అరణ్యంలో"},
-353:{q:"పౌలు కళ్ళు కనిపించకుండా పోయిన రోడ్డు పేరు ఏంటి? అక్కడ యేసు కనిపించాడు.",a:"దమస్కు మార్గం"},
-354:{q:"తన ప్రజలను ఐగుప్తు నుండి విడిపించిన నాయకుడు ఎవరు?",a:"మోషే"},
-355:{q:"చిన్నవాడైనా, దేవుని స్వరం విని 'చిత్తము ప్రభువా' అని చెప్పిన బాలుడు ఎవరు?",a:"సమూయేలు"},
-356:{q:"యేసు తల్లి పేరు ఏంటి?",a:"మరియ"},
-357:{q:"మంచి సమరయుడు కథలో, దొంగల చేత కొట్టబడిన వ్యక్తిని మొదట ఎవరు చూసి వెళ్లిపోయారు?",a:"యాజకుడు, లేవీయుడు"},
-358:{q:"బైబిల్ లో చివరి పుస్తకం ఏది?",a:"ప్రకటన"},
-359:{q:"నీటిని రక్తంగా మార్చిన మొదటి తెగులు ఎవరి కాలంలో జరిగింది?",a:"మోషే"},
-360:{q:"యేసు ఏ వయస్సులో బాప్తిస్మం తీసుకున్నాడు?",a:"30 సంవత్సరాలు"},
-361:{q:"దేవుడు లోకాన్ని ఎంతగా ప్రేమించాడో చెప్పే వచనం ఏది?",a:"యోహాను 3:16"},
-362:{q:"యేసు ఏ పట్టణంలో ఎక్కువ అద్భుతాలు చేశాడు, కానీ వాళ్ళు నమ్మలేదు?",a:"నజరేతు"},
-363:{q:"తన కుమారుడిని దేవుని సేవకు అప్పగించిన తల్లి ఎవరు? ఆ కుమారుడు ఎవరు?",a:"హన్నా - సమూయేలు"},
-364:{q:"యేసు సిలువ వేయబడిన కొండ పేరు ఏంటి?",a:"కల్వరి / గొల్గొతా"},
-365:{q:"బైబిల్ లో మొత్తం ఎన్ని పుస్తకాలు ఉన్నాయి? పాత + కొత్త నిబంధన కలిపి?",a:"66 పుస్తకాలు"}
-};
-
-// ✅ అర్ధరాత్రి 12 గంటలకే కొత్త ప్రశ్న - రోజు మారగానే ఆటోమేటిక్ గా మారిపోతుంది
-function getDayOfYear(){
-  let now = new Date();
-  let start = new Date(now.getFullYear(),0,0);
-  return Math.floor((now - start) / (1000*60*60*24));
+let score=0;
+// ✅ 30 హార్డ్ ప్రశ్నలు - రోజూ 5 మాత్రమే వస్తాయి
+let pool=[
+{q:"మోషే తండ్రి పేరు ఏమిటి?",o:["అమ్రాము","అహరోను","యోసేపు","లేవి"],a:0,exp:"నిర్గమకాండము 6:20 - అమ్రాము"},
+{q:"దావీదు తాత పేరు ఏమిటి?",o:["యెష్షయి","బోయజు","ఓబేదు","యాకోబు"],a:2,exp:"రూతు 4:17 - ఓబేదు"},
+{q:"యేసు ప్రభువు తొలి అద్భుతం ఎక్కడ జరిగింది?",o:["కానా","బెత్లెహేము","నజరేతు","కపెర్నహూము"],a:0,exp:"యోహాను 2:1 - కానా వివాహములో నీటిని ద్రాక్షారసముగా చేసారు"},
+{q:"పౌలు మొదటి పేరు ఏమిటి?",o:["సౌలు","బర్నబా","సీల","తిమోతి"],a:0,exp:"అపో.కా 13:9 - సౌలు అను పౌలు"},
+{q:"ఆదికాండములో దేవుడు మొదట సృష్టించినది ఏమిటి?",o:["వెలుగు","ఆకాశము","భూమి","సూర్యుడు"],a:0,exp:"ఆది 1:3 - వెలుగు కలుగును గాక"},
+{q:"ఎన్ని రోజులు నోవాహు ఓడలో వర్షం కురిసింది?",o:["40 రోజులు","7 రోజులు","150 రోజులు","12 రోజులు"],a:0,exp:"ఆది 7:12 - 40 దినములు"},
+{q:"సొలొమోను తల్లి పేరు?",o:["బత్షెబ","రూతు","ఎస్తేరు","హన్నా"],a:0,exp:"2 సమూ 12:24 - బత్షెబ"},
+{q:"బైబిల్ లో అతి చిన్న పుస్తకం?",o:["ఓబద్యా","యూదా","ఫిలేమోను","హగ్గయి"],a:0,exp:"ఓబద్యా - 1 అధ్యాయం, 21 వచనాలు"},
+{q:"యేసు ప్రభువు ఎన్ని ఉపమానాలు చెప్పారు? (సుమారు)",o:["40 కి పైగా","10","7","100"],a:0,exp:"సుమారు 40+ ఉపమానాలు"},
+{q:"యోబు ఎన్ని సంవత్సరాలు బాధపడ్డాడు? (సాంప్రదాయం)",o:["ఖచ్చితంగా చెప్పలేము","7","40","12"],a:0,exp:"బైబిల్ లో సంవత్సరాలు చెప్పలేదు - ఇదే ట్రిక్!"},
+{q:"దానియేలు ఎన్ని సార్లు ప్రార్థన చేసేవాడు?",o:["రోజుకు 3 సార్లు","రోజుకు 1 సారి","వారానికి 1 సారి","రోజుకు 7 సార్లు"],a:0,exp:"దానియేలు 6:10 - దినమునకు ముమ్మారు"},
+{q:"మోషే ఎన్ని సంవత్సరాలు బ్రతికాడు?",o:["120","80","40","175"],a:0,exp:"ద్వితీ 34:7 - 120 సంవత్సరాలు"},
+{q:"కీర్తనలు ఎన్ని ఉన్నాయి?",o:["150","100","120","119"],a:0,exp:"కీర్తనలు మొత్తం 150"},
+{q:"యేసు ప్రభువు శిష్యులలో పన్ను వసూలు చేసేవాడు ఎవరు?",o:["మత్తయి","పేతురు","యోహాను","థోమా"],a:0,exp:"మత్తయి 9:9 - మత్తయి సుంకరి"},
+{q:"అబ్రాహాము మొదటి పేరు?",o:["అబ్రాము","ఇస్సాకు","యాకోబు","ఇష్మాయేలు"],a:0,exp:"ఆది 17:5 - అబ్రాము నుండి అబ్రాహాము"},
+{q:"ఎస్తేరు రాణి భర్త పేరు?",o:["అహష్వేరోషు","దర్యావేషు","నెబుకద్నెజరు","కోరెషు"],a:0,exp:"ఎస్తేరు 2:17 - అహష్వేరోషు"},
+{q:"యోనా ఏ చేపలో ఉన్నాడు? బైబిల్ ఏమంటుంది?",o:["పెద్ద చేప","తిమింగలం","సొరచేప","డాల్ఫిన్"],a:0,exp:"యోనా 1:17 - పెద్ద చేప, తిమింగలం అని లేదు!"},
+{q:"పేతురు ఎన్ని సార్లు యేసును ఎరుగనన్నాడు?",o:["3 సార్లు","1 సారి","7 సార్లు","2 సార్లు"],a:0,exp:"మత్తయి 26:75 - ముమ్మారు"},
+{q:"ఆదాము అంటే అర్థం?",o:["మట్టి / ఎర్రమట్టి","వెలుగు","జీవము","రాజు"],a:0,exp:"ఆదాము - అదామా అంటే మట్టి"},
+{q:"బైబిల్ లో అతి పొడవైన అధ్యాయం?",o:["కీర్తన 119","కీర్తన 23","యెషయా 53","ఆది 1"],a:0,exp:"కీర్తన 119 - 176 వచనాలు"},
+{q:"యాకోబుకు ఎంతమంది భార్యలు?",o:["4","2","1","12"],a:0,exp:"లేయా, రాహేలు + బిల్హా, జిల్పా = 4"},
+{q:"సమూయేలు తల్లి పేరు?",o:["హన్నా","సారా","రాహేలు","మరియ"],a:0,exp:"1 సమూ 1:20 - హన్నా"},
+{q:"యేసు ప్రభువు ఎన్ని గంటలు సిలువ మీద ఉన్నారు?",o:["సుమారు 6 గంటలు","3 గంటలు","12 గంటలు","1 రోజు"],a:0,exp:"ఉదయం 9 నుండి మధ్యాహ్నం 3 వరకు - 6 గంటలు"},
+{q:"అపోస్తలుల కార్యములు ఎవరు రాసారు?",o:["లూకా","పౌలు","పేతురు","మార్కు"],a:0,exp:"లూకా సువార్త + అపో.కా రెండూ లూకా రాసారు"},
+{q:"దావీదు ఎన్ని సంవత్సరాలు రాజుగా ఉన్నాడు?",o:["40","20","70","33"],a:0,exp:"2 సమూ 5:4 - 40 సంవత్సరాలు"},
+{q:"రూతు భర్త పేరు?",o:["బోయజు","ఎలీమెలెకు","మహ్లోను","నయోమి"],a:0,exp:"రూతు 4:13 - బోయజు"},
+{q:"యోసేపును ఎంతకు అమ్మారు?",o:["20 తులముల వెండి","30 తులముల వెండి","10 తులముల బంగారం","100 రూపాయలు"],a:0,exp:"ఆది 37:28 - 20 తులముల వెండి"},
+{q:"మోషే చేతిలో కఱ్ఱ దేనిగా మారింది?",o:["పాము","చేప","పక్షి","రాయి"],a:0,exp:"నిర్గమ 4:3 - పాముగా"},
+{q:"ఏ ప్రవక్తను సింహాల గుహలో వేసారు?",o:["దానియేలు","యెషయా","యిర్మీయా","యెహెజ్కేలు"],a:0,exp:"దానియేలు 6 - సింహాల గుహ"},
+{q:"యేసు ప్రభువు తల్లి మరియ బంధువు ఎవరు?",o:["ఎలీసబెతు","మార్త","మరియ మగ్దలేనే","సలోమి"],a:0,exp:"లూకా 1:36 - ఎలీసబెతు"},
+];
+function getTodayQuestions(){
+  let d=new Date(); let seed=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+  let arr=[...pool]; let out=[];
+  for(let i=0;i<5;i++){ let idx=(seed*7+i*13)%arr.length; out.push(arr.splice(idx,1)[0]); }
+  return out;
 }
-let day = getDayOfYear();
-let data = quizData[day] || {q:"ఈ రోజు ప్రశ్న ఇంకా రాలేదు!", a:""};
-document.getElementById('dayLabel').innerText = "Day " + day;
-document.getElementById('qText').innerText = data.q;
-document.getElementById('ansBox').innerText = "✅ జవాబు: " + data.a;
-
-function checkAns(){
-  let h = new Date().getHours();
-  if(h >= 18){
-    document.getElementById('ansBox').style.display='block';
-    document.getElementById('waitBox').style.display='none';
-  } else {
-    alert("⏳ ఇంకా సాయంత్రం 6 కాలేదు అండి! కొంచెం ఆలోచించండి!");
-  }
+let todayQs=getTodayQuestions();
+let todayStr=new Date().toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById('todayLabel').textContent="ఈరోజు - "+todayStr+" - 5 కొత్త హార్డ్ ప్రశ్నలు";
+document.getElementById('quizDate').textContent=todayStr;
+function openDoor(){
+  document.getElementById('door').classList.add('open');
+  document.getElementById('doorHint').textContent="తలుపు తెరుచుకుంది! ఈరోజు 5 హార్డ్ ప్రశ్నలు 👇";
+  setTimeout(()=>{ document.getElementById('quizArea').style.display='block'; document.getElementById('quizArea').scrollIntoView({behavior:'smooth'}); },600);
+  renderQ();
+}
+function closeDoor(){
+  document.getElementById('quizArea').style.display='none';
+  document.getElementById('door').classList.remove('open');
+  document.getElementById('doorHint').textContent="తలుపు మూసుకుపోయింది - రేపు మళ్ళీ కొత్త ప్రశ్నలు వస్తాయి";
+  window.scrollTo({top:0,behavior:'smooth'}); score=0; document.getElementById('score').textContent="స్కోర్: 0 / 5";
+}
+function renderQ(){
+  let box=document.getElementById('qList'); box.innerHTML='';
+  todayQs.forEach((item,qi)=>{
+    let card=document.createElement('div'); card.className='qCard';
+    let h=document.createElement('div'); h.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; h.textContent=(qi+1)+". "+item.q;
+    card.appendChild(h);
+    // ఆప్షన్లు కూడా రోజూ మార్చేసాం - గుర్తుపెట్టుకోలేరు
+    let opts=item.o.map((txt,idx)=>({txt,idx})); opts.sort(()=>Math.random()-0.5);
+    opts.forEach(o=>{
+      let b=document.createElement('button'); b.className='opt'; b.textContent=o.txt;
+      b.onclick=()=>{
+        if(card.dataset.done) return; card.dataset.done="1";
+        if(o.idx===item.a){ b.classList.add('correct'); b.textContent="✅ "+o.txt+" - కరెక్ట్!"; score++; }
+        else{ b.classList.add('wrong'); b.textContent="❌ "+o.txt+" - తప్పు!"; let exp=document.createElement('div'); exp.style.cssText='background:#FFF3E0;padding:10px;border-radius:10px;margin-top:8px;font-size:14px;color:#5D4037'; exp.textContent="📖 వివరణ: "+item.exp; card.appendChild(exp); }
+        document.getElementById('score').textContent="స్కోర్: "+score+" / 5";
+      };
+      card.appendChild(b);
+    });
+    box.appendChild(card);
+  });
 }
 </script>
 </body>
