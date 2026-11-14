@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎵 పాటలు - BM మహిమ సన్నిధి</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0B3D2E">
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
 .header{background:#0B3D2E;color:white;padding:20px 12px;text-align:center;border-radius:0 0 28px 28px}
@@ -42,6 +44,18 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
 <h2 style="margin:8px 0 0">📖 BM మహిమ సన్నిధి</h2>
 <div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
 </div>
+
+<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - పాటలు</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">పాటలు పాడండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+  </div>
+  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
+</div>
+
 <div class="wrap">
 <div id="folderView"></div>
 <div id="songView" style="display:none"></div>
@@ -55,6 +69,25 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
   <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
+// ✅ UNIVERSAL SHARE + DOWNLOAD FUNCTIONS
+function shareAnyPage(){
+  let link = window.location.href;
+  let text = "🙏 BM మహిమ సన్నిధి - పాటలు 🎵\nఆంధ్ర క్రైస్తవ కీర్తనలు - పాడండి, షేర్ చేయండి 👇\n" + link;
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault(); deferredPrompt = e;
+  let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి";
+});
+function installAppUniversal(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
+  } else {
+    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
+  }
+}
 let allSongs=[];
 let curFolder="";
 let curList=[];
@@ -79,7 +112,6 @@ function linkHTML(l){
   if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
   return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
 }
-// ✅ MAIN PAGE - పైన సెర్చ్ నొక్కగానే అన్ని పాటలు
 function showFolders(){
   document.getElementById('songView').style.display='none';
   let folders={};
@@ -94,13 +126,10 @@ function showFolders(){
   document.getElementById('folderView').style.display='block';
   renderFolderCards(keys);
 }
-// ✅ పైన సెర్చ్ లో - అన్ని ఫోల్డర్ల పాటలు కలిపి చూపించేది
 function showSuggestMain(){
   let q=(document.getElementById('searchFolder').value||'').toLowerCase().trim();
   let box=document.getElementById('suggestMain'); if(!box) return;
-  // q ఖాళీగా ఉంటే అన్ని పాటలు, టైప్ చేస్తే ఆ పాటలు మాత్రమే - అన్ని ఫోల్డర్ల నుండి
   let filtered=allSongs.filter(s=>((s.title||'')+' '+getFolder(s)).toLowerCase().includes(q));
-  // ఫోల్డర్ వారీగా వరసగా పెట్టు
   filtered.sort((a,b)=>{ let fa=getFolder(a), fb=getFolder(b); if(fa!==fb) return fa<fb?-1:1; return (a.num||0)-(b.num||0); });
   if(!filtered.length){ box.style.display='none'; box.innerHTML=''; return; }
   box.style.display='block';
