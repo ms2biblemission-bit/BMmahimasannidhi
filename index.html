@@ -21,8 +21,11 @@
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
 body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
-.header{background:#0B3D2E;color:white;padding:15px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.header img{width:62px;height:62px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
+/* ✅ కొత్తది - ట్రాన్స్‌పరెంట్ సన్‌సెట్ హెడర్ */
+.header{background:linear-gradient(90deg, rgba(255,138,0,0.85), rgba(255,87,130,0.85) 50%, rgba(128,0,128,0.85));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:white;padding:15px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,0.25);border-bottom:2px solid rgba(255,255,255,0.4)}
+.header img{width:62px;height:62px;border-radius:50%;border:3px solid rgba(255,255,255,0.9);box-shadow:0 0 15px rgba(255,215,0,0.8);object-fit:cover;background:white;flex-shrink:0}
+/* ✅ కొత్తది - బైబిల్ మిషన్ బోల్డ్ */
+.bible-mission{font-size:16px;font-weight:900;letter-spacing:2px;color:#FFE082;text-shadow:0 2px 6px rgba(0,0,0,0.5);text-transform:uppercase}
 .logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:white;margin:10px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .logo-row a{text-align:center;text-decoration:none;min-width:68px}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
@@ -58,12 +61,12 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </style>
 </head>
 <body>
-<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
+<!-- ✅ కొత్త హెడర్ - ట్రాన్స్‌పరెంట్ సన్‌సెట్ + బోల్డ్ బైబిల్ మిషన్ -->
 <div class="header">
   <img src="jesus.jpg" alt="యేసు">
   <div style="flex:1;text-align:center">
-    <div style="font-size:14px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div>
-    <h1 style="margin:4px 0;font-size:26px;line-height:1.2">మహిమ సన్నిధి</h1>
+    <div class="bible-mission">📖 బైబిల్ మిషన్</div>
+    <h1 style="margin:4px 0;font-size:26px;line-height:1.2;text-shadow:0 2px 10px rgba(0,0,0,0.4)">మహిమ సన్నిధి</h1>
     <div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div>
     <div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div>
   </div>
@@ -355,4 +358,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-                     </html>
+  </html>
