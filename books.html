@@ -2,22 +2,21 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0B3D2E">
 <style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:130px}
-/* ✅ మార్చింది 1 - హెడర్ 25% గ్లాస్ మాత్రమే - డార్క్ లేదు */
-.head{background:linear-gradient(90deg, rgba(255,138,0,0.25), rgba(255,87,130,0.25) 50%, rgba(128,0,128,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)} .head a{color:#0B3D2E;text-decoration:none;font-weight:bold} .head h2{margin:2px 0;font-size:24px;color:#222} .head p{margin:0;font-size:13px;opacity:.9} .head img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
+/* ✅ బుక్స్ సొంత కలర్ - గ్రీన్ 25% గ్లాస్ మాత్రమే */
+.head{background:linear-gradient(90deg, rgba(0,150,70,0.25), rgba(0,200,120,0.25) 50%, rgba(11,61,46,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)} .head a{color:#0B3D2E;text-decoration:none;font-weight:bold} .head h2{margin:2px 0;font-size:24px;color:#222} .head p{margin:0;font-size:13px;opacity:.9} .head img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
 h3{color:#0B3D2E;margin:16px 0 8px}
 .scroll{display:flex;gap:12px;overflow-x:auto;padding:6px 2px 12px;scroll-snap-type:x mandatory}.scroll::-webkit-scrollbar{display:none}.hcard{min-width:155px;width:155px;background:white;border-radius:20px;padding:12px;box-shadow:0 2px 10px #0001;cursor:pointer;scroll-snap-align:start}.hcard .cover{height:110px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:44px;color:white}.hcard b{display:block;margin-top:8px;font-size:15px;color:#0B3D2E;line-height:1.3}.hcard small{color:#888}
 .book{background:white;border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #0001;cursor:pointer;display:flex;gap:12px;align-items:center} .book .cover{width:58px;height:76px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;flex-shrink:0} .book h3{margin:0;color:#0B3D2E} .book p{color:#555;font-size:14px;margin:4px 0}
 .continue{background:#D9EAD3;border:2px solid #2E7D32;padding:16px;border-radius:20px;margin:14px 0;cursor:pointer} .continue b{font-size:19px;color:#0B3D2E} .bar{height:8px;background:#C8E6C9;border-radius:10px;margin-top:10px;overflow:hidden} .bar i{display:block;height:100%;background:#2E7D32}
 .chap{background:#FFF8E1;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer;border-left:4px solid #FF9800} .page{background:#FFFDE7;border:1px solid #FFE0B2;border-radius:20px;padding:20px;margin:12px 0;box-shadow:0 2px 8px #0001;line-height:1.9;white-space:pre-line;text-align:center} .page img{width:100%;border-radius:12px;margin:10px 0} .btn{background:#0B3D2E;color:white;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer} .btn2{background:#2E7D32;color:white;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin:4px} .btnOrange{background:#FF9800}
-/* ✅ మార్చింది 2 - కింద నావ్ కూడా డార్క్ కాదు - తెల్ల గ్లాస్ */
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.12);border-top:1px solid rgba(255,255,255,0.9)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
-.bottom-nav .active{background:rgba(11,61,46,0.12);border-radius:12px}
+.bottom-nav .active{background:rgba(11,61,46,0.12);border-radius:12px;color:#0B3D2E}
 </style></head>
 <body>
-<div class="head"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅ హోమ్</a><div style="font-size:13px;letter-spacing:1px;color:#7A2A00;font-weight:bold">📖 బైబిల్ మిషన్</div><h2>మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+<div class="head"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅ హోమ్</a><div style="font-size:13px;letter-spacing:1px;color:#0B3D2E;font-weight:bold">📖 బైబిల్ మిషన్</div><h2>మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - బుక్స్</div>
@@ -61,7 +60,6 @@ function installAppUniversal(){
     alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
   }
 }
-// ✅ మార్చింది 3 - బ్యాక్ ఫిక్స్ - 1 బ్యాక్ = హోమ్, 2 బ్యాక్ = క్లోజ్
 document.querySelectorAll('a[href]').forEach(a=>{
   let h = a.getAttribute('href');
   if(!h) return;
