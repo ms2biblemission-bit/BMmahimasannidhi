@@ -21,6 +21,18 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
 <body>
 <!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
 <div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅️ వెనక్కి</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h1 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h1><div style="font-size:15px;font-weight:bold;margin-top:2px">🙏 ప్రార్థన డైరీ</div><div style="font-size:13px;opacity:.9">నా ప్రార్థన - దేవుని జవాబు</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+
+<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - ప్రార్థన డైరీ</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">ప్రార్థన రాయండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+  </div>
+  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
+</div>
+
 <div class="box">
 <input id="pTitle" placeholder="🙏 ఎవరి కోసం? ఉదా: నా కొడుకు ఉద్యోగం">
 <textarea id="pText" rows="3" placeholder="ప్రార్థన వివరంగా రాయండి..."></textarea>
@@ -29,6 +41,26 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
 </div>
 <div class="box"><h3 style="margin:0;color:#673AB7;">📜 నా ప్రార్థనలు</h3><div id="list"></div></div>
 <script>
+// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
+function shareAnyPage(){
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = "🙏 BM మహిమ సన్నిధి - ప్రార్థన డైరీ 🙏\nనా ప్రార్థన రాసుకుని - దేవుని జవాబు చూడండి 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault(); deferredPrompt = e;
+  let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి";
+});
+function installAppUniversal(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
+  } else {
+    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
+  }
+}
 let prayers = JSON.parse(localStorage.getItem('ms_prayers')||'[]');
 function save(){ localStorage.setItem('ms_prayers', JSON.stringify(prayers)); render(); }
 function addPrayer(){
