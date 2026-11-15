@@ -5,33 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>వాయిస్ - మహిమ సన్నిధి</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0B3D2E">
+<meta name="theme-color" content="#E60078">
 <style>
 *{box-sizing:border-box}
-body{font-family:sans-serif;background:#f5f5f5;margin:0;padding:0;padding-bottom:130px}
-.header{background:#8B0000;color:white;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.header img{width:58px;height:58px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
+body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;padding-bottom:130px}
+/* ✅ వాయిస్ సొంత కలర్ - పింక్ 25% గ్లాస్ మాత్రమే */
+.header{background:linear-gradient(90deg, rgba(230,0,120,0.25), rgba(255,100,180,0.25) 50%, rgba(150,0,100,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.header img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .box{background:white;margin:12px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1);text-align:center}
-.box h3{color:#8B0000;margin:0 0 8px}
+.box h3{color:#B3005E;margin:0 0 8px}
 .box img{width:100%;border-radius:12px;max-height:300px;object-fit:cover;margin:10px 0}
 .box p{white-space:pre-line;line-height:1.7}
 audio{width:100%;margin-top:10px}
-.back{display:block;text-align:center;background:#8B0000;color:white;padding:12px;border-radius:25px;margin:12px;text-decoration:none;font-weight:bold}
+.back{display:block;text-align:center;background:#E60078;color:white;padding:12px;border-radius:25px;margin:12px;text-decoration:none;font-weight:bold}
 .ytBox{margin:10px 0}
 .ytBox img{width:100%;border-radius:12px}
 .ytBtn{display:block;background:#FF0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin-top:6px}
-.linkBtn{display:block;background:#8B0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:10px 0}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
-.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.linkBtn{display:block;background:#E60078;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:10px 0}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,0.12);border-top:1px solid rgba(255,255,255,0.9)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
-.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
+.bottom-nav .active{background:rgba(230,0,120,0.12);border-radius:12px;color:#B3005E}
 </style>
 </head>
 <body>
-<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
-<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html" style="color:white;text-decoration:none;font-weight:bold">⬅ హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:15px;font-weight:bold;margin-top:2px">🎤 వాయిస్ సందేశాలు</div><div style="font-size:12px;opacity:.9">మరనాత ✝️</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html" style="color:#8B0050;text-decoration:none;font-weight:bold">⬅ హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#8B0050;font-weight:bold">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h2><div style="font-size:15px;font-weight:bold;margin-top:2px">🎤 వాయిస్ సందేశాలు</div><div style="font-size:12px;opacity:.9">మరనాత ✝️</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
-<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - వాయిస్</div>
   <div style="font-size:12px;color:#666;margin:3px 0 10px">వాయిస్ సందేశాలు వినండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
@@ -55,7 +54,19 @@ audio{width:100%;margin-top:10px}
 </nav>
 
 <script>
-// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
+// ✅ బ్యాక్ ఫిక్స్ - 1 బ్యాక్ = హోమ్, 2 బ్యాక్ = క్లోజ్
+document.querySelectorAll('a[href]').forEach(a=>{
+  let h = a.getAttribute('href');
+  if(!h) return;
+  if(h.endsWith('.html') && !h.startsWith('http')){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      location.replace(h);
+    });
+  }
+});
+window.addEventListener('popstate', function(){ location.replace('index.html'); });
+
 function shareAnyPage(){
   let pageLink = window.location.href;
   let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
@@ -81,7 +92,7 @@ function linkHTML(l){
   if(!l) return "";
   let m=l.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/);
   if(m) return `<div class="ytBox"><a href="${l}" target="_blank"><img src="https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg"></a><a class="ytBtn" href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a></div>`;
-  if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<audio controls preload="metadata" src="${l}"></audio><br><a href="${l}" download style="color:#8B0000;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a>`;
+  if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<audio controls preload="metadata" src="${l}"></audio><br><a href="${l}" download style="color:#B3005E;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a>`;
   if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
   return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
 }
@@ -110,7 +121,7 @@ async function loadVoices(){
         ${img?`<img src="${img}">`:""}
         ${msg?`<p>${msg}</p>`:""}
         ${isYT ? linkHTML(link) : ""}
-        ${!isYT && audioSrc ? `<audio controls preload="metadata"><source src="${audioSrc}" type="audio/mpeg">మీ బ్రౌజర్ లో ప్లే అవ్వడం లేదు!</audio><p><a href="${audioSrc}" download style="color:#8B0000;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a></p>` : ""}
+        ${!isYT && audioSrc ? `<audio controls preload="metadata"><source src="${audioSrc}" type="audio/mpeg">మీ బ్రౌజర్ లో ప్లే అవ్వడం లేదు!</audio><p><a href="${audioSrc}" download style="color:#B3005E;font-weight:bold">⬇️ డౌన్ లోడ్ చేసుకోండి</a></p>` : ""}
         ${!isYT && link && link!==audioSrc ? linkHTML(link) : ""}
         <p style="color:gray;font-size:13px">📅 ${fmtDate(v.date||'')}</p>
       </div>
