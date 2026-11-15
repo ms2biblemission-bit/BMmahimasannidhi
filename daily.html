@@ -8,7 +8,6 @@
 <style>
 *{box-sizing:border-box}
 body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
-/* ✅ డైలీ సొంత కలర్ - టీల్ 25% గ్లాస్ మాత్రమే */
 .header{background:linear-gradient(90deg, rgba(0,100,90,0.25), rgba(0,180,150,0.25) 50%, rgba(11,61,46,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:18px 10px;text-align:center;border-radius:0 0 28px 28px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .header a{color:#0B3D2E;text-decoration:none;font-weight:bold}
 .top-highlight{background:linear-gradient(135deg, rgba(0,100,90,0.25), rgba(0,180,150,0.25));backdrop-filter:blur(6px);margin:12px;padding:18px;border-radius:18px;text-align:center;color:#0B3D2E;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.8)}
@@ -32,7 +31,7 @@ body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
 </div>
 
 <div class="top-highlight">
-<h2>✨ ఈ రోజు దేవుని వాక్యం ✨</h2>
+<h2 id="topTitle">✨ ఈ రోజు దేవుని వాక్యం ✨</h2>
 <div id="todayDate" style="font-size:14px;margin-top:5px;font-weight:bold;"></div>
 </div>
 
@@ -41,8 +40,8 @@ body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
 <div class="v-text" id="vText">లోడ్ అవుతోంది...</div>
 <div class="v-ref" id="vRef"></div>
 <div style="display:flex;gap:10px;margin-top:15px;">
-<button class="prev-btn" onclick="changeDay(-1)">⬅️ నిన్నటి వాక్యం</button>
-<button class="prev-btn" onclick="changeDay(1)">రేపటి వాక్యం ➡️</button>
+<button id="prevBtn" class="prev-btn" onclick="changeDay(-1)">⬅️ నిన్నటి వాక్యం</button>
+<button id="nextBtn" class="prev-btn" onclick="changeDay(1)">రేపటి వాక్యం ➡️</button>
 </div>
 <button class="share-btn" onclick="shareVakya()">📤 ఈ వాక్యాన్ని షేర్ చేయండి</button>
 </div>
@@ -50,7 +49,6 @@ body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
 <p class="note">📵 ఇది ఆఫ్ లైన్ లో కూడా పనిచేస్తుంది.<br>365 రోజులు - 365 వాక్యాలు - రిపీట్ అవ్వదు!</p>
 
 <script>
-// ✅ బ్యాక్ ఫిక్స్ - 1 బ్యాక్ = హోమ్, 2 బ్యాక్ = క్లోజ్
 document.querySelectorAll('a[href]').forEach(a=>{
   let h = a.getAttribute('href');
   if(!h) return;
@@ -103,17 +101,48 @@ function getDayOfYear(){
 let day = getDayOfYear();
 let offset = 0;
 function show(){
+  // ✅ రేపటికి వెళ్ళనివ్వద్దు - offset ఎప్పుడూ 0 కంటే ఎక్కువ కాకూడదు
+  if(offset > 0) offset = 0;
   let d = day + offset;
   if(d < 1) d = 1; if(d > 365) d = 365;
   let idx = (d - 1) % VAKYALU.length;
   let v = VAKYALU[idx];
-  document.getElementById('todayDate').innerText = "📅 " + new Date().toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});
+
+  // చూస్తున్న రోజు తేదీ చూపించు
+  let viewDate = new Date();
+  viewDate.setDate(viewDate.getDate() + offset);
+  document.getElementById('todayDate').innerText = "📅 " + viewDate.toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});
+
+  // ఈ రోజా / గడచిన రోజా అని టైటిల్ మార్చు
+  document.getElementById('topTitle').innerText = offset === 0 ? "✨ ఈ రోజు దేవుని వాక్యం ✨" : "📖 గడచిన దినము వాక్యం";
+
   document.getElementById('dayNum').innerText = "Day " + d + " / 365";
   document.getElementById('vText').innerText = v.v;
   document.getElementById('vRef').innerText = "- " + v.r;
   window._cur = v;
+  window._curDay = d;
+
+  // ✅ బటన్ లాజిక్ - ఇదే మెయిన్ ఫిక్స్!
+  let nextBtn = document.getElementById('nextBtn');
+  let prevBtn = document.getElementById('prevBtn');
+  // ఈ రోజులో ఉంటే రేపటి బటన్ మాయం!
+  if(nextBtn) nextBtn.style.display = (offset >= 0) ? 'none' : 'block';
+  // Day 1 లో ఉంటే నిన్నటి బటన్ మాయం!
+  if(prevBtn) prevBtn.style.display = (d <= 1) ? 'none' : 'block';
+  // నిన్నటి వాక్యం చూస్తుంటే బటన్ ఒక్కటే ఉంటుంది కాబట్టి ఫుల్ వెడల్పు
+  if(nextBtn && nextBtn.style.display === 'none' && prevBtn) prevBtn.style.width = '100%';
+  else if(prevBtn) prevBtn.style.width = '48%';
 }
-function changeDay(n){ offset += n; show(); }
+function changeDay(n){
+  // ✅ రేపటికి వెళ్ళడానికి ట్రై చేస్తే ఆపేయ్!
+  if(n > 0 && offset >= 0){
+    alert('🙏 రేపటి వాక్యం రేపే వస్తుంది అండి! ఈ రోజు వాక్యంతోనే ఆశీర్వదించబడండి!');
+    return;
+  }
+  offset += n;
+  if(offset > 0) offset = 0;
+  show();
+}
 function shareVakya(){
   let txt = "📖 BM మహిమ సన్నిధి - సన్నిధి వర్తమానములు\n\n📖 ఈ రోజు వాక్యం\n\n" + window._cur.v + "\n- " + window._cur.r + "\n\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/daily.html";
   if(navigator.share){ navigator.share({text: txt}); }
