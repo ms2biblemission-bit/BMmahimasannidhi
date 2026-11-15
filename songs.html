@@ -5,32 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎵 పాటలు - BM మహిమ సన్నిధి</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0B3D2E">
+<meta name="theme-color" content="#FF9800">
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
-.header{background:#0B3D2E;color:white;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.header a{color:white;text-decoration:none;font-weight:bold}
-.header img{width:58px;height:58px;border-radius:50%;border:3px solid gold;object-fit:cover;background:white;flex-shrink:0}
+/* ✅ పాటలు సొంత కలర్ - ఆరెంజ్ / పసుపు 25% గ్లాస్ మాత్రమే */
+.header{background:linear-gradient(90deg, rgba(255,150,0,0.25), rgba(255,210,0,0.25) 50%, rgba(255,87,34,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.header a{color:#8B2E00;text-decoration:none;font-weight:bold}
+.header img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .wrap{padding:12px;max-width:700px;margin:auto}
 .card{background:white;padding:15px;border-radius:18px;margin:12px 0;box-shadow:0 2px 8px #0001;cursor:pointer;display:flex;gap:12px;align-items:center}
 .icon{width:68px;height:68px;min-width:68px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:34px;color:white;font-weight:bold;overflow:hidden}
 input{width:100%;padding:13px;border-radius:12px;border:1px solid #C8E6C9;font-size:16px;background:white}
-input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
-.num{width:44px;height:44px;min-width:44px;border-radius:50%;background:#0B3D2E;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
+input:focus{outline:2px solid #FF9800;border-color:#FF9800}
+.num{width:44px;height:44px;min-width:44px;border-radius:50%;background:#FF9800;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
 .modalBox{background:white;width:100%;max-width:600px;height:78vh;max-height:78vh;border-radius:20px 20px 0 0;padding:0;overflow:hidden;display:flex;flex-direction:column;margin-bottom:70px}
 .modalScroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 18px 40px}
-.back{background:#0B3D2E;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.25)}
-.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.back{background:#FF9800;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,0.12);border-top:1px solid rgba(255,255,255,0.9)}
+.bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
-.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
+.bottom-nav .active{background:rgba(255,150,0,0.15);border-radius:12px;color:#C45000}
 .songImg{width:100%;border-radius:12px;max-height:300px;object-fit:cover;margin:10px 0}
 .ytBox{margin:12px 0;text-align:center}
 .ytBox img{width:100%;border-radius:12px}
 .ytBtn{display:block;background:#FF0000;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin-top:6px}
 .mp3Box audio{width:100%}
-.linkBtn{display:block;background:#0B3D2E;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:12px 0;text-align:center}
+.linkBtn{display:block;background:#FF9800;color:#fff!important;text-decoration:none;padding:12px;border-radius:10px;font-weight:bold;margin:12px 0;text-align:center}
 .searchWrap{position:relative}
 .suggestBox{background:white;border-radius:16px;box-shadow:0 4px 16px #0002;margin-top:8px;overflow:hidden;display:none;max-height:55vh;overflow-y:auto}
 .suggestRow{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #eee;cursor:pointer}
@@ -40,10 +41,8 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
 </style>
 </head>
 <body>
-<!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
-<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#8B2E00;font-weight:bold">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h2><div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
-<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - పాటలు</div>
   <div style="font-size:12px;color:#666;margin:3px 0 10px">పాటలు పాడండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
@@ -67,7 +66,19 @@ input:focus{outline:2px solid #0B3D2E;border-color:#0B3D2E}
   <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
+// ✅ బ్యాక్ ఫిక్స్ - 1 బ్యాక్ = హోమ్, 2 బ్యాక్ = క్లోజ్
+document.querySelectorAll('a[href]').forEach(a=>{
+  let h = a.getAttribute('href');
+  if(!h) return;
+  if(h.endsWith('.html') && !h.startsWith('http')){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      location.replace(h);
+    });
+  }
+});
+window.addEventListener('popstate', function(){ location.replace('index.html'); });
+
 function shareAnyPage(){
   let pageLink = window.location.href;
   let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
@@ -132,7 +143,7 @@ function showSuggestMain(){
   filtered.sort((a,b)=>{ let fa=getFolder(a), fb=getFolder(b); if(fa!==fb) return fa<fb?-1:1; return (a.num||0)-(b.num||0); });
   if(!filtered.length){ box.style.display='none'; box.innerHTML=''; return; }
   box.style.display='block';
-  box.innerHTML=`<div style="background:#0B3D2E;color:white;padding:10px 14px;font-weight:bold">🎵 అన్ని పాటలు - ${filtered.length} దొరికాయి <span style="font-weight:normal;font-size:13px;opacity:.85">• నొక్కి చదవండి</span></div>`;
+  box.innerHTML=`<div style="background:#FF9800;color:white;padding:10px 14px;font-weight:bold">🎵 అన్ని పాటలు - ${filtered.length} దొరికాయి <span style="font-weight:normal;font-size:13px;opacity:.85">• నొక్కి చదవండి</span></div>`;
   filtered.forEach(s=>{
     let gi=allSongs.indexOf(s);
     let row=document.createElement('div'); row.className='suggestRow';
