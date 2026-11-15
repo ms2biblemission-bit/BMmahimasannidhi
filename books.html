@@ -13,9 +13,12 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 .uline{display:block;padding:5px 8px;border-radius:6px;cursor:pointer} .uline.underlined{background:#FFF3A6 !important;text-decoration:underline !important;text-decoration-color:#E6B800 !important;text-decoration-thickness:2px !important}
 .hint-line{font-size:12px;color:#888;margin:8px 0} .btn{background:#0B3D2E;color:white;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer} .btn2{background:#2E7D32;color:white;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin:4px} .btnOrange{background:#FF9800}
 .book-actions{display:flex;gap:8px;margin-top:12px} .book-actions button{flex:1;border:none;padding:11px 5px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer} .btn-save{background:#DCE8FF;color:#0F2F6B;border:1px solid #0F2F6B} .btn-save.saved{background:#0F2F6B;color:white}
-.saved-box{background:#E3F2FD;border:2px solid #2196F3;border-radius:20px;padding:14px;margin:14px 0} .saved-box h3{margin:0 0 8px;color:#0F2F6B} .saved-item{display:flex;gap:8px;align-items:center;background:white;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer;border:1px solid #BBDEFB}
-.history-box{background:#D9EAD3;border:2px solid #2E7D32;border-radius:20px;padding:14px;margin:14px 0} .history-item{background:white;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer}
-.hl-box{background:#FFFDE7;border:2px solid #E6B800;border-radius:20px;padding:14px;margin:14px 0} .hl-item{background:white;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer;border-left:4px solid #E6B800}
+/* FIX: 2 లైన్లు పూర్తిగా + 3వది కొద్దిగా కనబడాలి - గ్యాప్ తక్కువ కాకుండా */
+.saved-box{background:#E3F2FD;border:2px solid #2196F3;border-radius:20px;padding:16px;margin:16px 0;max-height:305px;display:flex;flex-direction:column;gap:6px} .saved-box h3{margin:0 0 6px;color:#0F2F6B;flex-shrink:0} .saved-item{display:flex;gap:10px;align-items:center;background:white;padding:14px 12px;border-radius:12px;margin:0 0 12px;cursor:pointer;border:1px solid #BBDEFB;min-height:68px}
+.history-box{background:#D9EAD3;border:2px solid #2E7D32;border-radius:20px;padding:16px;margin:16px 0;max-height:305px;display:flex;flex-direction:column;gap:6px} .history-item{background:white;padding:14px 12px;border-radius:12px;margin:0 0 12px;cursor:pointer;min-height:68px}
+.hl-box{background:#FFFDE7;border:2px solid #E6B800;border-radius:20px;padding:16px;margin:16px 0;max-height:305px;display:flex;flex-direction:column;gap:6px} .hl-item{background:white;padding:14px 12px;border-radius:12px;margin:0 0 12px;cursor:pointer;border-left:4px solid #E6B800;min-height:68px}
+.inner-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 4px 0 0;overscroll-behavior:contain;max-height:218px;scroll-snap-type:y proximity} .inner-scroll > div{scroll-snap-align:start} .inner-scroll::-webkit-scrollbar{width:5px} .inner-scroll::-webkit-scrollbar-thumb{background:#bbb;border-radius:10px}
+.scroll-hint{font-size:12px;color:#666;text-align:center;margin-top:2px;flex-shrink:0;font-weight:bold}
 .topbar{position:sticky;top:0;z-index:90;background:#0B3D2E;color:white;display:flex;align-items:center;justify-content:space-between;padding:10px 12px} .topbar button{background:transparent;border:none;color:white;font-size:22px;cursor:pointer}
 .drawer{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300} .drawer.open{display:block} .drawerBox{background:white;width:82%;max-width:320px;height:100%;overflow-y:auto;padding:0} .drawerTop{height:150px;background:#ddd;background-size:cover;background-position:center;display:flex;align-items:flex-end} .drawerTop span{background:rgba(0,0,0,.45);color:white;padding:8px;width:100%;font-weight:bold}
 .menu-item{display:flex;gap:14px;align-items:center;padding:14px 18px;border-bottom:1px solid #eee;cursor:pointer;font-size:17px;color:#333} .menu-item small{display:block;color:#888;font-size:12px}
@@ -83,32 +86,30 @@ function renderSavedBox(){
   let box=document.getElementById('savedBox'); if(!box) return;
   let ids=getSavedIds(); if(!ids.length){ box.innerHTML=''; return; }
   let sb=BOOKS.filter(b=>ids.includes(getBookKey(b))); if(!sb.length){ box.innerHTML=''; return; }
-  box.innerHTML='<div class="saved-box"><h3>✅ సేవ్ చేసిన బుక్స్ - Bookmarks</h3>'+sb.map(b=>{let ci=BOOKS.indexOf(b);return '<div class="saved-item" onclick="openSavedBook('+ci+')"><div style="flex:1"><b style="color:#0F2F6B">'+b.title+'</b><br><small style="color:#666">'+(b.desc||'')+'</small></div><span style="font-size:20px">➡️</span></div>';}).join('')+'</div>';
+  box.innerHTML='<div class="saved-box"><h3>✅ సేవ్ చేసిన బుక్స్ - Bookmarks</h3><div class="inner-scroll">'+sb.map(b=>{let ci=BOOKS.indexOf(b);return '<div class="saved-item" onclick="openSavedBook('+ci+')"><div style="flex:1"><b style="color:#0F2F6B">'+b.title+'</b><br><small style="color:#666">'+(b.desc||'')+'</small></div><span style="font-size:20px">➡️</span></div>';}).join('')+'</div><div class="scroll-hint">👆 బాక్స్ లోపలే పైకి కిందకు లాగండి</div></div>';
 }
 function getHistory(){ try{ return JSON.parse(localStorage.getItem('ms_history_books')||'[]'); }catch(e){ return []; } }
 function addHistory(bookId, pageIdx){
   let h=getHistory(); h=h.filter(x=>String(x.bookId)!==String(bookId)); h.unshift({bookId:String(bookId), page:pageIdx, time:new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); h=h.slice(0,20); localStorage.setItem('ms_history_books', JSON.stringify(h)); renderContinueBox();
 }
 function getLastPageForBook(bookId){ let h=getHistory().find(x=>String(x.bookId)===String(bookId)); return h ? h.page : 0; }
-// FIX: Last Reading - ALL books, not just last one
 function renderContinueBox(){
   let box=document.getElementById('continueBox'); if(!box) return;
   let h=getHistory(); if(!h.length){ box.innerHTML=''; return; }
-  let html='<div class="history-box"><h3 style="margin:0 0 8px;color:#0B3D2E">📖 లాస్ట్ రీడింగ్ - అన్నీ</h3>';
+  let html='<div class="history-box"><h3 style="margin:0 0 6px;color:#0B3D2E">📖 లాస్ట్ రీడింగ్ - అన్నీ</h3><div class="inner-scroll">';
   h.forEach(last=>{
     let b=BOOKS.find(x=>String(getBookKey(x))===String(last.bookId)); if(!b) return;
     let ch=getChapters(b); let t=ch[last.page]?ch[last.page].t:''; let ci=BOOKS.indexOf(b);
     let pct=ch.length?Math.round(((last.page+1)/ch.length)*100):0;
     html+='<div class="history-item" onclick="openSavedBook('+ci+')"><b>'+b.title+'</b><br><small>'+t+' • పేజీ '+(last.page+1)+' / '+ch.length+' • '+last.time+' ➡️</small><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
   });
-  html+='</div>'; box.innerHTML=html;
+  html+='</div><div class="scroll-hint">👆 బాక్స్ లోపలే పైకి కిందకు లాగండి</div></div>'; box.innerHTML=html;
 }
 function openSavedBook(ci){
   hideTopBoxes(); openBookByIndex(ci);
   let b=BOOKS[ci]; if(!b) return; let lastPage=getLastPageForBook(getBookKey(b));
   setTimeout(()=>{ openPage(lastPage); }, 200);
 }
-// FIX: Open EXACT highlight page, not last page
 function openHighlightBook(ci, pageIdx){
   hideTopBoxes(); openBookByIndex(ci);
   setTimeout(()=>{ openPage(pageIdx); }, 200);
@@ -153,11 +154,10 @@ function getAllHighlights(){
   }
   return out;
 }
-// FIX: Highlights on main page - ALL, like Saved Books
 function renderHighlightsBox(){
   let box=document.getElementById('highlightsBox'); if(!box) return;
   let hl=getAllHighlights(); if(!hl.length){ box.innerHTML=''; return; }
-  box.innerHTML='<div class="hl-box"><h3 style="margin:0 0 8px;color:#0F2F6B">✏️ Highlights - Underline పెట్టినవన్నీ</h3>'+hl.map(h=>{let ci=BOOKS.indexOf(h.book); return '<div class="hl-item" onclick="openHighlightBook('+ci+','+h.page+')"><small>'+h.book.title+' • '+h.chapTitle+'</small><br><b style="background:#FFF3A6;padding:2px 4px;border-radius:4px">'+h.text.replace(/</g,'&lt;')+'</b><br><small>పేజీ '+(h.page+1)+' ➡️ నొక్కితే అదే పేజీకి వెళ్తుంది</small></div>';}).join('')+'</div>';
+  box.innerHTML='<div class="hl-box"><h3 style="margin:0 0 6px;color:#0F2F6B">✏️ Highlights - Underline పెట్టినవన్నీ</h3><div class="inner-scroll">'+hl.map(h=>{let ci=BOOKS.indexOf(h.book); return '<div class="hl-item" onclick="openHighlightBook('+ci+','+h.page+')"><small>'+h.book.title+' • '+h.chapTitle+'</small><br><b style="background:#FFF3A6;padding:2px 4px;border-radius:4px">'+h.text.replace(/</g,'&lt;')+'</b><br><small>పేజీ '+(h.page+1)+' ➡️</small></div>';}).join('')+'</div><div class="scroll-hint">👆 బాక్స్ లోపలే పైకి కిందకు లాగండి</div></div>';
 }
 function showHighlights(){
   closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML=''; hideTopBoxes();
