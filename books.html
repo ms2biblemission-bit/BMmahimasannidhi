@@ -9,12 +9,13 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 .book{background:white;border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #0001;cursor:pointer;display:flex;gap:12px;align-items:center} .book .cover{width:58px;height:76px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;flex-shrink:0} .book h3{margin:0;color:#0F2F6B;font-weight:700;font-size:20px} .book p{color:#3B2314;font-size:14px;margin:4px 0;font-weight:500}
 .continue{background:#D9EAD3;border:2px solid #2E7D32;padding:16px;border-radius:20px;margin:14px 0;cursor:pointer} .continue b{font-size:19px;color:#0B3D2E} .bar{height:8px;background:#C8E6C9;border-radius:10px;margin-top:10px;overflow:hidden} .bar i{display:block;height:100%;background:#2E7D32}
 .chap{background:#FFF8E1;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer;border-left:4px solid #FF9800} .chap b{color:#0F2F6B;font-weight:700;font-size:18px}
-/* FIX: .page కి underline లేదు - కేవలం .uline కి మాత్రమే */
 .page{background:#FFFEF8;border:1px solid #FFE0B2;border-radius:20px;padding:20px;margin:12px 0;box-shadow:0 2px 8px #0001;line-height:1.9;text-align:center;color:#3B2314;font-weight:500;font-size:var(--book-font,17px)} .page h3{color:#0F2F6B;font-weight:700;font-size:22px;line-height:1.4} .page img{width:100%;border-radius:12px;margin:10px 0}
-.uline{display:block;padding:5px 8px;border-radius:6px;cursor:pointer;background:transparent !important;text-decoration:none !important} .uline.underlined{background:#FFF3A6 !important;text-decoration:underline !important;text-decoration-color:#E6B800 !important;text-decoration-thickness:2px !important}
+.uline{display:block;padding:5px 8px;border-radius:6px;cursor:pointer} .uline.underlined{background:#FFF3A6 !important;text-decoration:underline !important;text-decoration-color:#E6B800 !important;text-decoration-thickness:2px !important}
 .hint-line{font-size:12px;color:#888;margin:8px 0} .btn{background:#0B3D2E;color:white;border:none;padding:14px 18px;border-radius:25px;font-weight:bold;width:100%;margin:6px 0;cursor:pointer} .btn2{background:#2E7D32;color:white;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;margin:4px} .btnOrange{background:#FF9800}
-.book-actions{display:flex;gap:8px;margin-top:12px} .book-actions button{flex:1;border:none;padding:11px 5px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer} .btn-save{background:#DCE8FF;color:#0F2F6B;border:1px solid #0F2F6B} .btn-save.saved{background:#0F2F6B;color:white} .btn-underline{background:#8D6E4A;color:white} .btn-underline.active{background:#E6B800;color:#222}
-.saved-box{background:#E3F2FD;border:2px solid #2196F3;border-radius:20px;padding:14px;margin:14px 0} .saved-box h3{margin:0 0 8px;color:#0F2F6B}
+.book-actions{display:flex;gap:8px;margin-top:12px} .book-actions button{flex:1;border:none;padding:11px 5px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer} .btn-save{background:#DCE8FF;color:#0F2F6B;border:1px solid #0F2F6B} .btn-save.saved{background:#0F2F6B;color:white}
+.saved-box{background:#E3F2FD;border:2px solid #2196F3;border-radius:20px;padding:14px;margin:14px 0} .saved-box h3{margin:0 0 8px;color:#0F2F6B} .saved-item{display:flex;gap:8px;align-items:center;background:white;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer;border:1px solid #BBDEFB}
+.history-box{background:#D9EAD3;border:2px solid #2E7D32;border-radius:20px;padding:14px;margin:14px 0} .history-item{background:white;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer}
+.hl-box{background:#FFFDE7;border:2px solid #E6B800;border-radius:20px;padding:14px;margin:14px 0} .hl-item{background:white;padding:12px;border-radius:12px;margin:8px 0;cursor:pointer;border-left:4px solid #E6B800}
 .topbar{position:sticky;top:0;z-index:90;background:#0B3D2E;color:white;display:flex;align-items:center;justify-content:space-between;padding:10px 12px} .topbar button{background:transparent;border:none;color:white;font-size:22px;cursor:pointer}
 .drawer{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300} .drawer.open{display:block} .drawerBox{background:white;width:82%;max-width:320px;height:100%;overflow-y:auto;padding:0} .drawerTop{height:150px;background:#ddd;background-size:cover;background-position:center;display:flex;align-items:flex-end} .drawerTop span{background:rgba(0,0,0,.45);color:white;padding:8px;width:100%;font-weight:bold}
 .menu-item{display:flex;gap:14px;align-items:center;padding:14px 18px;border-bottom:1px solid #eee;cursor:pointer;font-size:17px;color:#333} .menu-item small{display:block;color:#888;font-size:12px}
@@ -31,14 +32,12 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 <div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') closeDrawer()"><div class="drawerBox">
 <div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
 <div class="menu-item" onclick="closeDrawer();document.getElementById('search').focus()">🔍 <span>Search<small>బుక్ / అధ్యాయం వెతకండి</small></span></div>
-<div class="menu-item" onclick="showHistory()">🕒 <span>History<small>లాస్ట్ రీడింగ్ - ఎక్కడ ఆపామో</small></span></div>
+<div class="menu-item" onclick="showHistory()">🕒 <span>History<small>లాస్ట్ రీడింగ్ - అన్నీ</small></span></div>
 <div class="menu-item" onclick="showBookmarks()">🔖 <span>Bookmarks<small>సేవ్ చేసిన బుక్స్</small></span></div>
-<div class="menu-item" onclick="showNotes()">📝 <span>Notes<small>మీ నోట్స్ రాయండి</small></span></div>
-<div class="menu-item" onclick="showHighlights()">✏️ <span>Highlights<small>Underline పెట్టినవన్నీ - నొక్కితే అదే లైన్</small></span></div>
+<div class="menu-item" onclick="showNotes()">📝 <span>Notes</span></div>
+<div class="menu-item" onclick="showHighlights()">✏️ <span>Highlights<small>Underline పెట్టినవన్నీ</small></span></div>
 <div class="menu-item" onclick="shareAnyPage()">📤 <span>Share App</span></div>
-<div class="menu-item" onclick="openTextSettings()">⚙️ <span>Settings</span></div>
-<div class="menu-item" onclick="openTextSettings()">🔠 <span>Text Appearance<small>అక్షరాలు చిన్న / పెద్ద చేయండి</small></span></div>
-<div class="menu-item" onclick="window.open('https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html','_blank')">🌐 <span>Visit our Website</span></div>
+<div class="menu-item" onclick="openTextSettings()">🔠 <span>Text Appearance</span></div>
 <div class="menu-item" onclick="location.href='index.html'">ℹ️ <span>About</span></div>
 </div></div>
 <div class="head"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅ హోమ్</a><div style="font-size:13px;letter-spacing:1px;color:#0B3D2E;font-weight:bold">📖 బైబిల్ మిషన్</div><h2>మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
@@ -46,6 +45,7 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 <input id="search" placeholder="🔍 బుక్ / అధ్యాయం వెతకండి..." oninput="renderBooks()">
 <div id="savedBox"></div>
 <div id="continueBox"></div>
+<div id="highlightsBox"></div>
 <div id="box">లోడ్ అవుతోంది...</div>
 <div id="detail"></div>
 </div>
@@ -60,7 +60,6 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 </nav>
 <script>
 function shareAnyPage(){ let p=window.location.href; let a="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html"; window.open("https://wa.me/?text="+encodeURIComponent("🙏 BM మహిమ సన్నిధి - బుక్స్ 📚\n"+p+"\n\n📲 యాప్: "+a+"\n\nమరనాత ✝️"),"_blank"); }
-let deferredPrompt=null; window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
 function openDrawer(){ document.getElementById('drawer').classList.add('open'); } function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
 function openTextSettings(){ closeDrawer(); document.getElementById('textModal').style.display='flex'; document.getElementById('fontSizeLabel').textContent=getFontSize(); }
 function closeTextSettings(){ document.getElementById('textModal').style.display='none'; }
@@ -78,55 +77,68 @@ function toggleSaveBookById(bookId, btn){
   document.querySelectorAll('[data-save-id="'+key+'"]').forEach(b=>{ let s=ids.includes(key); b.textContent=s?'✅ Saved / సేవ్ అయ్యింది':'🔖 Save / సేవ్'; b.classList.toggle('saved',s); });
   renderSavedBox();
 }
+function hideTopBoxes(){ ['savedBox','continueBox','highlightsBox'].forEach(id=>{let e=document.getElementById(id); if(e) e.style.display='none';}); }
+function showTopBoxes(){ ['savedBox','continueBox','highlightsBox'].forEach(id=>{let e=document.getElementById(id); if(e) e.style.display='block';}); renderSavedBox(); renderContinueBox(); renderHighlightsBox(); }
 function renderSavedBox(){
   let box=document.getElementById('savedBox'); if(!box) return;
   let ids=getSavedIds(); if(!ids.length){ box.innerHTML=''; return; }
   let sb=BOOKS.filter(b=>ids.includes(getBookKey(b))); if(!sb.length){ box.innerHTML=''; return; }
-  box.innerHTML='<div class="saved-box"><h3>✅ సేవ్ చేసిన బుక్స్ - Bookmarks</h3>'+sb.map(b=>{let ci=BOOKS.indexOf(b);return '<div style="display:flex;gap:8px;background:white;padding:10px;border-radius:12px;margin:6px 0;cursor:pointer" onclick="openBookByIndex('+ci+')"><div style="flex:1"><b style="color:#0F2F6B">'+b.title+'</b><br><small>'+(b.desc||'')+'</small></div><span>➡️</span></div>';}).join('')+'</div>';
+  box.innerHTML='<div class="saved-box"><h3>✅ సేవ్ చేసిన బుక్స్ - Bookmarks</h3>'+sb.map(b=>{let ci=BOOKS.indexOf(b);return '<div class="saved-item" onclick="openSavedBook('+ci+')"><div style="flex:1"><b style="color:#0F2F6B">'+b.title+'</b><br><small style="color:#666">'+(b.desc||'')+'</small></div><span style="font-size:20px">➡️</span></div>';}).join('')+'</div>';
 }
 function getHistory(){ try{ return JSON.parse(localStorage.getItem('ms_history_books')||'[]'); }catch(e){ return []; } }
 function addHistory(bookId, pageIdx){
   let h=getHistory(); h=h.filter(x=>String(x.bookId)!==String(bookId)); h.unshift({bookId:String(bookId), page:pageIdx, time:new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); h=h.slice(0,20); localStorage.setItem('ms_history_books', JSON.stringify(h)); renderContinueBox();
 }
+function getLastPageForBook(bookId){ let h=getHistory().find(x=>String(x.bookId)===String(bookId)); return h ? h.page : 0; }
+// FIX: Last Reading - ALL books, not just last one
 function renderContinueBox(){
   let box=document.getElementById('continueBox'); if(!box) return;
   let h=getHistory(); if(!h.length){ box.innerHTML=''; return; }
-  let last=h[0]; let b=BOOKS.find(x=>String(getBookKey(x))===String(last.bookId)); if(!b){ box.innerHTML=''; return; }
-  let ch=getChapters(b); let t=ch[last.page]?ch[last.page].t:''; let ci=BOOKS.indexOf(b);
-  box.innerHTML='<div class="continue" onclick="openBookByIndex('+ci+');setTimeout(()=>openPage('+last.page+'),150)"><b>📖 లాస్ట్ రీడింగ్ - ఇక్కడ నుండి కొనసాగించండి ➡️</b><br><small>'+b.title+' • '+t+' • పేజీ '+(last.page+1)+' / '+ch.length+' • '+last.time+'</small><div class="bar"><i style="width:'+(ch.length?Math.round(((last.page+1)/ch.length)*100):0)+'%"></i></div></div>';
+  let html='<div class="history-box"><h3 style="margin:0 0 8px;color:#0B3D2E">📖 లాస్ట్ రీడింగ్ - అన్నీ</h3>';
+  h.forEach(last=>{
+    let b=BOOKS.find(x=>String(getBookKey(x))===String(last.bookId)); if(!b) return;
+    let ch=getChapters(b); let t=ch[last.page]?ch[last.page].t:''; let ci=BOOKS.indexOf(b);
+    let pct=ch.length?Math.round(((last.page+1)/ch.length)*100):0;
+    html+='<div class="history-item" onclick="openSavedBook('+ci+')"><b>'+b.title+'</b><br><small>'+t+' • పేజీ '+(last.page+1)+' / '+ch.length+' • '+last.time+' ➡️</small><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+  });
+  html+='</div>'; box.innerHTML=html;
+}
+function openSavedBook(ci){
+  hideTopBoxes(); openBookByIndex(ci);
+  let b=BOOKS[ci]; if(!b) return; let lastPage=getLastPageForBook(getBookKey(b));
+  setTimeout(()=>{ openPage(lastPage); }, 200);
+}
+// FIX: Open EXACT highlight page, not last page
+function openHighlightBook(ci, pageIdx){
+  hideTopBoxes(); openBookByIndex(ci);
+  setTimeout(()=>{ openPage(pageIdx); }, 200);
 }
 function showHistory(){
-  closeDrawer(); let h=getHistory(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML='';
+  closeDrawer(); let h=getHistory(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML=''; hideTopBoxes();
   if(!h.length){ d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><p style="text-align:center">🕒 ఇంకా History లేదు!</p>'; return; }
-  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>🕒 History - లాస్ట్ రీడింగ్</h3>'+h.map(x=>{let b=BOOKS.find(bb=>String(getBookKey(bb))===String(x.bookId)); if(!b) return ''; let ci=BOOKS.indexOf(b); let ch=getChapters(b); let t=ch[x.page]?ch[x.page].t:''; return '<div class="hl-card" onclick="openBookByIndex('+ci+');setTimeout(()=>openPage('+x.page+'),150)"><b>'+b.title+'</b><br><small>'+t+' • పేజీ '+(x.page+1)+' • '+x.time+' ➡️</small></div>';}).join('');
+  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>🕒 History - అన్నీ</h3>'+h.map(x=>{let b=BOOKS.find(bb=>String(getBookKey(bb))===String(x.bookId)); if(!b) return ''; let ci=BOOKS.indexOf(b); let ch=getChapters(b); let t=ch[x.page]?ch[x.page].t:''; return '<div class="hl-card" onclick="openSavedBook('+ci+')"><b>'+b.title+'</b><br><small>'+t+' • పేజీ '+(x.page+1)+' • '+x.time+' ➡️</small></div>';}).join('');
   window.scrollTo(0,0);
 }
 function showBookmarks(){
-  closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML='';
+  closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML=''; hideTopBoxes();
   let ids=getSavedIds(); let sb=BOOKS.filter(b=>ids.includes(getBookKey(b)));
   if(!sb.length){ d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><p style="text-align:center">🔖 ఇంకా Save చేయలేదు!</p>'; return; }
-  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>🔖 Bookmarks</h3>'+sb.map(b=>{let ci=BOOKS.indexOf(b);return '<div class="hl-card" onclick="openBookByIndex('+ci+')"><b>'+b.title+'</b><br><small>'+(b.desc||'')+' ➡️</small></div>';}).join('');
+  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>🔖 Bookmarks - అన్నీ</h3>'+sb.map(b=>{let ci=BOOKS.indexOf(b);return '<div class="hl-card" onclick="openSavedBook('+ci+')"><b>'+b.title+'</b><br><small>'+(b.desc||'')+' ➡️</small></div>';}).join('');
   window.scrollTo(0,0);
 }
 function showNotes(){
-  closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML='';
+  closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML=''; hideTopBoxes();
   let notes=localStorage.getItem('ms_book_notes')||'';
-  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>📝 Notes</h3><textarea id="notesBox" rows="8" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ మీ నోట్స్ రాయండి...">'+notes.replace(/</g,'&lt;')+'</textarea><button class="btn" onclick="localStorage.setItem(\'ms_book_notes\',document.getElementById(\'notesBox\').value);alert(\'✅ Notes సేవ్ అయ్యాయి!\')">💾 Notes సేవ్ చేయండి</button>';
+  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>📝 Notes</h3><textarea id="notesBox" rows="8" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc">'+notes.replace(/</g,'&lt;')+'</textarea><button class="btn" onclick="localStorage.setItem(\'ms_book_notes\',document.getElementById(\'notesBox\').value);alert(\'✅ Notes సేవ్ అయ్యాయి!\')">💾 Notes సేవ్ చేయండి</button>';
   window.scrollTo(0,0);
 }
-// ===== UNDERLINE FIX - ONLY ONE LINE =====
-let underlineMode = true;
 function underlineKey(bookId, pageIdx){ return 'ms_underline_'+bookId+'_'+pageIdx; }
-function getUnderlinedLines(bookId, pageIdx){ try{ let a=JSON.parse(localStorage.getItem(underlineKey(bookId, pageIdx))||'[]'); return a.map(Number); }catch(e){ return []; } }
+function getUnderlinedLines(bookId, pageIdx){ try{ return JSON.parse(localStorage.getItem(underlineKey(bookId, pageIdx))||'[]').map(Number); }catch(e){ return []; } }
 function toggleLineUnderline(bookId, pageIdx, lineIdx, el){
-  // el = ఆ లైన్ మాత్రమే - పేజీ మొత్తం కాదు
-  if(!el) return;
-  el.classList.toggle('underlined');
-  let list=getUnderlinedLines(bookId, pageIdx);
-  let idx=list.indexOf(Number(lineIdx));
-  if(el.classList.contains('underlined')){ if(idx===-1) list.push(Number(lineIdx)); }
-  else { if(idx!==-1) list.splice(idx,1); }
-  localStorage.setItem(underlineKey(bookId, pageIdx), JSON.stringify(list));
+  if(!el) return; el.classList.toggle('underlined');
+  let list=getUnderlinedLines(bookId, pageIdx); let idx=list.indexOf(Number(lineIdx));
+  if(el.classList.contains('underlined')){ if(idx===-1) list.push(Number(lineIdx)); } else { if(idx!==-1) list.splice(idx,1); }
+  localStorage.setItem(underlineKey(bookId, pageIdx), JSON.stringify(list)); renderHighlightsBox();
 }
 function getAllHighlights(){
   let out=[];
@@ -141,18 +153,24 @@ function getAllHighlights(){
   }
   return out;
 }
+// FIX: Highlights on main page - ALL, like Saved Books
+function renderHighlightsBox(){
+  let box=document.getElementById('highlightsBox'); if(!box) return;
+  let hl=getAllHighlights(); if(!hl.length){ box.innerHTML=''; return; }
+  box.innerHTML='<div class="hl-box"><h3 style="margin:0 0 8px;color:#0F2F6B">✏️ Highlights - Underline పెట్టినవన్నీ</h3>'+hl.map(h=>{let ci=BOOKS.indexOf(h.book); return '<div class="hl-item" onclick="openHighlightBook('+ci+','+h.page+')"><small>'+h.book.title+' • '+h.chapTitle+'</small><br><b style="background:#FFF3A6;padding:2px 4px;border-radius:4px">'+h.text.replace(/</g,'&lt;')+'</b><br><small>పేజీ '+(h.page+1)+' ➡️ నొక్కితే అదే పేజీకి వెళ్తుంది</small></div>';}).join('')+'</div>';
+}
 function showHighlights(){
-  closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML='';
+  closeDrawer(); let d=document.getElementById('detail'); document.getElementById('box').innerHTML=''; hideTopBoxes();
   let hl=getAllHighlights();
-  if(!hl.length){ d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><p style="text-align:center">✏️ ఇంకా Underline పెట్టలేదు!<br><small>పేజీలో ఏ లైన్ మీదైనా నొక్కండి</small></p>'; return; }
-  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>✏️ Highlights</h3><p style="color:#666">దేని మీద నొక్కినా అదే పేజీ, అదే లైన్ దగ్గరకు వెళ్తుంది</p>'+hl.map(h=>{let ci=BOOKS.indexOf(h.book); return '<div class="hl-card" onclick="openBookByIndex('+ci+');setTimeout(()=>openPage('+h.page+'),150)"><small>'+h.book.title+' • '+h.chapTitle+'</small><br><b style="background:#FFF3A6;padding:2px 4px;border-radius:4px">'+h.text.replace(/</g,'&lt;')+'</b><br><small>పేజీ '+(h.page+1)+' ➡️</small></div>';}).join('');
+  if(!hl.length){ d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><p style="text-align:center">✏️ ఇంకా Underline పెట్టలేదు!</p>'; return; }
+  d.innerHTML='<button class="btn" onclick="renderBooks()">⬅ వెనక్కి</button><h3>✏️ Highlights - అన్నీ</h3>'+hl.map(h=>{let ci=BOOKS.indexOf(h.book); return '<div class="hl-card" onclick="openHighlightBook('+ci+','+h.page+')"><small>'+h.book.title+' • '+h.chapTitle+'</small><br><b style="background:#FFF3A6;padding:2px 4px;border-radius:4px">'+h.text.replace(/</g,'&lt;')+'</b><br><small>పేజీ '+(h.page+1)+' ➡️</small></div>';}).join('');
   window.scrollTo(0,0);
 }
 let BOOKS=[];
 let DEFAULT_BOOKS=[
-{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",chapters:[{t:"అధ్యాయం 1 - సృష్టి",c:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.\n\nవివరణ: దేవుడే అన్నిటికి మొదలు.\n\nమరనాత ✝️"}]},
-{id:2,title:"📖 బుక్ 2 - నిర్గమకాండం వివరణ",desc:"ఐగుప్తు నుండి విడుదల",chapters:[{t:"అధ్యాయం 1 - విడుదల",c:"నిర్గమ 14:14 - యెహోవా మీ పక్షాన యుద్ధం చేస్తాడు.\n\nవివరణ: దేవుడే దారి తెరిచాడు."}]},
-{id:3,title:"📖 బుక్ 3 - కీర్తనలు వివరణ",desc:"దావీదు ప్రార్థన",chapters:[{t:"అధ్యాయం 1 - కీర్తన 23",c:"కీర్తన 23:1 - యెహోవా నా కాపరి, నాకు లేమి కలుగదు."}]},
+{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",chapters:[{t:"అధ్యాయం 1 - సృష్టి",c:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.\n\nవివరణ: దేవుడే అన్నిటికి మొదలు."}]},
+{id:2,title:"📖 బుక్ 2 - నిర్గమకాండం వివరణ",desc:"ఐగుప్తు నుండి విడుదల",chapters:[{t:"అధ్యాయం 1 - విడుదల",c:"నిర్గమ 14:14 - యెహోవా మీ పక్షాన యుద్ధం చేస్తాడు."}]},
+{id:3,title:"📖 బుక్ 3 - కీర్తనలు వివరణ",desc:"దావీదు ప్రార్థన",chapters:[{t:"అధ్యాయం 1 - కీర్తన 23",c:"కీర్తన 23:1 - యెహోవా నా కాపరి."}]},
 {id:4,title:"📖 బుక్ 4 - సువార్త వివరణ",desc:"యేసు జీవితం",chapters:[{t:"అధ్యాయం 1 - యోహాను 3:16",c:"యోహాను 3:16 - దేవుడు లోకాన్ని ఎంతో ప్రేమించాడు."}]},
 {id:5,title:"📖 బుక్ 5 - ప్రకటన వివరణ",desc:"అంత్యకాలం - మరనాత",chapters:[{t:"అధ్యాయం 1 - ప్రకటన 22:20",c:"ప్రకటన 22:20 - ఆమెన్, ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు."}]},
 {id:6,title:"📖 బుక్ 6 - రోజువారీ మెసేజ్ లు",desc:"ప్రతి రోజు - ఒక చిన్న వాక్యం",chapters:[]}
@@ -175,11 +193,12 @@ async function loadAll(){
     if(b6 && posts.length){b6.chapters=posts.map(p=>({t:(p.title||'మెసేజ్')+' - '+(p.date||''),c:(p.content||p.message||''),img:p.image||'',audio:p.audio||''}));}
   }catch(e){}
   BOOKS=BOOKS.map(b=>{ if(!b.chapters||!b.chapters.length){ if(Array.isArray(b.pages)&&b.pages.length) b.chapters=b.pages.map(p=>({t:p.title||p.t||'',c:p.content||p.c||'',img:p.img||p.image||'',audio:p.audio||''})); } if(!b.chapters) b.chapters=[]; return b; });
-  renderBooks(); renderSavedBox(); renderContinueBox();
+  renderBooks();
 }
 function getChapters(b){return b.chapters||b.pages||[];}
 function saveBtnHTML(b){ let s=isSavedBook(b); return '<button class="btn-save '+(s?'saved':'')+'" data-save-id="'+getBookKey(b)+'" onclick="event.stopPropagation();toggleSaveBookById(\''+getBookKey(b)+'\',this)">'+(s?'✅ Saved / సేవ్ అయ్యింది':'🔖 Save / సేవ్')+'</button>'; }
 function renderBooks(){
+  showTopBoxes();
   let q=(document.getElementById('search').value||'').toLowerCase();
   let box=document.getElementById('box');document.getElementById('detail').innerHTML='';
   let list=BOOKS.filter(b=>((b.title||'')+(b.desc||'')+getChapters(b).map(c=>c.t||'').join(' ')).toLowerCase().includes(q));
@@ -190,9 +209,10 @@ function renderBooks(){
   list.forEach((b)=>{let ci=BOOKS.indexOf(b);h+=`<div class="hcard" onclick="openBookByIndex(${ci})"><div class="cover" style="background:${colors[ci%6]}">📖</div><b>${b.title}</b><small>📄 ${getChapters(b).length} పేజీలు</small><br><small style="color:#2E7D32;font-weight:bold">▶ చదవడం కొనసాగించు</small></div>`;});
   h+='</div><h3>📖 అన్ని పుస్తకాలు - లిస్ట్</h3>';
   h+=list.map(b=>{let ci=BOOKS.indexOf(b);return `<div class="book" onclick="openBookByIndex(${ci})"><div class="cover" style="background:${colors[ci%6]}">📖</div><div style="flex:1"><h3>${b.title} ${isSavedBook(b)?'✅':''}</h3><p>${b.desc||''}</p><div style="font-size:13px;color:gray">📄 ${getChapters(b).length} పేజీలు ➡️</div><div class="book-actions">${saveBtnHTML(b)}</div></div></div>`;}).join('');
-  box.innerHTML=h; renderContinueBox();
+  box.innerHTML=h;
 }
 function openBookByIndex(idx){
+  hideTopBoxes();
   currentIdx=idx; currentBook=BOOKS[idx]; if(!currentBook) return;
   document.getElementById('box').innerHTML='';
   let d=document.getElementById('detail');
@@ -206,13 +226,12 @@ function openPage(i){
   addHistory(getBookKey(currentBook), i);
   let total=getChapters(currentBook).length; let bookId=getBookKey(currentBook); let underlined=getUnderlinedLines(bookId,i);
   let lines=String(ch.c||'').split('\n');
-  // ప్రతి లైన్ ని వేరు వేరు SPAN గా చేస్తున్నాం - అందుకే ఒక్క లైన్ మాత్రమే మారుతుంది
   let linesHTML=lines.map((ln,li)=>{ if(!ln.trim()) return '<div style="height:8px"></div>'; let cls=underlined.includes(li)?'uline underlined':'uline'; return '<span class="'+cls+'" data-line="'+li+'" onclick="toggleLineUnderline(\''+bookId+'\','+i+','+li+',this)">'+escapeHtml(ln)+'</span>'; }).join('');
   document.getElementById('bookModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:28px">✝️</div><div style="font-size:14px;color:gray">📖 ${escapeHtml(currentBook.title)}</div><div class="hint-line">👆 కావాల్సిన లైన్ మీద నొక్కండి - ఆ లైన్ మాత్రమే పసుపు అవుతుంది</div><div class="page" id="pageBox" style="margin:12px 0"><h3>${escapeHtml(ch.t)}</h3>${ch.img?`<img src="${ch.img}">`:''}<div>${linesHTML}</div>${ch.audio?`<audio controls src="${ch.audio}" style="width:100%;margin-top:10px"></audio>`:''}<div style="font-size:12px;color:#888;margin-top:10px">👈 👉 పక్కకి లాగితే పేజీ మారుతుంది</div><div style="margin-top:15px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="openPage(${Math.max(0,i-1)})">⬅ ముందు పేజీ</button><button class="btn2 btnOrange" onclick="openPage(${Math.min(total-1,i+1)})">తర్వాత పేజీ ➡️</button></div><div style="font-size:13px;color:gray;margin-top:8px">పేజీ ${i+1} / ${total}</div></div><div class="book-actions">${saveBtnHTML(currentBook)}</div></div>`;
   document.getElementById('bookModal').style.display='flex';
   let sc=document.getElementById('bookScroll'); if(sc) sc.scrollTop=0;
 }
-function closeBookPage(){ document.getElementById('bookModal').style.display='none'; renderSavedBox(); renderContinueBox(); }
+function closeBookPage(){ document.getElementById('bookModal').style.display='none'; }
 document.getElementById('bookModal').addEventListener('click',e=>{ if(e.target.id==='bookModal') closeBookPage(); });
 let bookTouchX=0, bookTouchY=0; let bookScrollEl=document.getElementById('bookScroll');
 if(bookScrollEl){
