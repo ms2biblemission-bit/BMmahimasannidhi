@@ -7,7 +7,6 @@
 <meta name="theme-color" content="#673AB7">
 <style>
 body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0}
-/* ✅ ప్రార్థన సొంత కలర్ - పర్పుల్ 25% గ్లాస్ మాత్రమే */
 .header{background:linear-gradient(90deg, rgba(100,0,180,0.25), rgba(180,80,255,0.25) 50%, rgba(70,0,130,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .header a{color:#4A0080;text-decoration:none;font-weight:bold}
 .header img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
@@ -17,49 +16,65 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
 .card{border:1px solid #eee;padding:12px;border-radius:12px;margin:10px 0;background:#FFFBFE}
 .done{background:#E8F5E9;border:2px solid #4CAF50}
 .small{font-size:13px;color:gray}
+.lockBox{background:white;margin:12px;padding:24px;border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,0.1);text-align:center}
+.pinInput{font-size:28px!important;text-align:center;letter-spacing:12px;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅️ వెనక్కి</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#4A0080;font-weight:bold">📖 బైబిల్ మిషన్</div><h1 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h1><div style="font-size:15px;font-weight:bold;margin-top:2px">🙏 ప్రార్థన డైరీ</div><div style="font-size:13px;opacity:.9">నా ప్రార్థన - దేవుని జవాబు</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅️ వెనక్కి</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#4A0080;font-weight:bold">📖 బైబిల్ మిషన్</div><h1 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h1><div style="font-size:15px;font-weight:bold;margin-top:2px">🙏 ప్రార్థన డైరీ</div><div style="font-size:13px;opacity:.9">నా ప్రార్థన - దేవుని జవాబు - పూర్తిగా పర్సనల్ 🔒</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
-<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
-  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - ప్రార్థన డైరీ</div>
-  <div style="font-size:12px;color:#666;margin:3px 0 10px">ప్రార్థన రాయండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
+<!-- ✅ పర్సనల్ బాక్స్ - షేర్ లేదు! -->
+<div style="background:#F3E8FF;border:2px solid #CE93D8;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#4A0080;font-size:17px">🔒 నా ప్రార్థన డైరీ - పూర్తిగా పర్సనల్</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">మీ ప్రార్థనలు మీ ఫోన్ లోనే ఉంటాయి - ఎవరికీ వెళ్ళవు - షేర్ అవ్వవు</div>
   <div style="display:flex;gap:8px">
-    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="toggleLockUI()" id="lockBtn" style="flex:1;background:#673AB7;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">🔒 లాక్ పెట్టండి</button>
     <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
   </div>
-  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
+  <div style="font-size:11px;color:#888;margin-top:6px">🔒 లాక్ పెడితే పిన్ లేకుండా ఎవరూ చూడలేరు</div>
 </div>
 
+<!-- 🔒 లాక్ స్క్రీన్ - పిన్ కొట్టేవరకూ ఇదే కనబడుతుంది -->
+<div id="lockScreen" style="display:none">
+  <div class="lockBox">
+    <div style="font-size:50px">🔒</div>
+    <h2 style="color:#673AB7;margin:8px 0">ప్రార్థన డైరీ లాక్ లో ఉంది</h2>
+    <p style="color:gray;font-size:14px">మీ 4 అంకెల పిన్ వేయండి - మీ ప్రార్థనలు మీకే కనబడతాయి</p>
+    <input id="unlockPin" class="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="••••" oninput="if(this.value.length===4) unlockDiary()">
+    <button class="btn" onclick="unlockDiary()" style="margin-top:10px">🔓 ఓపెన్ చేయండి</button>
+    <p id="lockError" style="color:red;font-size:13px;display:none">❌ తప్పు పిన్! మళ్ళీ ప్రయత్నించండి</p>
+    <p style="font-size:12px;color:#999;margin-top:12px">పిన్ మర్చిపోయారా? ఫోన్ లో యాప్ డేటా క్లియర్ చేస్తేనే ఓపెన్ అవుతుంది.<br>కాబట్టి గుర్తుండే నంబర్ పెట్టుకోండి 🙏</p>
+  </div>
+</div>
+
+<!-- 🔒 పిన్ సెట్ చేసే బాక్స్ -->
+<div id="setPinBox" style="display:none">
+  <div class="lockBox">
+    <div style="font-size:40px">🔐</div>
+    <h3 style="color:#673AB7">కొత్త పిన్ పెట్టండి</h3>
+    <p style="color:gray;font-size:13px">గుర్తుండే 4 అంకెలు పెట్టుకోండి - ఉదా: పుట్టిన సంవత్సరం చివరి 4 అంకెలు</p>
+    <input id="newPin" class="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+    <input id="confirmPin" class="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="మళ్ళీ అదే పిన్ ••••" style="margin-top:8px">
+    <button class="btn" onclick="savePin()">✅ లాక్ పెట్టండి</button>
+    <button onclick="document.getElementById('setPinBox').style.display='none'" style="background:none;border:none;color:#673AB7;font-weight:bold;padding:12px;width:100%">వద్దు - మూసేయండి</button>
+  </div>
+</div>
+
+<div id="mainContent">
 <div class="box">
 <input id="pTitle" placeholder="🙏 ఎవరి కోసం? ఉదా: నా కొడుకు ఉద్యోగం">
 <textarea id="pText" rows="3" placeholder="ప్రార్థన వివరంగా రాయండి..."></textarea>
 <button class="btn" onclick="addPrayer()">➕ ప్రార్థన చేర్చండి</button>
-<p style="font-size:13px;color:gray;text-align:center;">📵 ఆఫ్ లైన్ లో కూడా సేవ్ అవుతుంది - మీ ఫోన్ లోనే ఉంటుంది</p>
+<p style="font-size:13px;color:gray;text-align:center;">🔒 పూర్తిగా పర్సనల్ - మీ ఫోన్ లోనే ఉంటుంది - ఎవరికీ షేర్ అవ్వదు<br>📵 ఆఫ్ లైన్ లో కూడా సేవ్ అవుతుంది</p>
 </div>
 <div class="box"><h3 style="margin:0;color:#673AB7;">📜 నా ప్రార్థనలు</h3><div id="list"></div></div>
+<div style="text-align:center;padding:0 12px 20px">
+<button onclick="lockNow()" style="background:#eee;border:none;padding:11px 20px;border-radius:20px;font-weight:bold;color:#673AB7">🔒 ఇప్పుడే లాక్ చేయండి</button>
+<button onclick="removePin()" style="background:none;border:none;padding:11px;color:#999;font-size:13px">లాక్ తీసేయండి</button>
+</div>
+</div>
+
 <script>
-function shareAnyPage(){
-  let pageLink = window.location.href;
-  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
-  let text = "🙏 BM మహిమ సన్నిధి - ప్రార్థన డైరీ 🙏\nనా ప్రార్థన రాసుకుని - దేవుని జవాబు చూడండి 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
-  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
-}
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault(); deferredPrompt = e;
-  let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి";
-});
-function installAppUniversal(){
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
-  } else {
-    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
-  }
-}
-// ✅ బ్యాక్ ఫిక్స్ - 1 బ్యాక్ = హోమ్, 2 బ్యాక్ = క్లోజ్
 document.querySelectorAll('a[href]').forEach(a=>{
   let h = a.getAttribute('href');
   if(!h) return;
@@ -72,6 +87,89 @@ document.querySelectorAll('a[href]').forEach(a=>{
 });
 window.addEventListener('popstate', function(){ location.replace('index.html'); });
 
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault(); deferredPrompt = e;
+});
+function installAppUniversal(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
+  } else {
+    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
+  }
+}
+
+// ===== 🔒 లాక్ లాజిక్ - ఇదే మెయిన్! =====
+function getPin(){ return localStorage.getItem('ms_prayer_pin') || ''; }
+function updateLockBtn(){
+  let btn = document.getElementById('lockBtn');
+  if(!btn) return;
+  btn.textContent = getPin() ? '🔓 లాక్ ఉంది - మార్చండి' : '🔒 లాక్ పెట్టండి';
+}
+function checkLockOnLoad(){
+  updateLockBtn();
+  if(getPin()){
+    // పిన్ ఉంటే - మెయిన్ కంటెంట్ దాచేసి లాక్ చూపించు!
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('lockScreen').style.display = 'block';
+    setTimeout(()=>{ let i=document.getElementById('unlockPin'); if(i) i.focus(); }, 300);
+  }
+}
+function unlockDiary(){
+  let entered = document.getElementById('unlockPin').value.trim();
+  if(entered === getPin() && entered !== ''){
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('unlockPin').value = '';
+    document.getElementById('lockError').style.display = 'none';
+  } else {
+    document.getElementById('lockError').style.display = 'block';
+    document.getElementById('unlockPin').value = '';
+    document.getElementById('unlockPin').focus();
+  }
+}
+function toggleLockUI(){
+  if(getPin()){
+    if(confirm('లాక్ మార్చాలా? పాత పిన్ తీసేసి కొత్తది పెట్టొచ్చు.')){
+      document.getElementById('setPinBox').style.display = 'block';
+      document.getElementById('setPinBox').scrollIntoView({behavior:'smooth'});
+    }
+  } else {
+    document.getElementById('setPinBox').style.display = 'block';
+    document.getElementById('setPinBox').scrollIntoView({behavior:'smooth'});
+  }
+}
+function savePin(){
+  let p1 = document.getElementById('newPin').value.trim();
+  let p2 = document.getElementById('confirmPin').value.trim();
+  if(p1.length !== 4 || !/^\d{4}$/.test(p1)){ alert('4 అంకెలు మాత్రమే పెట్టండి అండి!'); return; }
+  if(p1 !== p2){ alert('రెండు సార్లు ఒకే పిన్ వేయండి అండి!'); return; }
+  localStorage.setItem('ms_prayer_pin', p1);
+  document.getElementById('newPin').value=''; document.getElementById('confirmPin').value='';
+  document.getElementById('setPinBox').style.display='none';
+  updateLockBtn();
+  alert('✅ లాక్ పెట్టేసారు! ఇప్పటి నుండి పిన్ లేకుండా ఎవరూ చూడలేరు 🔒');
+}
+function lockNow(){
+  if(!getPin()){ alert('ముందు లాక్ పెట్టండి అండి - పైన 🔒 లాక్ పెట్టండి నొక్కండి'); toggleLockUI(); return; }
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('lockScreen').style.display='block';
+  window.scrollTo(0,0);
+}
+function removePin(){
+  if(!getPin()){ alert('లాక్ లేదు అండి!'); return; }
+  let p = prompt('లాక్ తీసేయడానికి మీ పిన్ వేయండి:');
+  if(p === getPin()){
+    localStorage.removeItem('ms_prayer_pin');
+    updateLockBtn();
+    alert('✅ లాక్ తీసేసారు!');
+  } else if(p !== null){
+    alert('❌ తప్పు పిన్!');
+  }
+}
+
+// ===== పాత ప్రార్థన లాజిక్ - అదే! =====
 let prayers = JSON.parse(localStorage.getItem('ms_prayers')||'[]');
 function save(){ localStorage.setItem('ms_prayers', JSON.stringify(prayers)); render(); }
 function addPrayer(){
@@ -90,6 +188,7 @@ function render(){
   box.innerHTML = prayers.map((p,i)=>`<div class="card ${p.done?'done':''}"><b>${p.done?'✅ ':'🙏 '} ${p.t}</b><div style="white-space:pre-line;margin:6px 0;">${p.d}</div><div class="small">📅 ${p.date}</div><div style="display:flex;gap:8px;margin-top:8px;"><button onclick="toggle(${i})" style="flex:1;padding:9px;border:none;border-radius:8px;background:${p.done?'#4CAF50':'#673AB7'};color:white;font-weight:bold;">${p.done?'✅ జవాబు వచ్చింది - స్తోత్రం':'✓ జవాబు వచ్చింది అని నొక్కండి'}</button><button onclick="del(${i})" style="padding:9px 12px;border:none;border-radius:8px;background:#eee;">🗑️</button></div></div>`).join('');
 }
 render();
+checkLockOnLoad();
 </script>
 </body>
 </html>
