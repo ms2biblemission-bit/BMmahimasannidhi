@@ -21,6 +21,31 @@
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
 body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
+/* ===== కొత్తది 1: పైన ☰ టాప్ బార్ + డ్రాయర్ ===== */
+.topbar{position:sticky;top:0;z-index:95;background:#0B3D2E;color:#fff;display:flex;align-items:center;gap:10px;padding:9px 12px}
+.topbar button{background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer}
+.topbar b{flex:1;text-align:center;font-size:18px}
+.drawer{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300}
+.drawer.open{display:block}
+.drawerBox{background:#fff;width:82%;max-width:320px;height:100%;overflow-y:auto;padding:0}
+.drawerTop{height:150px;background:#ddd;background-size:cover;background-position:center;display:flex;align-items:flex-end}
+.drawerTop span{background:rgba(0,0,0,.45);color:#fff;padding:8px;width:100%;font-weight:bold}
+.menu-item{display:flex;gap:14px;align-items:center;padding:14px 18px;border-bottom:1px solid #eee;cursor:pointer;font-size:17px;color:#333}
+.menu-item small{display:block;color:#888;font-size:12px}
+/* ===== కొత్తది 2: లాస్ట్ రీడింగ్ + 4 బాక్స్ లు ===== */
+.main-last{background:#D9EAD3;border:2px solid #2E7D32;border-radius:20px;padding:16px;margin:12px}
+.main-last-item{background:#fff;padding:14px 12px;border-radius:12px;margin:0 0 12px;cursor:pointer}
+.main-last .bar{height:8px;background:#C8E6C9;border-radius:10px;margin-top:10px;overflow:hidden}
+.main-last .bar i{display:block;height:100%;background:#2E7D32}
+.show-more-btn{width:100%;border:none;background:#fff;padding:12px;border-radius:12px;font-weight:bold;color:#0B3D2E;cursor:pointer;border:1px solid #ccc;font-size:15px}
+.main-menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 12px}
+.main-card{background:#fff;border-radius:20px;padding:18px 10px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.1);border:2px solid #eee}
+.main-card b{display:block;font-size:17px;color:#0B3D2E;margin-top:8px}
+.main-card small{color:#888}
+/* ===== కొత్తది 3: కింద సైట్ లింక్ ===== */
+.site-link{background:#0B3D2E;color:#fff;border-radius:16px;padding:16px;margin:12px;text-align:center}
+.site-link a{color:#FFE082;font-weight:bold;word-break:break-all}
+.site-link button{background:#fff;color:#0B3D2E;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;margin-top:10px;cursor:pointer}
 .header{background:linear-gradient(90deg, rgba(255,138,0,0.25), rgba(255,87,130,0.25) 50%, rgba(128,0,128,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:15px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border-bottom:1px solid rgba(255,255,255,0.8)}
 .header img{width:62px;height:62px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .bible-mission{font-size:15px;font-weight:900;letter-spacing:2px;color:#7A2A00}
@@ -65,6 +90,21 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </style>
 </head>
 <body>
+<!-- ===== కొత్తది 1: పైన ☰ టాప్ బార్ ===== -->
+<div class="topbar"><button onclick="document.getElementById('drawer').classList.add('open')">☰</button><b>🙏 BM మహిమ సన్నిధి</b><button onclick="location.href='books.html'">📚</button></div>
+<div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') this.classList.remove('open')"><div class="drawerBox">
+<div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
+<div class="menu-item" onclick="location.href='index.html'">🏠 <span>Home<small>మెయిన్ పేజీ</small></span></div>
+<div class="menu-item" onclick="location.href='books.html'">📚 <span>Books<small>పుస్తకాలు</small></span></div>
+<div class="menu-item" onclick="location.href='songs.html'">🎵 <span>Songs<small>పాటలు</small></span></div>
+<div class="menu-item" onclick="location.href='gallery.html'">🖼️ <span>Gallery<small>ఫోటోలు</small></span></div>
+<div class="menu-item" onclick="location.href='voice.html'">🎤 <span>Voice Gallery<small>వాయిస్ సందేశాలు</small></span></div>
+<div class="menu-item" onclick="location.href='books.html'">🕒 <span>History<small>లాస్ట్ రీడింగ్</small></span></div>
+<div class="menu-item" onclick="location.href='books.html'">🔖 <span>Bookmarks<small>సేవ్ చేసినవి</small></span></div>
+<div class="menu-item" onclick="location.href='books.html'">✏️ <span>Highlights<small>Underline పెట్టినవి</small></span></div>
+<div class="menu-item" onclick="shareAnyPage()">📤 <span>Share App</span></div>
+</div></div>
+
 <div class="header">
   <img src="jesus.jpg" alt="యేసు">
   <div style="flex:1;text-align:center">
@@ -74,6 +114,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
     <div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div>
   </div>
   <img src="devadasu.jpg" alt="దేవదాసు">
+</div>
+
+<!-- ===== కొత్తది 2: లాస్ట్ రీడింగ్ + 4 బాక్స్ లు - హెడ్డర్ కిందనే ===== -->
+<div id="mainLastBox"></div>
+<div class="main-menu">
+  <div class="main-card" onclick="location.href='books.html'"><div style="font-size:42px">📚</div><b>బుక్స్</b><small>పుస్తకాలు చదవండి</small></div>
+  <div class="main-card" onclick="location.href='songs.html'"><div style="font-size:42px">🎵</div><b>పాటలు</b><small>పాటలు పాడండి</small></div>
+  <div class="main-card" onclick="location.href='gallery.html'"><div style="font-size:42px">🖼️</div><b>గ్యాలరీ</b><small>ఫోటోలు చూడండి</small></div>
+  <div class="main-card" onclick="location.href='voice.html'"><div style="font-size:42px">🎤</div><b>వాయిస్</b><small>వాయిస్ గ్యాలరీ</small></div>
 </div>
 
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
@@ -150,6 +199,9 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
 
+<!-- ===== కొత్తది 3: కింద మన సైట్ లింక్ ===== -->
+<div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
+
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 
 <div class="modal" id="chatModal"><div class="modalBox">
@@ -191,6 +243,21 @@ function installAppUniversal(){
     if(h) h.textContent="✅ కింద గ్రీన్ బటన్ నొక్కండి";
   }
 }
+// ===== కొత్తది: మెయిన్ లో లాస్ట్ రీడింగ్ - బుక్స్ లోదే వస్తుంది =====
+let mainExpand=false;
+async function renderMainLast(){
+  let box=document.getElementById('mainLastBox'); if(!box) return;
+  let h=[]; try{ h=JSON.parse(localStorage.getItem('ms_history_books')||'[]'); }catch(e){}
+  if(!h.length){ box.innerHTML=''; return; }
+  let BOOKS=[]; try{ let r=await fetch('books.json?v='+Date.now()); if(r.ok){ let j=await r.json(); if(Array.isArray(j)) BOOKS=j; } }catch(e){}
+  try{ let s=localStorage.getItem('ms_books'); if(s){ let j=JSON.parse(s); if(j&&j.length) BOOKS=j; } }catch(e){}
+  let shown=mainExpand?h:h.slice(0,2);
+  let html='<div class="main-last"><h3 style="margin:0 0 8px;color:#0B3D2E">📖 లాస్ట్ రీడింగ్ - అన్నీ</h3>';
+  shown.forEach(last=>{ let b=BOOKS.find(x=>String(x.id!=null?x.id:x.title)===String(last.bookId)); if(!b) return; let ch=b.chapters||b.pages||[]; let t=ch[last.page]?(ch[last.page].t||ch[last.page].title||''):''; let pct=ch.length?Math.round(((last.page+1)/ch.length)*100):0; html+='<div class="main-last-item" onclick="location.href=\'books.html\'"><b>'+b.title+'</b><br><small>'+t+' • పేజీ '+(last.page+1)+' / '+ch.length+' • '+last.time+' ➡️</small><div class="bar"><i style="width:'+pct+'%"></i></div></div>'; });
+  if(h.length>2) html+='<button class="show-more-btn" onclick="mainExpand=!mainExpand;renderMainLast()">'+(mainExpand?'⬆️ తగ్గించండి - 2 మాత్రమే చూపించు':'⬇️ ఇంకా చూడండి - మరో '+(h.length-2)+' ఉన్నాయి')+'</button>';
+  html+='</div>'; box.innerHTML=html;
+}
+renderMainLast();
 // --- Books Save / Underline - only for books ---
 function getSavedBooks(){ try{ return JSON.parse(localStorage.getItem('ms_saved_books')||'[]'); }catch(e){ return []; } }
 function toggleSaveBook(title, btn){
@@ -386,4 +453,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+  </html>
