@@ -8,6 +8,18 @@
 <body>
 <!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
 <div class="head"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅ హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2>మహిమ సన్నిధి</h2><div style="font-size:14px;font-weight:bold;margin-top:2px">🖼️ ఫోటో గ్యాలరీ</div><div style="font-size:12px;opacity:.9">నెల వారీగా - ఏ నెల ఈవెంట్ ఆ నెలలో!</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+
+<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - ఫోటోలు</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">ఫోటోలు చూడండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+  </div>
+  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
+</div>
+
 <div class="wrap"><div id="main">లోడ్ అవుతోంది...</div><p style="text-align:center;color:gray;font-size:13px">అడ్మిన్ లో ఫోటో పెట్టేటప్పుడు డేట్ పెడితే - ఆ నెల ఫోల్డర్ లో ఆటోమేటిక్ గా వస్తుంది!</p></div>
 <div id="modal" onclick="this.style.display='none'"><img id="bigImg"><div id="bigTxt"></div><div>నొక్కితే మూసుకుంటుంది ✖</div></div>
 <nav class="bottom-nav">
@@ -18,6 +30,26 @@
   <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్</a>
 </nav>
 <script>
+// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
+function shareAnyPage(){
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = "🙏 BM మహిమ సన్నిధి - ఫోటోలు 🖼️\nసన్నిధి ఈవెంట్ ఫోటోలు చూడండి 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault(); deferredPrompt = e;
+  let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి";
+});
+function installAppUniversal(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
+  } else {
+    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
+  }
+}
 let allPics=[];
 let curMonth="";
 const telMonths={"01":"జనవరి","02":"ఫిబ్రవరి","03":"మార్చి","04":"ఏప్రిల్","05":"మే","06":"జూన్","07":"జూలై","08":"ఆగస్టు","09":"సెప్టెంబర్","10":"అక్టోబర్","11":"నవంబర్","12":"డిసెంబర్"};
