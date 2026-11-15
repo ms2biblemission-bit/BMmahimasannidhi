@@ -33,20 +33,26 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .card{background:white;border-radius:16px;padding:18px 8px;text-align:center;text-decoration:none;color:#333;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:block;cursor:pointer;border:none;width:100%;font-size:16px}
 .card img{width:55px;height:55px;object-fit:contain;margin-bottom:6px}
 .card-text{font-weight:bold;font-size:16px}
-.vakya-card{background:white;margin:12px;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.vakya-card{background:#FFFEF8;margin:12px;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .vakya-card img{width:100%;border-radius:12px;margin-bottom:12px;max-height:380px;object-fit:cover;display:none}
 .section{background:white;margin:12px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .section h3{margin:0 0 10px;color:#0B3D2E}
 .post{border-bottom:1px solid #eee;padding:12px 0;cursor:pointer}
 .post img{width:100%;border-radius:12px;margin:10px 0;max-height:320px;object-fit:cover;display:block}
-.post .p-title{font-weight:bold;color:#0B3D2E;font-size:18px;text-align:center}
-.post .p-content{white-space:pre-line;font-size:16px;text-align:center;line-height:1.7;margin-top:8px}
+.post .p-title{font-weight:700;color:#0F2F6B;font-size:22px;text-align:center;line-height:1.4}
+.post .p-content{white-space:pre-line;font-size:17px;text-align:center;line-height:1.7;margin-top:8px;color:#3B2314;font-weight:500}
+.post .p-content.underlined{background:#FFF3A6;padding:4px 6px;border-radius:6px;text-decoration:underline;text-decoration-color:#E6B800;text-decoration-thickness:2px}
 .post .p-date{font-size:13px;color:gray;text-align:center;margin-top:6px}
 .share-row{display:flex;gap:8px;margin-top:10px}
 .share-row button{flex:1;border:none;padding:11px 5px;border-radius:10px;font-weight:bold;font-size:14px;cursor:pointer;color:white}
 .btn-fb{background:#1877F2}
 .btn-wa{background:#25D366}
 .btn-copy{background:#0B3D2E}
+.book-actions{display:flex;gap:8px;margin-top:10px}
+.book-actions button{flex:1;border:none;padding:11px 5px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer}
+.btn-save{background:#DCE8FF;color:#0F2F6B;border:1px solid #0F2F6B !important}
+.btn-save.saved{background:#0F2F6B;color:white}
+.btn-underline{background:#8D6E4A;color:white}
 .qr-box{text-align:center}
 .qr-box img{width:260px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #0B3D2E}
 .install-btn{display:block;background:#4CAF50;color:white;border:none;padding:14px 20px;border-radius:10px;font-size:19px;font-weight:bold;margin:15px auto;cursor:pointer;width:calc(100% - 24px)}
@@ -83,7 +89,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
   <a href="quiz.html" style="flex:1;background:linear-gradient(135deg,#FF9800,#FF5722);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;box-shadow:0 4px 12px rgba(255,87,34,0.4);">🎯<br>రోజుకో ప్రశ్న<br><small>సాయంత్రం జవాబు</small></a>
   <a href="daily.html" style="flex:1;background:linear-gradient(135deg,#0B3D2E,#1a7a5c);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;">📖<br>రోజుకో వాక్యం<br><small>365 రోజులు</small></a>
-  <a href="prayer.html" style="flex:1;background:linear-gradient(135deg,#673AB7,#9C27B0);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;">🙏<br>ప్రార్థన డైరీ<br><small>నా ప్రార్థన</small></a>
+  <a href="prayer.html" style="flex:1;background:linear-gradient(135deg,#673AB7,#9C27B0);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;">🙏<br>ప్రార్థన డైరీ<br><small>నా ప్రార్థన</small></a>
 </div>
 
 <div class="logo-row">
@@ -108,10 +114,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 
 <div class="vakya-card" id="topCard">
+  <div style="font-size:28px">✝️</div>
   <img id="topImage" src="">
   <div>💬 వాక్యం</div>
-  <div id="topTitle" style="font-weight:bold;margin:12px 0;font-size:20px;color:#0B3D2E">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
-  <div id="topContent" style="white-space:pre-line;font-size:16px"></div>
+  <div id="topTitle" style="font-weight:700;margin:12px 0;font-size:22px;color:#0F2F6B;line-height:1.4">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
+  <div id="topContent" style="white-space:pre-line;font-size:17px;color:#3B2314;font-weight:500;line-height:1.7"></div>
   <div id="topDate">📅 4/11/2026</div>
   <div id="topShare" class="share-row"></div>
 </div>
@@ -178,12 +185,24 @@ function installAppUniversal(){
       window.deferredPrompt=null;
     });
   } else {
-    // OK popup ఇక చూపించం - కింద గ్రీన్ బటన్ దగ్గరకు తీసుకెళ్తాం
     let b = document.getElementById('installBtn');
     if(b){ b.style.display='block'; b.scrollIntoView({behavior:'smooth'}); }
     let h=document.getElementById('installHint');
     if(h) h.textContent="✅ కింద గ్రీన్ బటన్ నొక్కండి";
   }
+}
+// --- Books Save / Underline - only for books ---
+function getSavedBooks(){ try{ return JSON.parse(localStorage.getItem('ms_saved_books')||'[]'); }catch(e){ return []; } }
+function toggleSaveBook(title, btn){
+  let saved = getSavedBooks();
+  let i = saved.indexOf(title);
+  if(i>=0){ saved.splice(i,1); btn.textContent='🔖 Save / సేవ్'; btn.classList.remove('saved'); }
+  else { saved.push(title); btn.textContent='✅ Saved / సేవ్ అయ్యింది'; btn.classList.add('saved'); }
+  localStorage.setItem('ms_saved_books', JSON.stringify(saved));
+}
+function toggleUnderlineBook(id, btn){
+  let el = document.getElementById('book-desc-'+id);
+  if(el){ el.classList.toggle('underlined'); btn.textContent = el.classList.contains('underlined') ? '✅ Underline అయ్యింది' : '✏️ Underline / అండర్ లైన్'; }
 }
 let allPosts = [];
 let allBooks = [];
@@ -297,13 +316,14 @@ function renderPosts(){
   let bBox=document.getElementById('booksResult');
   if(q && allBooks.length){
     let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q));
-    if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map(b=>`<div class="post" onclick="location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content">${b.desc||''}</div><div class="p-date">👆 నొక్కితే బుక్స్ ఓపెన్ అవుతుంది</div></div>`).join('');
+    let saved = getSavedBooks();
+    if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map((b,bi)=>`<div class="post" onclick="event.stopPropagation();location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content" id="book-desc-${bi}">${b.desc||''}</div><div class="book-actions" onclick="event.stopPropagation()"><button class="btn-save ${saved.includes(b.title)?'saved':''}" onclick="toggleSaveBook('${(b.title||'').replace(/'/g,"\\'")}',this)">${saved.includes(b.title)?'✅ Saved / సేవ్ అయ్యింది':'🔖 Save / సేవ్'}</button><button class="btn-underline" onclick="toggleUnderlineBook(${bi},this)">✏️ Underline / అండర్ లైన్</button></div><div class="p-date">👆 నొక్కితే బుక్స్ ఓపెన్ అవుతుంది</div></div>`).join('');
     else bBox.innerHTML='';
   } else bBox.innerHTML='';
 }
 function openPost(i){
   let p=allPosts[i]; if(!p) return;
-  document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0B3D2E;text-align:center">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook లో పెట్టు</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`;
+  document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0F2F6B;text-align:center;font-weight:700;font-size:22px">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center;color:#3B2314;font-weight:500">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook లో పెట్టు</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`;
   document.getElementById('postModal').style.display='flex'; lockBody();
 }
 function closePost(){ document.getElementById('postModal').style.display='none'; unlockBody(); }
