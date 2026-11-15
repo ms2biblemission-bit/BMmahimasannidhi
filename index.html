@@ -21,7 +21,6 @@
 html,body{font-family:sans-serif;background:#E8F5E9;margin:0;padding:0;width:100%;overflow-x:hidden}
 body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
-/* ✅ 1 - ఫైనల్ - 25% మాత్రమే - గ్లాస్ లాగా */
 .header{background:linear-gradient(90deg, rgba(255,138,0,0.25), rgba(255,87,130,0.25) 50%, rgba(128,0,128,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:15px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border-bottom:1px solid rgba(255,255,255,0.8)}
 .header img{width:62px;height:62px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .bible-mission{font-size:15px;font-weight:900;letter-spacing:2px;color:#7A2A00}
@@ -50,7 +49,7 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .btn-copy{background:#0B3D2E}
 .qr-box{text-align:center}
 .qr-box img{width:260px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #0B3D2E}
-.install-btn{display:none;background:#0B3D2E;color:white;border:none;padding:12px 20px;border-radius:30px;font-size:16px;font-weight:bold;margin:15px auto;cursor:pointer}
+.install-btn{display:block;background:#4CAF50;color:white;border:none;padding:14px 20px;border-radius:10px;font-size:19px;font-weight:bold;margin:15px auto;cursor:pointer;width:calc(100% - 24px)}
 input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;align-items:flex-end;justify-content:center}
@@ -76,7 +75,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div style="font-size:12px;color:#666;margin:3px 0 10px">రోజూ వాక్యం - పాటలు - బైబిల్ క్విజ్</div>
   <div style="display:flex;gap:8px">
     <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
-    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#4CAF50;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి</button>
   </div>
   <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
 </div>
@@ -117,7 +116,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div id="topShare" class="share-row"></div>
 </div>
 
-<div style="text-align:center"><button class="install-btn" id="installBtn">📱 యాప్ లాగా ఇన్‌స్టాల్ చేయండి</button></div>
+<div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి - ఇక్కడ నొక్కండి</button></div>
 
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / తేదీ / బుక్" oninput="renderPosts()">
 
@@ -172,8 +171,19 @@ function shareAnyPage(){
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
 function installAppUniversal(){
-  if(window.deferredPrompt){ window.deferredPrompt.prompt(); window.deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } window.deferredPrompt=null; }); }
-  else { alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen"); }
+  if(window.deferredPrompt){
+    window.deferredPrompt.prompt();
+    window.deferredPrompt.userChoice.then((r)=>{
+      if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); }
+      window.deferredPrompt=null;
+    });
+  } else {
+    // OK popup ఇక చూపించం - కింద గ్రీన్ బటన్ దగ్గరకు తీసుకెళ్తాం
+    let b = document.getElementById('installBtn');
+    if(b){ b.style.display='block'; b.scrollIntoView({behavior:'smooth'}); }
+    let h=document.getElementById('installHint');
+    if(h) h.textContent="✅ కింద గ్రీన్ బటన్ నొక్కండి";
+  }
 }
 let allPosts = [];
 let allBooks = [];
@@ -301,7 +311,7 @@ document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.i
 loadPosts();
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; window.deferredPrompt=e; document.getElementById('installBtn').style.display='block'; let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి"; });
-document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt) deferredPrompt.prompt(); };
+document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else { installAppUniversal(); } };
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
