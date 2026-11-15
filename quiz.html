@@ -29,6 +29,18 @@
 <body>
 <!-- ✅ కొత్త హెడర్ - పైన బైబిల్ మిషన్, కింద మహిమ సన్నిధి -->
 <div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:15px;font-weight:bold;margin-top:2px">🎯 బైబిల్ క్విజ్ - హార్డ్</div><div style="font-size:13px;opacity:.9">రోజూ కొత్త ప్రశ్నలు - తలుపు తట్టండి</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+
+<!-- ✅ UNIVERSAL SHARE + DOWNLOAD - కొత్తది -->
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
+  <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - క్విజ్</div>
+  <div style="font-size:12px;color:#666;margin:3px 0 10px">క్విజ్ ఆడండి - ఫ్రెండ్స్ కి షేర్ చేయండి</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="shareAnyPage()" style="flex:1;background:#25D366;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📤 Share</button>
+    <button onclick="installAppUniversal()" style="flex:1;background:#0B3D2E;color:white;border:none;padding:11px;border-radius:12px;font-weight:bold;cursor:pointer">📲 యాప్ డౌన్లోడ్</button>
+  </div>
+  <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
+</div>
+
 <div class="wrap">
 <div class="doorWrap" id="door" onclick="openDoor()">
   <div class="doorLeft">🚪<div class="doorHandle handleL"></div></div>
@@ -39,11 +51,38 @@
 <div id="quizArea" style="display:none">
   <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:19px;color:#0B3D2E">📖 <span id="quizDate"></span> - <span id="score">స్కోర్: 0 / 5</span></b><button class="closeBtn" onclick="closeDoor()">✖️ మూసేయండి</button></div>
   <div id="qList"></div>
+  <button onclick="shareScore()" style="width:100%;background:#25D366;color:white;border:none;padding:14px;border-radius:12px;font-weight:bold;font-size:17px;margin-top:10px">📤 నా స్కోర్ షేర్ చేయండి</button>
   <button onclick="closeDoor()" style="width:100%;background:#0B3D2E;color:white;border:none;padding:14px;border-radius:12px;font-weight:bold;font-size:17px;margin-top:10px">🚪 తలుపు మూసేసి బయటకు వెళ్ళండి</button>
 </div>
 </div>
 <nav class="bottom-nav"><a href="index.html"><span style="font-size:22px">🏠</span>హోమ్</a><a href="books.html"><span style="font-size:22px">📚</span>పుస్తకాలు</a><a href="songs.html"><span style="font-size:22px">🎵</span>పాటలు</a><a href="quiz.html" class="active"><span style="font-size:22px">🎯</span>క్విజ్</a></nav>
 <script>
+// ✅ కొత్త SHARE - పేజీ లింక్ + యాప్ డౌన్లోడ్ లింక్ రెండూ
+function shareAnyPage(){
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = "🙏 BM మహిమ సన్నిధి - క్విజ్ 🎯\nబైబిల్ క్విజ్ ఆడండి - రోజూ 5 కొత్త హార్డ్ ప్రశ్నలు 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+function shareScore(){
+  let pageLink = window.location.href;
+  let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
+  let text = "🎯 BM మహిమ సన్నిధి - బైబిల్ క్విజ్\n\nనేను ఈరోజు క్విజ్ లో " + score + " / 5 స్కోర్ చేసాను! 🙏\n\nనువ్వు కూడా ఆడి చూడు 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ 👇\n" + appLink + "\n\nమరనాత ✝️";
+  window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+}
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault(); deferredPrompt = e;
+  let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి";
+});
+function installAppUniversal(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
+  } else {
+    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
+  }
+}
 let score=0;
 // ✅ 30 హార్డ్ ప్రశ్నలు - రోజూ 5 మాత్రమే వస్తాయి
 let pool=[
@@ -106,7 +145,6 @@ function renderQ(){
     let card=document.createElement('div'); card.className='qCard';
     let h=document.createElement('div'); h.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; h.textContent=(qi+1)+". "+item.q;
     card.appendChild(h);
-    // ఆప్షన్లు కూడా రోజూ మార్చేసాం - గుర్తుపెట్టుకోలేరు
     let opts=item.o.map((txt,idx)=>({txt,idx})); opts.sort(()=>Math.random()-0.5);
     opts.forEach(o=>{
       let b=document.createElement('button'); b.className='opt'; b.textContent=o.txt;
