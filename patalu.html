@@ -1,1 +1,52 @@
-patalu
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MS2 Bible Mission - పాటలు | మహిమ సన్నిధి | BMmahimasannidhi</title>
+<meta name="description" content="MS2 Bible Mission మహిమ సన్నిధి పాటలు, పద్యములు, బుక్ వివరాలు. 152 నుండి 160 పేజీల పాటలు ఇక్కడ చదవండి.">
+<meta name="keywords" content="MS2 Bible Mission, Mahima Sannidhi, Telugu Christian Songs, పాటలు, పద్యము, బైబిల్ మిషన్">
+<style>
+body{font-family:system-ui;padding:12px;max-width:700px;margin:auto;background:#fff8ec}
+input{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;box-sizing:border-box;font-size:16px}
+.card{background:#fff;border:1px solid #eee;padding:14px;border-radius:12px;margin:12px 0}
+h1{color:#0B3D2E;text-align:center}h2{color:#b8860b}
+a{color:#0B3D2E}
+</style>
+</head>
+<body>
+<h1>🙏 MS2 Bible Mission</h1>
+<p style="text-align:center">మహిమ సన్నిధి - పాటలు | పద్యములు | బుక్స్</p>
+<p style="text-align:center"><a href="./index.html">🏠 హోమ్ కి వెళ్ళండి</a></p>
+<input id="search" placeholder="🔍 పాట పేరు, పదం వెతకండి... ఉదా: సైతాను" oninput="filterSongs()">
+<p id="count"></p>
+<div id="list">లోడ్ అవుతోంది... నెట్ ఉంటే ఒకసారి ఓపెన్ చేయండి, తర్వాత నెట్ లేకపోయినా వస్తుంది.</div>
+<script>
+let all=[];
+async function load(){
+ try{
+  let r=await fetch('songs.json');
+  all=await r.json();
+  // offline kosam save
+  localStorage.setItem('ms2_songs', JSON.stringify(all));
+ }catch(e){
+  try{ all=JSON.parse(localStorage.getItem('ms2_songs')||'[]'); }catch(e2){ all=[]; }
+ }
+ show(all);
+}
+function show(list){
+ document.getElementById('count').innerText = list.length + " పాటలు ఉన్నాయి";
+ document.getElementById('list').innerHTML = list.map((s,i)=>{
+  let t=s.title||'పాట '+(i+1);
+  let m=s.msg||s.content||'';
+  return `<div class="card"><h2>${t}</h2><p style="white-space:pre-line">${m}</p>${s.link?`<a href="${s.link}" target="_blank">🔗 లింక్</a>`:''}</div>`;
+ }).join('') || "ఇంకా పాటలు లేవు - Admin లో పెట్టండి";
+}
+function filterSongs(){
+ let q=document.getElementById('search').value.toLowerCase();
+ show(all.filter(s=>((s.title||'')+' '+(s.msg||s.content||'')).toLowerCase().includes(q)));
+}
+load();
+</script>
+</body>
+</html>
