@@ -8,7 +8,6 @@
 <meta name="theme-color" content="#FF9800">
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
-/* ✅ పాటలు సొంత కలర్ - ఆరెంజ్ / పసుపు 25% గ్లాస్ మాత్రమే */
 .header{background:linear-gradient(90deg, rgba(255,150,0,0.25), rgba(255,210,0,0.25) 50%, rgba(255,87,34,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .header a{color:#8B2E00;text-decoration:none;font-weight:bold}
 .header img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
@@ -20,8 +19,10 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
 .num{width:44px;height:44px;min-width:44px;border-radius:50%;background:#FF9800;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
 .modalBox{background:white;width:100%;max-width:600px;height:78vh;max-height:78vh;border-radius:20px 20px 0 0;padding:0;overflow:hidden;display:flex;flex-direction:column;margin-bottom:70px}
-.modalScroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 18px 40px}
+.modalScroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 18px 40px;touch-action:pan-y}
 .back{background:#FF9800;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
+.btn2{background:#2E7D32;color:white;border:none;padding:11px 16px;border-radius:20px;font-weight:bold;cursor:pointer}
+.btnOrange{background:#FF9800}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,0.12);border-top:1px solid rgba(255,255,255,0.9)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
@@ -57,7 +58,7 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
 <div id="folderView"></div>
 <div id="songView" style="display:none"></div>
 </div>
-<div class="modal" id="songModal"><div class="modalBox"><div style="text-align:right;padding:12px 12px 0;flex-shrink:0"><button onclick="closeSong()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div class="modalScroll"><div id="songModalContent"></div><div style="text-align:center;color:gray;font-size:13px;margin-top:20px">🙏 పాట పూర్తయింది</div></div></div></div>
+<div class="modal" id="songModal"><div class="modalBox"><div style="text-align:right;padding:12px 12px 0;flex-shrink:0"><button onclick="closeSong()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div class="modalScroll" id="songScroll"><div id="songModalContent"></div><div style="text-align:center;color:gray;font-size:13px;margin-top:20px">🙏 పాట పూర్తయింది</div></div></div></div>
 <nav class="bottom-nav">
   <a href="index.html"><span class="b-icon">🏠</span>హోమ్</a>
   <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
@@ -66,7 +67,6 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
   <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ✅ బ్యాక్ ఫిక్స్ - 1 బ్యాక్ = హోమ్, 2 బ్యాక్ = క్లోజ్
 document.querySelectorAll('a[href]').forEach(a=>{
   let h = a.getAttribute('href');
   if(!h) return;
@@ -101,6 +101,7 @@ function installAppUniversal(){
 let allSongs=[];
 let curFolder="";
 let curList=[];
+let curSongIndex = 0;
 let colors=["#FF9800","#2E7D32","#2196F3","#9C27B0","#E91E63","#009688","#FF5722","#673AB7"];
 async function load(){
   try{let r=await fetch('songs.json?v='+Date.now()); allSongs=await r.json();}catch(e){allSongs=[];}
@@ -236,14 +237,42 @@ function filterSongs(){
   renderSongCards(filtered);
   if(!q){ let box=document.getElementById('suggestBox'); if(box) box.style.display='none'; }
 }
+
+// ✅ స్వైప్ + బటన్ - పాట మార్చడానికి
+function getCurrentList(){
+  // ఫోల్డర్ లోంచి వచ్చినప్పుడు ఆ ఫోల్డర్ పాటలే, లేకపోతే అన్ని పాటలు
+  if(curList && curList.length && curFolder){
+    let check = curList[0];
+    if(getFolder(check) === curFolder) return curList;
+  }
+  return allSongs;
+}
+function goToSongInList(dir){
+  let list = getCurrentList();
+  if(!list.length) return;
+  let curSong = allSongs[curSongIndex];
+  let pos = list.indexOf(curSong);
+  if(pos === -1) pos = 0;
+  let nextPos = pos + dir;
+  if(nextPos < 0) nextPos = 0;
+  if(nextPos >= list.length) nextPos = list.length - 1;
+  let nextSong = list[nextPos];
+  let gi = allSongs.indexOf(nextSong);
+  if(gi >= 0) openSong(gi);
+}
 function openSong(i){
+  curSongIndex = i;
   let s=allSongs[i]; if(!s) return;
   let dNum=getDisplayNum(s);
   let img=s.img||s.image||s.photo||"";
   let link=s.link||s.url||"";
   let msg=fixT(s.content||s.msg||"");
   let title=fixT(s.title||"");
-  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${esc(getFolder(s))}</div>${img?`<img class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0"></h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center"></div>${linkHTML(link)}</div>`;
+  let list = getCurrentList();
+  let pos = list.indexOf(s);
+  let total = list.length || allSongs.length;
+  let posText = pos >= 0 ? (pos+1) : (i+1);
+  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${esc(getFolder(s))}</div>${img?`<img class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0"></h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center"></div>${linkHTML(link)}<div style="font-size:12px;color:#888;margin-top:10px">👈 👉 పక్కకి లాగితే పాట మారుతుంది</div><div style="margin-top:14px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="goToSongInList(-1)">⬅ ముందు పాట</button><button class="btn2 btnOrange" onclick="goToSongInList(1)">తర్వాత పాట ➡️</button></div><div style="font-size:13px;color:gray;margin-top:8px">పాట ${posText} / ${total}</div></div>`;
   let h=document.querySelector('#songModalContent h2'); if(h) h.textContent=dNum+'. '+title;
   let md=document.querySelector('#songModalContent div[style*="white-space"]'); if(md) md.textContent=msg;
   document.getElementById('songModal').style.display='flex';
@@ -251,6 +280,26 @@ function openSong(i){
 }
 function closeSong(){ document.getElementById('songModal').style.display='none'; }
 document.getElementById('songModal').addEventListener('click',e=>{ if(e.target.id==='songModal') closeSong(); });
+
+// ✅ స్వైప్ - వేలు ఎక్కడ పెట్టారు, ఎక్కడ వదిలారు
+let songTouchX = 0, songTouchY = 0;
+let songScrollEl = document.getElementById('songScroll');
+if(songScrollEl){
+  songScrollEl.addEventListener('touchstart', function(e){
+    songTouchX = e.touches[0].clientX;
+    songTouchY = e.touches[0].clientY;
+  }, {passive:true});
+  songScrollEl.addEventListener('touchend', function(e){
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
+    let diffX = endX - songTouchX;
+    let diffY = endY - songTouchY;
+    if(Math.abs(diffX) < 60) return;
+    if(Math.abs(diffY) > Math.abs(diffX)) return;
+    if(diffX < 0) goToSongInList(1);
+    else goToSongInList(-1);
+  }, {passive:true});
+}
 document.addEventListener('click',e=>{ if(!e.target.closest('.searchWrap')){ let b1=document.getElementById('suggestMain'); if(b1) b1.style.display='none'; let b2=document.getElementById('suggestBox'); if(b2) b2.style.display='none'; } });
 load();
 </script>
