@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FF9800">
 <style>
 *{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:130px}
-.header{background:linear-gradient(90deg, rgba(255,150,0,0.25), rgba(255,210,0,0.25) 50%, rgba(255,87,34,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.header{background:linear-gradient(90deg, rgba(255,150,0,0.25), rgba(255,210,0,0.25) 50%, rgba(255,87,34,0.25));color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .header a{color:#8B2E00;text-decoration:none;font-weight:bold}
 .header img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .wrap{padding:12px;max-width:700px;margin:auto}
@@ -23,7 +23,7 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
 .back{background:#FF9800;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
 .btn2{background:#2E7D32;color:white;border:none;padding:11px 16px;border-radius:20px;font-weight:bold;cursor:pointer}
 .btnOrange{background:#FF9800}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,0.12);border-top:1px solid rgba(255,255,255,0.9)}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,0.12);border-top:1px solid rgba(255,255,255,0.9)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1}
 .bottom-nav .active{background:rgba(255,150,0,0.15);border-radius:12px;color:#C45000}
@@ -42,7 +42,7 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
 </style>
 </head>
 <body>
-<div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#8B2E00;font-weight:bold">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h2><div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+<div class="header"><img src="jesus.jpg" alt="యేసు" loading="lazy"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#8B2E00;font-weight:bold">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h2><div style="font-size:13px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు" loading="lazy"></div>
 
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి - పాటలు</div>
@@ -67,48 +67,28 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
   <button onclick="goBack3()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ===== బ్యాక్ - పాట 4 -> 3 -> 2 -> 1 -> హోమ్ - ఫోన్ బ్యాక్ కి కూడా =====
-let msStack = [{type:'list'}];
-let msGoingBack = false;
-function msPush(s){ if(msGoingBack) return; msStack.push(s); if(msStack.length>30) msStack.splice(1, msStack.length-30); }
-function msTrapPhoneBack(){ try{ history.pushState({msTrap:1}, ''); }catch(e){} }
-msTrapPhoneBack();
-window.addEventListener('popstate', function(){
-  msTrapPhoneBack();
-  goBack3(true);
-});
+// ===== బ్యాక్ FINAL - 1 నొక్కితే 1 అడుగు, 3 సార్లు వద్దు, గొలుసు లేదు =====
+// పాట -> ఫోల్డర్ లిస్ట్ -> ఫోల్డర్లు -> హోమ్
+let msLevel = 'folders';
+let msHandlingPop = false;
 function goBack3(){
   let modal = document.getElementById('songModal');
-  if(modal && modal.style.display==='flex'){
-    let list = getCurrentList();
-    let curSong = allSongs[curSongIndex];
-    let pos = list.indexOf(curSong);
-    if(pos > 0){
-      // 4 -> 3, 3 -> 2 : పాట మాత్రమే మార్చు
-      msGoingBack = true;
-      if(msStack.length>1) msStack.pop();
-      let prevSong = list[pos-1];
-      let gi = allSongs.indexOf(prevSong);
-      openSong(gi, true);
-      msGoingBack = false;
-      return;
-    } else {
-      // పాట 1 లో ఉంటే -> మూసి హోమ్ కి
-      closeSong();
-      msStack = [{type:'list'}];
-      location.href='index.html';
-      return;
-    }
-  }
-  // ఫోల్డర్ లో పాటల లిస్ట్ లో ఉంటే -> హోమ్ కి (మధ్యలో అన్నీ కనబడకూడదు)
+  if(modal && modal.style.display==='flex'){ closeSong(); return; }
   let sv = document.getElementById('songView');
-  if(sv && sv.style.display!=='none'){
-    msStack = [{type:'list'}];
-    location.href='index.html';
-    return;
-  }
+  if(sv && sv.style.display!=='none'){ showFolders(); window.scrollTo(0,0); return; }
+  // ఫోల్డర్ల లిస్ట్ లో ఉంటే హోమ్ కి - ఇంక వెనక్కి బుక్స్/పాటలు కి వెళ్ళదు
+  msHandlingPop = true;
   location.href='index.html';
 }
+// ఫోన్ బ్యాక్: ఒకే ఒక్క trap - మళ్ళీ మళ్ళీ push చేయకూడదు
+try{ history.replaceState({ms:0},''); history.pushState({ms:1},''); }catch(e){}
+window.addEventListener('popstate', function(){
+  if(msHandlingPop) return;
+  goBack3();
+  if(location.pathname.indexOf('songs.html')>=0 && !msHandlingPop){
+    try{ history.pushState({ms:1},''); }catch(e){}
+  }
+});
 
 function shareAnyPage(){
   let pageLink = window.location.href;
@@ -135,7 +115,8 @@ let curList=[];
 let curSongIndex = 0;
 let colors=["#FF9800","#2E7D32","#2196F3","#9C27B0","#E91E63","#009688","#FF5722","#673AB7"];
 async function load(){
-  try{let r=await fetch('songs.json?v='+Date.now()); allSongs=await r.json();}catch(e){allSongs=[];}
+  // SPEED FIX: Date.now() తీసేసాను - బ్రౌజర్ గుర్తుపెట్టుకుంటుంది
+  try{let r=await fetch('songs.json'); allSongs=await r.json();}catch(e){allSongs=[];}
   if(!allSongs.length){ try{let ls=JSON.parse(localStorage.getItem('ms_songs')||'[]'); if(ls.length) allSongs=ls;}catch(e){} }
   else{ try{localStorage.setItem('ms_songs',JSON.stringify(allSongs));}catch(e){} }
   showFolders();
@@ -149,12 +130,13 @@ function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s)||s.indexOf
 function linkHTML(l){
   if(!l) return "";
   let m=l.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/);
-  if(m) return `<div class="ytBox"><a href="${l}" target="_blank"><img src="https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg"></a><a class="ytBtn" href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a></div>`;
+  if(m) return `<div class="ytBox"><a href="${l}" target="_blank"><img loading="lazy" src="https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg"></a><a class="ytBtn" href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a></div>`;
   if(l.match(/\.mp3|\.m4a|\.wav|drive\.google/i)) return `<div class="mp3Box"><audio controls src="${l}"></audio><br><a href="${l}" target="_blank">🎙️ వినండి</a></div>`;
   if(l.match(/\.pdf/i)) return `<a class="linkBtn" href="${l}" target="_blank">📖 PDF చూడండి</a>`;
   return `<a class="linkBtn" href="${l}" target="_blank">🔗 ఓపెన్ చేయండి</a>`;
 }
 function showFolders(){
+  msLevel='folders';
   document.getElementById('songView').style.display='none';
   let folders={};
   allSongs.forEach(s=>{let f=getFolder(s); folders[f]=(folders[f]||0)+1;});
@@ -216,7 +198,7 @@ function filterFolders(){
 }
 function openFolder(f){
   curFolder=f;
-  msPush({type:'folder', folder:f});
+  msLevel='songs';
   document.getElementById('folderView').style.display='none';
   curList=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
   let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
@@ -289,9 +271,9 @@ function goToSongInList(dir){
   let gi = allSongs.indexOf(nextSong);
   if(gi >= 0) openSong(gi);
 }
-function openSong(i, isBack){
+function openSong(i){
   curSongIndex = i;
-  if(!isBack) msPush({type:'song', song:i});
+  msLevel='song';
   let s=allSongs[i]; if(!s) return;
   let dNum=getDisplayNum(s);
   let img=s.img||s.image||s.photo||"";
@@ -302,13 +284,13 @@ function openSong(i, isBack){
   let pos = list.indexOf(s);
   let total = list.length || allSongs.length;
   let posText = pos >= 0 ? (pos+1) : (i+1);
-  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${esc(getFolder(s))}</div>${img?`<img class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0"></h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center"></div>${linkHTML(link)}<div style="font-size:12px;color:#888;margin-top:10px">👈 👉 పక్కకి లాగితే పాట మారుతుంది</div><div style="margin-top:14px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="goToSongInList(-1)">⬅ ముందు పాట</button><button class="btn2 btnOrange" onclick="goToSongInList(1)">తర్వాత పాట ➡️</button></div><div style="font-size:13px;color:gray;margin-top:8px">పాట ${posText} / ${total}</div></div>`;
+  document.getElementById('songModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:14px;color:gray">📁 ${esc(getFolder(s))}</div>${img?`<img loading="lazy" class="songImg" src="${img}">`:""}<h2 style="color:#0B3D2E;margin:6px 0"></h2>${linkHTML(link)}<div style="white-space:pre-line;font-size:18px;line-height:1.9;text-align:center"></div>${linkHTML(link)}<div style="font-size:12px;color:#888;margin-top:10px">👈 👉 పక్కకి లాగితే పాట మారుతుంది</div><div style="margin-top:14px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="goToSongInList(-1)">⬅ ముందు పాట</button><button class="btn2 btnOrange" onclick="goToSongInList(1)">తర్వాత పాట ➡️</button></div><div style="font-size:13px;color:gray;margin-top:8px">పాట ${posText} / ${total}</div></div>`;
   let h=document.querySelector('#songModalContent h2'); if(h) h.textContent=dNum+'. '+title;
   let md=document.querySelector('#songModalContent div[style*="white-space"]'); if(md) md.textContent=msg;
   document.getElementById('songModal').style.display='flex';
   let sc=document.querySelector('#songModal .modalScroll'); if(sc) sc.scrollTop=0;
 }
-function closeSong(){ document.getElementById('songModal').style.display='none'; }
+function closeSong(){ document.getElementById('songModal').style.display='none'; msLevel='songs'; }
 document.getElementById('songModal').addEventListener('click',e=>{ if(e.target.id==='songModal') closeSong(); });
 let songTouchX = 0, songTouchY = 0;
 let songScrollEl = document.getElementById('songScroll');
