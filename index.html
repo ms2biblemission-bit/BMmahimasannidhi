@@ -75,10 +75,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
+.backBtn{background:rgba(255,255,255,.15)!important;font-size:20px!important;padding:2px 8px!important;border-radius:8px!important}
 </style>
 </head>
 <body>
-<div class="topbar"><button onclick="document.getElementById('drawer').classList.add('open')">☰</button><b>🙏 BM మహిమ సన్నిధి</b><button onclick="location.href='books.html'">📚</button></div>
+<div class="topbar"><button class="backBtn" onclick="goBack3()" title="బ్యాక్">⬅️</button><button onclick="document.getElementById('drawer').classList.add('open')">☰</button><b>🙏 BM మహిమ సన్నిధి</b><button onclick="location.href='books.html'">📚</button></div>
 <div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') this.classList.remove('open')"><div class="drawerBox">
 <div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
 <div class="menu-item" onclick="location.href='index.html'">🏠 <span>Home<small>మెయిన్ పేజీ</small></span></div>
@@ -90,6 +91,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="menu-item" onclick="location.href='books.html'">🔖 <span>Bookmarks<small>సేవ్ చేసినవి</small></span></div>
 <div class="menu-item" onclick="location.href='books.html'">✏️ <span>Highlights<small>Underline పెట్టినవి</small></span></div>
 <div class="menu-item" onclick="shareAnyPage()">📤 <span>Share App</span></div>
+<div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 </div></div>
 
 <div class="header">
@@ -195,6 +197,32 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div></div>
 
 <script>
+// ===== బ్యాక్ - కేవలం 3 స్టెప్స్ లోనే హోమ్ =====
+// ఎన్ని పేజీలు ఓపెన్ చేసినా లాస్ట్ 3 మాత్రమే గుర్తుంచుకుంటుంది
+function getNavStack(){ try{ let s=JSON.parse(sessionStorage.getItem('ms_nav_stack')||'[]'); return Array.isArray(s)?s:[]; }catch(e){ return []; } }
+function saveNavStack(s){ sessionStorage.setItem('ms_nav_stack', JSON.stringify(s)); }
+function pushNav(){
+  let cur = location.pathname.split('/').pop() || 'index.html';
+  if(cur==='' ) cur='index.html';
+  // modal / same page అయితే మళ్ళీ push చేయకు
+  let s = getNavStack();
+  if(s[s.length-1]===cur) return;
+  s.push(cur);
+  // home + last 3 మాత్రమే ఉంచు
+  if(s.length>4){ s = ['index.html', ...s.slice(-3)]; }
+  saveNavStack(s);
+}
+function goBack3(){
+  let s = getNavStack();
+  // ఈ పేజీ లో ఉన్నాము కాబట్టి దానిని తీసేయి
+  if(s.length>1){ s.pop(); }
+  else { location.href='index.html'; return; }
+  let prev = s[s.length-1] || 'index.html';
+  saveNavStack(s);
+  location.href = prev;
+}
+// పేజీ ఓపెన్ అయినప్పుడు stack లో పెట్టు
+pushNav();
 function shareAnyPage(){
   let pageLink = window.location.href;
   let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
@@ -414,4 +442,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-  </html>
+</html>
