@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>BM మహిమ సన్నిధి</title>
+<!-- ===== గూగుల్ కోసం పెట్టిన బోర్డు - ఇక్కడి నుండి ===== -->
+<meta name="description" content="BM మహిమ సన్నిధి - బైబిల్ మిషన్, రోజుకో వాక్యం, తెలుగు క్రిస్టియన్ పాటలు, బుక్స్, వాయిస్ సందేశాలు, సన్నిధి వర్తమానములు - John Dalli">
+<meta name="keywords" content="BM Mahima Sannidhi, Mahima Sannidhi, Bible Mission, Telugu Christian Songs, Bible Books, Mahima Sannidhi Songs, John Dalli">
+<meta name="author" content="BM Mahima Sannidhi - John Dalli">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">
+<!-- ===== గూగుల్ కోసం - ఇక్కడి వరకు ===== -->
 <meta property="og:title" content="BM మహిమ సన్నిధి">
 <meta property="og:description" content="రోజుకో వాక్యం - మరనాత, ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు">
 <meta property="og:image" content="https://ms2biblemission-bit.github.io/BMmahimasannidhi/IMG-20261104-WA0008.jpg">
@@ -197,7 +204,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 
 <script>
 // ===== బ్యాక్ 3-2-1 - కంటికి కనబడదు, ఫోన్ బ్యాక్ బటన్ కి మాత్రమే =====
-// లాస్ట్ 3 పేజీలు మాత్రమే గుర్తుంచుకుంటుంది, తర్వాత హోమ్
 function getNavStack(){ try{ let s=JSON.parse(sessionStorage.getItem('ms_nav_stack')||'[]'); return Array.isArray(s)?s:[]; }catch(e){ return []; } }
 function saveNavStack(s){ sessionStorage.setItem('ms_nav_stack', JSON.stringify(s)); }
 function pushNav(){
@@ -210,13 +216,11 @@ function pushNav(){
   saveNavStack(s);
 }
 pushNav();
-// ఫోన్ బ్యాక్ బటన్ నొక్కితే - 3 -> 2 -> 1 -> హోమ్
 window.addEventListener('popstate', function(){
   let s = getNavStack();
   if(s.length>1){ s.pop(); let prev = s[s.length-1]||'index.html'; saveNavStack(s); location.href = prev; }
   else { saveNavStack(['index.html']); location.href='index.html'; }
 });
-// బ్యాక్ ట్రాప్ - బ్రౌజర్ హిస్టరీ లో ఒక స్టెప్ ఉంచు
 if(!sessionStorage.getItem('ms_back_init')){ sessionStorage.setItem('ms_back_init','1'); history.pushState({ms:1},''); }
 function shareAnyPage(){
   let pageLink = window.location.href;
@@ -230,6 +234,7 @@ function shareAnyPage(){
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
 function installAppUniversal(){
+  try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/installs').catch(()=>{}); }catch(e){}
   if(window.deferredPrompt){
     window.deferredPrompt.prompt();
     window.deferredPrompt.userChoice.then((r)=>{
@@ -382,7 +387,7 @@ document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.i
 loadPosts();
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; window.deferredPrompt=e; document.getElementById('installBtn').style.display='block'; let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి"; });
-document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else { installAppUniversal(); } };
+document.getElementById('installBtn').onclick=()=>{ try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/installs').catch(()=>{}); }catch(e){} if(deferredPrompt){ deferredPrompt.prompt(); } else { installAppUniversal(); } };
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
@@ -435,6 +440,9 @@ async function sendUserChat(){
   loadMyChat();
 }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
+
+// ===== మీకు మాత్రమే కౌంటర్ - ఎవరికీ కనబడదు =====
+try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/visits').catch(()=>{}); }catch(e){}
 </script>
 </body>
-                                                                                                                                                                                                                                                                       </html>
+  </html>
