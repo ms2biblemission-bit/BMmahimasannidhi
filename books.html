@@ -60,35 +60,36 @@ h3{color:#0B3D2E;margin:16px 0 8px}
   <button onclick="goBack3()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ===== బ్యాక్ 3-2-1 - బుక్స్ లోపల మాత్రమే =====
-// పేజీ -> బుక్ చాప్టర్స్ -> బుక్స్ లిస్ట్ -> హోమ్
+// ===== బ్యాక్ - 4 -> 3 -> 2 -> 1 -> హోమ్ / క్లోజ్ =====
+// డైరెక్ట్ హోమ్ కి వెళ్ళదు, ఒక్కో పేజీ వెనక్కి వెళ్తుంది
 function goBack3(){
   let modal = document.getElementById('bookModal');
-  // 1. పేజీ ఓపెన్ లో ఉంటే -> ఆ పేజీ మూసి బుక్ చాప్టర్స్ కి వెళ్ళు
-  if(modal && modal.style.display==='flex'){ closeBookPage(); return; }
-  // 2. బుక్ చాప్టర్స్ / History / Bookmarks లో ఉంటే -> బుక్స్ లిస్ట్ కి వెళ్ళు
+  // 1. పేజీ ఓపెన్ లో ఉంటే
+  if(modal && modal.style.display==='flex'){
+    let cur = lastRead.page || 0;
+    if(cur > 0){
+      // 4 లో ఉంటే -> 3 కి, 3 లో ఉంటే -> 2 కి
+      openPage(cur - 1);
+      return;
+    } else {
+      // 1 లో ఉంటే -> క్లోజ్ చేసి హోమ్ కి
+      closeBookPage();
+      location.href='index.html';
+      return;
+    }
+  }
+  // 2. బుక్ చాప్టర్స్ లిస్ట్ లో ఉంటే -> హోమ్ కి (లిస్ట్ చూపించదు)
   let detail = document.getElementById('detail');
-  if(detail && detail.innerHTML.trim()!==''){ renderBooks(); return; }
-  // 3. బుక్స్ లిస్ట్ లో ఉంటే -> హోమ్ కి వెళ్ళు
+  if(detail && detail.innerHTML.trim()!==''){
+    location.href='index.html';
+    return;
+  }
+  // 3. బుక్స్ లిస్ట్ లో ఉంటే -> హోమ్ కి
   location.href='index.html';
 }
-// ఫోన్ బ్యాక్ బటన్ కూడా ఇదే 3-2-1 పాటించాలి
-function getNavStack(){ try{ let s=JSON.parse(sessionStorage.getItem('ms_nav_stack')||'[]'); return Array.isArray(s)?s:[]; }catch(e){ return []; } }
-function saveNavStack(s){ sessionStorage.setItem('ms_nav_stack', JSON.stringify(s)); }
-function pushNav(){
-  let cur = location.pathname.split('/').pop() || 'books.html';
-  if(cur==='') cur='books.html';
-  let s = getNavStack();
-  if(s[s.length-1]===cur) return;
-  s.push(cur);
-  if(s.length>4){ s = ['index.html', ...s.slice(-3)]; }
-  saveNavStack(s);
-}
-pushNav();
-window.addEventListener('popstate', function(){
-  // ఫోన్ బ్యాక్ నొక్కితే కూడా goBack3 లాగే వెళ్ళు
-  let s = getNavStack();
-  if(s.length>1){ s.pop(); saveNavStack(s); }
+// ఫోన్ బ్యాక్ బటన్ కూడా ఇదే - 4->3->2->1->హోమ్
+window.addEventListener('popstate', function(e){
+  e.preventDefault();
   goBack3();
 });
 if(!sessionStorage.getItem('ms_back_init_books')){ sessionStorage.setItem('ms_back_init_books','1'); history.pushState({ms:1},''); }
