@@ -2,7 +2,7 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0B3D2E">
 <style>*{box-sizing:border-box}body{font-family:system-ui;background:#E8F5E9;margin:0;padding-bottom:130px}
-.head{background:linear-gradient(90deg, rgba(0,150,70,0.25), rgba(0,200,120,0.25) 50%, rgba(11,61,46,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)} .head a{color:#0B3D2E;text-decoration:none;font-weight:bold} .head h2{margin:2px 0;font-size:24px;color:#222} .head p{margin:0;font-size:13px;opacity:.9} .head img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
+.head{background:linear-gradient(90deg, rgba(0,150,70,0.25), rgba(0,200,120,0.25) 50%, rgba(11,61,46,0.25));color:#222;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.08)} .head a{color:#0B3D2E;text-decoration:none;font-weight:bold} .head h2{margin:2px 0;font-size:24px;color:#222} .head p{margin:0;font-size:13px;opacity:.9} .head img{width:58px;height:58px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .wrap{padding:12px;max-width:700px;margin:auto} input{width:100%;padding:13px;border-radius:25px;border:1px solid #C8E6C9;font-size:16px;box-sizing:border-box;background:white}
 h3{color:#0B3D2E;margin:16px 0 8px}
 .scroll{display:flex;gap:12px;overflow-x:auto;padding:6px 2px 12px;scroll-snap-type:x mandatory}.scroll::-webkit-scrollbar{display:none}.hcard{min-width:155px;width:155px;background:white;border-radius:20px;padding:12px;box-shadow:0 2px 10px #0001;cursor:pointer;scroll-snap-align:start}.hcard .cover{height:110px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:44px;color:white}.hcard b{display:block;margin-top:8px;font-size:15px;color:#0B3D2E;line-height:1.3}.hcard small{color:#888}
@@ -25,7 +25,7 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:flex-end;justify-content:center}
 .modalBox{background:white;width:100%;max-width:600px;height:78vh;max-height:78vh;border-radius:20px 20px 0 0;padding:0;overflow:hidden;display:flex;flex-direction:column;margin-bottom:70px}
 .modalScroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 18px 40px;touch-action:pan-y}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.12);border-top:1px solid rgba(255,255,255,0.9)}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.12);border-top:1px solid rgba(255,255,255,0.9)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1} .bottom-nav .active{background:rgba(11,61,46,0.12);border-radius:12px;color:#0B3D2E}
 </style></head>
@@ -43,7 +43,7 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 <div class="menu-item" onclick="location.href='index.html'">ℹ️ <span>About</span></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 </div></div>
-<div class="head"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅ హోమ్</a><div style="font-size:13px;letter-spacing:1px;color:#0B3D2E;font-weight:bold">📖 బైబిల్ మిషన్</div><h2>మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
+<div class="head"><img src="jesus.jpg" alt="యేసు" loading="lazy"><div style="flex:1;text-align:center"><a href="index.html">⬅ హోమ్</a><div style="font-size:13px;letter-spacing:1px;color:#0B3D2E;font-weight:bold">📖 బైబిల్ మిషన్</div><h2>మహిమ సన్నిధి</h2><div>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div></div><img src="devadasu.jpg" alt="దేవదాసు" loading="lazy"></div>
 <div class="wrap">
 <input id="search" placeholder="🔍 బుక్ / అధ్యాయం వెతకండి..." oninput="renderBooks()">
 <div id="continueBox"></div>
@@ -60,37 +60,33 @@ h3{color:#0B3D2E;margin:16px 0 8px}
   <button onclick="goBack3()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ===== సింపుల్ బ్యాక్ - హిస్టరీ లేదు, గొలుసు లేదు =====
-// ఈ పేజీలోనే మాత్రమే బ్యాక్: పేజీ -> చాప్టర్స్ -> లిస్ట్ -> హోమ్
-let msCurrentLevel = 'list'; // list | chapters | page
+// ===== బ్యాక్ FINAL - 1 నొక్కితే 1 అడుగు మాత్రమే, 3 సార్లు వద్దు =====
+let msLevel = 'list'; // list | chapters | page
+let msHandlingPop = false;
 function goBack3(){
   let drawer = document.getElementById('drawer');
   if(drawer && drawer.classList.contains('open')){ closeDrawer(); return; }
   let textModal = document.getElementById('textModal');
   if(textModal && textModal.style.display==='flex'){ closeTextSettings(); return; }
-  // 1. పేజీ ఓపెన్ లో ఉంటే -> చాప్టర్స్ కి
   let modal = document.getElementById('bookModal');
-  if(modal && modal.style.display==='flex'){
-    closeBookPage();
-    msCurrentLevel = 'chapters';
-    return;
-  }
-  // 2. చాప్టర్స్ లో ఉంటే -> బుక్స్ లిస్ట్ కి
+  if(modal && modal.style.display==='flex'){ closeBookPage(); return; }
   let detail = document.getElementById('detail');
-  if(detail && detail.innerHTML.trim()!==''){
-    renderBooks();
-    msCurrentLevel = 'list';
-    window.scrollTo(0,0);
-    return;
-  }
-  // 3. లిస్ట్ లో ఉంటే -> హోమ్ కి, అంతే. ఇంక వెనక్కి లేదు
+  if(detail && detail.innerHTML.trim()!==''){ renderBooks(); window.scrollTo(0,0); return; }
+  // లిస్ట్ లో ఉంటే హోమ్ కి - ఇక్కడే ఆగిపోతుంది, ఇంక వెనక్కి పాటలు/బుక్స్ కి వెళ్ళదు
+  // ఫోన్ బ్యాక్ అయితే ఇక్కడ నుండి హోమ్ కి వెళ్ళాలి కాబట్టి trap ఆపేసి వెళ్ళు
+  msHandlingPop = true;
   location.href='index.html';
 }
-// ఫోన్ బ్యాక్ బటన్ కూడా ఇదే పని చేయాలి - ముందు పేజీకి (పాటలు/బుక్స్) వెళ్ళకూడదు
-history.pushState({ms:1}, '');
+// ఫోన్ బ్యాక్: ఒకే ఒక్క trap - మళ్ళీ మళ్ళీ push చేయకూడదు, అదే 3 సార్లు సమస్య
+try{ history.replaceState({ms:0},''); history.pushState({ms:1},''); }catch(e){}
 window.addEventListener('popstate', function(){
-  history.pushState({ms:1}, '');
+  if(msHandlingPop) return;
+  // బ్యాక్ నొక్కారు -> మన 1 అడుగు వెనక్కి వెళ్ళు, మళ్ళీ ఒక్క trap వేయి
   goBack3();
+  // హోమ్ కి వెళ్ళడం కాకపోతే మాత్రమే trap వేయి
+  if(location.pathname.indexOf('books.html')>=0 && !msHandlingPop){
+    try{ history.pushState({ms:1},''); }catch(e){}
+  }
 });
 function shareAnyPage(){ let p=window.location.href; let a="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html"; window.open("https://wa.me/?text="+encodeURIComponent("🙏 BM మహిమ సన్నిధి - బుక్స్ 📚\n"+p+"\n\n📲 మన సైట్: "+a+"\n\nమరనాత ✝️"),"_blank"); }
 function openDrawer(){ document.getElementById('drawer').classList.add('open'); } function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
@@ -208,12 +204,13 @@ function teluguCompare(a,b){ let na=getBookNum(a), nb=getBookNum(b); if(na!==nb)
 async function loadAll(){
   BOOKS=JSON.parse(JSON.stringify(DEFAULT_BOOKS));
   try{let s=localStorage.getItem('ms_books');if(s){let j=JSON.parse(s);if(j&&j.length) BOOKS=j;}}catch(e){}
-  try{let r=await fetch('books.json?v='+Date.now());if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) BOOKS=j;}}catch(e){}
+  // SPEED FIX: Date.now() తీసేసాను - బ్రౌజర్ గుర్తుపెట్టుకుంటుంది, ఫాస్ట్ గా వస్తుంది
+  try{let r=await fetch('books.json');if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) BOOKS=j;}}catch(e){}
   BOOKS=BOOKS.map((b,i)=>{ if(b.id==null) b.id=1000+i; return b; });
   try{
-    let posts=[];let r1=await fetch('posts.json?v='+Date.now());if(r1.ok){let j=await r1.json();posts=Array.isArray(j)?j:(j.posts||[]);}
+    let posts=[];let r1=await fetch('posts.json');if(r1.ok){let j=await r1.json();posts=Array.isArray(j)?j:(j.posts||[]);}
     let now=new Date();
-    try{let r2=await fetch('scheduled.json?v='+Date.now());if(r2.ok){let sj=await r2.json();if(Array.isArray(sj)) sj.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}}catch(e){}
+    try{let r2=await fetch('scheduled.json');if(r2.ok){let sj=await r2.json();if(Array.isArray(sj)) sj.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}}catch(e){}
     try{let ls=JSON.parse(localStorage.getItem('ms_sched')||'[]');ls.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}catch(e){}
     let b6=BOOKS.find(b=>(b.title||'').includes('రోజువారీ'))||BOOKS.find(b=>b.id==6);
     if(b6 && posts.length){b6.chapters=posts.map(p=>({t:(p.title||'మెసేజ్')+' - '+(p.date||''),c:(p.content||p.message||''),img:p.image||'',audio:p.audio||''}));}
@@ -225,7 +222,7 @@ function getChapters(b){return b.chapters||b.pages||[];}
 function saveBtnHTML(b){ let s=isSavedBook(b); return '<button class="btn-save '+(s?'saved':'')+'" data-save-id="'+getBookKey(b)+'" onclick="event.stopPropagation();toggleSaveBookById(\''+getBookKey(b)+'\',this)">'+(s?'✅ Saved / సేవ్ అయ్యింది':'🔖 Save / సేవ్')+'</button>'; }
 function renderBooks(){
   showTopBoxes();
-  msCurrentLevel='list';
+  msLevel='list';
   let q=(document.getElementById('search').value||'').toLowerCase();
   let box=document.getElementById('box');document.getElementById('detail').innerHTML='';
   let list=BOOKS.filter(b=>((b.title||'')+(b.desc||'')+getChapters(b).map(c=>c.t||'').join(' ')).toLowerCase().includes(q));
@@ -241,7 +238,7 @@ function renderBooks(){
 function openBookByIndex(idx){
   hideTopBoxes();
   currentIdx=idx; currentBook=BOOKS[idx]; if(!currentBook) return;
-  msCurrentLevel='chapters';
+  msLevel='chapters';
   document.getElementById('box').innerHTML='';
   let d=document.getElementById('detail');
   d.innerHTML=`<button class="btn" onclick="renderBooks()">⬅ అన్ని బుక్స్ కి వెళ్ళు</button><h3 style="text-align:center;color:#0F2F6B;font-weight:700;font-size:22px">✝️ ${currentBook.title}</h3><p style="text-align:center;color:#3B2314;font-weight:500">${currentBook.desc||''}</p><div class="book-actions">${saveBtnHTML(currentBook)}</div>`+(getChapters(currentBook)).map((ch,i)=>`<div class="chap" onclick="openPage(${i})"><b>${ch.t}</b><div style="font-size:13px;color:#666">పేజీ ${i+1} - చదవండి ➡️</div></div>`).join('')+((getChapters(currentBook)).length==0?'<p style="text-align:center">📭 ఇంకా పేజీలు లేవు!</p>':'');
@@ -250,17 +247,17 @@ function openBookByIndex(idx){
 function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function openPage(i){
   let ch=getChapters(currentBook)[i]; if(!ch) return;
-  msCurrentLevel='page';
+  msLevel='page';
   lastRead={idx:currentIdx,page:i}; localStorage.setItem('ms_last_read_books',JSON.stringify(lastRead));
   addHistory(getBookKey(currentBook), i);
   let total=getChapters(currentBook).length; let bookId=getBookKey(currentBook); let underlined=getUnderlinedLines(bookId,i);
   let lines=String(ch.c||'').split('\n');
   let linesHTML=lines.map((ln,li)=>{ if(!ln.trim()) return '<div style="height:8px"></div>'; let cls=underlined.includes(li)?'uline underlined':'uline'; return '<span class="'+cls+'" data-line="'+li+'" onclick="toggleLineUnderline(\''+bookId+'\','+i+','+li+',this)">'+escapeHtml(ln)+'</span>'; }).join('');
-  document.getElementById('bookModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:28px">✝️</div><div style="font-size:14px;color:gray">📖 ${escapeHtml(currentBook.title)}</div><div class="hint-line">👆 కావాల్సిన లైన్ మీద నొక్కండి - ఆ లైన్ మాత్రమే పసుపు అవుతుంది</div><div class="page" id="pageBox" style="margin:12px 0"><h3>${escapeHtml(ch.t)}</h3>${ch.img?`<img src="${ch.img}">`:''}<div>${linesHTML}</div>${ch.audio?`<audio controls src="${ch.audio}" style="width:100%;margin-top:10px"></audio>`:''}<div style="font-size:12px;color:#888;margin-top:10px">👈 👉 పక్కకి లాగితే పేజీ మారుతుంది</div><div style="margin-top:15px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="openPage(${Math.max(0,i-1)})">⬅ ముందు పేజీ</button><button class="btn2 btnOrange" onclick="openPage(${Math.min(total-1,i+1)})">తర్వాత పేజీ ➡️</button></div><div style="font-size:13px;color:gray;margin-top:8px">పేజీ ${i+1} / ${total}</div></div><div class="book-actions">${saveBtnHTML(currentBook)}</div></div>`;
+  document.getElementById('bookModalContent').innerHTML=`<div style="text-align:center"><div style="font-size:28px">✝️</div><div style="font-size:14px;color:gray">📖 ${escapeHtml(currentBook.title)}</div><div class="hint-line">👆 కావాల్సిన లైన్ మీద నొక్కండి - ఆ లైన్ మాత్రమే పసుపు అవుతుంది</div><div class="page" id="pageBox" style="margin:12px 0"><h3>${escapeHtml(ch.t)}</h3>${ch.img?`<img src="${ch.img}" loading="lazy">`:''}<div>${linesHTML}</div>${ch.audio?`<audio controls src="${ch.audio}" style="width:100%;margin-top:10px"></audio>`:''}<div style="font-size:12px;color:#888;margin-top:10px">👈 👉 పక్కకి లాగితే పేజీ మారుతుంది</div><div style="margin-top:15px;display:flex;gap:8px;justify-content:center"><button class="btn2" onclick="openPage(${Math.max(0,i-1)})">⬅ ముందు పేజీ</button><button class="btn2 btnOrange" onclick="openPage(${Math.min(total-1,i+1)})">తర్వాత పేజీ ➡️</button></div><div style="font-size:13px;color:gray;margin-top:8px">పేజీ ${i+1} / ${total}</div></div><div class="book-actions">${saveBtnHTML(currentBook)}</div></div>`;
   document.getElementById('bookModal').style.display='flex';
   let sc=document.getElementById('bookScroll'); if(sc) sc.scrollTop=0;
 }
-function closeBookPage(){ document.getElementById('bookModal').style.display='none'; msCurrentLevel='chapters'; }
+function closeBookPage(){ document.getElementById('bookModal').style.display='none'; msLevel='chapters'; }
 document.getElementById('bookModal').addEventListener('click',e=>{ if(e.target.id==='bookModal') closeBookPage(); });
 let bookTouchX=0, bookTouchY=0; let bookScrollEl=document.getElementById('bookScroll');
 if(bookScrollEl){
