@@ -64,20 +64,51 @@ input:focus{outline:2px solid #FF9800;border-color:#FF9800}
   <a href="books.html"><span class="b-icon">📚</span>పుస్తకాలు</a>
   <a href="songs.html" class="active"><span class="b-icon">🎵</span>పాటలు</a>
   <a href="voice.html"><span class="b-icon">🎤</span>వాయిస్<br>గ్యాలరీ</a>
-  <button onclick="history.back()"><span class="b-icon">⬅️</span>బ్యాక్</button>
+  <button onclick="goBack3()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-document.querySelectorAll('a[href]').forEach(a=>{
-  let h = a.getAttribute('href');
-  if(!h) return;
-  if(h.endsWith('.html') && !h.startsWith('http')){
-    a.addEventListener('click', function(e){
-      e.preventDefault();
-      location.replace(h);
-    });
-  }
+// ===== బ్యాక్ - పాట 4 -> 3 -> 2 -> 1 -> హోమ్ - ఫోన్ బ్యాక్ కి కూడా =====
+let msStack = [{type:'list'}];
+let msGoingBack = false;
+function msPush(s){ if(msGoingBack) return; msStack.push(s); if(msStack.length>30) msStack.splice(1, msStack.length-30); }
+function msTrapPhoneBack(){ try{ history.pushState({msTrap:1}, ''); }catch(e){} }
+msTrapPhoneBack();
+window.addEventListener('popstate', function(){
+  msTrapPhoneBack();
+  goBack3(true);
 });
-window.addEventListener('popstate', function(){ location.replace('index.html'); });
+function goBack3(){
+  let modal = document.getElementById('songModal');
+  if(modal && modal.style.display==='flex'){
+    let list = getCurrentList();
+    let curSong = allSongs[curSongIndex];
+    let pos = list.indexOf(curSong);
+    if(pos > 0){
+      // 4 -> 3, 3 -> 2 : పాట మాత్రమే మార్చు
+      msGoingBack = true;
+      if(msStack.length>1) msStack.pop();
+      let prevSong = list[pos-1];
+      let gi = allSongs.indexOf(prevSong);
+      openSong(gi, true);
+      msGoingBack = false;
+      return;
+    } else {
+      // పాట 1 లో ఉంటే -> మూసి హోమ్ కి
+      closeSong();
+      msStack = [{type:'list'}];
+      location.href='index.html';
+      return;
+    }
+  }
+  // ఫోల్డర్ లో పాటల లిస్ట్ లో ఉంటే -> హోమ్ కి (మధ్యలో అన్నీ కనబడకూడదు)
+  let sv = document.getElementById('songView');
+  if(sv && sv.style.display!=='none'){
+    msStack = [{type:'list'}];
+    location.href='index.html';
+    return;
+  }
+  location.href='index.html';
+}
 
 function shareAnyPage(){
   let pageLink = window.location.href;
@@ -185,6 +216,7 @@ function filterFolders(){
 }
 function openFolder(f){
   curFolder=f;
+  msPush({type:'folder', folder:f});
   document.getElementById('folderView').style.display='none';
   curList=allSongs.filter(s=>getFolder(s)===f).sort((a,b)=>(a.num||0)-(b.num||0));
   let html=`<button class="back" onclick="showFolders()">← అన్ని ఫోల్డర్లు</button>
@@ -237,10 +269,7 @@ function filterSongs(){
   renderSongCards(filtered);
   if(!q){ let box=document.getElementById('suggestBox'); if(box) box.style.display='none'; }
 }
-
-// ✅ స్వైప్ + బటన్ - పాట మార్చడానికి
 function getCurrentList(){
-  // ఫోల్డర్ లోంచి వచ్చినప్పుడు ఆ ఫోల్డర్ పాటలే, లేకపోతే అన్ని పాటలు
   if(curList && curList.length && curFolder){
     let check = curList[0];
     if(getFolder(check) === curFolder) return curList;
@@ -260,8 +289,9 @@ function goToSongInList(dir){
   let gi = allSongs.indexOf(nextSong);
   if(gi >= 0) openSong(gi);
 }
-function openSong(i){
+function openSong(i, isBack){
   curSongIndex = i;
+  if(!isBack) msPush({type:'song', song:i});
   let s=allSongs[i]; if(!s) return;
   let dNum=getDisplayNum(s);
   let img=s.img||s.image||s.photo||"";
@@ -280,8 +310,6 @@ function openSong(i){
 }
 function closeSong(){ document.getElementById('songModal').style.display='none'; }
 document.getElementById('songModal').addEventListener('click',e=>{ if(e.target.id==='songModal') closeSong(); });
-
-// ✅ స్వైప్ - వేలు ఎక్కడ పెట్టారు, ఎక్కడ వదిలారు
 let songTouchX = 0, songTouchY = 0;
 let songScrollEl = document.getElementById('songScroll');
 if(songScrollEl){
