@@ -75,11 +75,10 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .modalBox{background:white;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
-.backBtn{background:rgba(255,255,255,.15)!important;font-size:20px!important;padding:2px 8px!important;border-radius:8px!important}
 </style>
 </head>
 <body>
-<div class="topbar"><button class="backBtn" onclick="goBack3()" title="బ్యాక్">⬅️</button><button onclick="document.getElementById('drawer').classList.add('open')">☰</button><b>🙏 BM మహిమ సన్నిధి</b><button onclick="location.href='books.html'">📚</button></div>
+<div class="topbar"><button onclick="document.getElementById('drawer').classList.add('open')">☰</button><b>🙏 BM మహిమ సన్నిధి</b><button onclick="location.href='books.html'">📚</button></div>
 <div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') this.classList.remove('open')"><div class="drawerBox">
 <div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
 <div class="menu-item" onclick="location.href='index.html'">🏠 <span>Home<small>మెయిన్ పేజీ</small></span></div>
@@ -197,32 +196,28 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div></div>
 
 <script>
-// ===== బ్యాక్ - కేవలం 3 స్టెప్స్ లోనే హోమ్ =====
-// ఎన్ని పేజీలు ఓపెన్ చేసినా లాస్ట్ 3 మాత్రమే గుర్తుంచుకుంటుంది
+// ===== బ్యాక్ 3-2-1 - కంటికి కనబడదు, ఫోన్ బ్యాక్ బటన్ కి మాత్రమే =====
+// లాస్ట్ 3 పేజీలు మాత్రమే గుర్తుంచుకుంటుంది, తర్వాత హోమ్
 function getNavStack(){ try{ let s=JSON.parse(sessionStorage.getItem('ms_nav_stack')||'[]'); return Array.isArray(s)?s:[]; }catch(e){ return []; } }
 function saveNavStack(s){ sessionStorage.setItem('ms_nav_stack', JSON.stringify(s)); }
 function pushNav(){
   let cur = location.pathname.split('/').pop() || 'index.html';
-  if(cur==='' ) cur='index.html';
-  // modal / same page అయితే మళ్ళీ push చేయకు
+  if(cur==='') cur='index.html';
   let s = getNavStack();
   if(s[s.length-1]===cur) return;
   s.push(cur);
-  // home + last 3 మాత్రమే ఉంచు
   if(s.length>4){ s = ['index.html', ...s.slice(-3)]; }
   saveNavStack(s);
 }
-function goBack3(){
-  let s = getNavStack();
-  // ఈ పేజీ లో ఉన్నాము కాబట్టి దానిని తీసేయి
-  if(s.length>1){ s.pop(); }
-  else { location.href='index.html'; return; }
-  let prev = s[s.length-1] || 'index.html';
-  saveNavStack(s);
-  location.href = prev;
-}
-// పేజీ ఓపెన్ అయినప్పుడు stack లో పెట్టు
 pushNav();
+// ఫోన్ బ్యాక్ బటన్ నొక్కితే - 3 -> 2 -> 1 -> హోమ్
+window.addEventListener('popstate', function(){
+  let s = getNavStack();
+  if(s.length>1){ s.pop(); let prev = s[s.length-1]||'index.html'; saveNavStack(s); location.href = prev; }
+  else { saveNavStack(['index.html']); location.href='index.html'; }
+});
+// బ్యాక్ ట్రాప్ - బ్రౌజర్ హిస్టరీ లో ఒక స్టెప్ ఉంచు
+if(!sessionStorage.getItem('ms_back_init')){ sessionStorage.setItem('ms_back_init','1'); history.pushState({ms:1},''); }
 function shareAnyPage(){
   let pageLink = window.location.href;
   let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
@@ -442,4 +437,4 @@ async function sendUserChat(){
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 </script>
 </body>
-</html>
+                                                                                                                                                                                                                                                                       </html>
