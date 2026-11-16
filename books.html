@@ -60,39 +60,52 @@ h3{color:#0B3D2E;margin:16px 0 8px}
   <button onclick="goBack3()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ===== బ్యాక్ - 4 -> 3 -> 2 -> 1 -> హోమ్ / క్లోజ్ =====
-// డైరెక్ట్ హోమ్ కి వెళ్ళదు, ఒక్కో పేజీ వెనక్కి వెళ్తుంది
-function goBack3(){
-  let modal = document.getElementById('bookModal');
+// ===== బ్యాక్ - 4 -> 3 -> 2 -> 1 -> హోమ్ - ఫోన్ బ్యాక్ కి కూడా =====
+let msStack = [{type:'list'}]; // మన సొంత స్టాక్: list -> chapters -> page1 -> page2...
+let msGoingBack = false;
+function msPush(s){ if(msGoingBack) return; msStack.push(s); if(msStack.length>30) msStack.splice(1, msStack.length-30); }
+function msTrapPhoneBack(){
+  // ఫోన్ బ్యాక్ నొక్కినా మన కోడ్ నడవడానికి ఎప్పుడూ ఒక డమ్మీ హిస్టరీ ఉంచు
+  try{ history.pushState({msTrap:1}, ''); }catch(e){}
+}
+msTrapPhoneBack();
+window.addEventListener('popstate', function(){
+  // ఫోన్ బ్యాక్ నొక్కారు -> మళ్ళీ ట్రాప్ వేసి, మన స్టాక్ ప్రకారం వెనక్కి వెళ్ళు
+  msTrapPhoneBack();
+  goBack3(true);
+});
+function goBack3(fromPhone){
   // 1. పేజీ ఓపెన్ లో ఉంటే
+  let modal = document.getElementById('bookModal');
   if(modal && modal.style.display==='flex'){
     let cur = lastRead.page || 0;
     if(cur > 0){
-      // 4 లో ఉంటే -> 3 కి, 3 లో ఉంటే -> 2 కి
-      openPage(cur - 1);
+      // 4 -> 3, 3 -> 2 : పేజీ మాత్రమే మార్చు, హోమ్ కి వెళ్ళకు
+      msGoingBack = true;
+      // స్టాక్ లో పైన ఉన్న పేజీని తీసేయి
+      if(msStack.length>1) msStack.pop();
+      openPage(cur - 1, true);
+      msGoingBack = false;
       return;
     } else {
-      // 1 లో ఉంటే -> క్లోజ్ చేసి హోమ్ కి
+      // పేజీ 1 (0) లో ఉంటే -> మూసి హోమ్ కి
       closeBookPage();
+      msStack = [{type:'list'}];
       location.href='index.html';
       return;
     }
   }
-  // 2. బుక్ చాప్టర్స్ లిస్ట్ లో ఉంటే -> హోమ్ కి (లిస్ట్ చూపించదు)
+  // 2. చాప్టర్స్ / History / Bookmarks లో ఉంటే -> బుక్స్ లిస్ట్ కాకుండా హోమ్ కి
+  // మీరు చెప్పినట్టు మధ్యలో అన్నీ కనబడకూడదు కాబట్టి డైరెక్ట్ హోమ్
   let detail = document.getElementById('detail');
   if(detail && detail.innerHTML.trim()!==''){
+    msStack = [{type:'list'}];
     location.href='index.html';
     return;
   }
   // 3. బుక్స్ లిస్ట్ లో ఉంటే -> హోమ్ కి
   location.href='index.html';
 }
-// ఫోన్ బ్యాక్ బటన్ కూడా ఇదే - 4->3->2->1->హోమ్
-window.addEventListener('popstate', function(e){
-  e.preventDefault();
-  goBack3();
-});
-if(!sessionStorage.getItem('ms_back_init_books')){ sessionStorage.setItem('ms_back_init_books','1'); history.pushState({ms:1},''); }
 function shareAnyPage(){ let p=window.location.href; let a="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html"; window.open("https://wa.me/?text="+encodeURIComponent("🙏 BM మహిమ సన్నిధి - బుక్స్ 📚\n"+p+"\n\n📲 మన సైట్: "+a+"\n\nమరనాత ✝️"),"_blank"); }
 function openDrawer(){ document.getElementById('drawer').classList.add('open'); } function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
 function openTextSettings(){ closeDrawer(); document.getElementById('textModal').style.display='flex'; document.getElementById('fontSizeLabel').textContent=getFontSize(); }
@@ -241,14 +254,16 @@ function renderBooks(){
 function openBookByIndex(idx){
   hideTopBoxes();
   currentIdx=idx; currentBook=BOOKS[idx]; if(!currentBook) return;
+  msPush({type:'chapters', book:idx});
   document.getElementById('box').innerHTML='';
   let d=document.getElementById('detail');
   d.innerHTML=`<button class="btn" onclick="renderBooks()">⬅ అన్ని బుక్స్ కి వెళ్ళు</button><h3 style="text-align:center;color:#0F2F6B;font-weight:700;font-size:22px">✝️ ${currentBook.title}</h3><p style="text-align:center;color:#3B2314;font-weight:500">${currentBook.desc||''}</p><div class="book-actions">${saveBtnHTML(currentBook)}</div>`+(getChapters(currentBook)).map((ch,i)=>`<div class="chap" onclick="openPage(${i})"><b>${ch.t}</b><div style="font-size:13px;color:#666">పేజీ ${i+1} - చదవండి ➡️</div></div>`).join('')+((getChapters(currentBook)).length==0?'<p style="text-align:center">📭 ఇంకా పేజీలు లేవు!</p>':'');
   window.scrollTo(0,0);
 }
 function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function openPage(i){
+function openPage(i, isBack){
   let ch=getChapters(currentBook)[i]; if(!ch) return;
+  if(!isBack) msPush({type:'page', book:currentIdx, page:i});
   lastRead={idx:currentIdx,page:i}; localStorage.setItem('ms_last_read_books',JSON.stringify(lastRead));
   addHistory(getBookKey(currentBook), i);
   let total=getChapters(currentBook).length; let bookId=getBookKey(currentBook); let underlined=getUnderlinedLines(bookId,i);
