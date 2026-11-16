@@ -1,1 +1,16 @@
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin - Count</title></head>
+<body style="font-family:system-ui;text-align:center;padding:20px;background:#E8F5E9">
+<h2>🙏 BM మహిమ సన్నిధి - మీకు మాత్రమే</h2>
+<p>ఈ లింక్ ఎవరికీ పంపొద్దు</p>
+<div style="background:white;padding:20px;border-radius:16px;margin:12px">
+<b>👀 మొత్తం చూసిన వాళ్ళు</b><h1 id="v">...</h1>
+<b>📲 Install నొక్కిన వాళ్ళు</b><h1 id="i">...</h1>
+<button onclick="load()" style="padding:12px 20px;background:#0B3D2E;color:white;border:none;border-radius:20px;font-weight:bold">🔄 Refresh</button>
+</div>
+<script>
+async function load(){
+  try{ let r=await fetch('https://api.countapi.xyz/get/BMmahimasannidhi/visits'); let j=await r.json(); document.getElementById('v').textContent=j.value; }catch(e){ document.getElementById('v').textContent='0'; }
+  try{ let r=await fetch('https://api.countapi.xyz/get/BMmahimasannidhi/installs'); let j=await r.json(); document.getElementById('i').textContent=j.value; }catch(e){ document.getElementById('i').textContent='0'; }
+}
+load();
+</script></body></html>
