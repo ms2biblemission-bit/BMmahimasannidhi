@@ -127,7 +127,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 
 <div class="logo-row">
-  <a href="calendar.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📅</div><div class="lname">క్యాలండర్</div></a>
+  <a href="calendar.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0;flex-direction:column;line-height:1"><span id="liveMon" style="font-size:11px;color:#C62828;font-weight:bold">NOV</span><span id="liveDay" style="font-size:22px;font-weight:900;color:#222">17</span></div><div class="lname">క్యాలండర్</div></a>
   <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
   <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
   <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
@@ -140,7 +140,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 
 <div class="grid">
-<a class="card" href="calendar.html"><div style="font-size:55px">📅</div><div class="card-text">క్యాలండర్<br><small style="font-weight:normal;color:gray;font-size:12px">మా సందేశం మహిమ సన్నిధి - 2027</small></div></a>
+<a class="card" href="calendar.html" style="padding:10px 6px">
+<div style="font-weight:bold;font-size:16px;color:#0B3D2E">📅 క్యాలండర్</div>
+<div style="font-size:11px;color:gray">మా సందేశం మహిమ సన్నిధి - 2027</div>
+<div style="display:flex;gap:6px;margin-top:8px">
+<div id="miniNov" style="flex:1;background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:6px 2px"></div>
+<div id="miniDec" style="flex:1;background:#E8F5E9;border:1px solid #0B3D2E;border-radius:10px;padding:6px 2px"></div>
+</div>
+<div style="font-size:11px;color:#0B3D2E;font-weight:bold;margin-top:6px">👆 నొక్కితే పూర్తి క్యాలండర్</div>
+</a>
 <a class="card" href="songs.html"><div style="font-size:55px">🎵</div><div class="card-text">పాటలు<br><small style="font-weight:normal;color:gray;font-size:12px">ఆంధ్ర క్రైస్తవ కీర్తనలు</small></div></a>
 <a class="card" href="books.html"><div style="font-size:55px">📚</div><div class="card-text">బుక్స్<br><small style="font-weight:normal;color:gray;font-size:12px">పుస్తకాలు చదవండి</small></div></a>
 <a class="card" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg" alt="YouTube"><div class="card-text">యూట్యూబ్ ఛానల్</div></a>
@@ -443,6 +451,30 @@ async function sendUserChat(){
 }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/visits').catch(()=>{}); }catch(e){}
+// === హోమ్ లో 2 నెలల మినీ క్యాలండర్ - నవంబర్ + డిసెంబర్ 2026 ===
+function miniCal(year, month, elId, title){
+  let el=document.getElementById(elId); if(!el) return;
+  let days=new Date(year,month+1,0).getDate();
+  let start=new Date(year,month,1).getDay();
+  let today=new Date();
+  let h='<div style="font-weight:bold;font-size:13px;color:#0B3D2E">'+title+'</div>';
+  h+='<table style="width:100%;font-size:10px;text-align:center;border-collapse:collapse"><tr><th>ఆ</th><th>సో</th><th>మం</th><th>బు</th><th>గు</th><th>శు</th><th>శ</th></tr><tr>';
+  for(let i=0;i<start;i++) h+='<td></td>';
+  for(let d=1;d<=days;d++){
+    let dow=new Date(year,month,d).getDay();
+    let isToday=(d===today.getDate() && month===today.getMonth() && year===today.getFullYear());
+    h+='<td style="'+(dow===0?'color:#C62828;':'')+(isToday?'background:#FF9800;color:#fff;border-radius:50%;font-weight:bold':'')+'">'+d+'</td>';
+    if(dow===6 && d!==days) h+='</tr><tr>';
+  }
+  h+='</tr></table>';
+  el.innerHTML=h;
+}
+miniCal(2026,10,'miniNov','నవంబర్ 2026');
+miniCal(2026,11,'miniDec','డిసెంబర్ 2026');
+let _t=new Date();
+let _mons=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+let _lm=document.getElementById('liveMon'); if(_lm) _lm.textContent=_mons[_t.getMonth()];
+let _ld=document.getElementById('liveDay'); if(_ld) _ld.textContent=_t.getDate();
 </script>
 </body>
-</html>
+  </html>
