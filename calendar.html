@@ -12,15 +12,23 @@ body{font-family:system-ui,sans-serif;margin:0;background:#E8F5E9;padding-bottom
 .header h2{margin:4px 0;font-size:23px;line-height:1.3}
 .wrap{padding:10px;max-width:650px;margin:auto}
 .top{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;text-align:center;font-weight:bold;color:#0B3D2E}
-/* 📅 సైడ్ స్వైప్ - ఇదే మెయిన్ మార్పు */
+/* ⭐ పక్కకి swipe */
 #cal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:10px 2px 14px;scroll-behavior:smooth}
 #cal::-webkit-scrollbar{display:none}
-.year{min-width:92%;max-width:92%;flex-shrink:0;scroll-snap-align:center;background:#0B3D2E;color:#fff;text-align:center;padding:40px 10px;border-radius:14px;font-size:24px;font-weight:bold;align-self:center}
-.month{min-width:92%;max-width:92%;flex-shrink:0;scroll-snap-align:center;background:#fff;border-radius:14px;padding:10px 10px 12px;margin:0;box-shadow:0 2px 6px #0001}
-.month h3{margin:2px 0 6px;color:#0B3D2E;font-size:20px;text-align:center;background:#E8F5E9;padding:8px;border-radius:10px}
-.month.current h3{background:#FF9800;color:#fff}
-table{width:100%;border-collapse:collapse;font-size:15px;text-align:center}
-th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
+.slide{min-width:100%;max-width:100%;flex-shrink:0;scroll-snap-align:center}
+/* ⭐ 1వ పేజీ - ఈ రోజు పెద్దగా */
+.today-card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 8px #0002;text-align:center}
+.today-card .big-green{background:#0B3D2E;color:#fff;border-radius:16px;padding:30px 10px}
+.today-card .big-green .num{font-size:90px;font-weight:900;line-height:1}
+.today-card .big-green .mon{font-size:24px;font-weight:bold;color:#FFE082;margin-top:6px}
+.today-card .big-green .day{font-size:16px;opacity:.9;margin-top:4px}
+.today-card .verse{font-size:14px;margin-top:12px;background:#FFF8E1;border:1px solid #FFD54F;padding:10px;border-radius:12px;line-height:1.7;color:#333}
+/* ⭐ 2వ పేజీ నుండి - నెల మొత్తం */
+.month{background:#fff;border-radius:16px;padding:12px;box-shadow:0 2px 8px #0002}
+.month h3{margin:2px 0 10px;color:#fff;font-size:22px;text-align:center;background:#FF9800;padding:10px;border-radius:12px}
+.month.current h3{background:#FF9800}
+table{width:100%;border-collapse:collapse;font-size:16px;text-align:center}
+th{color:#0B3D2E;padding:7px 2px;font-size:15px} td{padding:7px 2px}
 .sun{color:#C62828;font-weight:bold}
 .today{background:#FF9800;color:#fff !important;border-radius:50%;font-weight:bold}
 .imp{background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.8}
@@ -48,7 +56,7 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 <button onclick="moveCal(-1)">◀ ముందు నెల</button>
 <button onclick="moveCal(1)">తర్వాత నెల ▶</button>
 </div>
-<div id="calPos" style="text-align:center;font-weight:bold;color:#0B3D2E;margin-top:8px;font-size:14px">నవంబర్ 2026</div>
+<div id="calPos" style="text-align:center;font-weight:bold;color:#0B3D2E;margin-top:8px;font-size:14px">ఈ రోజు</div>
 </div>
 <nav class="bottom-nav">
 <a href="index.html">🏠<br>హోమ్</a>
@@ -59,7 +67,7 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 <script>
 function moveCal(dir){
   let c=document.getElementById('cal');
-  c.scrollBy({left: dir * (c.clientWidth*0.92+12), behavior:'smooth'});
+  c.scrollBy({left: dir * (c.clientWidth+12), behavior:'smooth'});
 }
 function getEaster(y){
   let a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
@@ -95,20 +103,26 @@ function getHolidays(y,m){
   return all.join("<br>");
 }
 let today=new Date();
-let box=document.getElementById('cal');
 let telMonths=["జనవరి","ఫిబ్రవరి","మార్చి","ఏప్రిల్","మే","జూన్","జూలై","ఆగస్టు","సెప్టెంబర్","అక్టోబర్","నవంబర్","డిసెంబర్"];
-let labels=[];
-box.innerHTML+='<div class="year">📅 2026</div>'; labels.push("2026");
-[10,11].forEach(m=>{ box.innerHTML+=renderMonth(2026,m); labels.push(telMonths[m]+" 2026"); });
-[2027,2028,2029].forEach(y=>{
-  box.innerHTML+='<div class="year">📅 '+y+'</div>'; labels.push(""+y);
-  for(let m=0;m<12;m++){ box.innerHTML+=renderMonth(y,m); labels.push(telMonths[m]+" "+y); }
-});
+let telDays=["ఆదివారం","సోమవారం","మంగళవారం","బుధవారం","గురువారం","శుక్రవారం","శనివారం"];
+let box=document.getElementById('cal');
+let labels=["ఈ రోజు"];
+// ⭐ 1వ పేజీ - ఈ రోజు మాత్రమే పెద్దగా - రేపు 18, ఎల్లుండి 19 ఆటోమేటిక్
+let todayHTML='<div class="slide"><div class="today-card">';
+todayHTML+='<div style="font-size:15px;color:#666">📅 ఈ రోజు</div>';
+todayHTML+='<div class="big-green"><div class="num">'+today.getDate()+'</div><div class="mon">'+telMonths[today.getMonth()]+' '+today.getFullYear()+'</div><div class="day">'+telDays[today.getDay()]+'</div></div>';
+todayHTML+='<div class="verse">✝️ మరనాత - ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు 🙏<br>👈 👉 సైడ్ కి జరపండి - నవంబర్ నెల మొత్తం వస్తుంది</div>';
+todayHTML+='</div></div>';
+box.innerHTML=todayHTML;
+// ⭐ 2వ పేజీ నుండి - నెల మొత్తం
+let list=[];
+[10,11].forEach(m=>list.push([2026,m]));
+[2027,2028,2029].forEach(y=>{ for(let m=0;m<12;m++) list.push([y,m]); });
+list.forEach(([y,m])=>{ box.innerHTML+=renderMonth(y,m); labels.push(telMonths[m]+" "+y); });
 function renderMonth(y,m){
   let days=new Date(y,m+1,0).getDate();
   let start=new Date(y,m,1).getDay();
-  let isCur=(y===today.getFullYear() && m===today.getMonth());
-  let h='<div class="month '+(isCur?'current':'')+'"><h3>'+telMonths[m]+' '+y+'</h3><table><tr><th>ఆది</th><th>సోమ</th><th>మంగళ</th><th>బుధ</th><th>గురు</th><th>శుక్ర</th><th>శని</th></tr><tr>';
+  let h='<div class="slide"><div class="month"><h3>'+telMonths[m]+' '+y+'</h3><table><tr><th>ఆది</th><th>సోమ</th><th>మంగళ</th><th>బుధ</th><th>గురు</th><th>శుక్ర</th><th>శని</th></tr><tr>';
   for(let k=0;k<start;k++) h+='<td></td>';
   for(let day=1;day<=days;day++){
     let dow=new Date(y,m,day).getDay();
@@ -116,13 +130,12 @@ function renderMonth(y,m){
     h+='<td class="'+(dow==0?'sun ':'')+(isToday?'today':'')+'">'+day+'</td>';
     if(dow==6 && day!=days) h+='</tr><tr>';
   }
-  h+='</tr></table><div class="imp"><b>📌 ముఖ్యమైన దినాలు :</b><br>'+getHolidays(y,m)+'</div></div>';
+  h+='</tr></table><div class="imp"><b>📌 ముఖ్యమైన దినాలు :</b><br>'+getHolidays(y,m)+'</div></div></div>';
   return h;
 }
-// ఏ నెల చూస్తున్నారో కింద చూపించడం
 let calEl=document.getElementById('cal');
 calEl.addEventListener('scroll',()=>{
-  let w=calEl.clientWidth*0.92+12;
+  let w=calEl.clientWidth+12;
   let idx=Math.round(calEl.scrollLeft/w);
   if(labels[idx]) document.getElementById('calPos').textContent=labels[idx];
 });
