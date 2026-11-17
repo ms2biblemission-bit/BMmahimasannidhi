@@ -12,8 +12,11 @@ body{font-family:system-ui,sans-serif;margin:0;background:#E8F5E9;padding-bottom
 .header h2{margin:4px 0;font-size:23px;line-height:1.3}
 .wrap{padding:10px;max-width:650px;margin:auto}
 .top{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;text-align:center;font-weight:bold;color:#0B3D2E}
-.year{background:#0B3D2E;color:#fff;text-align:center;padding:10px;border-radius:14px;font-size:20px;font-weight:bold;margin:18px 0 5px}
-.month{background:#fff;border-radius:14px;padding:10px 10px 12px;margin:10px 0;box-shadow:0 2px 6px #0001}
+/* 📅 సైడ్ స్వైప్ - ఇదే మెయిన్ మార్పు */
+#cal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:10px 2px 14px;scroll-behavior:smooth}
+#cal::-webkit-scrollbar{display:none}
+.year{min-width:92%;max-width:92%;flex-shrink:0;scroll-snap-align:center;background:#0B3D2E;color:#fff;text-align:center;padding:40px 10px;border-radius:14px;font-size:24px;font-weight:bold;align-self:center}
+.month{min-width:92%;max-width:92%;flex-shrink:0;scroll-snap-align:center;background:#fff;border-radius:14px;padding:10px 10px 12px;margin:0;box-shadow:0 2px 6px #0001}
 .month h3{margin:2px 0 6px;color:#0B3D2E;font-size:20px;text-align:center;background:#E8F5E9;padding:8px;border-radius:10px}
 .month.current h3{background:#FF9800;color:#fff}
 table{width:100%;border-collapse:collapse;font-size:15px;text-align:center}
@@ -22,6 +25,10 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 .today{background:#FF9800;color:#fff !important;border-radius:50%;font-weight:bold}
 .imp{background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.8}
 .maha{background:gold;color:#3E2723;font-weight:bold;padding:2px 8px;border-radius:20px;display:inline-block}
+.nav-row{display:flex;gap:10px;margin:0 10px}
+.nav-row button{flex:1;background:#0B3D2E;color:#fff;border:none;padding:13px;border-radius:14px;font-size:17px;font-weight:bold;cursor:pointer}
+.nav-row button:active{background:#FF9800}
+.hint{text-align:center;font-size:12px;color:#666;margin:6px 0 0}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#0B3D2E;display:flex;justify-content:space-around;padding:8px 2px}
 .bottom-nav a{flex:1;color:#fff;text-decoration:none;text-align:center;font-size:12px;font-weight:bold}
 </style>
@@ -35,7 +42,13 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 </div>
 <div class="wrap">
 <div class="top">✝️ 2026 - 2029 | 3 సంవత్సరాలు - ఒకే చోట</div>
+<div class="hint">👈 👉 సైడ్ కి జరపండి - నెక్స్ట్ నెల వస్తుంది</div>
 <div id="cal"></div>
+<div class="nav-row">
+<button onclick="moveCal(-1)">◀ ముందు నెల</button>
+<button onclick="moveCal(1)">తర్వాత నెల ▶</button>
+</div>
+<div id="calPos" style="text-align:center;font-weight:bold;color:#0B3D2E;margin-top:8px;font-size:14px">నవంబర్ 2026</div>
 </div>
 <nav class="bottom-nav">
 <a href="index.html">🏠<br>హోమ్</a>
@@ -44,7 +57,10 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 <a href="quiz.html">🎯<br>క్విజ్</a>
 </nav>
 <script>
-// ===== ఈస్టర్ నుండి లెక్క - ప్రతి ఏడాదికి కరెక్ట్ తేదీ వస్తుంది =====
+function moveCal(dir){
+  let c=document.getElementById('cal');
+  c.scrollBy({left: dir * (c.clientWidth*0.92+12), behavior:'smooth'});
+}
 function getEaster(y){
   let a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
   let month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1;
@@ -53,11 +69,8 @@ function getEaster(y){
 function addDays(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x;}
 function fmt(d){let m=["జన","ఫిబ్ర","మార్చి","ఏప్రి","మే","జూన్","జూలై","ఆగ","సెప్","అక్టో","నవం","డిసెం"];return m[d.getMonth()]+" "+d.getDate();}
 function getHolidays(y,m){
-  // m = 0-11
   let easter=getEaster(y);
   let lent=addDays(easter,-46), palm=addDays(easter,-7), maundy=addDays(easter,-3), goodFri=addDays(easter,-2), asc=addDays(easter,39), pent=addDays(easter,49);
-  let advent=new Date(y,10,1); while(advent.getDay()!==0) advent.setDate(advent.getDate()+1);
-  // ఆగమన కాలం = క్రిస్మస్ కి ముందు 4వ ఆదివారం
   let christmas=new Date(y,11,25); let adv=new Date(christmas); while(adv.getDay()!==0) adv.setDate(adv.getDate()-1); adv.setDate(adv.getDate()-21);
   let all=[];
   if(m===0){
@@ -84,13 +97,12 @@ function getHolidays(y,m){
 let today=new Date();
 let box=document.getElementById('cal');
 let telMonths=["జనవరి","ఫిబ్రవరి","మార్చి","ఏప్రిల్","మే","జూన్","జూలై","ఆగస్టు","సెప్టెంబర్","అక్టోబర్","నవంబర్","డిసెంబర్"];
-// 2026 - నవంబర్, డిసెంబర్ మాత్రమే
-box.innerHTML+='<div class="year">📅 2026</div>';
-[10,11].forEach(m=>{ box.innerHTML+=renderMonth(2026,m); });
-// 2027, 2028, 2029 - పూర్తి 12 నెలలు
+let labels=[];
+box.innerHTML+='<div class="year">📅 2026</div>'; labels.push("2026");
+[10,11].forEach(m=>{ box.innerHTML+=renderMonth(2026,m); labels.push(telMonths[m]+" 2026"); });
 [2027,2028,2029].forEach(y=>{
-  box.innerHTML+='<div class="year">📅 '+y+'</div>';
-  for(let m=0;m<12;m++) box.innerHTML+=renderMonth(y,m);
+  box.innerHTML+='<div class="year">📅 '+y+'</div>'; labels.push(""+y);
+  for(let m=0;m<12;m++){ box.innerHTML+=renderMonth(y,m); labels.push(telMonths[m]+" "+y); }
 });
 function renderMonth(y,m){
   let days=new Date(y,m+1,0).getDate();
@@ -107,6 +119,13 @@ function renderMonth(y,m){
   h+='</tr></table><div class="imp"><b>📌 ముఖ్యమైన దినాలు :</b><br>'+getHolidays(y,m)+'</div></div>';
   return h;
 }
+// ఏ నెల చూస్తున్నారో కింద చూపించడం
+let calEl=document.getElementById('cal');
+calEl.addEventListener('scroll',()=>{
+  let w=calEl.clientWidth*0.92+12;
+  let idx=Math.round(calEl.scrollLeft/w);
+  if(labels[idx]) document.getElementById('calPos').textContent=labels[idx];
+});
 </script>
 </body>
 </html>
