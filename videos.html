@@ -1,33 +1,18 @@
 <!DOCTYPE html>
-<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>వీడియోస్ - మహిమ సన్నిధి</title><style>body{font-family:system-ui;padding:12px;max-width:650px;margin:auto;background:#fff8ec}h2{color:#8B0000;text-align:center}.card{background:#fff;padding:14px;border-radius:14px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}video{width:100%;border-radius:12px;background:#000;max-height:320px}button.btn{display:block;width:100%;text-align:center;padding:18px;border-radius:12px;font-weight:bold;margin-top:10px;color:#fff;font-size:19px;border:0;cursor:pointer}a.btn{display:block;text-align:center;padding:16px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:10px;color:#fff;font-size:18px}.watch{background:#E53935}.down{background:#4CAF50}.back{display:block;text-align:center;margin:10px 0;color:#8B0000;text-decoration:none;font-weight:bold}.tip{background:#E8F5E9;padding:10px;border-radius:10px;font-size:14px;text-align:center}</style></head><body>
-<a class="back" href="index.html">⬅️ వెనక్కి - హోమ్</a><h2>🎥 వీడియోస్</h2><p style="text-align:center">వీడియో మీద నొక్కితే ఇక్కడే ఆడుతుంది 🙏</p>
-<div class="tip">📌 <b>డౌన్లోడ్ ఎక్కడ సేవ్ అవుతుంది?</b><br>⬇️ నొక్కితే - <b>Files → Downloads</b> లోకి వెళ్తుంది ✅<br>Gallery లో చూడాలంటే - Gallery → Downloads / Albums లో చూడండి</div>
-<div id="list">లోడ్ అవుతోంది...</div>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>వీడియోస్ - మహిమ సన్నిధి</title><style>body{font-family:system-ui;padding:12px;max-width:650px;margin:auto;background:#fff8ec}h2{color:#8B0000;text-align:center}.card{background:#fff;padding:14px;border-radius:14px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}video{width:100%;border-radius:12px;background:#000;max-height:340px}.nav{display:flex;gap:10px;margin-top:12px}.nav button{flex:1;padding:15px;border:0;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer;color:#fff}.prev{background:#6D4C41}.next{background:#8B0000}.prev:disabled,.next:disabled{opacity:.4}.listbtn{display:block;width:100%;text-align:left;padding:13px;border:1px solid #FFE0B2;border-radius:10px;background:#FFF8E1;margin:6px 0;cursor:pointer;font-size:15px}.listbtn.active{background:#FFCCBC;border-color:#E53935;font-weight:bold}.back{display:block;text-align:center;margin:10px 0;color:#8B0000;text-decoration:none;font-weight:bold}.count{text-align:center;color:#666}</style></head><body>
+<a class="back" href="index.html">⬅️ వెనక్కి - హోమ్</a><h2>🎥 వీడియోస్</h2><p style="text-align:center">వీడియో ఇక్కడే ఆడుతుంది - ఏ ఇతర యాప్ ఓపెన్ అవ్వదు 🙏</p>
+<div id="player"></div>
+<div id="list"></div>
 <script>
+let videos=[]; let cur=0;
 function did(l){ let m=(l||"").match(/\/d\/([^\/\?]+)/); return m?m[1]:""; }
-async function downloadVideo(id, title, btn){
-  if(!id) return;
-  let old = btn.innerHTML; btn.innerHTML = "⏳ డౌన్లోడ్ అవుతోంది... ఆగండి 🙏"; btn.disabled = true;
-  let url = "https://drive.google.com/uc?export=download&id=" + id;
-  try{
-    let r = await fetch(url);
-    if(!r.ok) throw new Error("fetch fail");
-    let blob = await r.blob();
-    let a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = (title || "video").replace(/[^\w\- ]/g,"") + ".mp4";
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>{ URL.revokeObjectURL(a.href); }, 5000);
-    btn.innerHTML = "✅ డౌన్లోడ్ అయింది! Files → Downloads లో చూడండి";
-    alert("✅ డౌన్లోడ్ అయింది!\n\nఎక్కడ ఉందంటే:\nFiles యాప్ → Downloads లో చూడండి\nలేదా Gallery → Downloads లో చూడండి");
-  }catch(e){
-    // Drive కొన్నిసార్లు fetch ని ఆపేస్తుంది - అప్పుడు Drive లో ఓపెన్ చేసి Download చేయమని చెప్పాలి
-    btn.innerHTML = old; btn.disabled = false;
-    if(confirm("⚠️ Drive డైరెక్ట్ డౌన్లోడ్ కి ఒప్పుకోవట్లేదు.\n\nDrive లో ఓపెన్ చేసి - అక్కడ పైన ⋮ → Download నొక్కాలా?\n\nOK నొక్కితే Drive ఓపెన్ అవుతుంది")){
-      window.open("https://drive.google.com/file/d/"+id+"/view", "_blank");
-    }
-  }
+function show(i){
+  if(!videos.length) return; if(i<0) i=0; if(i>=videos.length) i=videos.length-1; cur=i;
+  let v=videos[i]; let id=did(v.link); let direct=id?"https://drive.google.com/uc?export=download&id="+id:(v.link||"");
+  document.getElementById("player").innerHTML='<div class="card"><b>'+(i+1)+". "+(v.title||"వీడియో")+'</b><p>'+(v.msg||"")+'</p><video id="vp" controls autoplay playsinline preload="auto" src="'+direct+'"></video><div class="nav"><button class="prev" onclick="show('+(i-1)+')" '+(i==0?"disabled":"")+'>⬅️ మునుపటి</button><button class="next" onclick="show('+(i+1)+')" '+(i==videos.length-1?"disabled":"")+'>తరువాత ➡️</button></div><p class="count">'+(i+1)+" / "+videos.length+" వీడియో</p></div>";
+  document.querySelectorAll(".listbtn").forEach((b,idx)=>{ b.classList.toggle("active", idx==i); });
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-async function load(){ try{ let r=await fetch("videos.json?v="+Date.now()); let d=await r.json(); let b=document.getElementById("list"); if(!d.length){ b.innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; return; } b.innerHTML=""; d.forEach((v,i)=>{ let id=did(v.link); let direct=id?"https://drive.google.com/uc?export=download&id="+id:(v.link||""); let view=id?"https://drive.google.com/file/d/"+id+"/view":(v.link||"#"); let div=document.createElement("div"); div.className="card"; let vid=""; if(id){ vid='<video controls playsinline preload="none" src="'+direct+'"></video>'; } let safeTitle=(v.title||"video").replace(/'/g,""); div.innerHTML="<b>"+(i+1)+". "+(v.title||"వీడియో")+"</b><p>"+(v.msg||"")+"</p>"+vid+"<button class='btn down' onclick=\"downloadVideo('"+id+"','"+safeTitle+"',this)\">⬇️ డౌన్లోడ్ చేసుకోండి - ఇక్కడ నొక్కండి</button><a class='btn watch' href='"+view+"' target='_blank'>▶️ Drive లో పెద్దగా చూడండి</a>"; b.appendChild(div); }); }catch(e){ document.getElementById("list").innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; } }
+async function load(){ try{ let r=await fetch("videos.json?v="+Date.now()); videos=await r.json(); let b=document.getElementById("list"); if(!videos.length){ b.innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; document.getElementById("player").innerHTML=""; return; } b.innerHTML="<h3 style='text-align:center'>📋 అన్ని వీడియోలు</h3>"; videos.forEach((v,i)=>{ let btn=document.createElement("button"); btn.className="listbtn"; btn.innerHTML="▶️ "+(i+1)+". "+(v.title||"వీడియో"); btn.onclick=()=>show(i); b.appendChild(btn); }); show(0); }catch(e){ document.getElementById("list").innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; } }
 load();
 </script></body></html>
