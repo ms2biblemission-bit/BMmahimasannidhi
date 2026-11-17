@@ -247,12 +247,12 @@ if(!sessionStorage.getItem('ms_back_init')){ sessionStorage.setItem('ms_back_ini
 function shareAnyPage(){
   let pageLink = window.location.href;
   let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";
-  let pageName = "BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్";
+  let pageName = "BM మహిమ సన్నిధి 🙏\n📅 క్యాలండర్ 2026-2029 | 🎄 క్రిస్మస్ కౌంట్ డౌన్ | 📅 జన 24,25,26 మహా సభలు\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్";
   if(pageLink.includes("songs")) pageName = "BM మహిమ సన్నిధి - పాటలు 🎵\nఆంధ్ర క్రైస్తవ కీర్తనలు - పాడండి, షేర్ చేయండి";
   else if(pageLink.includes("books")) pageName = "BM మహిమ సన్నిధి - బుక్స్ 📚\nపుస్తకాలు చదవండి";
   else if(pageLink.includes("quiz")) pageName = "BM మహిమ సన్నిధి - బైబిల్ క్విజ్ 🎯\nరోజూ కొత్త హార్డ్ ప్రశ్నలు";
   else if(pageLink.includes("voice")) pageName = "BM మహిమ సన్నిధి - వాయిస్ 🎤\nవాయిస్ సందేశాలు వినండి";
-  else if(pageLink.includes("calendar")) pageName = "BM మహిమ సన్నిధి - క్యాలండర్ 📅\nమా సందేశం మహిమ సన్నిధి క్యాలండర్ 2027";
+  else if(pageLink.includes("calendar")) pageName = "BM మహిమ సన్నిధి - క్యాలండర్ 📅\nమా సందేశం మహిమ సన్నిధి క్యాలండర్ 2026-2029";
   let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
@@ -464,7 +464,7 @@ async function sendUserChat(){
 }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
 try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/visits').catch(()=>{}); }catch(e){}
-// === హోమ్ లో 2 నెలల మినీ క్యాలండర్ - నవంబర్ + డిసెంబర్ 2026 ===
+// === హోమ్ లో 2 నెలల మినీ క్యాలండర్ ===
 function miniCal(year, month, elId, title){
   let el=document.getElementById(elId); if(!el) return;
   let days=new Date(year,month+1,0).getDate();
@@ -522,4 +522,4 @@ function updateCountdown(){
 updateCountdown();
 </script>
 </body>
-</html>
+  </html>
