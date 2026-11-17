@@ -110,6 +110,19 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
 
+<!-- 🎄 క్రిస్మస్ + కొత్త సంవత్సరం కౌంట్ డౌన్ -->
+<div id="countBox" style="background:linear-gradient(135deg,#0B3D2E,#C62828);color:#fff;border-radius:16px;padding:14px;margin:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.2)">
+  <div id="countTitle" style="font-size:17px;font-weight:bold">🎄 క్రిస్మస్ కి</div>
+  <div id="countDays" style="font-size:38px;font-weight:900;line-height:1.2">--</div>
+  <div id="countSub" style="font-size:13px;opacity:.9">రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️</div>
+</div>
+
+<!-- 📅 మహాసభల బ్యానర్ -->
+<div onclick="location.href='calendar.html'" style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:11px;margin:0 12px 12px;text-align:center;cursor:pointer">
+  <div style="font-weight:bold;color:#0B3D2E">📅 జన 24, 25, 26 - మహా సభలు</div>
+  <div style="font-size:12px;color:#666;margin-top:3px">ముందుగానే ప్రార్థనలో గుర్తుంచుకోండి 🙏 👆 నొక్కితే క్యాలండర్</div>
+</div>
+
 <div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#0B3D2E;font-size:17px">🙏 BM మహిమ సన్నిధి</div>
   <div style="font-size:12px;color:#666;margin:3px 0 10px">రోజూ వాక్యం - పాటలు - బైబిల్ క్విజ్</div>
@@ -475,6 +488,38 @@ let _t=new Date();
 let _mons=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 let _lm=document.getElementById('liveMon'); if(_lm) _lm.textContent=_mons[_t.getMonth()];
 let _ld=document.getElementById('liveDay'); if(_ld) _ld.textContent=_t.getDate();
+// 🎄 క్రిస్మస్ -> కొత్త సంవత్సరం ఆటో కౌంట్ డౌన్
+function updateCountdown(){
+  let now=new Date(); now.setHours(0,0,0,0);
+  let year=now.getFullYear();
+  let christmas=new Date(year,11,25);
+  let newyear=new Date(year+1,0,1);
+  let title=document.getElementById('countTitle');
+  let daysEl=document.getElementById('countDays');
+  let sub=document.getElementById('countSub');
+  let box=document.getElementById('countBox');
+  if(!title||!daysEl) return;
+  if(now <= christmas){
+    let diff=Math.ceil((christmas-now)/(1000*60*60*24));
+    title.textContent="🎄 క్రిస్మస్ కి";
+    daysEl.textContent=diff+" రోజులు";
+    sub.textContent="రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️";
+    if(box) box.style.background="linear-gradient(135deg,#0B3D2E,#C62828)";
+  } else if(now < newyear){
+    let diff=Math.ceil((newyear-now)/(1000*60*60*24));
+    title.textContent="🎉 కొత్త సంవత్సరానికి";
+    daysEl.textContent=diff+" రోజులు";
+    sub.textContent="రోజులు మాత్రమే - ప్రభువులో నూతన సంవత్సరం 🙏";
+    if(box) box.style.background="linear-gradient(135deg,#0B3D2E,#FF9800)";
+  } else {
+    let nextChristmas=new Date(year+1,11,25);
+    let diff=Math.ceil((nextChristmas-now)/(1000*60*60*24));
+    title.textContent="🎄 వచ్చే క్రిస్మస్ కి";
+    daysEl.textContent=diff+" రోజులు";
+    sub.textContent="రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️";
+  }
+}
+updateCountdown();
 </script>
 </body>
-  </html>
+</html>
