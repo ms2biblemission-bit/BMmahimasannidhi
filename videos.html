@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>వీడియోస్ - మహిమ సన్నిధి</title><style>body{font-family:system-ui;padding:12px;max-width:650px;margin:auto;background:#fff8ec}h2{color:#8B0000;text-align:center}.card{background:#fff;padding:14px;border-radius:14px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}video{width:100%;border-radius:12px;background:#000;max-height:340px}.nav{display:flex;gap:10px;margin-top:12px}.nav button{flex:1;padding:15px;border:0;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer;color:#fff}.prev{background:#6D4C41}.next{background:#8B0000}.prev:disabled,.next:disabled{opacity:.4}.listbtn{display:block;width:100%;text-align:left;padding:13px;border:1px solid #FFE0B2;border-radius:10px;background:#FFF8E1;margin:6px 0;cursor:pointer;font-size:15px}.listbtn.active{background:#FFCCBC;border-color:#E53935;font-weight:bold}.back{display:block;text-align:center;margin:10px 0;color:#8B0000;text-decoration:none;font-weight:bold}.count{text-align:center;color:#666}</style></head><body>
-<a class="back" href="index.html">⬅️ వెనక్కి - హోమ్</a><h2>🎥 వీడియోస్</h2><p style="text-align:center">వీడియో ఇక్కడే ఆడుతుంది - ఏ ఇతర యాప్ ఓపెన్ అవ్వదు 🙏</p>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>వీడియోస్ - మహిమ సన్నిధి</title><style>body{font-family:system-ui;padding:12px;max-width:650px;margin:auto;background:#fff8ec}h2{color:#8B0000;text-align:center;margin:8px 0}.card{background:#fff;padding:14px;border-radius:14px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}iframe{width:100%;height:280px;border:0;border-radius:12px;background:#000}.nav{display:flex;gap:10px;margin-top:12px}.nav button{flex:1;padding:14px;border:0;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer;color:#fff}.prev{background:#6D4C41}.next{background:#8B0000}.prev:disabled,.next:disabled{opacity:.4}.thumb{display:flex;gap:12px;align-items:center;background:#fff;padding:10px;border-radius:12px;margin:8px 0;box-shadow:0 1px 5px rgba(0,0,0,.08);cursor:pointer;border:2px solid transparent;text-align:left;width:100%}.thumb.active{border-color:#E53935;background:#FFF3E0}.thumb img{width:110px;height:70px;object-fit:cover;border-radius:8px;background:#eee;flex-shrink:0}.thumb b{font-size:15px;color:#333}.thumb small{color:#777}.back{display:block;text-align:center;margin:8px 0;color:#8B0000;text-decoration:none;font-weight:bold}</style></head><body>
+<a class="back" href="index.html">⬅️ వెనక్కి - హోమ్</a><h2>🎥 వీడియోస్</h2>
 <div id="player"></div>
 <div id="list"></div>
 <script>
@@ -8,11 +8,17 @@ let videos=[]; let cur=0;
 function did(l){ let m=(l||"").match(/\/d\/([^\/\?]+)/); return m?m[1]:""; }
 function show(i){
   if(!videos.length) return; if(i<0) i=0; if(i>=videos.length) i=videos.length-1; cur=i;
-  let v=videos[i]; let id=did(v.link); let direct=id?"https://drive.google.com/uc?export=download&id="+id:(v.link||"");
-  document.getElementById("player").innerHTML='<div class="card"><b>'+(i+1)+". "+(v.title||"వీడియో")+'</b><p>'+(v.msg||"")+'</p><video id="vp" controls autoplay playsinline preload="auto" src="'+direct+'"></video><div class="nav"><button class="prev" onclick="show('+(i-1)+')" '+(i==0?"disabled":"")+'>⬅️ మునుపటి</button><button class="next" onclick="show('+(i+1)+')" '+(i==videos.length-1?"disabled":"")+'>తరువాత ➡️</button></div><p class="count">'+(i+1)+" / "+videos.length+" వీడియో</p></div>";
-  document.querySelectorAll(".listbtn").forEach((b,idx)=>{ b.classList.toggle("active", idx==i); });
+  let v=videos[i]; let id=did(v.link);
+  let preview=id?"https://drive.google.com/file/d/"+id+"/preview":(v.link||"");
+  document.getElementById("player").innerHTML='<div class="card"><b>'+(i+1)+". "+(v.title||"వీడియో")+'</b><p>'+(v.msg||"")+'</p><iframe src="'+preview+'" allow="autoplay; fullscreen" allowfullscreen></iframe><div class="nav"><button class="prev" onclick="show('+(i-1)+')" '+(i==0?"disabled":"")+'>⬅️ మునుపటి</button><button class="next" onclick="show('+(i+1)+')" '+(i==videos.length-1?"disabled":"")+'>తరువాత ➡️</button></div><p style="text-align:center;color:#666;margin:6px 0">'+(i+1)+" / "+videos.length+"</p></div>";
+  document.querySelectorAll(".thumb").forEach((b,idx)=>{ b.classList.toggle("active", idx==i); });
   window.scrollTo({top:0,behavior:"smooth"});
 }
-async function load(){ try{ let r=await fetch("videos.json?v="+Date.now()); videos=await r.json(); let b=document.getElementById("list"); if(!videos.length){ b.innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; document.getElementById("player").innerHTML=""; return; } b.innerHTML="<h3 style='text-align:center'>📋 అన్ని వీడియోలు</h3>"; videos.forEach((v,i)=>{ let btn=document.createElement("button"); btn.className="listbtn"; btn.innerHTML="▶️ "+(i+1)+". "+(v.title||"వీడియో"); btn.onclick=()=>show(i); b.appendChild(btn); }); show(0); }catch(e){ document.getElementById("list").innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; } }
+async function load(){
+  try{ let r=await fetch("videos.json?v="+Date.now()); videos=await r.json(); let b=document.getElementById("list");
+  if(!videos.length){ b.innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; return; }
+  b.innerHTML=""; videos.forEach((v,i)=>{ let id=did(v.link); let th=id?"https://drive.google.com/thumbnail?id="+id+"&sz=w400":""; let btn=document.createElement("button"); btn.className="thumb"; btn.innerHTML=(th?'<img src="'+th+'" onerror="this.src=\'https://via.placeholder.com/110x70?text=VIDEO\'">':'<img src="https://via.placeholder.com/110x70?text=VIDEO">')+'<div><b>'+(i+1)+". "+(v.title||"వీడియో")+'</b><br><small>'+(v.msg||"").substring(0,60)+'</small></div>'; btn.onclick=()=>show(i); b.appendChild(btn); });
+  show(0); }catch(e){ document.getElementById("list").innerHTML="<p style='text-align:center'>📭 ఇంకా వీడియోస్ లేవు</p>"; }
+}
 load();
 </script></body></html>
