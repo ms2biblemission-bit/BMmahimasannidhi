@@ -12,6 +12,7 @@ body{font-family:system-ui,sans-serif;margin:0;background:#E8F5E9;padding-bottom
 .header h2{margin:4px 0;font-size:23px;line-height:1.3}
 .wrap{padding:10px;max-width:650px;margin:auto}
 .top{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;text-align:center;font-weight:bold;color:#0B3D2E}
+.year{background:#0B3D2E;color:#fff;text-align:center;padding:10px;border-radius:14px;font-size:20px;font-weight:bold;margin:18px 0 5px}
 .month{background:#fff;border-radius:14px;padding:10px 10px 12px;margin:10px 0;box-shadow:0 2px 6px #0001}
 .month h3{margin:2px 0 6px;color:#0B3D2E;font-size:20px;text-align:center;background:#E8F5E9;padding:8px;border-radius:10px}
 .month.current h3{background:#FF9800;color:#fff}
@@ -30,48 +31,72 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 <a href="index.html">← హోమ్</a>
 <div style="font-size:13px;margin-top:4px">📖 బైబిల్ మిషన్</div>
 <h2>మా సందేశం<br>మహిమ సన్నిధి క్యాలండర్</h2>
-<div>📅 2026 - 2027</div>
+<div>📅 2026 - 2029</div>
 </div>
-
 <div class="wrap">
-<div class="top">✝️ ప్రభువు సంవత్సరం - ఈ నెల నుండి చూడండి</div>
+<div class="top">✝️ 2026 - 2029 | 3 సంవత్సరాలు - ఒకే చోట</div>
 <div id="cal"></div>
 </div>
-
 <nav class="bottom-nav">
 <a href="index.html">🏠<br>హోమ్</a>
 <a href="books.html">📚<br>పుస్తకాలు</a>
 <a href="songs.html">🎵<br>పాటలు</a>
 <a href="quiz.html">🎯<br>క్విజ్</a>
 </nav>
-
 <script>
-let months=[
-{name:"నవంబర్",year:2026,imp:"• నవం 1 : సకల పరిశుద్ధుల దినం<br>• నవం 14 : బాలల దినోత్సవం<br>• నవం 28 : ఆగమన కాలం ప్రారంభం - ఆదివారం",current:true},
-{name:"డిసెంబర్",year:2026,imp:"• డిసెం 25 : క్రిస్మస్ - యేసు జననం<br>• డిసెం 31 : సంవత్సరాంత కృతజ్ఞతా ప్రార్థన"},
-{name:"జనవరి",year:2027,imp:"• జన 1 : నూతన సంవత్సరం<br>• జన 26 : గణతంత్ర దినోత్సవం<br>• <span class='maha'>జన 24, 25, 26 : మహా సభలు</span>"},
-{name:"ఫిబ్రవరి",year:2027,imp:"• ఫిబ్ర 17 : లెంట్ డేస్ ప్రారంభం"},
-{name:"మార్చి",year:2027,imp:"• మార్చి 28 : పామ్ సండే"},
-{name:"ఏప్రిల్",year:2027,imp:"• ఏప్రి 1 : పరిశుద్ధ గురువారం<br>• ఏప్రి 2 : గుడ్ ఫ్రైడే<br>• ఏప్రి 4 : ఈస్టర్ - పునరుత్థాన దినం<br>• ఏప్రి 14 : అంబేద్కర్ జయంతి"},
-{name:"మే",year:2027,imp:"• మే 1 : మే డే<br>• మే 13 : ఆరోహణ దినం<br>• మే 23 : పెంతెకొస్తు"},
-{name:"జూన్",year:2027,imp:"• జూన్ 21 : ఫాదర్స్ డే"},
-{name:"జూలై",year:2027,imp:"• జూలై 26 : కార్గిల్ విజయ్ దివస్"},
-{name:"ఆగస్టు",year:2027,imp:"• ఆగ 15 : స్వాతంత్ర్య దినోత్సవం<br>• ఆగ 15 : మరియ తల్లి ఆరోహణ<br>• ఆగ 29 : తెలుగు భాషా దినోత్సవం"},
-{name:"సెప్టెంబర్",year:2027,imp:"• సెప్ 5 : ఉపాధ్యాయ దినోత్సవం"},
-{name:"అక్టోబర్",year:2027,imp:"• అక్టో 2 : గాంధీ జయంతి"},
-{name:"నవంబర్",year:2027,imp:"• నవం 1 : సకల పరిశుద్ధుల దినం<br>• నవం 14 : బాలల దినోత్సవం<br>• నవం 28 : ఆగమన కాలం ప్రారంభం"},
-{name:"డిసెంబర్",year:2027,imp:"• డిసెం 25 : క్రిస్మస్ - యేసు జననం<br>• డిసెం 31 : సంవత్సరాంత కృతజ్ఞతా ప్రార్థన"}
-];
-// నెల నంబర్ మ్యాప్ - 2026 నవంబర్=10, డిసెంబర్=11, 2027 జనవరి=0...
-let monthNums=[10,11,0,1,2,3,4,5,6,7,8,9,10,11];
+// ===== ఈస్టర్ నుండి లెక్క - ప్రతి ఏడాదికి కరెక్ట్ తేదీ వస్తుంది =====
+function getEaster(y){
+  let a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
+  let month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1;
+  return new Date(y,month-1,day);
+}
+function addDays(d,n){let x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function fmt(d){let m=["జన","ఫిబ్ర","మార్చి","ఏప్రి","మే","జూన్","జూలై","ఆగ","సెప్","అక్టో","నవం","డిసెం"];return m[d.getMonth()]+" "+d.getDate();}
+function getHolidays(y,m){
+  // m = 0-11
+  let easter=getEaster(y);
+  let lent=addDays(easter,-46), palm=addDays(easter,-7), maundy=addDays(easter,-3), goodFri=addDays(easter,-2), asc=addDays(easter,39), pent=addDays(easter,49);
+  let advent=new Date(y,10,1); while(advent.getDay()!==0) advent.setDate(advent.getDate()+1);
+  // ఆగమన కాలం = క్రిస్మస్ కి ముందు 4వ ఆదివారం
+  let christmas=new Date(y,11,25); let adv=new Date(christmas); while(adv.getDay()!==0) adv.setDate(adv.getDate()-1); adv.setDate(adv.getDate()-21);
+  let all=[];
+  if(m===0){
+    all.push("• జన 1 : నూతన సంవత్సరం","• జన 26 : గణతంత్ర దినోత్సవం");
+    if(y===2027) all.push("<span class='maha'>జన 24, 25, 26 : మహా సభలు</span>");
+    if(y===2028) all.push("<span class='maha'>మహా సభలు : త్వరలో ప్రకటిస్తాము</span>");
+    if(y===2029) all.push("<span class='maha'>మహా సభలు : త్వరలో ప్రకటిస్తాము</span>");
+  }
+  if(m===1 && lent.getMonth()===1) all.push("• "+fmt(lent)+" : లెంట్ డేస్ ప్రారంభం");
+  if(m===2 && lent.getMonth()===2) all.push("• "+fmt(lent)+" : లెంట్ డేస్ ప్రారంభం");
+  if(m===2 && palm.getMonth()===2) all.push("• "+fmt(palm)+" : పామ్ సండే");
+  if(m===3 && palm.getMonth()===3) all.push("• "+fmt(palm)+" : పామ్ సండే");
+  if(m===3){ if(maundy.getMonth()===3) all.push("• "+fmt(maundy)+" : పరిశుద్ధ గురువారం"); if(goodFri.getMonth()===3) all.push("• "+fmt(goodFri)+" : గుడ్ ఫ్రైడే"); if(easter.getMonth()===3) all.push("• "+fmt(easter)+" : ఈస్టర్ - పునరుత్థాన దినం"); all.push("• ఏప్రి 14 : అంబేద్కర్ జయంతి"); }
+  if(m===4){ if(maundy.getMonth()===4) all.push("• "+fmt(maundy)+" : పరిశుద్ధ గురువారం"); if(goodFri.getMonth()===4) all.push("• "+fmt(goodFri)+" : గుడ్ ఫ్రైడే"); if(easter.getMonth()===4) all.push("• "+fmt(easter)+" : ఈస్టర్ - పునరుత్థాన దినం"); all.push("• మే 1 : మే డే"); if(asc.getMonth()===4) all.push("• "+fmt(asc)+" : ఆరోహణ దినం"); if(pent.getMonth()===4) all.push("• "+fmt(pent)+" : పెంతెకొస్తు"); }
+  if(m===5){ if(asc.getMonth()===5) all.push("• "+fmt(asc)+" : ఆరోహణ దినం"); if(pent.getMonth()===5) all.push("• "+fmt(pent)+" : పెంతెకొస్తు"); all.push("• జూన్ 21 : ఫాదర్స్ డే"); }
+  if(m===6) all.push("• జూలై 26 : కార్గిల్ విజయ్ దివస్");
+  if(m===7) all.push("• ఆగ 15 : స్వాతంత్ర్య దినోత్సవం","• ఆగ 15 : మరియ తల్లి ఆరోహణ","• ఆగ 29 : తెలుగు భాషా దినోత్సవం");
+  if(m===8) all.push("• సెప్ 5 : ఉపాధ్యాయ దినోత్సవం");
+  if(m===9) all.push("• అక్టో 2 : గాంధీ జయంతి");
+  if(m===10) all.push("• నవం 1 : సకల పరిశుద్ధుల దినం","• నవం 14 : బాలల దినోత్సవం","• "+fmt(adv)+" : ఆగమన కాలం ప్రారంభం");
+  if(m===11) all.push("• డిసెం 25 : క్రిస్మస్ - యేసు జననం","• డిసెం 31 : సంవత్సరాంత కృతజ్ఞతా ప్రార్థన");
+  return all.join("<br>");
+}
 let today=new Date();
 let box=document.getElementById('cal');
-months.forEach((mm,i)=>{
-  let m=monthNums[i];
-  let y=mm.year;
+let telMonths=["జనవరి","ఫిబ్రవరి","మార్చి","ఏప్రిల్","మే","జూన్","జూలై","ఆగస్టు","సెప్టెంబర్","అక్టోబర్","నవంబర్","డిసెంబర్"];
+// 2026 - నవంబర్, డిసెంబర్ మాత్రమే
+box.innerHTML+='<div class="year">📅 2026</div>';
+[10,11].forEach(m=>{ box.innerHTML+=renderMonth(2026,m); });
+// 2027, 2028, 2029 - పూర్తి 12 నెలలు
+[2027,2028,2029].forEach(y=>{
+  box.innerHTML+='<div class="year">📅 '+y+'</div>';
+  for(let m=0;m<12;m++) box.innerHTML+=renderMonth(y,m);
+});
+function renderMonth(y,m){
   let days=new Date(y,m+1,0).getDate();
   let start=new Date(y,m,1).getDay();
-  let h='<div class="month '+(mm.current?'current':'')+'"><h3>'+mm.name+' '+y+'</h3><table><tr><th>ఆది</th><th>సోమ</th><th>మంగళ</th><th>బుధ</th><th>గురు</th><th>శుక్ర</th><th>శని</th></tr><tr>';
+  let isCur=(y===today.getFullYear() && m===today.getMonth());
+  let h='<div class="month '+(isCur?'current':'')+'"><h3>'+telMonths[m]+' '+y+'</h3><table><tr><th>ఆది</th><th>సోమ</th><th>మంగళ</th><th>బుధ</th><th>గురు</th><th>శుక్ర</th><th>శని</th></tr><tr>';
   for(let k=0;k<start;k++) h+='<td></td>';
   for(let day=1;day<=days;day++){
     let dow=new Date(y,m,day).getDay();
@@ -79,9 +104,9 @@ months.forEach((mm,i)=>{
     h+='<td class="'+(dow==0?'sun ':'')+(isToday?'today':'')+'">'+day+'</td>';
     if(dow==6 && day!=days) h+='</tr><tr>';
   }
-  h+='</tr></table><div class="imp"><b>📌 ముఖ్యమైన దినాలు :</b><br>'+mm.imp+'</div></div>';
-  box.innerHTML+=h;
-});
+  h+='</tr></table><div class="imp"><b>📌 ముఖ్యమైన దినాలు :</b><br>'+getHolidays(y,m)+'</div></div>';
+  return h;
+}
 </script>
 </body>
 </html>
