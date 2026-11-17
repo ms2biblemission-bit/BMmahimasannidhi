@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📅 మా సందేశం మహిమ సన్నిధి క్యాలండర్ 2027</title>
+<title>📅 మా సందేశం మహిమ సన్నిధి క్యాలండర్</title>
 <style>
 *{box-sizing:border-box}
 body{font-family:system-ui,sans-serif;margin:0;background:#E8F5E9;padding-bottom:80px}
@@ -14,9 +14,11 @@ body{font-family:system-ui,sans-serif;margin:0;background:#E8F5E9;padding-bottom
 .top{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;text-align:center;font-weight:bold;color:#0B3D2E}
 .month{background:#fff;border-radius:14px;padding:10px 10px 12px;margin:10px 0;box-shadow:0 2px 6px #0001}
 .month h3{margin:2px 0 6px;color:#0B3D2E;font-size:20px;text-align:center;background:#E8F5E9;padding:8px;border-radius:10px}
+.month.current h3{background:#FF9800;color:#fff}
 table{width:100%;border-collapse:collapse;font-size:15px;text-align:center}
 th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 .sun{color:#C62828;font-weight:bold}
+.today{background:#FF9800;color:#fff !important;border-radius:50%;font-weight:bold}
 .imp{background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.8}
 .maha{background:gold;color:#3E2723;font-weight:bold;padding:2px 8px;border-radius:20px;display:inline-block}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#0B3D2E;display:flex;justify-content:space-around;padding:8px 2px}
@@ -28,11 +30,11 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 <a href="index.html">← హోమ్</a>
 <div style="font-size:13px;margin-top:4px">📖 బైబిల్ మిషన్</div>
 <h2>మా సందేశం<br>మహిమ సన్నిధి క్యాలండర్</h2>
-<div>📅 2027</div>
+<div>📅 2026 - 2027</div>
 </div>
 
 <div class="wrap">
-<div class="top">✝️ 2027 - ప్రభువు సంవత్సరం</div>
+<div class="top">✝️ ప్రభువు సంవత్సరం - ఈ నెల నుండి చూడండి</div>
 <div id="cal"></div>
 </div>
 
@@ -45,28 +47,36 @@ th{color:#0B3D2E;padding:6px 2px;font-size:14px} td{padding:6px 2px}
 
 <script>
 let months=[
-{name:"జనవరి",imp:"• జన 1 : నూతన సంవత్సరం<br>• జన 26 : గణతంత్ర దినోత్సవం<br>• <span class='maha'>జన 24, 25, 26 : మహా సభలు</span>"},
-{name:"ఫిబ్రవరి",imp:"• ఫిబ్ర 17 : లెంట్ డేస్ ప్రారంభం"},
-{name:"మార్చి",imp:"• మార్చి 28 : పామ్ సండే"},
-{name:"ఏప్రిల్",imp:"• ఏప్రి 1 : పరిశుద్ధ గురువారం<br>• ఏప్రి 2 : గుడ్ ఫ్రైడే<br>• ఏప్రి 4 : ఈస్టర్ - పునరుత్థాన దినం<br>• ఏప్రి 14 : అంబేద్కర్ జయంతి"},
-{name:"మే",imp:"• మే 1 : మే డే<br>• మే 13 : ఆరోహణ దినం<br>• మే 23 : పెంతెకొస్తు"},
-{name:"జూన్",imp:"• జూన్ 21 : ఫాదర్స్ డే"},
-{name:"జూలై",imp:"• జూలై 26 : కార్గిల్ విజయ్ దివస్"},
-{name:"ఆగస్టు",imp:"• ఆగ 15 : స్వాతంత్ర్య దినోత్సవం<br>• ఆగ 15 : మరియ తల్లి ఆరోహణ<br>• ఆగ 29 : తెలుగు భాషా దినోత్సవం"},
-{name:"సెప్టెంబర్",imp:"• సెప్ 5 : ఉపాధ్యాయ దినోత్సవం"},
-{name:"అక్టోబర్",imp:"• అక్టో 2 : గాంధీ జయంతి"},
-{name:"నవంబర్",imp:"• నవం 1 : సకల పరిశుద్ధుల దినం<br>• నవం 14 : బాలల దినోత్సవం<br>• నవం 28 : ఆగమన కాలం ప్రారంభం"},
-{name:"డిసెంబర్",imp:"• డిసెం 25 : క్రిస్మస్ - యేసు జననం<br>• డిసెం 31 : సంవత్సరాంత కృతజ్ఞతా ప్రార్థన"}
+{name:"నవంబర్",year:2026,imp:"• నవం 1 : సకల పరిశుద్ధుల దినం<br>• నవం 14 : బాలల దినోత్సవం<br>• నవం 28 : ఆగమన కాలం ప్రారంభం - ఆదివారం",current:true},
+{name:"డిసెంబర్",year:2026,imp:"• డిసెం 25 : క్రిస్మస్ - యేసు జననం<br>• డిసెం 31 : సంవత్సరాంత కృతజ్ఞతా ప్రార్థన"},
+{name:"జనవరి",year:2027,imp:"• జన 1 : నూతన సంవత్సరం<br>• జన 26 : గణతంత్ర దినోత్సవం<br>• <span class='maha'>జన 24, 25, 26 : మహా సభలు</span>"},
+{name:"ఫిబ్రవరి",year:2027,imp:"• ఫిబ్ర 17 : లెంట్ డేస్ ప్రారంభం"},
+{name:"మార్చి",year:2027,imp:"• మార్చి 28 : పామ్ సండే"},
+{name:"ఏప్రిల్",year:2027,imp:"• ఏప్రి 1 : పరిశుద్ధ గురువారం<br>• ఏప్రి 2 : గుడ్ ఫ్రైడే<br>• ఏప్రి 4 : ఈస్టర్ - పునరుత్థాన దినం<br>• ఏప్రి 14 : అంబేద్కర్ జయంతి"},
+{name:"మే",year:2027,imp:"• మే 1 : మే డే<br>• మే 13 : ఆరోహణ దినం<br>• మే 23 : పెంతెకొస్తు"},
+{name:"జూన్",year:2027,imp:"• జూన్ 21 : ఫాదర్స్ డే"},
+{name:"జూలై",year:2027,imp:"• జూలై 26 : కార్గిల్ విజయ్ దివస్"},
+{name:"ఆగస్టు",year:2027,imp:"• ఆగ 15 : స్వాతంత్ర్య దినోత్సవం<br>• ఆగ 15 : మరియ తల్లి ఆరోహణ<br>• ఆగ 29 : తెలుగు భాషా దినోత్సవం"},
+{name:"సెప్టెంబర్",year:2027,imp:"• సెప్ 5 : ఉపాధ్యాయ దినోత్సవం"},
+{name:"అక్టోబర్",year:2027,imp:"• అక్టో 2 : గాంధీ జయంతి"},
+{name:"నవంబర్",year:2027,imp:"• నవం 1 : సకల పరిశుద్ధుల దినం<br>• నవం 14 : బాలల దినోత్సవం<br>• నవం 28 : ఆగమన కాలం ప్రారంభం"},
+{name:"డిసెంబర్",year:2027,imp:"• డిసెం 25 : క్రిస్మస్ - యేసు జననం<br>• డిసెం 31 : సంవత్సరాంత కృతజ్ఞతా ప్రార్థన"}
 ];
+// నెల నంబర్ మ్యాప్ - 2026 నవంబర్=10, డిసెంబర్=11, 2027 జనవరి=0...
+let monthNums=[10,11,0,1,2,3,4,5,6,7,8,9,10,11];
+let today=new Date();
 let box=document.getElementById('cal');
-months.forEach((mm,m)=>{
-  let days=new Date(2027,m+1,0).getDate();
-  let start=new Date(2027,m,1).getDay();
-  let h='<div class="month"><h3>'+mm.name+' 2027</h3><table><tr><th>ఆది</th><th>సోమ</th><th>మంగళ</th><th>బుధ</th><th>గురు</th><th>శుక్ర</th><th>శని</th></tr><tr>';
-  for(let i=0;i<start;i++) h+='<td></td>';
+months.forEach((mm,i)=>{
+  let m=monthNums[i];
+  let y=mm.year;
+  let days=new Date(y,m+1,0).getDate();
+  let start=new Date(y,m,1).getDay();
+  let h='<div class="month '+(mm.current?'current':'')+'"><h3>'+mm.name+' '+y+'</h3><table><tr><th>ఆది</th><th>సోమ</th><th>మంగళ</th><th>బుధ</th><th>గురు</th><th>శుక్ర</th><th>శని</th></tr><tr>';
+  for(let k=0;k<start;k++) h+='<td></td>';
   for(let day=1;day<=days;day++){
-    let dow=new Date(2027,m,day).getDay();
-    h+='<td class="'+(dow==0?'sun':'')+'">'+day+'</td>';
+    let dow=new Date(y,m,day).getDay();
+    let isToday=(day===today.getDate() && m===today.getMonth() && y===today.getFullYear());
+    h+='<td class="'+(dow==0?'sun ':'')+(isToday?'today':'')+'">'+day+'</td>';
     if(dow==6 && day!=days) h+='</tr><tr>';
   }
   h+='</tr></table><div class="imp"><b>📌 ముఖ్యమైన దినాలు :</b><br>'+mm.imp+'</div></div>';
