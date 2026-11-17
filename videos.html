@@ -1,1 +1,9 @@
-
+<!DOCTYPE html>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>వీడియోస్ - మహిమ సన్నిధి</title><style>body{font-family:system-ui;padding:12px;max-width:650px;margin:auto;background:#fff8ec}h2{color:#8B0000;text-align:center}.card{background:#fff;padding:12px;border-radius:12px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}a.btn{display:block;text-align:center;padding:13px;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:8px;color:#fff}.watch{background:#E53935}.down{background:#4CAF50}.back{display:block;text-align:center;margin:10px 0;color:#8B0000}</style></head><body>
+<a class="back" href="index.html">⬅️ వెనక్కి</a><h2>🎥 వీడియోస్</h2><p style="text-align:center">నచ్చిన వీడియోని చూడండి, కావాలంటే డౌన్లోడ్ చేసుకోండి 🙏</p><div id="list">లోడ్ అవుతోంది...</div>
+<script>
+function driveView(l){ return l; }
+function driveDown(l){ let m=l.match(/\/d\/([^\/]+)/); if(m) return "https://drive.google.com/uc?export=download&id="+m[1]; return l; }
+async function load(){ try{ let r=await fetch("videos.json?v="+Date.now()); let d=await r.json(); let b=document.getElementById("list"); if(!d.length){ b.innerHTML="📭 ఇంకా వీడియోస్ లేవు"; return; } b.innerHTML=""; d.forEach((v,i)=>{ let div=document.createElement("div"); div.className="card"; div.innerHTML="<b>"+(i+1)+". "+(v.title||"వీడియో")+"</b><p>"+(v.msg||"")+"</p><a class='btn watch' href='"+driveView(v.link)+"' target='_blank'>▶️ వీడియో చూడండి</a><a class='btn down' href='"+driveDown(v.link)+"' target='_blank'>⬇️ డౌన్లోడ్ చేసుకోండి</a>"; b.appendChild(div); }); }catch(e){ document.getElementById("list").innerHTML="📭 ఇంకా వీడియోస్ లేవు"; } }
+load();
+</script></body></html>
