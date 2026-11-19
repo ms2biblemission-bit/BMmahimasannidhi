@@ -60,8 +60,7 @@ h3{color:#0B3D2E;margin:16px 0 8px}
   <button onclick="goBack3()"><span class="b-icon">⬅️</span>బ్యాక్</button>
 </nav>
 <script>
-// ===== బ్యాక్ FINAL - 1 నొక్కితే 1 అడుగు మాత్రమే, 3 సార్లు వద్దు =====
-let msLevel = 'list'; // list | chapters | page
+let msLevel = 'list';
 let msHandlingPop = false;
 function goBack3(){
   let drawer = document.getElementById('drawer');
@@ -72,18 +71,13 @@ function goBack3(){
   if(modal && modal.style.display==='flex'){ closeBookPage(); return; }
   let detail = document.getElementById('detail');
   if(detail && detail.innerHTML.trim()!==''){ renderBooks(); window.scrollTo(0,0); return; }
-  // లిస్ట్ లో ఉంటే హోమ్ కి - ఇక్కడే ఆగిపోతుంది, ఇంక వెనక్కి పాటలు/బుక్స్ కి వెళ్ళదు
-  // ఫోన్ బ్యాక్ అయితే ఇక్కడ నుండి హోమ్ కి వెళ్ళాలి కాబట్టి trap ఆపేసి వెళ్ళు
   msHandlingPop = true;
   location.href='index.html';
 }
-// ఫోన్ బ్యాక్: ఒకే ఒక్క trap - మళ్ళీ మళ్ళీ push చేయకూడదు, అదే 3 సార్లు సమస్య
 try{ history.replaceState({ms:0},''); history.pushState({ms:1},''); }catch(e){}
 window.addEventListener('popstate', function(){
   if(msHandlingPop) return;
-  // బ్యాక్ నొక్కారు -> మన 1 అడుగు వెనక్కి వెళ్ళు, మళ్ళీ ఒక్క trap వేయి
   goBack3();
-  // హోమ్ కి వెళ్ళడం కాకపోతే మాత్రమే trap వేయి
   if(location.pathname.indexOf('books.html')>=0 && !msHandlingPop){
     try{ history.pushState({ms:1},''); }catch(e){}
   }
@@ -201,21 +195,34 @@ let currentBook=null; let currentIdx=0; let lastRead={idx:0,page:0};
 try{let lr=localStorage.getItem('ms_last_read_books');if(lr){let j=JSON.parse(lr); if(j.idx!=null) lastRead=j;}}catch(e){}
 function getBookNum(s){ s=(s||'').toString(); let m=s.match(/(\d+)/); if(m) return parseInt(m[1]); return 9999; }
 function teluguCompare(a,b){ let na=getBookNum(a), nb=getBookNum(b); if(na!==nb) return na-nb; if(a<b) return -1; if(a>b) return 1; return 0; }
+// ===== SPEED FIX - ముందు బుక్స్ చూపించు, తర్వాత నెమ్మదిగా అప్డేట్ చేయి =====
 async function loadAll(){
-  BOOKS=JSON.parse(JSON.stringify(DEFAULT_BOOKS));
-  try{let s=localStorage.getItem('ms_books');if(s){let j=JSON.parse(s);if(j&&j.length) BOOKS=j;}}catch(e){}
-  // SPEED FIX: Date.now() తీసేసాను - బ్రౌజర్ గుర్తుపెట్టుకుంటుంది, ఫాస్ట్ గా వస్తుంది
-  try{let r=await fetch('books.json');if(r.ok){let j=await r.json();if(Array.isArray(j)&&j.length) BOOKS=j;}}catch(e){}
-  BOOKS=BOOKS.map((b,i)=>{ if(b.id==null) b.id=1000+i; return b; });
+  BOOKS = JSON.parse(JSON.stringify(DEFAULT_BOOKS));
+  try{ let s = localStorage.getItem('ms_books'); if(s){ let j = JSON.parse(s); if(j && j.length) BOOKS = j; } }catch(e){}
+  BOOKS = BOOKS.map((b,i)=>{ if(b.id==null) b.id=1000+i; return b; });
+  renderBooks();
   try{
-    let posts=[];let r1=await fetch('posts.json');if(r1.ok){let j=await r1.json();posts=Array.isArray(j)?j:(j.posts||[]);}
-    let now=new Date();
-    try{let r2=await fetch('scheduled.json');if(r2.ok){let sj=await r2.json();if(Array.isArray(sj)) sj.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}}catch(e){}
-    try{let ls=JSON.parse(localStorage.getItem('ms_sched')||'[]');ls.forEach(p=>{if(p.schedTime && new Date(p.schedTime)<=now) posts.push(p);});}catch(e){}
-    let b6=BOOKS.find(b=>(b.title||'').includes('రోజువారీ'))||BOOKS.find(b=>b.id==6);
-    if(b6 && posts.length){b6.chapters=posts.map(p=>({t:(p.title||'మెసేజ్')+' - '+(p.date||''),c:(p.content||p.message||''),img:p.image||'',audio:p.audio||''}));}
+    let timeout = new Promise(res => setTimeout(()=>res(null), 3000));
+    let fetchBooks = fetch('books.json').then(r=>r.ok?r.json():null).catch(()=>null);
+    let j = await Promise.race([fetchBooks, timeout]);
+    if(Array.isArray(j) && j.length){ BOOKS = j; BOOKS = BOOKS.map((b,i)=>{ if(b.id==null) b.id=1000+i; return b; }); }
   }catch(e){}
-  BOOKS=BOOKS.map(b=>{ if(!b.chapters||!b.chapters.length){ if(Array.isArray(b.pages)&&b.pages.length) b.chapters=b.pages.map(p=>({t:p.title||p.t||'',c:p.content||p.c||'',img:p.img||p.image||'',audio:p.audio||''})); } if(!b.chapters) b.chapters=[]; return b; });
+  try{
+    let r1 = await fetch('posts.json').catch(()=>null);
+    let posts = [];
+    if(r1 && r1.ok){ let j = await r1.json(); posts = Array.isArray(j)?j:(j.posts||[]); }
+    let b6 = BOOKS.find(b=>(b.title||'').includes('రోజువారీ')) || BOOKS.find(b=>b.id==6);
+    if(b6 && posts.length){
+      b6.chapters = posts.map(p=>({t:(p.title||'మెసేజ్')+' - '+(p.date||''), c:(p.content||p.message||''), img:p.image||'', audio:p.audio||''}));
+    }
+  }catch(e){}
+  BOOKS = BOOKS.map(b=>{
+    if(!b.chapters || !b.chapters.length){
+      if(Array.isArray(b.pages) && b.pages.length) b.chapters = b.pages.map(p=>({t:p.title||p.t||'', c:p.content||p.c||'', img:p.img||p.image||'', audio:p.audio||''}));
+    }
+    if(!b.chapters) b.chapters=[];
+    return b;
+  });
   renderBooks();
 }
 function getChapters(b){return b.chapters||b.pages||[];}
