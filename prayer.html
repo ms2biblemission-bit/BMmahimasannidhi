@@ -23,7 +23,6 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
 <body>
 <div class="header"><img src="jesus.jpg" alt="యేసు"><div style="flex:1;text-align:center"><a href="index.html">⬅️ వెనక్కి</a><div style="font-size:13px;opacity:.9;letter-spacing:1px;color:#4A0080;font-weight:bold">📖 బైబిల్ మిషన్</div><h1 style="margin:2px 0;font-size:24px;color:#222">మహిమ సన్నిధి</h1><div style="font-size:15px;font-weight:bold;margin-top:2px">🙏 ప్రార్థన డైరీ</div><div style="font-size:13px;opacity:.9">నా ప్రార్థన - దేవుని జవాబు - పూర్తిగా పర్సనల్ 🔒</div></div><img src="devadasu.jpg" alt="దేవదాసు"></div>
 
-<!-- ✅ పర్సనల్ బాక్స్ - షేర్ లేదు! -->
 <div style="background:#F3E8FF;border:2px solid #CE93D8;border-radius:16px;padding:12px;margin:12px;text-align:center">
   <div style="font-weight:bold;color:#4A0080;font-size:17px">🔒 నా ప్రార్థన డైరీ - పూర్తిగా పర్సనల్</div>
   <div style="font-size:12px;color:#666;margin:3px 0 10px">మీ ప్రార్థనలు మీ ఫోన్ లోనే ఉంటాయి - ఎవరికీ వెళ్ళవు - షేర్ అవ్వవు</div>
@@ -34,7 +33,6 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
   <div style="font-size:11px;color:#888;margin-top:6px">🔒 లాక్ పెడితే పిన్ లేకుండా ఎవరూ చూడలేరు</div>
 </div>
 
-<!-- 🔒 లాక్ స్క్రీన్ - పిన్ కొట్టేవరకూ ఇదే కనబడుతుంది -->
 <div id="lockScreen" style="display:none">
   <div class="lockBox">
     <div style="font-size:50px">🔒</div>
@@ -47,7 +45,6 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
   </div>
 </div>
 
-<!-- 🔒 పిన్ సెట్ చేసే బాక్స్ -->
 <div id="setPinBox" style="display:none">
   <div class="lockBox">
     <div style="font-size:40px">🔐</div>
@@ -56,11 +53,10 @@ input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;
     <input id="newPin" class="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
     <input id="confirmPin" class="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="మళ్ళీ అదే పిన్ ••••" style="margin-top:8px">
     <button class="btn" onclick="savePin()">✅ లాక్ పెట్టండి</button>
-    <button onclick="document.getElementById('setPinBox').style.display='none'" style="background:none;border:none;color:#673AB7;font-weight:bold;padding:12px;width:100%">వద్దు - మూసేయండి</button>
   </div>
 </div>
 
-<div id="mainContent">
+<div id="mainContent" style="display:none">
 <div class="box">
 <input id="pTitle" placeholder="🙏 ఎవరి కోసం? ఉదా: నా కొడుకు ఉద్యోగం">
 <textarea id="pText" rows="3" placeholder="ప్రార్థన వివరంగా రాయండి..."></textarea>
@@ -86,21 +82,12 @@ document.querySelectorAll('a[href]').forEach(a=>{
   }
 });
 window.addEventListener('popstate', function(){ location.replace('index.html'); });
-
 let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault(); deferredPrompt = e;
-});
+window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; });
 function installAppUniversal(){
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; });
-  } else {
-    alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen");
-  }
+  if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } deferredPrompt=null; }); }
+  else { alert("📲 యాప్ డౌన్లోడ్ చేయడానికి:\n\nAndroid: పైన ⋮ > Add to Home Screen > Install\n\niPhone: Share > Add to Home Screen"); }
 }
-
-// ===== 🔒 లాక్ లాజిక్ - ఇదే మెయిన్! =====
 function getPin(){ return localStorage.getItem('ms_prayer_pin') || ''; }
 function updateLockBtn(){
   let btn = document.getElementById('lockBtn');
@@ -109,12 +96,16 @@ function updateLockBtn(){
 }
 function checkLockOnLoad(){
   updateLockBtn();
-  if(getPin()){
-    // పిన్ ఉంటే - మెయిన్ కంటెంట్ దాచేసి లాక్ చూపించు!
+  if(!getPin()){
     document.getElementById('mainContent').style.display = 'none';
-    document.getElementById('lockScreen').style.display = 'block';
-    setTimeout(()=>{ let i=document.getElementById('unlockPin'); if(i) i.focus(); }, 300);
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('setPinBox').style.display = 'block';
+    return;
   }
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('setPinBox').style.display = 'none';
+  document.getElementById('lockScreen').style.display = 'block';
+  setTimeout(()=>{ let i=document.getElementById('unlockPin'); if(i) i.focus(); }, 300);
 }
 function unlockDiary(){
   let entered = document.getElementById('unlockPin').value.trim();
@@ -132,6 +123,8 @@ function unlockDiary(){
 function toggleLockUI(){
   if(getPin()){
     if(confirm('లాక్ మార్చాలా? పాత పిన్ తీసేసి కొత్తది పెట్టొచ్చు.')){
+      document.getElementById('mainContent').style.display = 'none';
+      document.getElementById('lockScreen').style.display = 'none';
       document.getElementById('setPinBox').style.display = 'block';
       document.getElementById('setPinBox').scrollIntoView({behavior:'smooth'});
     }
@@ -150,10 +143,13 @@ function savePin(){
   document.getElementById('setPinBox').style.display='none';
   updateLockBtn();
   alert('✅ లాక్ పెట్టేసారు! ఇప్పటి నుండి పిన్ లేకుండా ఎవరూ చూడలేరు 🔒');
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('lockScreen').style.display = 'block';
 }
 function lockNow(){
   if(!getPin()){ alert('ముందు లాక్ పెట్టండి అండి - పైన 🔒 లాక్ పెట్టండి నొక్కండి'); toggleLockUI(); return; }
   document.getElementById('mainContent').style.display='none';
+  document.getElementById('setPinBox').style.display='none';
   document.getElementById('lockScreen').style.display='block';
   window.scrollTo(0,0);
 }
@@ -164,12 +160,19 @@ function removePin(){
     localStorage.removeItem('ms_prayer_pin');
     updateLockBtn();
     alert('✅ లాక్ తీసేసారు!');
-  } else if(p !== null){
-    alert('❌ తప్పు పిన్!');
+    checkLockOnLoad();
+  } else if(p !== null){ alert('❌ తప్పు పిన్!'); }
+}
+function autoLock(){
+  if(getPin()){
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('setPinBox').style.display = 'none';
+    document.getElementById('lockScreen').style.display = 'block';
+    let u=document.getElementById('unlockPin'); if(u) u.value='';
   }
 }
-
-// ===== పాత ప్రార్థన లాజిక్ - అదే! =====
+window.addEventListener('pagehide', autoLock);
+document.addEventListener('visibilitychange', function(){ if(document.hidden) autoLock(); });
 let prayers = JSON.parse(localStorage.getItem('ms_prayers')||'[]');
 function save(){ localStorage.setItem('ms_prayers', JSON.stringify(prayers)); render(); }
 function addPrayer(){
