@@ -110,6 +110,14 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   </div>
   <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
+
+<!-- 👁️ ఎంతమంది చూశారో - కౌంటర్ - కొత్తది -->
+<div style="background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+  <div style="font-size:15px; color:#666;">👁️ మన యాప్ ని చూసిన వారు</div>
+  <div style="font-size:32px; font-weight:900; color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div>
+  <div style="font-size:12px; color:#888;">🙏 దేవునికి స్తోత్రం! రోజు రోజుకీ పెరుగుతున్నారు!</div>
+</div>
+
 <div id="countBox" style="background:linear-gradient(135deg,#0B3D2E,#C62828);color:#fff;border-radius:16px;padding:14px;margin:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.2)">
   <div id="countTitle" style="font-size:17px;font-weight:bold">🎄 క్రిస్మస్ కి</div>
   <div id="countDays" style="font-size:38px;font-weight:900;line-height:1.2">--</div>
@@ -237,8 +245,23 @@ function shareAnyPage(){
   let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
+// ===== 👁️ VISITOR COUNT - కొత్త ఫ్రీ కౌంటర్ =====
+async function updateVisitorCount(){
+  let el = document.getElementById('visitorCount');
+  if(!el) return;
+  try{
+    let r = await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits');
+    let j = await r.json();
+    let count = j.value || j.count || 0;
+    el.textContent = count.toLocaleString('en-IN');
+    localStorage.setItem('ms_visitor_count', count);
+  }catch(e){
+    let old = localStorage.getItem('ms_visitor_count') || '1000+';
+    el.textContent = old;
+  }
+}
+updateVisitorCount();
 function installAppUniversal(){
-  try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/installs').catch(()=>{}); }catch(e){}
   if(window.deferredPrompt){ window.deferredPrompt.prompt(); window.deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } window.deferredPrompt=null; }); } else { let b = document.getElementById('installBtn'); if(b){ b.style.display='block'; b.scrollIntoView({behavior:'smooth'}); } let h=document.getElementById('installHint'); if(h) h.textContent="✅ కింద గ్రీన్ బటన్ నొక్కండి"; }
 }
 function getSavedBooks(){ try{ return JSON.parse(localStorage.getItem('ms_saved_books')||'[]'); }catch(e){ return []; } }
@@ -252,7 +275,6 @@ function unlockBody(){ if(!document.body.classList.contains('lock')) return; doc
 function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('à')>=0 || s.indexOf('Ã')>=0){ let bytes = new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let decoded = new TextDecoder('utf-8').decode(bytes); if(decoded && decoded.indexOf('[STRIPPED 3 bytes]')===-1) return decoded; } }catch(e){} return s; }
 function bookText(b){ let t=(b.title||'')+' '+(b.desc||b.description||'')+' '; let arr=b.pages||b.chapters||b.items||[]; if(Array.isArray(arr)) arr.forEach(p=>{ if(typeof p==='string') t+=p+' '; else t+=(p.title||p.t||p.name||'')+' '+(p.content||p.c||p.text||''); }); return t; }
 function parsePostDate(s){ if(!s) return null; s = String(s).trim(); if(s.includes('T')){ let d=new Date(s); return isNaN(d)?null:d; } let m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/); if(m){ let d=new Date(m[3], m[2]-1, m[1]); return d; } let d2 = new Date(s); return isNaN(d2)?null:d2; }
-// 📅 షెడ్యూల్ - రేపటివి రావు, టైమ్ అయ్యాకే వస్తాయి, పాతవి పోకుండా
 function parseSchedDT(p){
   let d = p.schedDate || "";
   if(!d) return null;
@@ -300,7 +322,7 @@ document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.i
 loadPosts();
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; window.deferredPrompt=e; document.getElementById('installBtn').style.display='block'; let h=document.getElementById('installHint'); if(h) h.textContent="✅ యాప్ రెడీ! డౌన్లోడ్ బటన్ నొక్కండి"; });
-document.getElementById('installBtn').onclick=()=>{ try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/installs').catch(()=>{}); }catch(e){} if(deferredPrompt){ deferredPrompt.prompt(); } else { installAppUniversal(); } };
+document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else { installAppUniversal(); } };
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
@@ -336,8 +358,6 @@ async function sendUserChat(){
   loadMyChat();
 }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
-try{ fetch('https://api.countapi.xyz/hit/BMmahimasannidhi/visits').catch(()=>{}); }catch(e){}
-// === 🎥 హోమ్ లో తాజా వీడియోస్ ===
 function driveIdHome(l){ let m=(l||"").match(/\/d\/([^\/\?]+)/); return m?m[1]:""; }
 async function loadHomeVideos(){
   let box=document.getElementById('homeVideos'); if(!box) return;
@@ -375,4 +395,4 @@ function updateCountdown(){
 updateCountdown();
 </script>
 </body>
-                                                 </html>
+  </html>
