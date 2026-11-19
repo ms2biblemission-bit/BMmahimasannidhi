@@ -81,6 +81,13 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 .vdBtn{display:block;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;margin:6px 0;color:#fff}
+/* ✨ ఈరోజు అప్డేట్ బాక్స్ - క్రిస్మస్ పైన */
+.today-box{background:#E8F5E9;border:2px solid #2E7D32;border-radius:16px;padding:14px;margin:12px;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.today-box h3{margin:0 0 8px;color:#0B3D2E;font-size:18px}
+.today-item{display:flex;gap:10px;align-items:center;background:#fff;padding:12px;border-radius:12px;margin:0 0 8px;cursor:pointer;border:1px solid #C8E6C9}
+.today-item b{flex:1;font-size:15px;color:#0F2F6B;line-height:1.4}
+.today-item small{display:block;color:#666;font-size:12px;font-weight:normal}
+.today-item .go{font-size:18px;color:#2E7D32;font-weight:bold}
 </style>
 </head>
 <body>
@@ -116,6 +123,13 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div style="font-size:15px; color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div>
   <div style="font-size:32px; font-weight:900; color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div>
   <div style="font-size:12px; color:#888;">🙏 దేవునికి స్తోత్రం! రోజు రోజుకీ పెరుగుతున్నారు!</div>
+</div>
+
+<!-- ✨ ఈరోజు కొత్తగా వచ్చినవి - క్రిస్మస్ పైన - ఎప్పుడూ పైనే ఉంటుంది -->
+<div id="todayUpdatesBox" class="today-box">
+  <h3>✨ ఈరోజు కొత్తగా వచ్చినవి</h3>
+  <div id="todayUpdatesList" style="font-size:14px;color:#666;text-align:center;padding:8px">లోడ్ అవుతోంది... 🙏</div>
+  <div style="font-size:11px;color:#888;text-align:center;margin-top:4px">👆 నొక్కితే ఆ పాట / వాక్యం / బుక్ / వీడియో ఓపెన్ అవుతుంది</div>
 </div>
 
 <div id="countBox" style="background:linear-gradient(135deg,#0B3D2E,#C62828);color:#fff;border-radius:16px;padding:14px;margin:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.2)">
@@ -394,6 +408,70 @@ function updateCountdown(){
   if(now <= christmas){ let diff=Math.ceil((christmas-now)/(1000*60*60*24)); title.textContent="🎄 క్రిస్మస్ కి"; daysEl.textContent=diff+" రోజులు"; sub.textContent="రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️"; if(box) box.style.background="linear-gradient(135deg,#0B3D2E,#C62828)"; } else if(now < newyear){ let diff=Math.ceil((newyear-now)/(1000*60*60*24)); title.textContent="🎉 కొత్త సంవత్సరానికి"; daysEl.textContent=diff+" రోజులు"; sub.textContent="రోజులు మాత్రమే - ప్రభువులో నూతన సంవత్సరం 🙏"; if(box) box.style.background="linear-gradient(135deg,#0B3D2E,#FF9800)"; } else { let nextChristmas=new Date(year+1,11,25); let diff=Math.ceil((nextChristmas-now)/(1000*60*60*24)); title.textContent="🎄 వచ్చే క్రిస్మస్ కి"; daysEl.textContent=diff+" రోజులు"; sub.textContent="రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️"; }
 }
 updateCountdown();
+
+// ===== ✨ ఈరోజు కొత్తగా వచ్చినవి - అన్ని ఫైళ్ళ నుండి =====
+async function fetchJSONSafe(file){
+  try{ let r=await fetch(file+'?v='+Date.now()); if(!r.ok) return []; let j=await r.json(); if(Array.isArray(j)) return j; if(j && Array.isArray(j.posts)) return j.posts; if(j && Array.isArray(j.songs)) return j.songs; if(j && Array.isArray(j.videos)) return j.videos; return []; }catch(e){ return []; }
+}
+function isSameDay(d1,d2){ return d1 && d2 && d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate(); }
+function getItemDate(it){
+  let s = it.date || it.createdAt || it.created || it.updatedAt || it.publishAt || it.schedDate || "";
+  if(!s) return null;
+  let d = parsePostDate(s);
+  if(d) return d;
+  let d2 = new Date(s); return isNaN(d2)?null:d2;
+}
+async function loadTodayUpdates(){
+  let box=document.getElementById('todayUpdatesList'); if(!box) return;
+  let today=new Date(); today.setHours(0,0,0,0);
+  let all=[];
+  let posts=await fetchJSONSafe('posts.json');
+  posts.forEach(p=>{ if(!isScheduledVisible(p)) return; all.push({icon:'📝',label:'కొత్త వాక్యం / మెసేజ్',title:p.title||'వాక్యం',date:getItemDate(p)||parsePostDate(p.date),link:'index.html',postIdx:allPosts.indexOf(p)}); });
+  let songs=await fetchJSONSafe('songs.json');
+  songs.forEach(s=>{ all.push({icon:'🎵',label:'కొత్త పాట',title:s.title||s.name||'పాట',date:getItemDate(s),link:'songs.html'}); });
+  let videos=await fetchJSONSafe('videos.json');
+  videos.forEach(v=>{ if(v.schedDate && !isScheduledVisible(v)) return; all.push({icon:'🎥',label:'కొత్త వీడియో',title:v.title||'వీడియో',date:getItemDate(v),link:'videos.html'}); });
+  let voices=await fetchJSONSafe('voice.json');
+  if(!voices.length) voices=await fetchJSONSafe('voices.json');
+  voices.forEach(v=>{ all.push({icon:'🎤',label:'కొత్త వాయిస్',title:v.title||v.name||'వాయిస్',date:getItemDate(v),link:'voice.html'}); });
+  let books=await fetchJSONSafe('books.json');
+  books.forEach(b=>{
+    let ch=b.chapters||b.pages||[];
+    let lastCh = ch.length?ch[ch.length-1]:null;
+    let d = getItemDate(b) || (lastCh?getItemDate(lastCh):null) || (b.updatedAt?new Date(b.updatedAt):null);
+    // బుక్ లో తేదీ లేకపోతే - ఈరోజు లిస్ట్ లోకి తీసుకోము, కానీ వారం లిస్ట్ లో చివరగా చూపిస్తాం
+    if(d) all.push({icon:'📖',label:'కొత్త బుక్ పేజీ',title:(b.title||'బుక్')+(lastCh?(' - '+(lastCh.t||lastCh.title||'')):''),date:d,link:'books.html'});
+  });
+  // 1. ముందు ఈరోజు వచ్చినవి
+  let todays = all.filter(x=>x.date && isSameDay(x.date, today));
+  let listToShow = todays.length ? todays : null;
+  let headTitle = document.querySelector('#todayUpdatesBox h3');
+  if(listToShow){
+    if(headTitle) headTitle.textContent = '✨ ఈరోజు కొత్తగా వచ్చినవి - '+today.toLocaleDateString('te-IN',{day:'numeric',month:'long'});
+  } else {
+    // 2. ఈరోజు ఏమీ లేకపోతే - చివరి 7 రోజుల్లో వచ్చినవి / లేటెస్ట్ 5
+    let withDate = all.filter(x=>x.date).sort((a,b)=>b.date-a.date);
+    let last7 = withDate.filter(x=>{ let diff=Math.floor((today-x.date)/(1000*60*60*24)); return diff>=0 && diff<=7; });
+    listToShow = last7.length ? last7.slice(0,5) : withDate.slice(0,5);
+    if(headTitle) headTitle.textContent = todays.length?'✨ ఈరోజు కొత్తగా వచ్చినవి':'🆕 ఈ వారం కొత్తగా వచ్చినవి';
+    // తేదీ లేని బుక్స్ కూడా ఉంటే - ఒక్కటి చూపించు (బుక్ అప్డేట్ అయ్యిందని తెలియాలి)
+    if(!listToShow.length && books.length){
+      let b=books[books.length-1]; listToShow=[{icon:'📖',label:'కొత్త బుక్ పేజీ',title:b.title||'బుక్',date:null,link:'books.html'}];
+      if(headTitle) headTitle.textContent='🆕 కొత్తగా వచ్చినవి';
+    }
+  }
+  if(!listToShow || !listToShow.length){
+    box.innerHTML='<div style="text-align:center;padding:10px">🙏 ఈరోజు ఇంకా కొత్తది రాలేదు<br><small>కొంచెం సేపు ఆగండి - అడ్మిన్ త్వరలో పెడతారు!</small></div>';
+    return;
+  }
+  box.innerHTML = listToShow.slice(0,6).map(x=>{
+    let safeTitle = String(x.title||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').slice(0,80);
+    let dateStr = x.date ? x.date.toLocaleDateString('te-IN',{day:'numeric',month:'short'}) : 'కొత్తది';
+    let onclick = x.link==='index.html' && typeof x.postIdx==='number' && x.postIdx>=0 ? `onclick="openPost(${x.postIdx})"` : `onclick="location.href='${x.link}'"`;
+    return `<div class="today-item" ${onclick}><span style="font-size:22px">${x.icon}</span><b>${safeTitle}<small>${x.label} • 📅 ${dateStr} • 👆 నొక్కండి</small></b><span class="go">➡️</span></div>`;
+  }).join('');
+}
+loadTodayUpdates();
 </script>
 </body>
   </html>
