@@ -75,7 +75,6 @@ function getImg(p){ return p.img||p.image||p.photo||""; }
 function getFolderOf(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim()||"ఆంధ్ర క్రైస్తవ కీర్తనలు"; }
 function ytId(u){ if(!u) return ""; let m=u.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/); return m?m[1]:""; }
 function driveId(u){ if(!u) return ""; let m=u.match(/\/d\/([^\/\?]+)/); return m?m[1]:""; }
-// 📅 షెడ్యూల్ - పాత తేదీ ఫార్మాట్ (17/11/2026) + కొత్త ఫార్మాట్ (2026-11-17) రెండూ అర్థం చేసుకుంటుంది
 function parseSchedDate(dStr, tStr){
   if(!dStr) return null;
   dStr=String(dStr).trim();
@@ -86,9 +85,7 @@ function parseSchedDate(dStr, tStr){
   return new Date(ymd+"T"+(tStr||"00:00")+":00");
 }
 function schedStatus(p){
-  // షెడ్యూల్ పెట్టకపోతే - వెంటనే కనబడుతుంది
   if(!p.schedDate && !p.schedTime) return "✅ కనబడుతోంది";
-  // పాత date ఫీల్డ్ లో షెడ్యూల్ ఉండి, కొత్త schedDate లేకపోతే దాన్ని వాడు
   let d = p.schedDate || p.date;
   let dt = parseSchedDate(d, p.schedTime||p.time||"00:00");
   if(!dt) return "✅ కనబడుతోంది";
@@ -215,25 +212,45 @@ function saveCurrentSong(){
 }
 function newSongInFolder(){ songs.push({title:"కొత్త పాట",content:"",link:"",img:"",folder:curSongFolder}); curSongIdx=songs.length-1; saveSongsToGit(); }
 function newSongFolder(){ let n=prompt("కొత్త పాటల బుక్ / ఫోల్డర్ పేరు:", "కొత్త పాటలు"); if(!n) return; curSongFolder=n.trim(); songs.push({title:"కొత్త పాట",content:"",link:"",img:"",folder:curSongFolder}); saveSongsToGit(); }
-function delSongFolder(){ if(!confirm("ఈ ఫోల్డర్ + దీని పాటలు మొత్తం తీసేయాలా?")) return; songs=songs.filter(s=>s.folder!==curSongFolder); curSongFolder="ఆంధ్ర క్రైస్తవ కీర్తనలు"; saveSongsToGit(); }
+function delSongFolder(){ if(!confirm("ఈ ఫోల్డర్ + దీని పాటలు మొత్తం తీసేయి")) return; songs=songs.filter(s=>s.folder!==curSongFolder); curSongFolder="ఆంధ్ర క్రైస్తవ కీర్తనలు"; saveSongsToGit(); }
 function delCurrentSong(){ if(curSongIdx<0) return; if(!confirm("ఈ పాట తీసేయాలా?")) return; songs.splice(curSongIdx,1); saveSongsToGit(); }
 document.getElementById('songPhoto').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f) return; let rd=new FileReader(); rd.onload=ev=>{ let img=new Image(); img.onload=()=>{ let c=document.createElement('canvas'); let w=img.width,h=img.height,max=800; if(w>max){h=h*max/w;w=max;} c.width=w;c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); SONG_IMG=c.toDataURL('image/jpeg',0.7); document.getElementById('songPreview').src=SONG_IMG; document.getElementById('songPreview').style.display='block'; document.getElementById('songPhotoMsg').innerText="✅ ఫోటో రెడీ - ఇప్పుడు 💾 సేవ్ నొక్కండి"; }; img.src=ev.target.result; }; rd.readAsDataURL(f); });
 document.getElementById('songLink').addEventListener('input',e=>{ document.getElementById('songLinkPreview').innerHTML=linkHTML(e.target.value.trim()); });
+// ===== 📖 బుక్స్ - ఫిక్స్ - chapters + pages రెండూ చదువుతుంది =====
 async function loadBooks(){
-  let token=getToken(); if(!token) return;
+  let token=getToken(); if(!token){ document.getElementById('status').innerText="❌ Token పెట్టండి - లేకపోతే బుక్స్ రావు!"; return; }
   document.getElementById('status').innerText="Loading books.json...";
-  try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ booksSha=j.sha; books=JSON.parse(b64d(j.content)); } else { booksSha=""; books=[]; } }catch(e){ booksSha=""; books=[]; }
+  try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ booksSha=j.sha; books=JSON.parse(b64d(j.content)); } else { booksSha=""; books=[]; } if(!Array.isArray(books)) books=[]; }catch(e){ booksSha=""; books=[]; }
+  // 🔥 ఫిక్స్ - chapters ఉన్నా, pages ఉన్నా, రెండూ చదువు!
   books=books.map(b=>{
-    if(b.pages) return {title:fixT(b.title||""), desc:fixT(b.desc||b.description||b.msg||""), pages:(b.pages||[]).map(p=>({title:fixT(p.title||""), content:fixT(p.content||p.msg||"")}))};
-    return {title:fixT(b.title||""), desc:fixT(b.desc||b.msg||""), pages:[{title:fixT(b.title||""), content:fixT(b.msg||b.content||"")}]};
+    let rawPages = b.pages || b.chapters || b.items || [];
+    let pages = (Array.isArray(rawPages)?rawPages:[]).map(p=>({
+      title: fixT(p.title||p.t||p.name||""),
+      content: fixT(p.content||p.c||p.text||p.msg||""),
+      img: p.img||p.image||p.photo||""
+    }));
+    // పాత ఫార్మాట్ - ఒక్క పేజీ కూడా లేకపోతే - బుక్ desc నే పేజీ చేయి
+    if(!pages.length && (b.msg||b.content)){
+      pages=[{title:fixT(b.title||""), content:fixT(b.msg||b.content||""), img:""}];
+    }
+    return {id: b.id!=null?b.id:Date.now()+Math.random(), title:fixT(b.title||""), desc:fixT(b.desc||b.description||b.msg||""), pages:pages};
   });
+  if(!books.length){
+    books=[{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",pages:[{title:"అధ్యాయం 1 - సృష్టి",content:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.",img:""}]}];
+    document.getElementById('status').innerText="⚠️ books.json ఖాళీ - డిఫాల్ట్ బుక్ చూపిస్తున్నాను - కొత్త బుక్ పెట్టి సేవ్ చేయండి!";
+  } else {
+    document.getElementById('status').innerText="✅ books.json - "+books.length+" బుక్స్";
+  }
+  if(curBookIdx>=books.length) curBookIdx=0;
   let sel=document.getElementById('bookSelect');
   setSelectOptions(sel, books.map((b,i)=>({value:String(i), text:`📖 ${b.title||"బుక్ "+(i+1)} (${b.pages.length} పేజీలు)`})));
-  if(books.length) sel.value=String(curBookIdx); document.getElementById('status').innerText="✅ books.json - "+books.length+" బుక్స్"; openBook();
+  if(books.length) sel.value=String(curBookIdx);
+  openBook();
 }
 function openBook(){ let idx=parseInt(document.getElementById('bookSelect').value); if(isNaN(idx)) return; curBookIdx=idx; let b=books[idx]; if(!b) return; document.getElementById('bookTitle').value=b.title; document.getElementById('bookDesc').value=b.desc; document.getElementById('pageCount').innerText=b.pages.length+" పేజీలు"; let box=document.getElementById('pagesList'); box.innerHTML=""; b.pages.forEach((p,pi)=>{ let d=document.createElement('div'); d.className='pageBox'; let b1=document.createElement('b'); b1.textContent=`పేజీ ${pi+1}`; d.appendChild(b1); let l1=document.createElement('label'); l1.textContent='పేజీ శీర్షిక'; d.appendChild(l1); let inp=document.createElement('input'); inp.id='pt_'+pi; inp.value=p.title; d.appendChild(inp); let l2=document.createElement('label'); l2.textContent='పేజీ వివరణ'; d.appendChild(l2); let ta=document.createElement('textarea'); ta.id='pc_'+pi; ta.rows=12; ta.value=p.content; d.appendChild(ta); let row=document.createElement('div'); row.style.cssText='display:flex;gap:6px;flex-wrap:wrap'; let s1=document.createElement('button'); s1.type='button'; s1.style.background='#2196F3'; s1.style.flex='1'; s1.textContent='💾 ఈ పేజీ సేవ్'; s1.onclick=()=>savePage(pi); row.appendChild(s1); let d1=document.createElement('button'); d1.type='button'; d1.style.background='red'; d1.style.flex='1'; d1.textContent='🗑️ ఈ పేజీ తీసేయి'; d1.onclick=()=>delPage(pi); row.appendChild(d1); d.appendChild(row); let row2=document.createElement('div'); row2.style.cssText='display:flex;gap:6px;margin-top:6px'; let up=document.createElement('button'); up.type='button'; up.className='addBtn'; up.textContent='➕ పైన కొత్త పేజీ'; up.onclick=()=>addPageAbove(pi); row2.appendChild(up); let down=document.createElement('button'); down.type='button'; down.className='addBtn'; down.textContent='➕ కింద కొత్త పేజీ'; down.onclick=()=>addPageBelow(pi); row2.appendChild(down); d.appendChild(row2); box.appendChild(d); }); if(!b.pages.length) box.textContent="📭 పేజీలు లేవు"; }
-async function saveBooksToGit(){ try{ let fresh=await getFreshSha("books.json"); if(fresh) booksSha=fresh; let toSave=books.map(b=>({title:b.title, desc:b.desc, description:b.desc, pages:b.pages.map(p=>({title:p.title, content:p.content, msg:p.content}))})); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`; let body={message:"update books",content:b64e(JSON.stringify(toSave))}; if(booksSha) body.sha=booksSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ alert("✅ బుక్ సేవ్ అయింది!"); loadBooks(); } else alert("❌ Save కాలేదు"); }catch(e){ alert("❌ Save కాలేదు: "+e.message); } }
-function newBook(){ books.unshift({title:"కొత్త బుక్", desc:"", pages:[{title:"పేజీ 1", content:""}]}); curBookIdx=0; saveBooksToGit(); }
+// 🔥 ఫిక్స్ - books.html కి కావాల్సిన chapters + pages - రెండూ సేవ్ చేయి!
+async function saveBooksToGit(){ try{ let fresh=await getFreshSha("books.json"); if(fresh) booksSha=fresh; let toSave=books.map(b=>{ let pages=b.pages.map(p=>({title:p.title, content:p.content, msg:p.content})); let chapters=b.pages.map(p=>({t:p.title, c:p.content, img:p.img||""})); return {id:b.id, title:b.title, desc:b.desc, description:b.desc, pages:pages, chapters:chapters}; }); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`; let body={message:"update books",content:b64e(JSON.stringify(toSave))}; if(booksSha) body.sha=booksSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ alert("✅ బుక్ సేవ్ అయింది!"); loadBooks(); } else { let j=await r.json().catch(()=>({})); alert("❌ Save కాలేదు: "+(j.message||r.status)); } }catch(e){ alert("❌ Save కాలేదు: "+e.message); } }
+function newBook(){ books.unshift({id:Date.now(),title:"కొత్త బుక్", desc:"", pages:[{title:"పేజీ 1", content:""}]}); curBookIdx=0; saveBooksToGit(); }
 function saveBookInfo(){ if(!books[curBookIdx]) return; books[curBookIdx].title=document.getElementById('bookTitle').value; books[curBookIdx].desc=document.getElementById('bookDesc').value; saveBooksToGit(); }
 function delBook(){ if(!confirm("ఈ బుక్ మొత్తం తీసేయాలా?")) return; books.splice(curBookIdx,1); curBookIdx=0; saveBooksToGit(); }
 function addPage(){ if(!books[curBookIdx]) return; books[curBookIdx].pages.push({title:"కొత్త పేజీ", content:""}); openBook(); }
