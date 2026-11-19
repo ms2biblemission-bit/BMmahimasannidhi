@@ -111,9 +111,9 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
 
-<!-- 👁️ ఎంతమంది చూశారో - కౌంటర్ - కొత్తది -->
-<div style="background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1)">
-  <div style="font-size:15px; color:#666;">👁️ మన యాప్ ని చూసిన వారు</div>
+<!-- 👁️ కౌంటర్ - అడ్మిన్ కి మాత్రమే - అందరికీ కనబడదు -->
+<div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+  <div style="font-size:15px; color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div>
   <div style="font-size:32px; font-weight:900; color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div>
   <div style="font-size:12px; color:#888;">🙏 దేవునికి స్తోత్రం! రోజు రోజుకీ పెరుగుతున్నారు!</div>
 </div>
@@ -245,19 +245,20 @@ function shareAnyPage(){
   let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
-// ===== 👁️ VISITOR COUNT - కొత్త ఫ్రీ కౌంటర్ =====
+// ===== 👁️ VISITOR COUNT - అడ్మిన్ కి మాత్రమే =====
 async function updateVisitorCount(){
+  if(location.search.includes('admin=1')){ localStorage.setItem('ms_is_admin','1'); }
+  let isAdmin = localStorage.getItem('ms_is_admin')==='1';
+  let box = document.getElementById('visitorBox');
   let el = document.getElementById('visitorCount');
-  if(!el) return;
   try{
     let r = await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits');
     let j = await r.json();
     let count = j.value || j.count || 0;
-    el.textContent = count.toLocaleString('en-IN');
+    if(isAdmin && box && el){ box.style.display='block'; el.textContent = count.toLocaleString('en-IN'); }
     localStorage.setItem('ms_visitor_count', count);
   }catch(e){
-    let old = localStorage.getItem('ms_visitor_count') || '1000+';
-    el.textContent = old;
+    if(isAdmin && box && el){ box.style.display='block'; el.textContent = localStorage.getItem('ms_visitor_count') || '...'; }
   }
 }
 updateVisitorCount();
