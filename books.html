@@ -28,6 +28,8 @@ h3{color:#0B3D2E;margin:16px 0 8px}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,0.85);display:flex;justify-content:space-around;align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -3px 12px rgba(0,0,0,.12);border-top:1px solid rgba(255,255,255,0.9)}
 .bottom-nav a,.bottom-nav button{flex:1;background:transparent;border:none;color:#0B3D2E;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .bottom-nav .b-icon{font-size:22px;line-height:1} .bottom-nav .active{background:rgba(11,61,46,0.12);border-radius:12px;color:#0B3D2E}
+/* 🔥 లాస్ట్ రీడింగ్ బాక్స్ పూర్తిగా తీసేయి - సెర్చ్ మాత్రం ఉంటుంది */
+#continueBox, .history-box, .show-more-btn{ display:none !important; }
 </style></head>
 <body>
 <div class="topbar"><button onclick="openDrawer()">☰</button><b>📚 బుక్స్ - మహిమ సన్నిధి</b><button onclick="openTextSettings()">🔠</button></div>
@@ -100,7 +102,7 @@ function toggleSaveBookById(bookId, btn){
   document.querySelectorAll('[data-save-id="'+key+'"]').forEach(b=>{ let s=ids.includes(key); b.textContent=s?'✅ Saved / సేవ్ అయ్యింది':'🔖 Save / సేవ్'; b.classList.toggle('saved',s); });
 }
 function hideTopBoxes(){ let e=document.getElementById('continueBox'); if(e) e.style.display='none'; }
-function showTopBoxes(){ let e=document.getElementById('continueBox'); if(e) e.style.display='block'; renderContinueBox(); }
+function showTopBoxes(){ let e=document.getElementById('continueBox'); if(e) e.style.display='none'; }
 let expandState = { history:false };
 function toggleExpand(key){ expandState[key]=!expandState[key]; renderContinueBox(); }
 function showMoreBtn(key, total, shown){
@@ -113,18 +115,10 @@ function addHistory(bookId, pageIdx){
   let h=getHistory(); h=h.filter(x=>String(x.bookId)!==String(bookId)); h.unshift({bookId:String(bookId), page:pageIdx, time:new Date().toLocaleString('te-IN',{day:'numeric',month:'short',hour:'numeric',minute:'numeric',hour12:true})}); h=h.slice(0,20); localStorage.setItem('ms_history_books', JSON.stringify(h)); renderContinueBox();
 }
 function getLastPageForBook(bookId){ let h=getHistory().find(x=>String(x.bookId)===String(bookId)); return h ? h.page : 0; }
+// 🔥 ఫిక్స్ - లాస్ట్ రీడింగ్ బాక్స్ ఇక చూపించదు
 function renderContinueBox(){
   let box=document.getElementById('continueBox'); if(!box) return;
-  let h=getHistory(); if(!h.length){ box.innerHTML=''; return; }
-  let shownH = expandState.history ? h : h.slice(0,2);
-  let html='<div class="history-box"><h3 style="margin:0 0 6px;color:#0B3D2E">📖 లాస్ట్ రీడింగ్ - అన్నీ</h3>';
-  shownH.forEach(last=>{
-    let b=BOOKS.find(x=>String(getBookKey(x))===String(last.bookId)); if(!b) return;
-    let ch=getChapters(b); let t=ch[last.page]?ch[last.page].t:''; let ci=BOOKS.indexOf(b);
-    let pct=ch.length?Math.round(((last.page+1)/ch.length)*100):0;
-    html+='<div class="history-item" onclick="openSavedBook('+ci+')"><b>'+b.title+'</b><br><small>'+t+' • పేజీ '+(last.page+1)+' / '+ch.length+' • '+last.time+' ➡️</small><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
-  });
-  html+=showMoreBtn('history', h.length, shownH.length)+'</div>'; box.innerHTML=html;
+  box.innerHTML=''; box.style.display='none'; return;
 }
 function openSavedBook(ci){
   hideTopBoxes(); openBookByIndex(ci);
