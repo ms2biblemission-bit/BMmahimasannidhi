@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>📖 బైబిల్ - తెలుగు + KJV | BM మహిమ సన్నిధి</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0B3D2E">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>📖 బైబిల్ - తెలుగు + KJV | BM మహిమ సన్నిధి</title><meta name="theme-color" content="#0B3D2E">
 <style>*{box-sizing:border-box}body{font-family:sans-serif;background:#E8F5E9;margin:0;padding-bottom:90px} .top{position:sticky;top:0;background:#0B3D2E;color:#fff;padding:12px;text-align:center;z-index:10} .top b{font-size:18px} .top small{display:block;font-size:12px;opacity:.9}
 .tabs{display:flex;gap:8px;padding:10px} .tabs button{flex:1;padding:11px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;background:#fff;border:2px solid #0B3D2E;color:#0B3D2E} .tabs button.on{background:#0B3D2E;color:#fff}
 .books{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 10px} .book{background:#fff;border-radius:14px;padding:12px;text-align:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);border:1px solid #DCEEDB} .book b{font-size:14px;color:#0B3D2E;display:block} .book small{color:#888;font-size:11px}
@@ -8,6 +8,7 @@
 .verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .te{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:6px} .verse .en{font-size:15px;line-height:1.6;color:#555;font-style:italic;margin-top:6px;border-top:1px dashed #ddd;padding-top:6px} .verse .shr{text-align:right;margin-top:8px} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
 .search{width:calc(100% - 20px);margin:0 10px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .bottom{position:fixed;left:12px;right:12px;bottom:10px;background:#fff;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;justify-content:space-around;padding:10px 4px} .bottom a{text-decoration:none;color:#555;font-size:11px;text-align:center;flex:1} .bottom .ic{font-size:22px;display:block}
+.backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
 </style></head><body>
 <div class="top"><b>📖 బైబిల్ - తెలుగు + KJV</b><small>BM మహిమ సన్నిధి | ఆఫ్ లైన్ లో కూడా పనిచేస్తుంది 🙏</small></div>
 <input class="search" id="bSearch" placeholder="🔍 పుస్తకం వెతకండి... ఆదికాండం / Genesis" oninput="renderBooks()">
@@ -18,7 +19,6 @@
 <div id="loadMsg" style="text-align:center;padding:12px;color:#666"></div>
 <div class="bottom"><a href="index.html"><span class="ic">🏠</span>హోమ్</a><a href="bible.html"><span class="ic">📖</span>బైబిల్</a><a href="prayer.html"><span class="ic">🙏</span>ప్రార్థన</a><a href="videos.html"><span class="ic">▶️</span>మీడియా</a></div>
 <script>
-// 66 పుస్తకాలు - తెలుగు + English + అధ్యాయాల సంఖ్య
 const BOOKS=[
 ["ఆదికాండం","Genesis",50],["నిర్గమకాండం","Exodus",40],["లేవీయకాండం","Leviticus",27],["సంఖ్యాకాండం","Numbers",36],["ద్వితీయోపదేశకాండం","Deuteronomy",34],
 ["యెహోషువ","Joshua",24],["న్యాయాధిపతులు","Judges",21],["రూతు","Ruth",4],["1 సమూయేలు","1 Samuel",31],["2 సమూయేలు","2 Samuel",24],
@@ -35,54 +35,69 @@ const BOOKS=[
 ["1 పేతురు","1 Peter",5],["2 పేతురు","2 Peter",3],["1 యోహాను","1 John",5],["2 యోహాను","2 John",1],["3 యోహాను","3 John",1],["యూదా","Jude",1],["ప్రకటన","Revelation",22]
 ];
 let mode = localStorage.getItem('ms_bible_mode')||'both';
-let curBook = parseInt(localStorage.getItem('ms_bible_book')||'0');
-let curChap = parseInt(localStorage.getItem('ms_bible_chap')||'1');
-function setMode(m){ mode=m; localStorage.setItem('ms_bible_mode',m); document.getElementById('btnBoth').className=m==='both'?'on':''; document.getElementById('btnTe').className=m==='te'?'on':''; document.getElementById('btnEn').className=m==='en'?'on':''; if(document.getElementById('chapList').style.display!=='none') loadChapter(); }
+let curBook = 0, curChap = 1, lastTe=[], lastEn=[];
+function setMode(m){ mode=m; localStorage.setItem('ms_bible_mode',m); document.getElementById('btnBoth').className=m==='both'?'on':''; document.getElementById('btnTe').className=m==='te'?'on':''; document.getElementById('btnEn').className=m==='en'?'on':''; if(lastTe.length) renderVerses(lastTe,lastEn); }
 setMode(mode);
+// ✅ FIX - Strong's నంబర్లు తీసేయి - 4912, <S>4912</S>, [4912] - అన్నీ తీసేయి
+function cleanText(s){
+  if(!s) return '';
+  s = String(s);
+  s = s.replace(/<S>\d+<\/S>/g,'').replace(/<[^>]+>/g,'');
+  s = s.replace(/\b\d{3,5}\b/g,''); // 3-5 అంకెల Strong's నంబర్లు
+  s = s.replace(/\[\d+\]/g,'').replace(/\(\d+\)/g,'');
+  s = s.replace(/\s{2,}/g,' ').replace(/\s+([.,;:!?])/g,'$1').trim();
+  return s;
+}
 function renderBooks(){
   let q=document.getElementById('bSearch').value.toLowerCase().trim();
   let list=BOOKS.map((b,i)=>({b,i})).filter(x=>!q||x.b[0].toLowerCase().includes(q)||x.b[1].toLowerCase().includes(q));
   document.getElementById('bookList').innerHTML='<div class="books">'+list.map(x=>`<div class="book" onclick="openBook(${x.i})"><b>${x.b[0]}</b><small>${x.b[1]} • ${x.b[2]} అధ్యాయాలు</small></div>`).join('')+'</div>';
-  document.getElementById('chapList').style.display='none'; document.getElementById('verseList').innerHTML='';
 }
-function openBook(i){ curBook=i; curChap=1; localStorage.setItem('ms_bible_book',i); localStorage.setItem('ms_bible_chap',1);
+function openBook(i){
+  curBook=i; curChap=1;
   let b=BOOKS[i]; let h=''; for(let c=1;c<=b[2];c++){ h+=`<button class="${c===1?'on':''}" onclick="goChap(${c})">${c}</button>`; }
-  document.getElementById('chapList').innerHTML=`<div style="padding:10px 10px 0;font-weight:bold;color:#0B3D2E">📖 ${b[0]} - ${b[1]} - అధ్యాయం ఎంచుకోండి</div><div class="chaps">${h}</div>`; document.getElementById('chapList').style.display='block'; document.getElementById('chapList').scrollIntoView({behavior:'smooth'}); loadChapter();
+  document.getElementById('chapList').innerHTML=`<button class="backbtn" onclick="backToBooks()">⬅️ అన్ని పుస్తకాలు చూడండి</button><div style="padding:0 10px;font-weight:bold;color:#0B3D2E">📖 ${b[0]} - ${b[1]} - అధ్యాయం ఎంచుకోండి</div><div class="chaps">${h}</div>`;
+  document.getElementById('chapList').style.display='block';
+  document.getElementById('bookList').style.display='none';
+  // ✅ FIX - scrollIntoView తీసేసాను - పైకి లాగదు!
+  loadChapter();
 }
-function goChap(c){ curChap=c; localStorage.setItem('ms_bible_chap',c); document.querySelectorAll('.chaps button').forEach((el,idx)=>{ el.className=(idx+1===c)?'on':''; }); loadChapter(); }
-async function fetchBolls(trans, bookEn, chap){
-  // bolls.life - ఫ్రీ బైబిల్ API - KJV + Telugu
+function backToBooks(){ document.getElementById('chapList').style.display='none'; document.getElementById('verseList').innerHTML=''; document.getElementById('bookList').style.display='block'; document.getElementById('loadMsg').textContent=''; }
+function goChap(c){ curChap=c; document.querySelectorAll('.chaps button').forEach((el,idx)=>{ if(el.textContent==String(c)) el.className='on'; else if(!isNaN(parseInt(el.textContent))) el.className=''; }); loadChapter(); }
+async function fetchChapter(bookEn, chap, translation){
+  // bible-api.com - ఒక్కో అధ్యాయం - verses array ఇస్తుంది
   try{
-    let r=await fetch(`https://bolls.life/get-text/${trans}/${bookEn}/${chap}/`);
-    if(!r.ok) return null; let j=await r.json(); if(Array.isArray(j)) return j; if(j && Array.isArray(j.text)) return j.text; return j;
+    let url = `https://bible-api.com/${encodeURIComponent(bookEn)}+${chap}?translation=${translation}`;
+    let r = await fetch(url);
+    if(!r.ok) return null;
+    let j = await r.json();
+    if(j && Array.isArray(j.verses)) return j.verses.map(v=>({n: v.verse, t: cleanText(v.text)}));
+    if(j && j.text) return [{n:1, t: cleanText(j.text)}];
+    return null;
   }catch(e){ return null; }
-}
-function normVerses(j){
-  if(!j) return [];
-  if(Array.isArray(j)) return j.map((v,i)=>({n:v.pk||v.verse||i+1, t:v.text||v.comment||''}));
-  return [];
 }
 async function loadChapter(){
   let b=BOOKS[curBook];
-  let box=document.getElementById('verseList');
   document.getElementById('loadMsg').textContent='⏳ లోడ్ అవుతోంది... 🙏';
-  let cacheKey=`ms_bible_${curBook}_${curChap}`;
+  let cacheKey=`ms_bible2_${curBook}_${curChap}`;
   let cached=null; try{ cached=JSON.parse(localStorage.getItem(cacheKey)||'null'); }catch(e){}
-  // ముందు క్యాష్ చూపించు - వెంటనే ఓపెన్ అవుతుంది
-  if(cached) renderVerses(cached.te, cached.en);
-  let te=null, en=null;
-  // Telugu - bolls లో Telugu code - TEL, లేకపోతే KJV మాత్రమే చూపిస్తుంది
-  try{
-    let [r1,r2]=await Promise.all([fetchBolls('TEL', b[1], curChap), fetchBolls('KJV', b[1], curChap)]);
-    te=normVerses(r1); en=normVerses(r2);
-    // TEL రాకపోతే - మరో కోడ్ ప్రయత్నించు
-    if(!te.length){ let r3=await fetchBolls('TEV', b[1], curChap); te=normVerses(r3); }
-  }catch(e){}
-  if((!te || !te.length) && (!en || !en.length) && cached){ document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ లో చూస్తున్నారు'; return; }
-  if((!te || !te.length) && en && en.length){ te=en.map(v=>({n:v.n, t:''})); }
-  if((!en || !en.length) && te && te.length){ en=te.map(v=>({n:v.n, t:''})); }
-  if(te && te.length){ try{ localStorage.setItem(cacheKey, JSON.stringify({te,en})); }catch(e){} renderVerses(te,en); document.getElementById('loadMsg').textContent='✅ '+b[0]+' '+curChap+' - సేవ్ అయ్యింది - మళ్ళీ ఆఫ్ లైన్ లో కూడా వస్తుంది'; }
-  else { document.getElementById('loadMsg').textContent='⚠️ ఇంటర్నెట్ లేదు - మళ్ళీ ప్రయత్నించండి'; }
+  if(cached && cached.te && cached.te.length){ lastTe=cached.te; lastEn=cached.en||cached.te; renderVerses(lastTe,lastEn); document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ - సేవ్ అయినది చూస్తున్నారు'; }
+  // ✅ FIX - తెలుగు = telugu, ఇంగ్లీష్ = kjv - వేరు వేరు API - ఒకేసారి
+  let [te, en] = await Promise.all([
+    fetchChapter(b[1], curChap, 'telugu'),
+    fetchChapter(b[1], curChap, 'kjv')
+  ]);
+  // తెలుగు రాకపోతే - cherokee కాదు - telugu మళ్ళీ ప్రయత్నించు - లేదా bolls నుండి క్లీన్ చేసి తీసుకో
+  if(!te || !te.length){
+    try{
+      let r=await fetch(`https://bolls.life/get-text/KJV/${encodeURIComponent(b[1])}/${curChap}/`);
+      let j=await r.json();
+      if(Array.isArray(j)) en = j.map((v,i)=>({n: v.verse||i+1, t: cleanText(v.text)}));
+    }catch(e){}
+  }
+  if(te && te.length){ lastTe=te; lastEn=(en && en.length)?en:te; try{ localStorage.setItem(cacheKey, JSON.stringify({te:lastTe,en:lastEn})); }catch(e){} renderVerses(lastTe,lastEn); document.getElementById('loadMsg').textContent='✅ '+b[0]+' '+curChap+' - సేవ్ అయ్యింది'; }
+  else if(en && en.length){ lastTe=en; lastEn=en; renderVerses(lastTe,lastEn); document.getElementById('loadMsg').textContent='⚠️ తెలుగు దొరకలేదు - ఇంగ్లీష్ మాత్రమే - మళ్ళీ ప్రయత్నించండి'; }
+  else if(!cached){ document.getElementById('loadMsg').textContent='⚠️ ఇంటర్నెట్ లేదు - మళ్ళీ ప్రయత్నించండి'; }
 }
 function renderVerses(te,en){
   let b=BOOKS[curBook];
@@ -91,25 +106,18 @@ function renderVerses(te,en){
   let h=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ ముందు</button><button style="background:#FFF8E1;border:2px solid #FFD54F">${b[0]} ${curChap} - ${b[1]} ${curChap}</button><button class="next" onclick="nextChap()">తర్వాత ➡️</button></div>`;
   for(let i=0;i<max;i++){
     let t=te[i]||{n:i+1,t:''}; let e=en[i]||{n:i+1,t:''};
+    // ✅ FIX - వచనం నంబర్ - pk కాదు - 1,2,3 - సరిగ్గా!
+    let vn = t.n || (i+1);
     let teHtml = mode!=='en' ? `<div class="te">${t.t}</div>` : '';
     let enHtml = mode!=='te' && e.t ? `<div class="en">${e.t}</div>` : '';
-    h+=`<div class="verse"><div class="ref">${b[0]} ${curChap}:${t.n}</div>${teHtml}${enHtml}<div class="shr"><button onclick="shareVerse(${t.n})">📤 షేర్</button></div></div>`;
+    h+=`<div class="verse"><div class="ref">${b[0]} ${curChap}:${vn}</div>${teHtml}${enHtml}<div class="shr"><button onclick="shareVerse(${vn})">📤 షేర్</button></div></div>`;
   }
   h+=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ ముందు</button><button class="next" onclick="nextChap()">తర్వాత ➡️</button></div>`;
-  box.innerHTML=h; window.scrollTo({top:0,behavior:'smooth'});
+  box.innerHTML=h;
+  // ✅ FIX - window.scrollTo తీసేసాను - ఇప్పుడు మీరు ఎక్కడున్నారో అక్కడే ఉంటుంది!
 }
 function prevChap(){ if(curChap>1){ goChap(curChap-1); } else if(curBook>0){ openBook(curBook-1); goChap(BOOKS[curBook][2]); } }
 function nextChap(){ if(curChap<BOOKS[curBook][2]){ goChap(curChap+1); } else if(curBook<BOOKS.length-1){ openBook(curBook+1); } }
-function shareVerse(n){ let b=BOOKS[curBook]; let el=document.querySelectorAll('.verse')[n-1]; let txt=el?el.innerText:''; window.open('https://wa.me/?text='+encodeURIComponent('🙏 '+b[0]+' '+curChap+':'+n+'\n\n'+txt+'\n\n📖 BM మహిమ సన్నిధి\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/bible.html'),'_blank'); }
+function shareVerse(n){ let b=BOOKS[curBook]; let verses=document.querySelectorAll('.verse'); let txt=''; verses.forEach(v=>{ if(v.querySelector('.ref') && v.querySelector('.ref').textContent.includes(':'+n)) txt=v.innerText; }); window.open('https://wa.me/?text='+encodeURIComponent('🙏 '+b[0]+' '+curChap+':'+n+'\n\n'+txt+'\n\n📖 BM మహిమ సన్నిధి\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/bible.html'),'_blank'); }
 renderBooks();
-// గతంలో చూసిన పుస్తకం ఉంటే - వెంటనే ఓపెన్ చేయి
-if(localStorage.getItem('ms_bible_book')){ openBook(curBook); goChap(curChap); }
-// 🔔 మార్నింగ్ నోటిఫికేషన్ - ఉదయం 6 గంటలకి
-if('Notification' in window && Notification.permission==='default'){ setTimeout(()=>{ Notification.requestPermission(); }, 3000); }
-function scheduleMorning(){
-  if(!('Notification' in window) || Notification.permission!=='granted') return;
-  let now=new Date(); let next=new Date(); next.setHours(6,0,0,0); if(next<=now) next.setDate(next.getDate()+1);
-  let ms=next-now; setTimeout(()=>{ new Notification('🙏 BM మహిమ సన్నిధి - మరనాత ✝️',{body:'ఈ రోజు వాక్యం వచ్చింది! చదవండి - ప్రార్థించండి 🙏', icon:'IMG-20261104-WA0008.jpg'}); scheduleMorning(); }, ms);
-}
-scheduleMorning();
 </script></body></html>
