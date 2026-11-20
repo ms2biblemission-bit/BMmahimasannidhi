@@ -84,16 +84,13 @@ async function fetchJSON(url, ms=12000){
   try{ let r=await fetch(url,{signal:c.signal}); clearTimeout(t); if(!r.ok) return null; return await r.json(); }
   catch(e){ clearTimeout(t); return null; }
 }
-// ✅ ముందు - ఏ తెలుగు వెర్షన్ ఉందో - ఆటోమేటిక్ గా కనుక్కో!
 async function loadVersions(){
   if(VER_LOADED) return;
   try{
     let list = await fetchJSON('https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/bibles.json', 12000);
     if(list){
       let arr = Array.isArray(list) ? list : (list.bibles||list.data||[]);
-      // తెలుగు - language te / telugu / id లో te ఉన్నది
       let te = arr.find(v=>{ let s=JSON.stringify(v).toLowerCase(); return (v.language==='te'||v.language==='telugu'||v.lang==='te'|| (v.id&&String(v.id).toLowerCase().startsWith('te-')) || s.includes('"language":"te"')); });
-      // ఇంగ్లీష్ KJV
       let en = arr.find(v=> String(v.id||'').toLowerCase()==='en-kjv') || arr.find(v=> String(v.id||'').toLowerCase().includes('kjv'));
       if(te && te.id) TE_VER = te.id;
       if(en && en.id) EN_VER = en.id;
@@ -107,6 +104,7 @@ async function loadVersions(){
   document.getElementById('verInfo').textContent = 'తెలుగు: '+TE_VER+' | English: '+EN_VER+' (డిఫాల్ట్)';
 }
 loadVersions();
+// ✅ FIX - వచనం String గా ఉన్నా, Object గా ఉన్నా, {1:"text"} గా ఉన్నా - అన్నీ చదువుతుంది!
 function parseWldeh(j){
   if(!j) return null;
   let arr = null;
@@ -115,17 +113,44 @@ function parseWldeh(j){
   else if(Array.isArray(j.verses)) arr=j.verses;
   else if(j.data && Array.isArray(j.data)) arr=j.data;
   else if(j.chapter && Array.isArray(j.chapter.verses)) arr=j.chapter.verses;
-  if(!arr) return null;
+  else if(j.data && typeof j.data==='object') {
+    // {data: {1:"...", 2:"..."}} లేదా {data: {verses: {...}}}
+    if(j.data.verses && typeof j.data.verses==='object' && !Array.isArray(j.data.verses)){
+      arr = Object.keys(j.data.verses).sort((a,b)=>a-b).map(k=>({verse:k, text:j.data.verses[k]}));
+    } else if(Object.keys(j.data).every(k=>!isNaN(k))){
+      arr = Object.keys(j.data).sort((a,b)=>a-b).map(k=>({verse:k, text:j.data[k]}));
+    }
+  }
+  else if(typeof j==='object' && Object.keys(j).every(k=>!isNaN(k))){
+    arr = Object.keys(j).sort((a,b)=>a-b).map(k=>({verse:k, text:j[k]}));
+  }
+  if(!arr) {
+    // ఒక్క వచనం - {verse:1, text:"..."} లేదా {data:{verse:1, text:"..."}}
+    let o = j.data || j;
+    if(o && (o.text||o.content)) return [{n: parseInt(o.verse||o.number||1), t: cleanText(o.text||o.content||'')}];
+    return null;
+  }
   let out = arr.map((v,i)=>{
-    let n = parseInt(v.verse||v.number||v.verse_number||v.id|| (i+1));
-    let t = v.text||v.content||v.verse_text||'';
-    if(typeof t!=='string') t = (Array.isArray(t)? t.map(x=>x.text||x).join(' ') : '');
-    return {n:n, t: cleanText(t)};
+    if(typeof v==='string') return {n:i+1, t: cleanText(v)};
+    let t = v.text||v.content||v.verse_text||v.scripture||'';
+    if(typeof t!=='string') t = (Array.isArray(t)? t.map(x=>typeof x==='string'?x:(x.text||'')).join(' ') : (typeof t==='object'&&t!==null ? (t.text||'') : ''));
+    return {n: parseInt(v.verse||v.number||v.verse_number||v.id|| (i+1)), t: cleanText(t)};
   }).filter(x=>x.t);
   return out.length?out:null;
 }
+async function fetchOneVerse(ver, bookSlug, chap, vn){
+  let urls = [
+    `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${ver}/books/${bookSlug}/chapters/${chap}/verses/${vn}.json`,
+    `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${ver}/books/${bookSlug}/chapters/${chap}/verses/${vn}/verse.json`
+  ];
+  for(let u of urls){
+    let j = await fetchJSON(u, 8000);
+    let v = parseWldeh(j);
+    if(v && v.length) return v[0];
+  }
+  return null;
+}
 async function fetchWldehChapter(ver, bookSlug, chap){
-  // wldeh - per-chapter file - jsDelivr - CORS ఉంటుంది
   let urls = [
     `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${ver}/books/${bookSlug}/chapters/${chap}.json`,
     `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${ver}/books/${bookSlug}/chapters/${chap}/verses.json`
@@ -135,10 +160,19 @@ async function fetchWldehChapter(ver, bookSlug, chap){
     let v = parseWldeh(j);
     if(v && v.length) return v;
   }
+  // ✅ అధ్యాయం ఫైల్ రాకపోతే - ఒక్కో వచనం - 5 చొప్పున వేగంగా!
+  let out=[];
+  for(let start=1; start<=160; start+=5){
+    let batch = await Promise.all([1,2,3,4,5].map(k=> fetchOneVerse(ver, bookSlug, chap, start+k-1)));
+    let got = batch.filter(Boolean);
+    if(!got.length) break;
+    out.push(...got);
+    if(got.length<5) break;
+  }
+  if(out.length) return out.sort((a,b)=>a.n-b.n);
   return null;
 }
 async function fetchBibleApiChapter(bookEn, chap, translation){
-  // bible-api.com - ఇంగ్లీష్ కి మాత్రమే నమ్మకం - తెలుగు లేదు
   try{
     let j = await fetchJSON(`https://bible-api.com/${encodeURIComponent(bookEn)}+${chap}?translation=${translation}`, 10000);
     if(j && Array.isArray(j.verses)) return j.verses.map(v=>({n:parseInt(v.verse), t: cleanText(v.text)}));
