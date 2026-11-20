@@ -42,23 +42,20 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .header{background:linear-gradient(90deg, rgba(255,138,0,0.25), rgba(255,87,130,0.25) 50%, rgba(128,0,128,0.25));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#222;padding:15px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border-bottom:1px solid rgba(255,255,255,0.8)}
 .header img{width:62px;height:62px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .bible-mission{font-size:15px;font-weight:900;letter-spacing:2px;color:#7A2A00}
-.logo-row{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:white;margin:10px;border-radius:18px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.logo-row a{text-align:center;text-decoration:none;min-width:68px}
-.logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.2);overflow:hidden;background:white}
-.logo-row .circle img{width:100%;height:100%;object-fit:cover}
-.logo-row .lname{font-size:12px;color:#222;font-weight:bold;margin-top:5px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;width:100%}
-.card{background:white;border-radius:16px;padding:18px 8px;text-align:center;text-decoration:none;color:#333;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:block;cursor:pointer;border:none;width:100%;font-size:16px}
-.card img{width:55px;height:55px;object-fit:contain;margin-bottom:6px}
-.card-text{font-weight:bold;font-size:16px}
-.vakya-card{background:#FFFEF8;margin:12px;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.vakya-card img{width:100%;border-radius:12px;margin-bottom:12px;max-height:380px;object-fit:cover;display:none}
+/* ✅ FIX - logo-row తీసేసాం - ఇక అవసరం లేదు */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;width:100%}
+.card{background:white;border-radius:16px;padding:10px 4px;text-align:center;text-decoration:none;color:#333;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:block;cursor:pointer;border:none;width:100%;font-size:16px}
+.card img{width:38px;height:38px;object-fit:contain;margin-bottom:4px}
+.card-text{font-weight:bold;font-size:14px;line-height:1.2}
+.card small{font-size:11px !important}
+.vakya-card{background:#FFFEF8;margin:12px;padding:14px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.vakya-card img{width:100%;border-radius:12px;margin-bottom:12px;max-height:320px;object-fit:cover;display:none}
 .section{background:white;margin:12px;padding:15px;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 .section h3{margin:0 0 10px;color:#0B3D2E}
-.post{border-bottom:1px solid #eee;padding:12px 0;cursor:pointer}
-.post img{width:100%;border-radius:12px;margin:10px 0;max-height:320px;object-fit:cover;display:block}
-.post .p-title{font-weight:700;color:#0F2F6B;font-size:22px;text-align:center;line-height:1.4}
-.post .p-content{white-space:pre-line;font-size:17px;text-align:center;line-height:1.7;margin-top:8px;color:#3B2314;font-weight:500}
+.post{border-bottom:1px solid #eee;padding:10px 0;cursor:pointer}
+.post img{width:100%;border-radius:12px;margin:10px 0;max-height:280px;object-fit:cover;display:block}
+.post .p-title{font-weight:700;color:#0F2F6B;font-size:18px;text-align:center;line-height:1.4}
+.post .p-content{white-space:pre-line;font-size:15px;text-align:center;line-height:1.7;margin-top:8px;color:#3B2314;font-weight:500}
 .post .p-content.underlined{background:#FFF3A6;padding:4px 6px;border-radius:6px;text-decoration:underline;text-decoration-color:#E6B800;text-decoration-thickness:2px}
 .post .p-date{font-size:13px;color:gray;text-align:center;margin-top:6px}
 .share-row{display:flex;gap:8px;margin-top:10px}
@@ -72,7 +69,7 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .btn-save.saved{background:#0F2F6B;color:white}
 .btn-underline{background:#8D6E4A;color:white}
 .qr-box{text-align:center}
-.qr-box img{width:260px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #0B3D2E}
+.qr-box img{width:220px;max-width:100%;height:auto;object-fit:contain;background:white;padding:10px;border-radius:12px;border:2px solid #0B3D2E}
 .install-btn{display:block;background:#4CAF50;color:white;border:none;padding:14px 20px;border-radius:10px;font-size:19px;font-weight:bold;margin:15px auto;cursor:pointer;width:calc(100% - 24px)}
 input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .upi-box{background:#f1f8e9;border:1px dashed #4CAF50;padding:10px;border-radius:10px;margin-top:10px;font-size:14px;word-break:break-all}
@@ -81,13 +78,14 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .chatMsg{padding:10px;border-radius:12px;margin:8px 0;font-size:15px}
 #chatMsgs{max-height:38vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:2px}
 .vdBtn{display:block;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;margin:6px 0;color:#fff}
-/* ✨ ఈరోజు అప్డేట్ బాక్స్ - క్రిస్మస్ పైన */
 .today-box{background:#E8F5E9;border:2px solid #2E7D32;border-radius:16px;padding:14px;margin:12px;box-shadow:0 3px 10px rgba(0,0,0,.12)}
 .today-box h3{margin:0 0 8px;color:#0B3D2E;font-size:18px}
-.today-item{display:flex;gap:10px;align-items:center;background:#fff;padding:12px;border-radius:12px;margin:0 0 8px;cursor:pointer;border:1px solid #C8E6C9}
-.today-item b{flex:1;font-size:15px;color:#0F2F6B;line-height:1.4}
+.today-item{display:flex;gap:10px;align-items:center;background:#fff;padding:8px;border-radius:12px;margin:0 0 6px;cursor:pointer;border:1px solid #C8E6C9}
+.today-item b{flex:1;font-size:13px;color:#0F2F6B;line-height:1.4}
 .today-item small{display:block;color:#666;font-size:12px;font-weight:normal}
 .today-item .go{font-size:18px;color:#2E7D32;font-weight:bold}
+/* ✅ FIX - ఈరోజు కొత్తవి - 2 లైన్ల స్క్రోలింగ్ బాక్స్ */
+#todayUpdatesList{max-height:155px !important;overflow-y:auto !important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:4px}
 </style>
 </head>
 <body>
@@ -95,6 +93,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') this.classList.remove('open')"><div class="drawerBox">
 <div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
 <div class="menu-item" onclick="location.href='index.html'">🏠 <span>Home<small>మెయిన్ పేజీ</small></span></div>
+<div class="menu-item" onclick="location.href='bible.html'">📖 <span>Bible<small>తెలుగు + KJV - ఆఫ్‌లైన్</small></span></div>
 <div class="menu-item" onclick="location.href='calendar.html'">📅 <span>Calendar<small>మా సందేశం మహిమ సన్నిధి క్యాలండర్</small></span></div>
 <div class="menu-item" onclick="location.href='books.html'">📚 <span>Books<small>పుస్తకాలు</small></span></div>
 <div class="menu-item" onclick="location.href='songs.html'">🎵 <span>Songs<small>పాటలు</small></span></div>
@@ -117,21 +116,16 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   </div>
   <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
-
-<!-- 👁️ కౌంటర్ - అడ్మిన్ కి మాత్రమే - అందరికీ కనబడదు -->
 <div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1)">
   <div style="font-size:15px; color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div>
   <div style="font-size:32px; font-weight:900; color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div>
   <div style="font-size:12px; color:#888;">🙏 దేవునికి స్తోత్రం! రోజు రోజుకీ పెరుగుతున్నారు!</div>
 </div>
-
-<!-- ✨ ఈరోజు కొత్తగా వచ్చినవి - క్రిస్మస్ పైన - ఎప్పుడూ పైనే ఉంటుంది -->
 <div id="todayUpdatesBox" class="today-box">
   <h3>✨ ఈరోజు కొత్తగా వచ్చినవి</h3>
   <div id="todayUpdatesList" style="font-size:14px;color:#666;text-align:center;padding:8px">లోడ్ అవుతోంది... 🙏</div>
-  <div style="font-size:11px;color:#888;text-align:center;margin-top:4px">👆 నొక్కితే ఆ పాట / వాక్యం / బుక్ / వీడియో ఓపెన్ అవుతుంది</div>
+  <div style="font-size:11px;color:#888;text-align:center;margin-top:4px">👆 నొక్కితే ఆ పాట / వాక్యం / బుక్ / వీడియో ఓపెన్ అవుతుంది • 👇 స్క్రోల్ చేస్తే మిగతావి</div>
 </div>
-
 <div id="countBox" style="background:linear-gradient(135deg,#0B3D2E,#C62828);color:#fff;border-radius:16px;padding:14px;margin:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.2)">
   <div id="countTitle" style="font-size:17px;font-weight:bold">🎄 క్రిస్మస్ కి</div>
   <div id="countDays" style="font-size:38px;font-weight:900;line-height:1.2">--</div>
@@ -150,25 +144,18 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   </div>
   <div id="installHint" style="font-size:11px;color:#888;margin-top:6px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</div>
 </div>
+<div onclick="location.href='bible.html'" style="background:linear-gradient(135deg,#0B3D2E,#1a7a5c);color:#fff;border-radius:16px;padding:14px;margin:12px;text-align:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);border:3px solid gold">
+  <div style="font-size:20px;font-weight:900">📖 బైబిల్ - తెలుగు + KJV</div>
+  <div style="font-size:13px;opacity:.9;margin-top:4px">66 పుస్తకాలు • ఆఫ్‌లైన్‌లో కూడా చదవొచ్చు 🙏 👆 నొక్కండి</div>
+</div>
 <div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
   <a href="quiz.html" style="flex:1;background:linear-gradient(135deg,#FF9800,#FF5722);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;box-shadow:0 4px 12px rgba(255,87,34,0.4);">🎯<br>రోజుకో ప్రశ్న<br><small>సాయంత్రం జవాబు</small></a>
   <a href="daily.html" style="flex:1;background:linear-gradient(135deg,#0B3D2E,#1a7a5c);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;border:3px solid gold;">📖<br>రోజుకో వాక్యం<br><small>365 రోజులు</small></a>
   <a href="prayer.html" style="flex:1;background:linear-gradient(135deg,#673AB7,#9C27B0);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;">🙏<br>ప్రార్థన డైరీ<br><small>నా ప్రార్థన</small></a>
 </div>
-<div class="logo-row">
-  <a href="calendar.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0;flex-direction:column;line-height:1"><span id="liveMon" style="font-size:11px;color:#C62828;font-weight:bold">NOV</span><span id="liveDay" style="font-size:22px;font-weight:900;color:#222">17</span></div><div class="lname">క్యాలండర్</div></a>
-  <a href="gallery.html"><div class="circle" style="border:2px solid #4CAF50;background:#E8F5E9">🖼️</div><div class="lname">ఫోటోలు</div></a>
-  <a href="archive.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF3E0">📖</div><div class="lname">వాక్యం</div></a>
-  <a href="voice.html"><div class="circle" style="border:2px solid #E91E63;background:#FCE4EC">🎤</div><div class="lname">వాయిస్</div></a>
-  <a href="books.html"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">📚</div><div class="lname">బుక్స్</div></a>
-  <a href="videos.html"><div class="circle" style="border:2px solid #E53935;background:#FFEBEE">🎥</div><div class="lname">వీడియోస్</div></a>
-  <a href="songs.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF8E1">🎵</div><div class="lname">పాటలు</div></a>
-  <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
-  <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
-  <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
-  <a href="#" onclick="openChat();return false"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">💬</div><div class="lname">అడ్మిన్ చాట్</div></a>
-</div>
+<!-- ✅ FIX - logo-row తీసేసాం - ఇక గ్రిడ్ లో ఒక్కసారే -->
 <div class="grid">
+<a class="card" href="bible.html" style="border:3px solid #0B3D2E;background:#E8F5E9"><div style="font-size:38px">📖</div><div class="card-text">బైబిల్<br><small style="font-weight:normal;color:gray;font-size:12px">తెలుగు + KJV - ఆఫ్‌లైన్</small></div></a>
 <a class="card" href="calendar.html" style="padding:10px 6px">
 <div style="font-weight:bold;font-size:16px;color:#0B3D2E">📅 క్యాలండర్</div>
 <div style="font-size:11px;color:gray">మా సందేశం మహిమ సన్నిధి - 2027</div>
@@ -178,19 +165,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 <div style="font-size:11px;color:#0B3D2E;font-weight:bold;margin-top:6px">👆 నొక్కితే పూర్తి క్యాలండర్</div>
 </a>
-<a class="card" href="songs.html"><div style="font-size:55px">🎵</div><div class="card-text">పాటలు<br><small style="font-weight:normal;color:gray;font-size:12px">ఆంధ్ర క్రైస్తవ కీర్తనలు</small></div></a>
-<a class="card" href="books.html"><div style="font-size:55px">📚</div><div class="card-text">బుక్స్<br><small style="font-weight:normal;color:gray;font-size:12px">పుస్తకాలు చదవండి</small></div></a>
-<a class="card" href="videos.html"><div style="font-size:55px">🎥</div><div class="card-text">వీడియోస్<br><small style="font-weight:normal;color:gray;font-size:12px">చూడండి, డౌన్లోడ్ చేసుకోండి</small></div></a>
+<a class="card" href="songs.html"><div style="font-size:38px">🎵</div><div class="card-text">పాటలు<br><small style="font-weight:normal;color:gray;font-size:12px">ఆంధ్ర క్రైస్తవ కీర్తనలు</small></div></a>
+<a class="card" href="books.html"><div style="font-size:38px">📚</div><div class="card-text">బుక్స్<br><small style="font-weight:normal;color:gray;font-size:12px">పుస్తకాలు చదవండి</small></div></a>
+<a class="card" href="videos.html"><div style="font-size:38px">🎥</div><div class="card-text">వీడియోస్<br><small style="font-weight:normal;color:gray;font-size:12px">చూడండి, డౌన్లోడ్ చేసుకోండి</small></div></a>
 <a class="card" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Youtube_Music_icon.svg" alt="YouTube"><div class="card-text">యూట్యూబ్ ఛానల్</div></a>
 <a class="card" href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"><div class="card-text">ఫేస్ బుక్ పేజ్</div></a>
 <a class="card" href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"><div class="card-text">వాట్సాప్ ఛానల్</div></a>
-<button class="card" onclick="openChat()"><div style="font-size:55px">💬</div><div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:gray;font-size:12px">సైట్ లోనే మెసేజ్ చేయండి</small></div></button>
+<button class="card" onclick="openChat()"><div style="font-size:38px">💬</div><div class="card-text">అడ్మిన్ చాట్<br><small style="font-weight:normal;color:gray;font-size:12px">సైట్ లోనే మెసేజ్ చేయండి</small></div></button>
 </div>
-<div class="section" id="videosSection">
-<h3>🎥 తాజా వీడియోస్ - చూడండి, డౌన్లోడ్ చేసుకోండి</h3>
-<div id="homeVideos">లోడ్ అవుతోంది...</div>
-<div style="text-align:center;margin-top:10px"><a href="videos.html" style="display:inline-block;background:#E53935;color:#fff;padding:12px 20px;border-radius:12px;text-decoration:none;font-weight:bold">🎥 అన్ని వీడియోస్ చూడండి →</a></div>
-</div>
+<!-- ✅ FIX - videosSection మొత్తం తీసేసాం - వీడియోస్ కార్డ్ నొక్కితే videos.html లో అన్నీ వస్తాయి -->
 <div class="vakya-card" id="topCard">
   <div style="font-size:28px">✝️</div>
   <img id="topImage" src="">
@@ -205,21 +188,14 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="section">
 <h3>📜 నిన్న + ఈ రోజు మాత్రమే - ఇక్కడే!</h3>
 <p style="font-size:13px;color:gray;margin:0 0 10px">పాతవి ఆటోమేటిక్ గా గ్యాలరీ / పాత మెసేజ్ లు లోకి వెళ్ళిపోతాయి</p>
-<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-<a href="calendar.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📅 క్యాలండర్</a>
-<a href="gallery.html" style="flex:1;background:#2E7D32;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📸 గ్యాలరీ</a>
-<a href="archive.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📜 పాత మెసేజ్ లు</a>
-<a href="books.html" style="flex:1;background:#2196F3;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">📚 బుక్స్</a>
-<a href="songs.html" style="flex:1;background:#FF9800;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🎵 పాటలు</a>
-<a href="videos.html" style="flex:1;background:#E53935;color:white;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:bold">🎥 వీడియోస్</a>
-</div>
+<!-- ✅ FIX - ఇక్కడ ఉన్న 7 చిన్న బటన్లు తీసేసాం - పైన గ్రిడ్ లోనే ఉన్నాయి -->
 <div id="postsList">లోడ్ అవుతోంది...</div>
 <div id="booksResult"></div>
 </div>
 <div class="section qr-box">
 <h3>🙏 మా సేవ అభివృద్ధికై</h3>
 <img src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #0B3D2E;margin-bottom:12px" alt="Mahima Sannidhi Banner">
-<img src="IMG-20261106-WA0037.jpg" style="width:260px;max-width:100%;height:auto" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
+<img src="IMG-20261106-WA0037.jpg" style="width:220px;max-width:100%;height:auto" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
 <div id="qrError" style="display:none;color:red;font-size:13px;margin-top:8px">⚠️ QR - GitHub లో లేదు!</div>
 <p style="font-weight:bold">Ms2 Bible Mission</p>
 <div class="upi-box"><b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br><small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small></div>
@@ -256,10 +232,10 @@ function shareAnyPage(){
   else if(pageLink.includes("voice")) pageName = "BM మహిమ సన్నిధి - వాయిస్ 🎤\nవాయిస్ సందేశాలు వినండి";
   else if(pageLink.includes("calendar")) pageName = "BM మహిమ సన్నిధి - క్యాలండర్ 📅\nమా సందేశం మహిమ సన్నిధి క్యాలండర్ 2026-2029";
   else if(pageLink.includes("videos")) pageName = "BM మహిమ సన్నిధి - వీడియోస్ 🎥\nవీడియోలు చూడండి, డౌన్లోడ్ చేసుకోండి";
+  else if(pageLink.includes("bible")) pageName = "BM మహిమ సన్నిధి - బైబిల్ 📖\nతెలుగు + KJV - ఆఫ్‌లైన్‌లో చదవండి";
   let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
-// ===== 👁️ VISITOR COUNT - అడ్మిన్ కి మాత్రమే =====
 async function updateVisitorCount(){
   if(location.search.includes('admin=1')){ localStorage.setItem('ms_is_admin','1'); }
   let isAdmin = localStorage.getItem('ms_is_admin')==='1';
@@ -320,7 +296,7 @@ async function loadPosts(){
   try{ let rb=await fetch('books.json?v='+Date.now()); if(rb.ok) allBooks=await rb.json(); }catch(e){ allBooks=[]; }
   let recent = getRecentPosts();
   if(recent.length>0){ let p = recent[0]; let idx = allPosts.indexOf(p); let ti = document.getElementById('topImage'); if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; } document.getElementById('topTitle').innerHTML = p.title || ''; document.getElementById('topContent').innerText = p.content || ''; document.getElementById('topDate').innerText = '📅 ' + (p.date||''); document.getElementById('topShare').innerHTML = shareButtonsHTML(idx).replace('onclick="event.stopPropagation()"',''); } else { document.getElementById('topImage').style.display='none'; document.getElementById('topTitle').innerHTML = '🙏 ఈ రోజు వాక్యం ఇంకా రాలేదు'; document.getElementById('topContent').innerText = 'కొంచెం సేపు ఆగండి - అడ్మిన్ త్వరలో పెడతారు. పాతవి చూడాలంటే కింద గ్యాలరీ / పాత మెసేజ్ లు నొక్కండి.'; document.getElementById('topDate').innerText = '📅 ' + new Date().toLocaleDateString('en-IN'); document.getElementById('topShare').innerHTML = ''; }
-  renderPosts(); loadHomeVideos();
+  renderPosts();
 }
 function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase().trim();
@@ -373,11 +349,6 @@ async function sendUserChat(){
   loadMyChat();
 }
 document.getElementById('chatModal').addEventListener('click',e=>{ if(e.target.id==='chatModal') closeChat(); });
-function driveIdHome(l){ let m=(l||"").match(/\/d\/([^\/\?]+)/); return m?m[1]:""; }
-async function loadHomeVideos(){
-  let box=document.getElementById('homeVideos'); if(!box) return;
-  try{ let r=await fetch('videos.json?v='+Date.now()); let d=await r.json(); if(!d || !d.length){ box.innerHTML="<p style='text-align:center;color:gray'>📭 ఇంకా వీడియోస్ లేవు - త్వరలో వస్తాయి 🙏</p>"; return; } let visible=d.filter(isScheduledVisible); if(!visible.length){ box.innerHTML="<p style='text-align:center;color:gray'>📭 ఇంకా వీడియోస్ లేవు - త్వరలో వస్తాయి 🙏</p>"; return; } let top=visible.slice(0,3); box.innerHTML=top.map((v,i)=>{ let id=driveIdHome(v.link); let view=id?"https://drive.google.com/file/d/"+id+"/view":(v.link||"#"); let down=id?"https://drive.google.com/uc?export=download&id="+id:(v.link||"#"); return `<div style="border-bottom:1px solid #eee;padding:10px 0"><b>${i+1}. 🎥 ${v.title||"వీడియో"}</b><div style="color:#666;font-size:14px">${v.msg||""}</div><a class="vdBtn" style="background:#E53935" href="${view}" target="_blank">▶️ వీడియో చూడండి</a><a class="vdBtn" style="background:#4CAF50" href="${down}" target="_blank">⬇️ డౌన్లోడ్ చేసుకోండి</a></div>`; }).join(''); }catch(e){ box.innerHTML="<p style='text-align:center;color:gray'>📭 ఇంకా వీడియోస్ లేవు</p>"; }
-}
 function miniCal(year, month, elId, title){
   let el=document.getElementById(elId); if(!el) return;
   let days=new Date(year,month+1,0).getDate();
@@ -393,8 +364,6 @@ miniCal(2026,10,'miniNov','నవంబర్ 2026');
 miniCal(2026,11,'miniDec','డిసెంబర్ 2026');
 let _t=new Date();
 let _mons=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-let _lm=document.getElementById('liveMon'); if(_lm) _lm.textContent=_mons[_t.getMonth()];
-let _ld=document.getElementById('liveDay'); if(_ld) _ld.textContent=_t.getDate();
 function updateCountdown(){
   let now=new Date(); now.setHours(0,0,0,0);
   let year=now.getFullYear();
@@ -408,8 +377,6 @@ function updateCountdown(){
   if(now <= christmas){ let diff=Math.ceil((christmas-now)/(1000*60*60*24)); title.textContent="🎄 క్రిస్మస్ కి"; daysEl.textContent=diff+" రోజులు"; sub.textContent="రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️"; if(box) box.style.background="linear-gradient(135deg,#0B3D2E,#C62828)"; } else if(now < newyear){ let diff=Math.ceil((newyear-now)/(1000*60*60*24)); title.textContent="🎉 కొత్త సంవత్సరానికి"; daysEl.textContent=diff+" రోజులు"; sub.textContent="రోజులు మాత్రమే - ప్రభువులో నూతన సంవత్సరం 🙏"; if(box) box.style.background="linear-gradient(135deg,#0B3D2E,#FF9800)"; } else { let nextChristmas=new Date(year+1,11,25); let diff=Math.ceil((nextChristmas-now)/(1000*60*60*24)); title.textContent="🎄 వచ్చే క్రిస్మస్ కి"; daysEl.textContent=diff+" రోజులు"; sub.textContent="రోజులు మాత్రమే - యేసు వస్తున్నాడు ✝️"; }
 }
 updateCountdown();
-
-// ===== ✨ ఈరోజు కొత్తగా వచ్చినవి - అన్ని ఫైళ్ళ నుండి =====
 async function fetchJSONSafe(file){
   try{ let r=await fetch(file+'?v='+Date.now()); if(!r.ok) return []; let j=await r.json(); if(Array.isArray(j)) return j; if(j && Array.isArray(j.posts)) return j.posts; if(j && Array.isArray(j.songs)) return j.songs; if(j && Array.isArray(j.videos)) return j.videos; return []; }catch(e){ return []; }
 }
@@ -439,22 +406,18 @@ async function loadTodayUpdates(){
     let ch=b.chapters||b.pages||[];
     let lastCh = ch.length?ch[ch.length-1]:null;
     let d = getItemDate(b) || (lastCh?getItemDate(lastCh):null) || (b.updatedAt?new Date(b.updatedAt):null);
-    // బుక్ లో తేదీ లేకపోతే - ఈరోజు లిస్ట్ లోకి తీసుకోము, కానీ వారం లిస్ట్ లో చివరగా చూపిస్తాం
     if(d) all.push({icon:'📖',label:'కొత్త బుక్ పేజీ',title:(b.title||'బుక్')+(lastCh?(' - '+(lastCh.t||lastCh.title||'')):''),date:d,link:'books.html'});
   });
-  // 1. ముందు ఈరోజు వచ్చినవి
   let todays = all.filter(x=>x.date && isSameDay(x.date, today));
   let listToShow = todays.length ? todays : null;
   let headTitle = document.querySelector('#todayUpdatesBox h3');
   if(listToShow){
     if(headTitle) headTitle.textContent = '✨ ఈరోజు కొత్తగా వచ్చినవి - '+today.toLocaleDateString('te-IN',{day:'numeric',month:'long'});
   } else {
-    // 2. ఈరోజు ఏమీ లేకపోతే - చివరి 7 రోజుల్లో వచ్చినవి / లేటెస్ట్ 5
     let withDate = all.filter(x=>x.date).sort((a,b)=>b.date-a.date);
     let last7 = withDate.filter(x=>{ let diff=Math.floor((today-x.date)/(1000*60*60*24)); return diff>=0 && diff<=7; });
     listToShow = last7.length ? last7.slice(0,5) : withDate.slice(0,5);
     if(headTitle) headTitle.textContent = todays.length?'✨ ఈరోజు కొత్తగా వచ్చినవి':'🆕 ఈ వారం కొత్తగా వచ్చినవి';
-    // తేదీ లేని బుక్స్ కూడా ఉంటే - ఒక్కటి చూపించు (బుక్ అప్డేట్ అయ్యిందని తెలియాలి)
     if(!listToShow.length && books.length){
       let b=books[books.length-1]; listToShow=[{icon:'📖',label:'కొత్త బుక్ పేజీ',title:b.title||'బుక్',date:null,link:'books.html'}];
       if(headTitle) headTitle.textContent='🆕 కొత్తగా వచ్చినవి';
@@ -474,4 +437,4 @@ async function loadTodayUpdates(){
 loadTodayUpdates();
 </script>
 </body>
-  </html>
+                                                                 </html>
