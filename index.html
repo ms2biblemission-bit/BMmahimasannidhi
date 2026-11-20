@@ -37,6 +37,7 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .best-header h1{margin:0;font-size:22px;line-height:1.1}
 .best-header p{margin:2px 0 0;font-size:12px;opacity:.85}
 .best-header .icons{margin-left:auto;display:flex;gap:14px;font-size:20px}
+.best-header .icons span{cursor:pointer;padding:6px}
 .header{background:linear-gradient(90deg, rgba(255,138,0,0.25), rgba(255,87,130,0.25) 50%, rgba(128,0,128,0.25));color:#222;padding:12px 10px;text-align:center;width:100%;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .header img{width:56px;height:56px;border-radius:50%;border:3px solid white;object-fit:cover;background:white;flex-shrink:0}
 .bible-mission{font-size:13px;font-weight:900;letter-spacing:1px;color:#7A2A00}
@@ -101,6 +102,8 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 .bottom-nav a,.bottom-nav button{flex:1;text-align:center;text-decoration:none;color:#555;background:none;border:none;font-size:11px;cursor:pointer}
 .bottom-nav .active{color:#0B3D2E;font-weight:bold}
 .bottom-nav .ic{font-size:22px;display:block}
+.notif-bar{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;margin:0 12px 12px;text-align:center}
+.notif-bar button{background:#0B3D2E;color:#fff;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:6px}
 </style>
 </head>
 <body>
@@ -118,12 +121,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="menu-item" onclick="shareAnyPage()">📤 <span>Share App</span></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 </div></div>
-<div class="best-header"><div class="logo">✝️</div><div><h1>BM మహిమ సన్నిధి</h1><p>తెలుగు క్రిస్టియన్ యాప్</p></div><div class="icons"><span>🔔</span><span>🔍</span><span>👤</span></div></div>
+<!-- ✅ FIX 1 - గంట / సెర్చ్ / మనిషి - ఇప్పుడు పని చేస్తాయి -->
+<div class="best-header"><div class="logo">✝️</div><div><h1>BM మహిమ సన్నిధి</h1><p>తెలుగు క్రిస్టియన్ యాప్</p></div><div class="icons"><span onclick="document.getElementById('todayUpdatesBox').scrollIntoView({behavior:'smooth'})" title="నేటి అప్డేట్">🔔</span><span onclick="document.getElementById('searchBox').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('searchBox').focus(),400)" title="వెతకండి">🔍</span><span onclick="openChat()" title="అడ్మిన్ చాట్">👤</span></div></div>
 <div class="header">
   <img src="jesus.jpg" alt="యేసు">
   <div style="flex:1;text-align:center"><div class="bible-mission">📖 బైబిల్ మిషన్</div><h1 style="margin:4px 0;font-size:24px;line-height:1.2;color:#222">మహిమ సన్నిధి</h1><div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div><div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div></div>
   <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
+<!-- ✅ FIX 3 - మార్నింగ్ నోటిఫికేషన్ బటన్ -->
+<div class="notif-bar" id="notifBar"><div style="font-weight:bold;color:#0B3D2E">🔔 ఉదయం 6 గంటలకి - రోజూ వాక్యం నోటిఫికేషన్ కావాలా?</div><div style="font-size:12px;color:#666">Allow నొక్కితే - మార్నింగ్ మీకు వాక్యం వచ్చిందని వస్తుంది 🙏</div><button onclick="askNotif()">🔔 నోటిఫికేషన్ ఆన్ చేయండి</button><div id="notifStatus" style="font-size:12px;color:#2E7D32;margin-top:4px"></div></div>
 <div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center;"><div style="font-size:15px;color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div><div style="font-size:32px;font-weight:900;color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div></div>
 <div id="todayUpdatesBox" class="today-box">
   <h3>📣 నేటి అప్డేట్</h3>
@@ -218,6 +224,21 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <script>
 function toggleRecent(){ let w=document.getElementById('recentWrap'); let b=document.getElementById('recentBtn'); if(!w) return; let open=w.style.display==='none'; w.style.display=open?'block':'none'; if(b) b.textContent=open?'📜 నిన్న + ఈ రోజు - మూసేయండి ✖️':'📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి'; if(open){ renderPosts(); } }
 async function fetchFast(url, ms=3000){ try{ let c=new AbortController(); let t=setTimeout(()=>c.abort(), ms); let r=await fetch(url,{signal:c.signal,cache:'no-store'}); clearTimeout(t); if(!r.ok) return null; return await r.json(); }catch(e){ return null; } }
+// ✅ MORNING NOTIFICATION - 6 AM
+async function askNotif(){
+  if(!('Notification' in window)){ alert('ఈ ఫోన్ లో నోటిఫికేషన్ రాదు అండి!'); return; }
+  let p = await Notification.requestPermission();
+  let st=document.getElementById('notifStatus');
+  if(p==='granted'){ localStorage.setItem('ms_notif_on','1'); if(st) st.textContent='✅ ఆన్ అయ్యింది! ప్రతి రోజు ఉదయం 6 గంటలకి వస్తుంది 🙏'; alert('✅ నోటిఫికేషన్ ఆన్ అయ్యింది! ఉదయం 6 గంటలకి వస్తుంది 🙏'); scheduleMorning(); }
+  else { if(st) st.textContent='❌ Allow నొక్కలేదు - మళ్ళీ ప్రయత్నించండి'; }
+}
+function scheduleMorning(){
+  if(!('Notification' in window) || Notification.permission!=='granted') return;
+  if(localStorage.getItem('ms_notif_on')!=='1') return;
+  let now=new Date(); let next=new Date(); next.setHours(6,0,0,0); if(next<=now) next.setDate(next.getDate()+1);
+  let ms=next-now; setTimeout(()=>{ try{ new Notification('🙏 BM మహిమ సన్నిధి - మరనాత ✝️',{body:'ఈ రోజు వాక్యం వచ్చింది! చదవండి - ప్రార్థించండి 🙏', icon:'IMG-20261104-WA0008.jpg'}); }catch(e){} scheduleMorning(); }, ms);
+}
+if(localStorage.getItem('ms_notif_on')==='1'){ let st=document.getElementById('notifStatus'); if(st) st.textContent='✅ నోటిఫికేషన్ ఆన్ లో ఉంది - ఉదయం 6 గంటలకి వస్తుంది'; scheduleMorning(); }
 function getNavStack(){ try{ let s=JSON.parse(sessionStorage.getItem('ms_nav_stack')||'[]'); return Array.isArray(s)?s:[]; }catch(e){ return []; } }
 function saveNavStack(s){ sessionStorage.setItem('ms_nav_stack', JSON.stringify(s)); }
 function pushNav(){ let cur = location.pathname.split('/').pop() || 'index.html'; if(cur==='') cur='index.html'; let s = getNavStack(); if(s[s.length-1]===cur) return; s.push(cur); if(s.length>4){ s = ['index.html', ...s.slice(-3)]; } saveNavStack(s); }
@@ -320,4 +341,4 @@ async function loadTodayUpdates(){
 loadTodayUpdates();
 </script>
 </body>
-    </html>
+  </html>
