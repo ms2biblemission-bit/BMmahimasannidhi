@@ -9,6 +9,7 @@
 .search{width:calc(100% - 20px);margin:0 10px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .bottom{position:fixed;left:12px;right:12px;bottom:10px;background:#fff;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;justify-content:space-around;padding:10px 4px} .bottom a{text-decoration:none;color:#555;font-size:11px;text-align:center;flex:1} .bottom .ic{font-size:22px;display:block}
 .backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
+.retrybtn{background:#0B3D2E;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:8px}
 </style></head><body>
 <div class="top"><b>📖 బైబిల్ - తెలుగు + KJV</b><small>BM మహిమ సన్నిధి | తెలుగు IRV + English KJV 🙏</small></div>
 <input class="search" id="bSearch" placeholder="🔍 పుస్తకం వెతకండి... ఆదికాండం / Genesis" oninput="renderBooks()">
@@ -19,7 +20,6 @@
 <div id="loadMsg" style="text-align:center;padding:12px;color:#666"></div>
 <div class="bottom"><a href="index.html"><span class="ic">🏠</span>హోమ్</a><a href="bible.html"><span class="ic">📖</span>బైబిల్</a><a href="prayer.html"><span class="ic">🙏</span>ప్రార్థన</a><a href="videos.html"><span class="ic">▶️</span>మీడియా</a></div>
 <script>
-// పుస్తకం - తెలుగు పేరు, English పేరు, అధ్యాయాలు, helloao కోడ్ (GEN, LUK...)
 const BOOKS=[
 ["ఆదికాండం","Genesis",50,"GEN"],["నిర్గమకాండం","Exodus",40,"EXO"],["లేవీయకాండం","Leviticus",27,"LEV"],["సంఖ్యాకాండం","Numbers",36,"NUM"],["ద్వితీయోపదేశకాండం","Deuteronomy",34,"DEU"],
 ["యెహోషువ","Joshua",24,"JOS"],["న్యాయాధిపతులు","Judges",21,"JDG"],["రూతు","Ruth",4,"RUT"],["1 సమూయేలు","1 Samuel",31,"1SA"],["2 సమూయేలు","2 Samuel",24,"2SA"],
@@ -35,20 +35,25 @@ const BOOKS=[
 ["2 తిమోతి","2 Timothy",4,"2TI"],["తీతు","Titus",3,"TIT"],["ఫిలేమోను","Philemon",1,"PHM"],["హెబ్రీ","Hebrews",13,"HEB"],["యాకోబు","James",5,"JAS"],
 ["1 పేతురు","1 Peter",5,"1PE"],["2 పేతురు","2 Peter",3,"2PE"],["1 యోహాను","1 John",5,"1JN"],["2 యోహాను","2 John",1,"2JN"],["3 యోహాను","3 John",1,"3JN"],["యూదా","Jude",1,"JUD"],["ప్రకటన","Revelation",22,"REV"]
 ];
+// ✅ ఫైల్ లోనే తెలుగు - API రాకపోయినా ఇవి వస్తాయి!
+const OFFLINE_TE = {
+"GEN_1": ["ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.","భూమి నిరాకారముగాను శూన్యముగాను ఉండెను; చీకటి అగాధ జలముపైన కమ్మియుండెను; దేవుని ఆత్మ జలములపైన అల్లాడుచుండెను.","దేవుడు వెలుగు కలుగును గాక అనెను; వెలుగు కలిగెను.","ఆ వెలుగు మంచిదని దేవుడు చూచెను; దేవుడు వెలుగును చీకటిని వేరుపరచెను.","దేవుడు వెలుగునకు పగలు అనియు, చీకటికి రాత్రి అనియు పేరు పెట్టెను. అస్తమయమును ఉదయమును కలుగగా మొదటి దినమాయెను."],
+"LUK_1": ["అనేకులు మన మధ్య నెరవేర్చబడిన సంగతులను గూర్చి చరిత్ర వ్రాయుటకు పూనుకొనిరి.","ఆదినుండి కన్నులార చూచినవారును, వాక్య సేవకులైనవారును మాకు అప్పగించిన ప్రకారము వారు వ్రాసిరి.","కాబట్టి మహా ఘనుడవైన థెయొఫిలా, నీవు నేర్చుకొనిన సంగతులు నిశ్చయమైనవని తెలిసికొనునట్లు,","అవన్నియు మొదటినుండి క్రమముగా విచారించి నీకు వరుసగా వ్రాయుట నాకు యుక్తముగా తోచెను."],
+"PSA_23": ["యెహోవా నా కాపరి, నాకు లేమి కలుగదు.","పచ్చికగల చోట్ల ఆయన నన్ను పరుండజేయుచున్నాడు. శాంతికరమైన జలముల యొద్ద నన్ను నడిపించుచున్నాడు.","నా ప్రాణమునకు ఆయన సేదదీర్చుచున్నాడు. తన నామమును బట్టి నీతిమార్గములలో నన్ను నడిపించుచున్నాడు.","గాఢాంధకారపు లోయలో నేను సంచరించినను ఏ అపాయమునకు భయపడను. నీవు నాకు తోడైయుందువు. నీ దుడ్డుకఱ్ఱయు నీ దండమును నన్ను ఆదరించును."],
+"JHN_3": ["దేవుడు లోకమును ఎంతో ప్రేమించెను. కాగా ఆయన తన అద్వితీయ కుమారుని విశ్వసించు ప్రతివాడును నశింపక నిత్యజీవము పొందునట్లు ఆయనను అనుగ్రహించెను."]
+};
+const OFFLINE_EN = {
+"GEN_1": ["In the beginning God created the heaven and the earth.","And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.","And God said, Let there be light: and there was light.","And God saw the light, that it was good: and God divided the light from the darkness.","And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day."],
+"LUK_1": ["Forasmuch as many have taken in hand to set forth in order a declaration of those things which are most surely believed among us,","Even as they delivered them unto us, which from the beginning were eyewitnesses, and ministers of the word;","It seemed good to me also, having had perfect understanding of all things from the very first, to write unto thee in order, most excellent Theophilus,","That thou mightest know the certainty of those things, wherein thou hast been instructed."],
+"PSA_23": ["The LORD is my shepherd; I shall not want.","He maketh me to lie down in green pastures: he leadeth me beside the still waters.","He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.","Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me."],
+"JHN_3": ["For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."]
+};
 let mode = localStorage.getItem('ms_bible_mode')||'both';
 let curBook = 0, curChap = 1, lastTe=[], lastEn=[];
-function setMode(m){ mode=m; localStorage.setItem('ms_bible_mode',m); document.getElementById('btnBoth').className=m==='both'?'on':''; document.getElementById('btnTe').className=m==='te'?'on':''; document.getElementById('btnEn').className=m==='en'?'on':''; if(lastTe.length) renderVerses(lastTe,lastEn); }
+function setMode(m){ mode=m; localStorage.setItem('ms_bible_mode',m); document.getElementById('btnBoth').className=m==='both'?'on':''; document.getElementById('btnTe').className=m==='te'?'on':''; document.getElementById('btnEn').className=m==='en'?'on':''; if(lastTe.length||lastEn.length) renderVerses(lastTe,lastEn); }
 setMode(mode);
 function isTelugu(s){ return /[\u0C00-\u0C7F]/.test(s||''); }
-function cleanText(s){
-  if(!s) return '';
-  s = String(s);
-  s = s.replace(/<S>\d+<\/S>/g,'').replace(/<[^>]+>/g,'');
-  s = s.replace(/\b\d{3,5}\b/g,'');
-  s = s.replace(/\[\d+\]/g,'').replace(/\(\d+\)/g,'');
-  s = s.replace(/\s{2,}/g,' ').replace(/\s+([.,;:!?])/g,'$1').trim();
-  return s;
-}
+function cleanText(s){ if(!s) return ''; s=String(s).replace(/<S>\d+<\/S>/g,'').replace(/<[^>]+>/g,'').replace(/\b\d{3,5}\b/g,'').replace(/\[\d+\]/g,'').replace(/\(\d+\)/g,'').replace(/\s{2,}/g,' ').replace(/\s+([.,;:!?])/g,'$1').trim(); return s; }
 function renderBooks(){
   let q=document.getElementById('bSearch').value.toLowerCase().trim();
   let list=BOOKS.map((b,i)=>({b,i})).filter(x=>!q||x.b[0].toLowerCase().includes(q)||x.b[1].toLowerCase().includes(q));
@@ -64,51 +69,109 @@ function openBook(i){
 }
 function backToBooks(){ document.getElementById('chapList').style.display='none'; document.getElementById('verseList').innerHTML=''; document.getElementById('bookList').style.display='block'; document.getElementById('loadMsg').textContent=''; }
 function goChap(c){ curChap=c; document.querySelectorAll('.chaps button').forEach((el)=>{ if(el.textContent==String(c)) el.className='on'; else if(!isNaN(parseInt(el.textContent))) el.className=''; }); loadChapter(); }
-// ✅ నిజమైన తెలుగు API - helloao - IRV-TE
-async function fetchHelloao(trans, code, chap){
+async function fetchWithTimeout(url, ms=9000){
+  let c=new AbortController(); let t=setTimeout(()=>c.abort(), ms);
+  try{ let r=await fetch(url,{signal:c.signal}); clearTimeout(t); if(!r.ok) return {err:'HTTP '+r.status}; return {data: await r.json()}; }
+  catch(e){ clearTimeout(t); return {err: e.name==='AbortError' ? 'Timeout - 9 సెకన్లలో రాలేదు' : 'CORS / నెట్ వర్క్ బ్లాక్ - '+e.message}; }
+}
+function parseHelloaoSimple(j){
+  if(!j) return null;
+  if(Array.isArray(j.verses)) return j.verses.map(v=>({n:v.verse||v.number, t: cleanText(v.text||v.content||'')}));
+  if(Array.isArray(j.content)){
+    let out=[]; j.content.forEach(c=>{ if(c.type==='verse' && c.text) out.push({n:c.number||out.length+1, t: cleanText(c.text)}); if(Array.isArray(c.content)) c.content.forEach(x=>{ if(x.type==='verse') out.push({n:x.number||out.length+1, t: cleanText(x.text)}); }); });
+    if(out.length) return out;
+  }
+  return null;
+}
+// thiagobodruk - ఒక్క ఫైల్ లో మొత్తం బైబిల్ - json/te_irvtel.json
+let _teFull=null, _enFull=null, _teLoading=null, _enLoading=null;
+function extractFromFull(full, bookCode, chap){
+  if(!full) return null;
   try{
-    let r = await fetch(`https://bible.helloao.org/api/${trans}/${code}/${chap}.simple.json`);
-    if(!r.ok) return null;
-    let j = await r.json();
-    // simple.json - verses: [{verse, text}] లేదా content లో verses
-    if(j && Array.isArray(j.verses)) return j.verses.map(v=>({n: v.verse||v.number, t: cleanText(v.text||v.content||'')}));
-    if(j && Array.isArray(j.content)){
-      let out=[]; j.content.forEach(c=>{ if(c.verse) out.push({n:c.verse, t: cleanText(c.text||'')}); if(Array.isArray(c.content)) c.content.forEach(x=>{ if(x.verse) out.push({n:x.verse, t: cleanText(x.text||'')}); }); });
-      if(out.length) return out;
+    // ఫార్మాట్ 1 - {books: [{id, chapters: {1: {1: "text"}}}]}
+    let books = full.books || full.Bible || full.bible || null;
+    if(books){
+      if(Array.isArray(books)){
+        let bk = books.find(b=> (b.id===bookCode||b.abbr===bookCode||b.code===bookCode||b.name===bookCode) );
+        if(!bk) bk = books[BOOKS.findIndex(x=>x[3]===bookCode)] || books.find(b=>b.name && b.name.toLowerCase().includes(BOOKS.find(x=>x[3]===bookCode)[1].toLowerCase().split(' ')[0]));
+        if(bk && bk.chapters){
+          let ch = bk.chapters[chap] || bk.chapters[String(chap)];
+          if(ch){ let arr=Object.keys(ch).sort((a,b)=>a-b).map(k=>({n:parseInt(k), t: cleanText(ch[k])})); if(arr.length) return arr; }
+        }
+      } else if(typeof books==='object'){
+        let ch = books[bookCode] && (books[bookCode][chap] || books[bookCode].chapters && books[bookCode].chapters[chap]);
+        if(ch){ let arr=Object.keys(ch).sort((a,b)=>a-b).map(k=>({n:parseInt(k), t: cleanText(typeof ch[k]==='string'?ch[k]:ch[k].text)})); if(arr.length) return arr; }
+      }
     }
-    if(j && j.chapter && Array.isArray(j.chapter.verses)) return j.chapter.verses.map(v=>({n:v.verse, t: cleanText(v.text)}));
-    return null;
-  }catch(e){ return null; }
+    // ఫార్మాట్ 2 - [{book, chapter, verse, text}]
+    if(Array.isArray(full)){
+      let arr=full.filter(v=> (v.book_id===bookCode||v.book===bookCode) && parseInt(v.chapter)===chap).map(v=>({n:parseInt(v.verse), t: cleanText(v.text)}));
+      if(arr.length) return arr.sort((a,b)=>a.n-b.n);
+    }
+    // ఫార్మాట్ 3 - {GEN: {1: {1: "text"}}}
+    if(full[bookCode] && full[bookCode][chap]){
+      let ch=full[bookCode][chap]; let arr=Object.keys(ch).sort((a,b)=>a-b).map(k=>({n:parseInt(k), t: cleanText(typeof ch[k]==='string'?ch[k]:ch[k].text)})); if(arr.length) return arr;
+    }
+  }catch(e){}
+  return null;
+}
+async function loadFull(url, cacheKey){
+  if(window[cacheKey]) return window[cacheKey];
+  if(!window[cacheKey+'_p']){
+    window[cacheKey+'_p'] = (async()=>{ let r=await fetchWithTimeout(url, 15000); if(r.data){ window[cacheKey]=r.data; return r.data; } return null; })();
+  }
+  return await window[cacheKey+'_p'];
+}
+async function fetchTelugu(code, chap){
+  // 1 - jsDelivr - thiagobodruk - CORS ఉంటుంది
+  let full = await loadFull('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/te_irvtel.json','_teFull');
+  if(full){ let v=extractFromFull(full, code, chap); if(v && v.length && isTelugu(v.map(x=>x.t).join(' '))) return v; }
+  // 2 - helloao
+  let r=await fetchWithTimeout(`https://bible.helloao.org/api/IRV-TE/${code}/${chap}.simple.json`, 9000);
+  if(r.data){ let v=parseHelloaoSimple(r.data); if(v && v.length && isTelugu(v.map(x=>x.t).join(' '))) return v; }
+  return null;
+}
+async function fetchEnglish(code, chap){
+  let full = await loadFull('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/en_kjv.json','_enFull');
+  if(full){ let v=extractFromFull(full, code, chap); if(v && v.length) return v; }
+  let r=await fetchWithTimeout(`https://bible.helloao.org/api/KJV/${code}/${chap}.simple.json`, 9000);
+  if(r.data){ let v=parseHelloaoSimple(r.data); if(v && v.length) return v; }
+  return null;
 }
 async function loadChapter(){
   let b=BOOKS[curBook];
-  document.getElementById('loadMsg').textContent='⏳ లోడ్ అవుతోంది... 🙏';
-  let cacheKey=`ms_bible3_${curBook}_${curChap}`;
-  let cached=null; try{ cached=JSON.parse(localStorage.getItem(cacheKey)||'null'); }catch(e){}
-  if(cached && cached.te && cached.te.length){ lastTe=cached.te; lastEn=cached.en||cached.te; renderVerses(lastTe,lastEn); document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ - సేవ్ అయినది చూస్తున్నారు'; }
-  let [te, en] = await Promise.all([
-    fetchHelloao('IRV-TE', b[3], curChap),
-    fetchHelloao('KJV', b[3], curChap)
-  ]);
-  // KJV రాకపోతే - BSB ప్రయత్నించు
-  if(!en || !en.length){ en = await fetchHelloao('BSB', b[3], curChap); }
-  // ✅ ముఖ్యం - తెలుగులో తెలుగు అక్షరాలు లేకపోతే - అది తెలుగు కాదు! ఇంగ్లీష్ ని తెలుగు అని చూపించొద్దు!
-  if(te && te.length && !isTelugu(te.map(x=>x.t).join(' ').slice(0,500))){
-    te = null; // ఇంగ్లీష్ వచ్చింది - తెలుగు కాదు - పక్కన పెట్టు
-  }
-  if(te && te.length){
-    lastTe=te; lastEn=(en && en.length)?en:te;
-    try{ localStorage.setItem(cacheKey, JSON.stringify({te:lastTe,en:lastEn})); }catch(e){}
+  let key=b[3]+'_'+curChap;
+  document.getElementById('loadMsg').innerHTML='⏳ లోడ్ అవుతోంది... 🙏';
+  // ✅ ముందు - ఫైల్ లో ఉన్న తెలుగు - వెంటనే చూపించు!
+  if(OFFLINE_TE[key]){
+    lastTe=OFFLINE_TE[key].map((t,i)=>({n:i+1,t:t})); lastEn=(OFFLINE_EN[key]||OFFLINE_TE[key]).map((t,i)=>({n:i+1,t:t}));
     renderVerses(lastTe,lastEn);
-    document.getElementById('loadMsg').textContent='✅ '+b[0]+' '+curChap+' - తెలుగు + English - సేవ్ అయ్యింది';
-  } else if(en && en.length){
-    // తెలుగు రాలేదు - ఇంగ్లీష్ మాత్రమే చూపించు - తెలుగు అని అబద్ధం చెప్పొద్దు
-    lastTe=[]; lastEn=en;
-    renderVerses([],en);
-    document.getElementById('loadMsg').textContent='⚠️ తెలుగు ఈ అధ్యాయంలో దొరకలేదు - ఇంగ్లీష్ మాత్రమే చూపిస్తున్నాను - మళ్ళీ ప్రయత్నించండి';
-  } else if(!cached){
-    document.getElementById('loadMsg').textContent='⚠️ ఇంటర్నెట్ లేదు - మళ్ళీ ప్రయత్నించండి';
+    document.getElementById('loadMsg').textContent='✅ తెలుగు వచ్చేసింది! మిగతా వచనాలు లోడ్ అవుతున్నాయి...';
   }
+  let cacheKey=`ms_bible4_${curBook}_${curChap}`;
+  let cached=null; try{ cached=JSON.parse(localStorage.getItem(cacheKey)||'null'); }catch(e){}
+  if(cached && cached.te && cached.te.length){ lastTe=cached.te; lastEn=cached.en||cached.te; renderVerses(lastTe,lastEn); document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ - సేవ్ అయినది'; }
+  let [te, en] = await Promise.all([fetchTelugu(b[3], curChap), fetchEnglish(b[3], curChap)]);
+  if(te && te.length){
+    // OFFLINE కన్నా ఎక్కువ వచనాలు ఉంటే - దాన్నే చూపించు
+    if(!OFFLINE_TE[key] || te.length>OFFLINE_TE[key].length){
+      lastTe=te; lastEn=(en && en.length)?en:te;
+      try{ localStorage.setItem(cacheKey, JSON.stringify({te:lastTe,en:lastEn})); }catch(e){}
+      renderVerses(lastTe,lastEn);
+      document.getElementById('loadMsg').textContent='✅ '+b[0]+' '+curChap+' - తెలుగు + English - సేవ్ అయ్యింది';
+      return;
+    }
+  }
+  if(en && en.length && !OFFLINE_TE[key]){
+    lastTe=[]; lastEn=en; renderVerses([],en);
+    document.getElementById('loadMsg').innerHTML='⚠️ తెలుగు ఈ అధ్యాయంలో దొరకలేదు - ఇంగ్లీష్ మాత్రమే<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
+    return;
+  }
+  if(OFFLINE_TE[key] || (cached && cached.te)){
+    document.getElementById('loadMsg').textContent='✅ తెలుగు చూస్తున్నారు - పూర్తి అధ్యాయం కోసం మళ్ళీ ప్రయత్నించండి';
+    return;
+  }
+  document.getElementById('loadMsg').innerHTML='⚠️ సర్వర్ నుండి రాలేదు - నెట్ ఆన్ చేసి మళ్ళీ నొక్కండి<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
 }
 function renderVerses(te,en){
   let b=BOOKS[curBook];
@@ -118,9 +181,8 @@ function renderVerses(te,en){
   for(let i=0;i<max;i++){
     let t=te[i]||{n:i+1,t:''}; let e=en[i]||{n:i+1,t:''};
     let vn = t.n || e.n || (i+1);
-    let teHtml = mode!=='en' && t.t ? `<div class="te">${t.t}</div>` : (mode==='te' ? `<div class="te" style="color:#888">⚠️ తెలుగు దొరకలేదు</div>` : '');
+    let teHtml = mode!=='en' && t.t ? `<div class="te">${t.t}</div>` : (mode==='te' && !t.t ? `<div class="te" style="color:#888">⚠️ తెలుగు దొరకలేదు</div>` : '');
     let enHtml = mode!=='te' && e.t ? `<div class="en">${e.t}</div>` : '';
-    // తెలుగు మాత్రమే మోడ్ లో - తెలుగు లేకపోతే - ఇంగ్లీష్ చూపించొద్దు
     if(mode==='te' && !t.t) enHtml='';
     h+=`<div class="verse"><div class="ref">${b[0]} ${curChap}:${vn}</div>${teHtml}${enHtml}<div class="shr"><button onclick="shareVerse(${vn})">📤 షేర్</button></div></div>`;
   }
