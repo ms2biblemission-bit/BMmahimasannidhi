@@ -6,11 +6,12 @@
 .chaps{display:flex;flex-wrap:wrap;gap:8px;padding:10px} .chaps button{width:52px;height:52px;border-radius:12px;border:1px solid #C8A96A;background:#FFF8E1;font-weight:bold;font-size:17px;cursor:pointer;touch-action:manipulation}
 .nav{display:flex;gap:8px;padding:10px} .nav button{flex:1;padding:12px;border:none;border-radius:12px;font-weight:bold;cursor:pointer} .prev{background:#eee} .next{background:#0B3D2E;color:#fff}
 .curbar{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;margin:10px;text-align:center;font-weight:bold;color:#0B3D2E} .curbar button{background:#0B3D2E;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;margin-left:8px;cursor:pointer}
-.verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .te{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:6px} .verse .en{font-size:15px;line-height:1.6;color:#555;font-style:italic;margin-top:6px;border-top:1px dashed #ddd;padding-top:6px} .verse .shr{text-align:right;margin-top:8px} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
+.verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .te{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:6px} .verse .en{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:8px} .verse .shr{text-align:right;margin-top:8px} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
 .search{width:calc(100% - 20px);margin:0 10px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .bottom{position:fixed;left:12px;right:12px;bottom:10px;background:#fff;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;justify-content:space-around;padding:10px 4px} .bottom a{text-decoration:none;color:#555;font-size:11px;text-align:center;flex:1} .bottom .ic{font-size:22px;display:block}
 .backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
 .retrybtn{background:#0B3D2E;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:8px}
+.ovbtn{display:inline-block;margin-top:8px;background:#FFD54F;color:#0B3D2E;padding:9px 16px;border-radius:20px;text-decoration:none;font-weight:bold;font-size:14px}
 </style></head><body>
 <div class="top"><b>📖 బైబిల్ - తెలుగు + KJV</b><small>BM మహిమ సన్నిధి | తెలుగు + English KJV 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">తెలుగు బైబిల్ లోడ్ అవుతోంది...</small></div>
 <input class="search" id="bSearch" placeholder="🔍 పుస్తకం వెతకండి... ఆదికాండం / Genesis" oninput="renderBooks()">
@@ -37,7 +38,6 @@ const BOOKS=[
 ["2 తిమోతి","2 Timothy",4,"2TI","2-timothy","2tm"],["తీతు","Titus",3,"TIT","titus","tt"],["ఫిలేమోను","Philemon",1,"PHM","philemon","phm"],["హెబ్రీ","Hebrews",13,"HEB","hebrews","hb"],["యాకోబు","James",5,"JAS","james","jm"],
 ["1 పేతురు","1 Peter",5,"1PE","1-peter","1pt"],["2 పేతురు","2 Peter",3,"2PE","2-peter","2pt"],["1 యోహాను","1 John",5,"1JN","1-john","1jn"],["2 యోహాను","2 John",1,"2JN","2-john","2jn"],["3 యోహాను","3 John",1,"3JN","3-john","3jn"],["యూదా","Jude",1,"JUD","jude","jd"],["ప్రకటన","Revelation",22,"REV","revelation","rv"]
 ];
-// thiagobodruk abbrev fix - యోహాను సువార్త = jn, యోనా = jnh లో కొన్ని ఫైళ్లలో వేరుగా ఉండొచ్చు - పేరుతో కూడా వెతుకుతాం
 const OFFLINE_TE = {
 "GEN_1": ["ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.","భూమి నిరాకారముగాను శూన్యముగాను ఉండెను; చీకటి అగాధ జలముపైన కమ్మియుండెను; దేవుని ఆత్మ జలములపైన అల్లాడుచుండెను.","దేవుడు వెలుగు కలుగును గాక అనెను; వెలుగు కలిగెను.","ఆ వెలుగు మంచిదని దేవుడు చూచెను; దేవుడు వెలుగును చీకటిని వేరుపరచెను.","దేవుడు వెలుగునకు పగలు అనియు, చీకటికి రాత్రి అనియు పేరు పెట్టెను. అస్తమయమును ఉదయమును కలుగగా మొదటి దినమాయెను."],
 "PSA_23": ["యెహోవా నా కాపరి, నాకు లేమి కలుగదు.","పచ్చికగల చోట్ల ఆయన నన్ను పరుండజేయుచున్నాడు. శాంతికరమైన జలముల యొద్ద నన్ను నడిపించుచున్నాడు.","నా ప్రాణమునకు ఆయన సేదదీర్చుచున్నాడు. తన నామమును బట్టి నీతిమార్గములలో నన్ను నడిపించుచున్నాడు.","గాఢాంధకారపు లోయలో నేను సంచరించినను ఏ అపాయమునకు భయపడను. నీవు నాకు తోడైయుందువు. నీ దుడ్డుకఱ్ఱయు నీ దండమును నన్ను ఆదరించును."]
@@ -71,12 +71,14 @@ function openBook(i){
 function backToBooks(){ document.getElementById('chapList').style.display='none'; document.getElementById('curBar').style.display='none'; document.getElementById('verseList').innerHTML=''; document.getElementById('bookList').style.display='block'; document.getElementById('loadMsg').textContent=''; }
 function showChaps(){ document.getElementById('chapList').style.display='block'; document.getElementById('chapList').scrollIntoView({behavior:'smooth'}); }
 function goChap(c){
+  window.scrollTo({top:0, behavior:'smooth'});
   curChap=c;
   let b=BOOKS[curBook];
   document.getElementById('chapList').style.display='none';
   document.getElementById('bookList').style.display='none';
   document.getElementById('curBar').style.display='block';
-  document.getElementById('curBar').innerHTML=`📖 ${b[0]} ${curChap} - ${b[1]} ${curChap} <button onclick="showChaps()">📖 అధ్యాయం మార్చండి</button> <button onclick="backToBooks()">📚 పుస్తకాలు</button>`;
+  let ovLink = 'https://www.bible.com/bible/105/' + b[3] + '.' + curChap + '.TELUBSI';
+  document.getElementById('curBar').innerHTML=`📖 ${b[0]} ${curChap} - ${b[1]} ${curChap} <button onclick="showChaps()">📖 అధ్యాయం మార్చండి</button> <button onclick="backToBooks()">📚 పుస్తకాలు</button><br><a class="ovbtn" href="${ovLink}" target="_blank">📖 OV - పాత బైబిల్ తెలుగులో చదవండి ➡️</a><div style="font-size:11px;font-weight:normal;margin-top:4px">తెలుగు: IRV (కొత్త) | OV కోసం పైన బటన్ నొక్కండి</div>`;
   document.getElementById('verseList').innerHTML='';
   loadChapter();
 }
@@ -85,14 +87,12 @@ async function fetchJSON(url, ms=30000){
   try{ let r=await fetch(url,{signal:c.signal}); clearTimeout(t); if(!r.ok) return null; return await r.json(); }
   catch(e){ clearTimeout(t); return null; }
 }
-// ✅ తెలుగు ఫైల్ ఏదో - index.json నుండి ఆటోమేటిక్ గా కనుక్కో!
 async function loadBibles(){
   if(DATA_LOADING) return DATA_LOADING;
   DATA_LOADING = (async()=>{
     try{
       let idx = await fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/index.json', 30000);
       let arr = Array.isArray(idx) ? idx : (idx ? Object.values(idx) : []);
-      // index లో - {id:"te_irvtel", language:"Telugu"...} లాంటిది ఉంటుంది
       let teEntry = arr.find(x=>{
         let s = JSON.stringify(x).toLowerCase();
         return s.includes('telugu') || s.includes('"te_') || s.includes('te_irv') || s.includes('te-tel') || s.includes('"te"');
@@ -117,13 +117,10 @@ async function loadBibles(){
   })();
   return DATA_LOADING;
 }
-// thiagobodruk format: [{abbrev:"gn", name:"Genesis", chapters:[[v1,v2...],[...]]}]
 function getChapter(data, bookIdx, chap){
   if(!data || !Array.isArray(data)) return null;
   let b = BOOKS[bookIdx];
-  // 1 - abbrev తో వెతుకు
   let want = [b[5], b[3].toLowerCase(), b[1].toLowerCase()];
-  // యోహాను సువార్త - కొన్ని ఫైళ్లలో jn, యోనా - jnh
   if(bookIdx===42) want = ['jn','john','jhn'];
   if(bookIdx===31) want = ['jnh','jon','jonah'];
   let found = null;
@@ -131,14 +128,10 @@ function getChapter(data, bookIdx, chap){
     found = data.find(x=> String(x.abbrev||'').toLowerCase()===w || String(x.name||'').toLowerCase()===w);
     if(found) break;
   }
-  if(!found){
-    // 2 - క్రమంలో - 66 పుస్తకాలు ఒకే క్రమంలో ఉంటాయి
-    found = data[bookIdx];
-  }
+  if(!found){ found = data[bookIdx]; }
   if(!found || !Array.isArray(found.chapters)) return null;
   let ch = found.chapters[chap-1];
   if(!ch) return null;
-  // ch = ["verse1","verse2"] లేదా [{verse:1,text:"..."}]
   return ch.map((v,i)=>{
     if(typeof v==='string') return {n:i+1, t: cleanText(v)};
     return {n: parseInt(v.verse||v.number|| (i+1)), t: cleanText(v.text||v.content||'')};
