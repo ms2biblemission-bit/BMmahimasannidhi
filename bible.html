@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>📖 Bible - Telugu + English | BM మహిమ సన్నిధి</title><meta name="theme-color" content="#0B3D2E">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>📖 Bible - English KJV | BM మహిమ సన్నిధి</title><meta name="theme-color" content="#0B3D2E">
 <style>*{box-sizing:border-box}body{font-family:sans-serif;background:#E8F5E9;margin:0;padding-bottom:90px} .top{position:sticky;top:0;background:#0B3D2E;color:#fff;padding:12px;text-align:center;z-index:10} .top b{font-size:18px} .top small{display:block;font-size:12px;opacity:.9}
-.lang{display:flex;gap:8px;padding:10px} .lang button{flex:1;padding:12px;border:2px solid #0B3D2E;border-radius:12px;font-weight:bold;cursor:pointer;background:#fff;color:#0B3D2E;font-size:15px} .lang button.on{background:#0B3D2E;color:#fff}
 .books{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 10px} .book{background:#fff;border-radius:14px;padding:12px;text-align:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);border:1px solid #DCEEDB} .book b{font-size:14px;color:#0B3D2E;display:block} .book small{color:#888;font-size:11px}
 .chaps{display:flex;flex-wrap:wrap;gap:8px;padding:10px} .chaps button{width:52px;height:52px;border-radius:12px;border:1px solid #C8A96A;background:#FFF8E1;font-weight:bold;font-size:17px;cursor:pointer;touch-action:manipulation}
 .nav{display:flex;gap:8px;padding:10px} .nav button{flex:1;padding:12px;border:none;border-radius:12px;font-weight:bold;cursor:pointer} .prev{background:#eee} .next{background:#0B3D2E;color:#fff}
 .curbar{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;margin:10px;text-align:center;font-weight:bold;color:#0B3D2E} .curbar button{background:#0B3D2E;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;margin-left:8px;cursor:pointer}
-.verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .en{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:8px} .verse .te{font-size:20px;line-height:1.8;color:#0B3D2E;font-weight:600;margin-top:8px;border-top:1px dashed #C8A96A;padding-top:8px} .verse .shr{text-align:right;margin-top:8px} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
+.verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .en{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:8px} .verse .shr{text-align:right;margin-top:8px} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
 .search{width:calc(100% - 20px);margin:0 10px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .bottom{position:fixed;left:12px;right:12px;bottom:10px;background:#fff;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;justify-content:space-around;padding:10px 4px} .bottom a{text-decoration:none;color:#555;font-size:11px;text-align:center;flex:1} .bottom .ic{font-size:22px;display:block}
 .backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
 .retrybtn{background:#0B3D2E;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:8px}
 </style></head><body>
-<div class="top"><b>📖 Bible - తెలుగు + English</b><small>BM Mahima Sannidhi 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">Loading...</small></div>
-<div class="lang"><button id="btnEN" onclick="setLang('en')">🇬🇧 English</button><button id="btnTE" onclick="setLang('te')">🇮🇳 తెలుగు</button><button id="btnBOTH" class="on" onclick="setLang('both')">🇬🇧+🇮🇳 రెండూ</button></div>
-<input class="search" id="bSearch" placeholder="🔍 Search Book... Genesis / ఆదికాండం" oninput="renderBooks()">
+<div class="top"><b>📖 Bible - English KJV</b><small>BM Mahima Sannidhi | English Only 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">English: en_kjv.json</small></div>
+<input class="search" id="bSearch" placeholder="🔍 Search Book... Genesis" oninput="renderBooks()">
 <div id="bookList"></div>
 <div id="chapList" style="display:none"></div>
 <div id="curBar" style="display:none"></div>
@@ -41,23 +39,18 @@ const OFFLINE_EN = {
 "GEN_1": ["In the beginning God created the heaven and the earth.","And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.","And God said, Let there be light: and there was light.","And God saw the light, that it was good: and God divided the light from the darkness.","And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day."],
 "PSA_23": ["The LORD is my shepherd; I shall not want.","He maketh me to lie down in green pastures: he leadeth me beside the still waters.","He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.","Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me."]
 };
-const OFFLINE_TE = {
-"GEN_1": ["ఆరంభంలో దేవుడు ఆకాశాలనూ భూమినీ సృష్టించాడు.","భూమి నిరాకారంగా, శూన్యంగా ఉంది. అగాధ జలాల మీద చీకటి కమ్ముకుని ఉంది. దేవుని ఆత్మ జలాల మీద కదులుతూ ఉంది.","దేవుడు, వెలుగు కలుగుగాక అని చెప్పాడు. వెలుగు కలిగింది.","దేవుడు వెలుగును చూసి అది మంచిదని గ్రహించాడు. దేవుడు వెలుగును చీకటి నుండి వేరు చేశాడు.","దేవుడు వెలుగుకు పగలు అని, చీకటికి రాత్రి అని పేరు పెట్టాడు. సాయంత్రం, ఉదయం కలిసి మొదటి రోజు అయ్యింది."]
-};
-let curBook = 0, curChap = 1, lastEn=[], lastTe=[], reqId=0;
-let EN_DATA=null, TE_DATA=null, EN_FILE='en_kjv', DATA_LOADING=null;
-let LANG = localStorage.getItem('ms_lang') || 'both';
-function setLang(l){ LANG=l; localStorage.setItem('ms_lang',l); document.getElementById('btnEN').classList.toggle('on',l==='en'); document.getElementById('btnTE').classList.toggle('on',l==='te'); document.getElementById('btnBOTH').classList.toggle('on',l==='both'); if(lastEn.length||lastTe.length) renderVerses(lastEn,lastTe); }
+let curBook = 0, curChap = 1, lastEn=[], reqId=0;
+let EN_DATA=null, EN_FILE='en_kjv', DATA_LOADING=null;
 function cleanText(s){ if(!s) return ''; s=String(s).replace(/<S>\d+<\/S>/g,'').replace(/<[^>]+>/g,'').replace(/\b\d{3,5}\b/g,'').replace(/\[\d+\]/g,'').replace(/\s{2,}/g,' ').replace(/\s+([.,;:!?])/g,'$1').trim(); return s; }
 function renderBooks(){
   let q=document.getElementById('bSearch').value.toLowerCase().trim();
   let list=BOOKS.map((b,i)=>({b,i})).filter(x=>!q||x.b[0].toLowerCase().includes(q)||x.b[1].toLowerCase().includes(q));
-  document.getElementById('bookList').innerHTML='<div class="books">'+list.map(x=>`<div class="book" onclick="openBook(${x.i})"><b>${x.b[0]}</b><small>${x.b[1]} - ${x.b[2]} Chapters</small></div>`).join('')+'</div>';
+  document.getElementById('bookList').innerHTML='<div class="books">'+list.map(x=>`<div class="book" onclick="openBook(${x.i})"><b>${x.b[1]}</b><small>${x.b[2]} Chapters</small></div>`).join('')+'</div>';
 }
 function openBook(i){
   curBook=i; curChap=1;
   let b=BOOKS[i]; let h=''; for(let c=1;c<=b[2];c++){ h+=`<button onclick="goChap(${c})">${c}</button>`; }
-  document.getElementById('chapList').innerHTML=`<button class="backbtn" onclick="backToBooks()">⬅️ All Books</button><div style="padding:0 10px;font-weight:bold;color:#0B3D2E">📖 ${b[0]} / ${b[1]} - Select Chapter</div><div class="chaps">${h}</div>`;
+  document.getElementById('chapList').innerHTML=`<button class="backbtn" onclick="backToBooks()">⬅️ All Books</button><div style="padding:0 10px;font-weight:bold;color:#0B3D2E">📖 ${b[1]} - Select Chapter</div><div class="chaps">${h}</div>`;
   document.getElementById('chapList').style.display='block';
   document.getElementById('bookList').style.display='none';
   document.getElementById('curBar').style.display='none';
@@ -73,7 +66,7 @@ function goChap(c){
   document.getElementById('chapList').style.display='none';
   document.getElementById('bookList').style.display='none';
   document.getElementById('curBar').style.display='block';
-  document.getElementById('curBar').innerHTML=`📖 ${b[0]} ${curChap} <button onclick="showChaps()">📖 Change Chapter</button> <button onclick="backToBooks()">📚 Books</button>`;
+  document.getElementById('curBar').innerHTML=`📖 ${b[1]} ${curChap} <button onclick="showChaps()">📖 Change Chapter</button> <button onclick="backToBooks()">📚 Books</button>`;
   document.getElementById('verseList').innerHTML='';
   loadChapter();
 }
@@ -85,18 +78,16 @@ async function fetchJSON(url, ms=30000){
 async function loadBibles(){
   if(DATA_LOADING) return DATA_LOADING;
   DATA_LOADING = (async()=>{
-    let te = await fetchJSON('te_irvtel.json', 30000);
-    if(!te) te = await fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/te_irvtel.json', 60000);
-    if(te) TE_DATA = te;
     try{
       let idx = await fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/index.json', 30000);
       let arr = Array.isArray(idx) ? idx : (idx ? Object.values(idx) : []);
       let enEntry = arr.find(x=> JSON.stringify(x).toLowerCase().includes('en_kjv') || JSON.stringify(x).toLowerCase().includes('king james'));
       if(enEntry) EN_FILE = (enEntry.id||enEntry.file||'en_kjv') + (String(enEntry.id||'').endsWith('.json')?'':'.json');
-    }catch(e){}
+      document.getElementById('verInfo').textContent = 'English: '+EN_FILE;
+    }catch(e){ if(!EN_FILE) EN_FILE='en_kjv.json'; }
     let en = await fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/'+EN_FILE, 60000);
     if(en) EN_DATA = en;
-    document.getElementById('verInfo').textContent = 'Telugu: '+(TE_DATA?'✅':'❌')+' | English: '+EN_FILE+(EN_DATA?' ✅':' ❌');
+    document.getElementById('verInfo').textContent = 'English: '+EN_FILE + (EN_DATA?' ✅':' ❌');
     return true;
   })();
   return DATA_LOADING;
@@ -125,31 +116,29 @@ async function loadChapter(){
   let myId = ++reqId;
   let b=BOOKS[curBook];
   let key=b[3]+'_'+curChap;
-  document.getElementById('loadMsg').innerHTML='⏳ '+b[0]+' '+curChap+' Loading... 🙏';
-  let cacheKey=`ms_bible_both_${curBook}_${curChap}`;
+  document.getElementById('loadMsg').innerHTML='⏳ '+b[1]+' '+curChap+' Loading... 🙏';
+  let cacheKey=`ms_bible_en_${curBook}_${curChap}`;
   let cached=null; try{ cached=JSON.parse(localStorage.getItem(cacheKey)||'null'); }catch(e){}
-  if(cached && (cached.en||cached.te) && myId===reqId){
-    lastEn=cached.en||[]; lastTe=cached.te||[]; renderVerses(lastEn,lastTe);
+  if(cached && cached.en && cached.en.length && myId===reqId){
+    lastEn=cached.en; renderVerses(lastEn);
     document.getElementById('loadMsg').textContent='✅ Offline - Saved'; return;
   }
-  let hasOffline = !!(OFFLINE_EN[key]||OFFLINE_TE[key]);
+  let hasOffline = !!OFFLINE_EN[key];
   if(hasOffline && myId===reqId){
-    lastEn=(OFFLINE_EN[key]||[]).map((t,i)=>({n:i+1,t:t}));
-    lastTe=(OFFLINE_TE[key]||[]).map((t,i)=>({n:i+1,t:t}));
-    renderVerses(lastEn,lastTe);
+    lastEn=OFFLINE_EN[key].map((t,i)=>({n:i+1,t:t}));
+    renderVerses(lastEn);
     document.getElementById('loadMsg').textContent='⏳ First verses - Full chapter coming...';
   }
   document.getElementById('loadMsg').innerHTML='⏳ Bible file loading... First time wait 10 seconds 🙏';
   await loadBibles();
   if(myId!==reqId) return;
   let en = getChapter(EN_DATA, curBook, curChap);
-  let te = getChapter(TE_DATA, curBook, curChap);
   if(myId!==reqId) return;
-  if((en&&en.length)||(te&&te.length)){
-    lastEn=en||[]; lastTe=te||[];
-    try{ localStorage.setItem(cacheKey, JSON.stringify({en:lastEn,te:lastTe})); }catch(e){}
-    renderVerses(lastEn,lastTe);
-    document.getElementById('loadMsg').textContent='✅ '+b[0]+' '+curChap+' - '+(lastTe.length||lastEn.length)+' Verses - Telugu + English - Saved';
+  if(en && en.length){
+    lastEn=en;
+    try{ localStorage.setItem(cacheKey, JSON.stringify({en:lastEn})); }catch(e){}
+    renderVerses(lastEn);
+    document.getElementById('loadMsg').textContent='✅ '+b[1]+' '+curChap+' - '+en.length+' Verses - English KJV - Saved';
     return;
   }
   if(hasOffline){
@@ -158,26 +147,20 @@ async function loadChapter(){
   }
   document.getElementById('loadMsg').innerHTML='⚠️ Server not responding - Turn on Net<br><button class="retrybtn" onclick="loadChapter()">🔄 Try Again</button>';
 }
-function renderVerses(en,te){
+function renderVerses(en){
   let b=BOOKS[curBook];
-  let max = Math.max(en.length, te.length);
   let box=document.getElementById('verseList');
-  let h=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ Prev</button><button style="background:#FFF8E1;border:2px solid #FFD54F">${b[0]} ${curChap}</button><button class="next" onclick="nextChap()">Next ➡️</button></div>`;
-  for(let i=0;i<max;i++){
+  let h=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ Prev</button><button style="background:#FFF8E1;border:2px solid #FFD54F">${b[1]} ${curChap}</button><button class="next" onclick="nextChap()">Next ➡️</button></div>`;
+  for(let i=0;i<en.length;i++){
     let e=en[i]||{n:i+1,t:''};
-    let t=te[i]||{n:i+1,t:''};
-    let vn = e.n || t.n || (i+1);
-    h+=`<div class="verse"><div class="ref">${b[0]} ${curChap}:${vn} | ${b[1]} ${curChap}:${vn}</div>`;
-    if(LANG==='en'||LANG==='both') h+=`<div class="en">${e.t}</div>`;
-    if(LANG==='te'||LANG==='both') h+=`<div class="te">${t.t}</div>`;
-    h+=`<div class="shr"><button onclick="shareVerse(${vn})">📤 Share</button></div></div>`;
+    let vn = e.n || (i+1);
+    h+=`<div class="verse"><div class="ref">${b[1]} ${curChap}:${vn}</div><div class="en">${e.t}</div><div class="shr"><button onclick="shareVerse(${vn})">📤 Share</button></div></div>`;
   }
   h+=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ Prev</button><button class="next" onclick="nextChap()">Next ➡️</button></div>`;
   box.innerHTML=h;
 }
 function prevChap(){ if(curChap>1){ goChap(curChap-1); } else if(curBook>0){ curBook--; goChap(BOOKS[curBook][2]); } }
 function nextChap(){ if(curChap<BOOKS[curBook][2]){ goChap(curChap+1); } else if(curBook<BOOKS.length-1){ curBook++; goChap(1); } }
-function shareVerse(n){ let b=BOOKS[curBook]; let verses=document.querySelectorAll('.verse'); let txt=''; verses.forEach(v=>{ if(v.querySelector('.ref') && v.querySelector('.ref').textContent.includes(':'+n)) txt=v.innerText; }); window.open('https://wa.me/?text='+encodeURIComponent('🙏 '+b[0]+' '+curChap+':'+n+'\n\n'+txt+'\n\n📖 BM Mahima Sannidhi\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/bible.html'),'_blank'); }
-setLang(LANG);
+function shareVerse(n){ let b=BOOKS[curBook]; let verses=document.querySelectorAll('.verse'); let txt=''; verses.forEach(v=>{ if(v.querySelector('.ref') && v.querySelector('.ref').textContent.includes(':'+n)) txt=v.innerText; }); window.open('https://wa.me/?text='+encodeURIComponent('🙏 '+b[1]+' '+curChap+':'+n+'\n\n'+txt+'\n\n📖 BM Mahima Sannidhi\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/bible.html'),'_blank'); }
 renderBooks();
 </script></body></html>
