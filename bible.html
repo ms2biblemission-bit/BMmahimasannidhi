@@ -3,7 +3,7 @@
 <style>*{box-sizing:border-box}body{font-family:sans-serif;background:#E8F5E9;margin:0;padding-bottom:90px} .top{position:sticky;top:0;background:#0B3D2E;color:#fff;padding:12px;text-align:center;z-index:10} .top b{font-size:18px} .top small{display:block;font-size:12px;opacity:.9}
 .tabs{display:flex;gap:8px;padding:10px} .tabs button{flex:1;padding:11px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;background:#fff;border:2px solid #0B3D2E;color:#0B3D2E} .tabs button.on{background:#0B3D2E;color:#fff}
 .books{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 10px} .book{background:#fff;border-radius:14px;padding:12px;text-align:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);border:1px solid #DCEEDB} .book b{font-size:14px;color:#0B3D2E;display:block} .book small{color:#888;font-size:11px}
-.chaps{display:flex;flex-wrap:wrap;gap:8px;padding:10px} .chaps button{width:52px;height:52px;border-radius:12px;border:1px solid #C8A96A;background:#FFF8E1;font-weight:bold;font-size:17px;cursor:pointer;touch-action:manipulation} .chaps button.on{background:#0B3D2E;color:#fff}
+.chaps{display:flex;flex-wrap:wrap;gap:8px;padding:10px} .chaps button{width:52px;height:52px;border-radius:12px;border:1px solid #C8A96A;background:#FFF8E1;font-weight:bold;font-size:17px;cursor:pointer;touch-action:manipulation}
 .nav{display:flex;gap:8px;padding:10px} .nav button{flex:1;padding:12px;border:none;border-radius:12px;font-weight:bold;cursor:pointer} .prev{background:#eee} .next{background:#0B3D2E;color:#fff}
 .curbar{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;margin:10px;text-align:center;font-weight:bold;color:#0B3D2E} .curbar button{background:#0B3D2E;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;margin-left:8px;cursor:pointer}
 .verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .te{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:6px} .verse .en{font-size:15px;line-height:1.6;color:#555;font-style:italic;margin-top:6px;border-top:1px dashed #ddd;padding-top:6px} .verse .shr{text-align:right;margin-top:8px} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
@@ -12,7 +12,7 @@
 .backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
 .retrybtn{background:#0B3D2E;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:8px}
 </style></head><body>
-<div class="top"><b>📖 బైబిల్ - తెలుగు + KJV</b><small>BM మహిమ సన్నిధి | తెలుగు + English KJV 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">తెలుగు: IRV-TE (helloao) | English: en-kjv</small></div>
+<div class="top"><b>📖 బైబిల్ - తెలుగు + KJV</b><small>BM మహిమ సన్నిధి | తెలుగు + English KJV 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">తెలుగు బైబిల్ లోడ్ అవుతోంది...</small></div>
 <input class="search" id="bSearch" placeholder="🔍 పుస్తకం వెతకండి... ఆదికాండం / Genesis" oninput="renderBooks()">
 <div class="tabs"><button id="btnBoth" class="on" onclick="setMode('both')">తెలుగు + English</button><button id="btnTe" onclick="setMode('te')">తెలుగు మాత్రమే</button><button id="btnEn" onclick="setMode('en')">English మాత్రమే</button></div>
 <div id="bookList"></div>
@@ -23,20 +23,21 @@
 <div class="bottom"><a href="index.html"><span class="ic">🏠</span>హోమ్</a><a href="bible.html"><span class="ic">📖</span>బైబిల్</a><a href="prayer.html"><span class="ic">🙏</span>ప్రార్థన</a><a href="videos.html"><span class="ic">▶️</span>మీడియా</a></div>
 <script>
 const BOOKS=[
-["ఆదికాండం","Genesis",50,"GEN","genesis"],["నిర్గమకాండం","Exodus",40,"EXO","exodus"],["లేవీయకాండం","Leviticus",27,"LEV","leviticus"],["సంఖ్యాకాండం","Numbers",36,"NUM","numbers"],["ద్వితీయోపదేశకాండం","Deuteronomy",34,"DEU","deuteronomy"],
-["యెహోషువ","Joshua",24,"JOS","joshua"],["న్యాయాధిపతులు","Judges",21,"JDG","judges"],["రూతు","Ruth",4,"RUT","ruth"],["1 సమూయేలు","1 Samuel",31,"1SA","1-samuel"],["2 సమూయేలు","2 Samuel",24,"2SA","2-samuel"],
-["1 రాజులు","1 Kings",22,"1KI","1-kings"],["2 రాజులు","2 Kings",25,"2KI","2-kings"],["1 దినవృత్తాంతాలు","1 Chronicles",29,"1CH","1-chronicles"],["2 దినవృత్తాంతాలు","2 Chronicles",36,"2CH","2-chronicles"],["ఎజ్రా","Ezra",10,"EZR","ezra"],
-["నెహెమ్యా","Nehemiah",13,"NEH","nehemiah"],["ఎస్తేరు","Esther",10,"EST","esther"],["యోబు","Job",42,"JOB","job"],["కీర్తనలు","Psalms",150,"PSA","psalms"],["సామెతలు","Proverbs",31,"PRO","proverbs"],
-["ప్రసంగి","Ecclesiastes",12,"ECC","ecclesiastes"],["పరమగీతం","Song of Solomon",8,"SNG","song-of-solomon"],["యెషయా","Isaiah",66,"ISA","isaiah"],["యిర్మీయా","Jeremiah",52,"JER","jeremiah"],["విలాపవాక్యాలు","Lamentations",5,"LAM","lamentations"],
-["యెహెజ్కేలు","Ezekiel",48,"EZK","ezekiel"],["దానియేలు","Daniel",12,"DAN","daniel"],["హోషేయ","Hosea",14,"HOS","hosea"],["యోవేలు","Joel",3,"JOL","joel"],["ఆమోసు","Amos",9,"AMO","amos"],
-["ఓబద్యా","Obadiah",1,"OBA","obadiah"],["యోనా","Jonah",4,"JON","jonah"],["మీకా","Micah",7,"MIC","micah"],["నహూము","Nahum",3,"NAM","nahum"],["హబక్కూకు","Habakkuk",3,"HAB","habakkuk"],
-["జెఫన్యా","Zephaniah",3,"ZEP","zephaniah"],["హగ్గయి","Haggai",2,"HAG","haggai"],["జెకర్యా","Zechariah",14,"ZEC","zechariah"],["మలాకీ","Malachi",4,"MAL","malachi"],
-["మత్తయి","Matthew",28,"MAT","matthew"],["మార్కు","Mark",16,"MRK","mark"],["లూకా","Luke",24,"LUK","luke"],["యోహాను","John",21,"JHN","john"],["అపొస్తలుల కార్యాలు","Acts",28,"ACT","acts"],
-["రోమా","Romans",16,"ROM","romans"],["1 కొరింథీ","1 Corinthians",16,"1CO","1-corinthians"],["2 కొరింథీ","2 Corinthians",13,"2CO","2-corinthians"],["గలతీ","Galatians",6,"GAL","galatians"],["ఎఫెసీ","Ephesians",6,"EPH","ephesians"],
-["ఫిలిప్పీ","Philippians",4,"PHP","philippians"],["కొలొస్సీ","Colossians",4,"COL","colossians"],["1 థెస్సలొనీక","1 Thessalonians",5,"1TH","1-thessalonians"],["2 థెస్సలొనీక","2 Thessalonians",3,"2TH","2-thessalonians"],["1 తిమోతి","1 Timothy",6,"1TI","1-timothy"],
-["2 తిమోతి","2 Timothy",4,"2TI","2-timothy"],["తీతు","Titus",3,"TIT","titus"],["ఫిలేమోను","Philemon",1,"PHM","philemon"],["హెబ్రీ","Hebrews",13,"HEB","hebrews"],["యాకోబు","James",5,"JAS","james"],
-["1 పేతురు","1 Peter",5,"1PE","1-peter"],["2 పేతురు","2 Peter",3,"2PE","2-peter"],["1 యోహాను","1 John",5,"1JN","1-john"],["2 యోహాను","2 John",1,"2JN","2-john"],["3 యోహాను","3 John",1,"3JN","3-john"],["యూదా","Jude",1,"JUD","jude"],["ప్రకటన","Revelation",22,"REV","revelation"]
+["ఆదికాండం","Genesis",50,"GEN","genesis","gn"],["నిర్గమకాండం","Exodus",40,"EXO","exodus","ex"],["లేవీయకాండం","Leviticus",27,"LEV","leviticus","lv"],["సంఖ్యాకాండం","Numbers",36,"NUM","numbers","nm"],["ద్వితీయోపదేశకాండం","Deuteronomy",34,"DEU","deuteronomy","dt"],
+["యెహోషువ","Joshua",24,"JOS","joshua","js"],["న్యాయాధిపతులు","Judges",21,"JDG","judges","jg"],["రూతు","Ruth",4,"RUT","ruth","rt"],["1 సమూయేలు","1 Samuel",31,"1SA","1-samuel","1sm"],["2 సమూయేలు","2 Samuel",24,"2SA","2-samuel","2sm"],
+["1 రాజులు","1 Kings",22,"1KI","1-kings","1kgs"],["2 రాజులు","2 Kings",25,"2KI","2-kings","2kgs"],["1 దినవృత్తాంతాలు","1 Chronicles",29,"1CH","1-chronicles","1ch"],["2 దినవృత్తాంతాలు","2 Chronicles",36,"2CH","2-chronicles","2ch"],["ఎజ్రా","Ezra",10,"EZR","ezra","ezr"],
+["నెహెమ్యా","Nehemiah",13,"NEH","nehemiah","ne"],["ఎస్తేరు","Esther",10,"EST","esther","et"],["యోబు","Job",42,"JOB","job","jb"],["కీర్తనలు","Psalms",150,"PSA","psalms","ps"],["సామెతలు","Proverbs",31,"PRO","proverbs","pr"],
+["ప్రసంగి","Ecclesiastes",12,"ECC","ecclesiastes","ec"],["పరమగీతం","Song of Solomon",8,"SNG","song-of-solomon","ss"],["యెషయా","Isaiah",66,"ISA","isaiah","is"],["యిర్మీయా","Jeremiah",52,"JER","jeremiah","jr"],["విలాపవాక్యాలు","Lamentations",5,"LAM","lamentations","lm"],
+["యెహెజ్కేలు","Ezekiel",48,"EZK","ezekiel","ez"],["దానియేలు","Daniel",12,"DAN","daniel","dn"],["హోషేయ","Hosea",14,"HOS","hosea","ho"],["యోవేలు","Joel",3,"JOL","joel","jl"],["ఆమోసు","Amos",9,"AMO","amos","am"],
+["ఓబద్యా","Obadiah",1,"OBA","obadiah","ob"],["యోనా","Jonah",4,"JON","jonah","jn"],["మీకా","Micah",7,"MIC","micah","mi"],["నహూము","Nahum",3,"NAM","nahum","na"],["హబక్కూకు","Habakkuk",3,"HAB","habakkuk","hk"],
+["జెఫన్యా","Zephaniah",3,"ZEP","zephaniah","zp"],["హగ్గయి","Haggai",2,"HAG","haggai","hg"],["జెకర్యా","Zechariah",14,"ZEC","zechariah","zc"],["మలాకీ","Malachi",4,"MAL","malachi","ml"],
+["మత్తయి","Matthew",28,"MAT","matthew","mt"],["మార్కు","Mark",16,"MRK","mark","mk"],["లూకా","Luke",24,"LUK","luke","lk"],["యోహాను","John",21,"JHN","john","jn2"],["అపొస్తలుల కార్యాలు","Acts",28,"ACT","acts","ac"],
+["రోమా","Romans",16,"ROM","romans","rm"],["1 కొరింథీ","1 Corinthians",16,"1CO","1-corinthians","1co"],["2 కొరింథీ","2 Corinthians",13,"2CO","2-corinthians","2co"],["గలతీ","Galatians",6,"GAL","galatians","gl"],["ఎఫెసీ","Ephesians",6,"EPH","ephesians","eph"],
+["ఫిలిప్పీ","Philippians",4,"PHP","philippians","ph"],["కొలొస్సీ","Colossians",4,"COL","colossians","col"],["1 థెస్సలొనీక","1 Thessalonians",5,"1TH","1-thessalonians","1th"],["2 థెస్సలొనీక","2 Thessalonians",3,"2TH","2-thessalonians","2th"],["1 తిమోతి","1 Timothy",6,"1TI","1-timothy","1tm"],
+["2 తిమోతి","2 Timothy",4,"2TI","2-timothy","2tm"],["తీతు","Titus",3,"TIT","titus","tt"],["ఫిలేమోను","Philemon",1,"PHM","philemon","phm"],["హెబ్రీ","Hebrews",13,"HEB","hebrews","hb"],["యాకోబు","James",5,"JAS","james","jm"],
+["1 పేతురు","1 Peter",5,"1PE","1-peter","1pt"],["2 పేతురు","2 Peter",3,"2PE","2-peter","2pt"],["1 యోహాను","1 John",5,"1JN","1-john","1jn"],["2 యోహాను","2 John",1,"2JN","2-john","2jn"],["3 యోహాను","3 John",1,"3JN","3-john","3jn"],["యూదా","Jude",1,"JUD","jude","jd"],["ప్రకటన","Revelation",22,"REV","revelation","rv"]
 ];
+// thiagobodruk abbrev fix - యోహాను సువార్త = jn, యోనా = jnh లో కొన్ని ఫైళ్లలో వేరుగా ఉండొచ్చు - పేరుతో కూడా వెతుకుతాం
 const OFFLINE_TE = {
 "GEN_1": ["ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.","భూమి నిరాకారముగాను శూన్యముగాను ఉండెను; చీకటి అగాధ జలముపైన కమ్మియుండెను; దేవుని ఆత్మ జలములపైన అల్లాడుచుండెను.","దేవుడు వెలుగు కలుగును గాక అనెను; వెలుగు కలిగెను.","ఆ వెలుగు మంచిదని దేవుడు చూచెను; దేవుడు వెలుగును చీకటిని వేరుపరచెను.","దేవుడు వెలుగునకు పగలు అనియు, చీకటికి రాత్రి అనియు పేరు పెట్టెను. అస్తమయమును ఉదయమును కలుగగా మొదటి దినమాయెను."],
 "PSA_23": ["యెహోవా నా కాపరి, నాకు లేమి కలుగదు.","పచ్చికగల చోట్ల ఆయన నన్ను పరుండజేయుచున్నాడు. శాంతికరమైన జలముల యొద్ద నన్ను నడిపించుచున్నాడు.","నా ప్రాణమునకు ఆయన సేదదీర్చుచున్నాడు. తన నామమును బట్టి నీతిమార్గములలో నన్ను నడిపించుచున్నాడు.","గాఢాంధకారపు లోయలో నేను సంచరించినను ఏ అపాయమునకు భయపడను. నీవు నాకు తోడైయుందువు. నీ దుడ్డుకఱ్ఱయు నీ దండమును నన్ను ఆదరించును."]
@@ -47,7 +48,7 @@ const OFFLINE_EN = {
 };
 let mode = localStorage.getItem('ms_bible_mode')||'both';
 let curBook = 0, curChap = 1, lastTe=[], lastEn=[], reqId=0;
-let EN_VER='en-kjv';
+let TE_DATA=null, EN_DATA=null, TE_FILE='', EN_FILE='en_kjv', DATA_LOADING=null;
 function setMode(m){ mode=m; localStorage.setItem('ms_bible_mode',m); document.getElementById('btnBoth').className=m==='both'?'on':''; document.getElementById('btnTe').className=m==='te'?'on':''; document.getElementById('btnEn').className=m==='en'?'on':''; if(lastTe.length||lastEn.length) renderVerses(lastTe,lastEn); }
 setMode(mode);
 function isTelugu(s){ return /[\u0C00-\u0C7F]/.test(s||''); }
@@ -79,119 +80,93 @@ function goChap(c){
   document.getElementById('verseList').innerHTML='';
   loadChapter();
 }
-async function fetchJSON(url, ms=15000){
+async function fetchJSON(url, ms=30000){
   let c=new AbortController(); let t=setTimeout(()=>c.abort(), ms);
   try{ let r=await fetch(url,{signal:c.signal}); clearTimeout(t); if(!r.ok) return null; return await r.json(); }
   catch(e){ clearTimeout(t); return null; }
 }
-// ✅ CORRECT HELLOAO PARSER - chapter.content లో ఉంటుంది!
-function parseHelloao(j){
-  if(!j) return null;
-  let c = null;
-  if(j.chapter && Array.isArray(j.chapter.content)) c = j.chapter.content;
-  else if(j.chapter && Array.isArray(j.chapter.verses)) c = j.chapter.verses;
-  else if(Array.isArray(j.content)) c = j.content;
-  else if(Array.isArray(j.verses)) c = j.verses;
-  else if(j.data && Array.isArray(j.data)) c = j.data;
-  if(!c) return null;
-  let out = [];
-  c.forEach((x,i)=>{
-    if(!x) return;
-    if(typeof x==='string'){ out.push({n:i+1, t: cleanText(x)}); return; }
-    // helloao simple: {number:1, text:"..."} లేదా {verse:1, text:"..."}
-    // helloao normal: {type:"verse", number:1, content:[{text:"..."}]}
-    let num = parseInt(x.number||x.verse||x.verse_number|| (i+1));
-    let txt = x.text||x.content||'';
-    if(Array.isArray(txt)) txt = txt.map(y=> typeof y==='string'?y:(y.text||y.content||'')).join(' ');
-    if(typeof txt!=='string') txt='';
-    if(txt) out.push({n:num, t: cleanText(txt)});
-    // normal format లో - content లోపల మళ్ళీ verses ఉండొచ్చు
-    if(Array.isArray(x.content)){
-      x.content.forEach(y=>{
-        if(y && y.text) out.push({n: parseInt(y.number||num), t: cleanText(y.text)});
+// ✅ తెలుగు ఫైల్ ఏదో - index.json నుండి ఆటోమేటిక్ గా కనుక్కో!
+async function loadBibles(){
+  if(DATA_LOADING) return DATA_LOADING;
+  DATA_LOADING = (async()=>{
+    try{
+      let idx = await fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/index.json', 30000);
+      let arr = Array.isArray(idx) ? idx : (idx ? Object.values(idx) : []);
+      // index లో - {id:"te_irvtel", language:"Telugu"...} లాంటిది ఉంటుంది
+      let teEntry = arr.find(x=>{
+        let s = JSON.stringify(x).toLowerCase();
+        return s.includes('telugu') || s.includes('"te_') || s.includes('te_irv') || s.includes('te-tel') || s.includes('"te"');
       });
-    }
-  });
-  return out.length ? out : null;
+      if(teEntry){
+        TE_FILE = teEntry.id || teEntry.file || teEntry.name || teEntry.code || '';
+        if(TE_FILE && !TE_FILE.endsWith('.json')) TE_FILE += '.json';
+      }
+      if(!TE_FILE) TE_FILE = 'te_irvtel.json';
+      let enEntry = arr.find(x=> JSON.stringify(x).toLowerCase().includes('en_kjv') || JSON.stringify(x).toLowerCase().includes('king james'));
+      if(enEntry) EN_FILE = (enEntry.id||enEntry.file||'en_kjv') + (String(enEntry.id||'').endsWith('.json')?'':'.json');
+      document.getElementById('verInfo').textContent = 'తెలుగు: '+TE_FILE+' | English: '+EN_FILE;
+    }catch(e){ if(!TE_FILE) TE_FILE='te_irvtel.json'; }
+    let [te, en] = await Promise.all([
+      fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/'+TE_FILE, 60000),
+      fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/'+EN_FILE, 60000)
+    ]);
+    if(te) TE_DATA = te;
+    if(en) EN_DATA = en;
+    document.getElementById('verInfo').textContent = 'తెలుగు: '+TE_FILE+' | English: '+EN_FILE + (TE_DATA?' ✅':' ❌');
+    return true;
+  })();
+  return DATA_LOADING;
 }
-async function fetchTeluguHelloao(code, chap){
-  let urls = [
-    `https://bible.helloao.org/api/IRV-TE/${code}/${chap}.simple.json`,
-    `https://bible.helloao.org/api/IRV-TE/${code}/${chap}.json`
-  ];
-  for(let u of urls){
-    let j = await fetchJSON(u, 15000);
-    let v = parseHelloao(j);
-    if(v && v.length && isTelugu(v.map(x=>x.t).join(' ').slice(0,1000))) return v;
+// thiagobodruk format: [{abbrev:"gn", name:"Genesis", chapters:[[v1,v2...],[...]]}]
+function getChapter(data, bookIdx, chap){
+  if(!data || !Array.isArray(data)) return null;
+  let b = BOOKS[bookIdx];
+  // 1 - abbrev తో వెతుకు
+  let want = [b[5], b[3].toLowerCase(), b[1].toLowerCase()];
+  // యోహాను సువార్త - కొన్ని ఫైళ్లలో jn, యోనా - jnh
+  if(bookIdx===42) want = ['jn','john','jhn'];
+  if(bookIdx===31) want = ['jnh','jon','jonah'];
+  let found = null;
+  for(let w of want){
+    found = data.find(x=> String(x.abbrev||'').toLowerCase()===w || String(x.name||'').toLowerCase()===w);
+    if(found) break;
   }
-  return null;
-}
-function parseWldeh(j){
-  if(!j) return null;
-  let arr = null;
-  if(Array.isArray(j)) arr=j;
-  else if(j.data && Array.isArray(j.data.verses)) arr=j.data.verses;
-  else if(Array.isArray(j.verses)) arr=j.verses;
-  else if(j.data && Array.isArray(j.data)) arr=j.data;
-  else if(j.chapter && Array.isArray(j.chapter.verses)) arr=j.chapter.verses;
-  if(!arr) {
-    let o = j.data || j;
-    if(o && (o.text||o.content)) return [{n: parseInt(o.verse||o.number||1), t: cleanText(o.text||o.content||'')}];
-    return null;
+  if(!found){
+    // 2 - క్రమంలో - 66 పుస్తకాలు ఒకే క్రమంలో ఉంటాయి
+    found = data[bookIdx];
   }
-  let out = arr.map((v,i)=>{
+  if(!found || !Array.isArray(found.chapters)) return null;
+  let ch = found.chapters[chap-1];
+  if(!ch) return null;
+  // ch = ["verse1","verse2"] లేదా [{verse:1,text:"..."}]
+  return ch.map((v,i)=>{
     if(typeof v==='string') return {n:i+1, t: cleanText(v)};
-    let t = v.text||v.content||v.verse_text||'';
-    if(typeof t!=='string') t = (Array.isArray(t)? t.map(x=>typeof x==='string'?x:(x.text||'')).join(' ') : '');
-    return {n: parseInt(v.verse||v.number||v.verse_number||v.id|| (i+1)), t: cleanText(t)};
+    return {n: parseInt(v.verse||v.number|| (i+1)), t: cleanText(v.text||v.content||'')};
   }).filter(x=>x.t);
-  return out.length?out:null;
-}
-async function fetchWldehChapter(ver, bookSlug, chap){
-  let urls = [
-    `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${ver}/books/${bookSlug}/chapters/${chap}.json`,
-    `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${ver}/books/${bookSlug}/chapters/${chap}/verses.json`
-  ];
-  for(let u of urls){
-    let j = await fetchJSON(u, 12000);
-    let v = parseWldeh(j);
-    if(v && v.length) return v;
-  }
-  return null;
-}
-async function fetchBibleApiChapter(bookEn, chap, translation){
-  try{
-    let j = await fetchJSON(`https://bible-api.com/${encodeURIComponent(bookEn)}+${chap}?translation=${translation}`, 10000);
-    if(j && Array.isArray(j.verses)) return j.verses.map(v=>({n:parseInt(v.verse), t: cleanText(v.text)}));
-  }catch(e){}
-  return null;
 }
 async function loadChapter(){
   let myId = ++reqId;
   let b=BOOKS[curBook];
   let key=b[3]+'_'+curChap;
   document.getElementById('loadMsg').innerHTML='⏳ '+b[0]+' '+curChap+' లోడ్ అవుతోంది... 🙏';
-  let cacheKey=`ms_bible7_${curBook}_${curChap}`;
+  let cacheKey=`ms_bible8_${curBook}_${curChap}`;
   let cached=null; try{ cached=JSON.parse(localStorage.getItem(cacheKey)||'null'); }catch(e){}
-  if(cached && (cached.te||cached.en) && myId===reqId){
-    if(cached.te && cached.te.length){ lastTe=cached.te; lastEn=cached.en||cached.te; renderVerses(lastTe,lastEn); document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ - సేవ్ అయినది'; return; }
-    if(cached.en && cached.en.length){ lastTe=[]; lastEn=cached.en; renderVerses([],lastEn); document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ - ఇంగ్లీష్'; return; }
+  if(cached && cached.te && cached.te.length && myId===reqId){
+    lastTe=cached.te; lastEn=cached.en||cached.te; renderVerses(lastTe,lastEn);
+    document.getElementById('loadMsg').textContent='✅ ఆఫ్ లైన్ - సేవ్ అయినది'; return;
   }
   let hasOffline = !!OFFLINE_TE[key];
   if(hasOffline && myId===reqId){
     lastTe=OFFLINE_TE[key].map((t,i)=>({n:i+1,t:t})); lastEn=(OFFLINE_EN[key]||[]).map((t,i)=>({n:i+1,t:t}));
     renderVerses(lastTe,lastEn);
-    document.getElementById('loadMsg').textContent='⏳ మొదటి 5 వచనాలు - పూర్తి అధ్యాయం వస్తోంది...';
+    document.getElementById('loadMsg').textContent='⏳ మొదటి వచనాలు - పూర్తి అధ్యాయం వస్తోంది...';
   }
-  let [te, en] = await Promise.all([
-    fetchTeluguHelloao(b[3], curChap),
-    fetchWldehChapter(EN_VER, b[4], curChap)
-  ]);
+  document.getElementById('loadMsg').innerHTML='⏳ తెలుగు బైబిల్ ఫైల్ లోడ్ అవుతోంది... మొదటిసారి 10 సెకన్లు ఆగండి 🙏';
+  await loadBibles();
   if(myId!==reqId) return;
+  let te = getChapter(TE_DATA, curBook, curChap);
+  let en = getChapter(EN_DATA, curBook, curChap);
   if(te && te.length && !isTelugu(te.map(x=>x.t).join(' ').slice(0,1000))) te=null;
-  if(!en || !en.length){
-    en = await fetchBibleApiChapter(b[1], curChap, 'kjv');
-  }
   if(myId!==reqId) return;
   if(te && te.length){
     lastTe=te; lastEn=(en && en.length)?en:te;
@@ -202,13 +177,12 @@ async function loadChapter(){
   }
   if(en && en.length){
     lastTe=[]; lastEn=en;
-    try{ localStorage.setItem(cacheKey, JSON.stringify({te:[],en:lastEn})); }catch(e){}
     renderVerses([],en);
-    document.getElementById('loadMsg').innerHTML='⚠️ తెలుగు (IRV-TE) లో ఈ అధ్యాయం దొరకలేదు - ఇంగ్లీష్ మాత్రమే - '+en.length+' వచనాలు<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
+    document.getElementById('loadMsg').innerHTML='⚠️ తెలుగు ఫైల్ ('+TE_FILE+') లో ఈ అధ్యాయం దొరకలేదు - ఇంగ్లీష్ మాత్రమే<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
     return;
   }
   if(hasOffline){
-    document.getElementById('loadMsg').innerHTML='✅ మొదటి 5 వచనాలు చూస్తున్నారు - పూర్తి కోసం<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
+    document.getElementById('loadMsg').innerHTML='✅ మొదటి వచనాలు చూస్తున్నారు<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
     return;
   }
   document.getElementById('loadMsg').innerHTML='⚠️ సర్వర్ నుండి రాలేదు - నెట్ ఆన్ చేసి<br><button class="retrybtn" onclick="loadChapter()">🔄 మళ్ళీ ప్రయత్నించండి</button>';
