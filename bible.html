@@ -11,14 +11,14 @@
 .backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
 .retrybtn{background:#0B3D2E;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:8px}
 </style></head><body>
-<div class="top"><b>📖 Bible - English KJV</b><small>BM మహిమ సన్నిధి | English Only 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">తెలుగు O.V. త్వరలో వస్తుంది - BSI Permission కోసం ఎదురుచూస్తున్నాము</small></div>
+<div class="top"><b>📖 Bible - English KJV</b><small>BM Mahima Sannidhi | English Only 🙏</small><small id="verInfo" style="font-size:11px;opacity:.8">English: en_kjv.json</small></div>
 <input class="search" id="bSearch" placeholder="🔍 Search Book... Genesis" oninput="renderBooks()">
 <div id="bookList"></div>
 <div id="chapList" style="display:none"></div>
 <div id="curBar" style="display:none"></div>
 <div id="verseList"></div>
 <div id="loadMsg" style="text-align:center;padding:12px;color:#666"></div>
-<div class="bottom"><a href="index.html"><span class="ic">🏠</span>హోమ్</a><a href="bible.html"><span class="ic">📖</span>బైబిల్</a><a href="prayer.html"><span class="ic">🙏</span>ప్రార్థన</a><a href="videos.html"><span class="ic">▶️</span>మీడియా</a></div>
+<div class="bottom"><a href="index.html"><span class="ic">🏠</span>Home</a><a href="bible.html"><span class="ic">📖</span>Bible</a><a href="prayer.html"><span class="ic">🙏</span>Prayer</a><a href="videos.html"><span class="ic">▶️</span>Media</a></div>
 <script>
 const BOOKS=[
 ["ఆదికాండం","Genesis",50,"GEN","genesis","gn"],["నిర్గమకాండం","Exodus",40,"EXO","exodus","ex"],["లేవీయకాండం","Leviticus",27,"LEV","leviticus","lv"],["సంఖ్యాకాండం","Numbers",36,"NUM","numbers","nm"],["ద్వితీయోపదేశకాండం","Deuteronomy",34,"DEU","deuteronomy","dt"],
@@ -45,12 +45,12 @@ function cleanText(s){ if(!s) return ''; s=String(s).replace(/<S>\d+<\/S>/g,'').
 function renderBooks(){
   let q=document.getElementById('bSearch').value.toLowerCase().trim();
   let list=BOOKS.map((b,i)=>({b,i})).filter(x=>!q||x.b[0].toLowerCase().includes(q)||x.b[1].toLowerCase().includes(q));
-  document.getElementById('bookList').innerHTML='<div class="books">'+list.map(x=>`<div class="book" onclick="openBook(${x.i})"><b>${x.b[0]}</b><small>${x.b[1]} • ${x.b[2]} Chapters</small></div>`).join('')+'</div>';
+  document.getElementById('bookList').innerHTML='<div class="books">'+list.map(x=>`<div class="book" onclick="openBook(${x.i})"><b>${x.b[1]}</b><small>${x.b[2]} Chapters</small></div>`).join('')+'</div>';
 }
 function openBook(i){
   curBook=i; curChap=1;
   let b=BOOKS[i]; let h=''; for(let c=1;c<=b[2];c++){ h+=`<button onclick="goChap(${c})">${c}</button>`; }
-  document.getElementById('chapList').innerHTML=`<button class="backbtn" onclick="backToBooks()">⬅️ All Books</button><div style="padding:0 10px;font-weight:bold;color:#0B3D2E">📖 ${b[0]} - ${b[1]} - Select Chapter</div><div class="chaps">${h}</div>`;
+  document.getElementById('chapList').innerHTML=`<button class="backbtn" onclick="backToBooks()">⬅️ All Books</button><div style="padding:0 10px;font-weight:bold;color:#0B3D2E">📖 ${b[1]} - Select Chapter</div><div class="chaps">${h}</div>`;
   document.getElementById('chapList').style.display='block';
   document.getElementById('bookList').style.display='none';
   document.getElementById('curBar').style.display='none';
@@ -66,7 +66,7 @@ function goChap(c){
   document.getElementById('chapList').style.display='none';
   document.getElementById('bookList').style.display='none';
   document.getElementById('curBar').style.display='block';
-  document.getElementById('curBar').innerHTML=`📖 ${b[0]} ${curChap} - ${b[1]} ${curChap} <button onclick="showChaps()">📖 Change Chapter</button> <button onclick="backToBooks()">📚 Books</button>`;
+  document.getElementById('curBar').innerHTML=`📖 ${b[1]} ${curChap} <button onclick="showChaps()">📖 Change Chapter</button> <button onclick="backToBooks()">📚 Books</button>`;
   document.getElementById('verseList').innerHTML='';
   loadChapter();
 }
@@ -83,11 +83,11 @@ async function loadBibles(){
       let arr = Array.isArray(idx) ? idx : (idx ? Object.values(idx) : []);
       let enEntry = arr.find(x=> JSON.stringify(x).toLowerCase().includes('en_kjv') || JSON.stringify(x).toLowerCase().includes('king james'));
       if(enEntry) EN_FILE = (enEntry.id||enEntry.file||'en_kjv') + (String(enEntry.id||'').endsWith('.json')?'':'.json');
-      document.getElementById('verInfo').textContent = 'English: '+EN_FILE+' | తెలుగు O.V. త్వరలో వస్తుంది';
+      document.getElementById('verInfo').textContent = 'English: '+EN_FILE;
     }catch(e){ if(!EN_FILE) EN_FILE='en_kjv.json'; }
     let en = await fetchJSON('https://cdn.jsdelivr.net/gh/thiagobodruk/bible@master/json/'+EN_FILE, 60000);
     if(en) EN_DATA = en;
-    document.getElementById('verInfo').textContent = 'English: '+EN_FILE + (EN_DATA?' ✅':' ❌') + ' | తెలుగు O.V. త్వరలో వస్తుంది';
+    document.getElementById('verInfo').textContent = 'English: '+EN_FILE + (EN_DATA?' ✅':' ❌');
     return true;
   })();
   return DATA_LOADING;
@@ -116,7 +116,7 @@ async function loadChapter(){
   let myId = ++reqId;
   let b=BOOKS[curBook];
   let key=b[3]+'_'+curChap;
-  document.getElementById('loadMsg').innerHTML='⏳ '+b[0]+' '+curChap+' Loading... 🙏';
+  document.getElementById('loadMsg').innerHTML='⏳ '+b[1]+' '+curChap+' Loading... 🙏';
   let cacheKey=`ms_bible_en_${curBook}_${curChap}`;
   let cached=null; try{ cached=JSON.parse(localStorage.getItem(cacheKey)||'null'); }catch(e){}
   if(cached && cached.en && cached.en.length && myId===reqId){
@@ -138,7 +138,7 @@ async function loadChapter(){
     lastEn=en;
     try{ localStorage.setItem(cacheKey, JSON.stringify({en:lastEn})); }catch(e){}
     renderVerses(lastEn);
-    document.getElementById('loadMsg').textContent='✅ '+b[0]+' '+curChap+' - '+en.length+' Verses - English KJV - Saved';
+    document.getElementById('loadMsg').textContent='✅ '+b[1]+' '+curChap+' - '+en.length+' Verses - English KJV - Saved';
     return;
   }
   if(hasOffline){
@@ -150,7 +150,7 @@ async function loadChapter(){
 function renderVerses(en){
   let b=BOOKS[curBook];
   let box=document.getElementById('verseList');
-  let h=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ Prev</button><button style="background:#FFF8E1;border:2px solid #FFD54F">${b[0]} ${curChap} - ${b[1]} ${curChap}</button><button class="next" onclick="nextChap()">Next ➡️</button></div>`;
+  let h=`<div class="nav"><button class="prev" onclick="prevChap()">⬅️ Prev</button><button style="background:#FFF8E1;border:2px solid #FFD54F">${b[1]} ${curChap}</button><button class="next" onclick="nextChap()">Next ➡️</button></div>`;
   for(let i=0;i<en.length;i++){
     let e=en[i]||{n:i+1,t:''};
     let vn = e.n || (i+1);
@@ -161,6 +161,6 @@ function renderVerses(en){
 }
 function prevChap(){ if(curChap>1){ goChap(curChap-1); } else if(curBook>0){ curBook--; goChap(BOOKS[curBook][2]); } }
 function nextChap(){ if(curChap<BOOKS[curBook][2]){ goChap(curChap+1); } else if(curBook<BOOKS.length-1){ curBook++; goChap(1); } }
-function shareVerse(n){ let b=BOOKS[curBook]; let verses=document.querySelectorAll('.verse'); let txt=''; verses.forEach(v=>{ if(v.querySelector('.ref') && v.querySelector('.ref').textContent.includes(':'+n)) txt=v.innerText; }); window.open('https://wa.me/?text='+encodeURIComponent('🙏 '+b[1]+' '+curChap+':'+n+'\n\n'+txt+'\n\n📖 BM మహిమ సన్నిధి\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/bible.html'),'_blank'); }
+function shareVerse(n){ let b=BOOKS[curBook]; let verses=document.querySelectorAll('.verse'); let txt=''; verses.forEach(v=>{ if(v.querySelector('.ref') && v.querySelector('.ref').textContent.includes(':'+n)) txt=v.innerText; }); window.open('https://wa.me/?text='+encodeURIComponent('🙏 '+b[1]+' '+curChap+':'+n+'\n\n'+txt+'\n\n📖 BM Mahima Sannidhi\nhttps://ms2biblemission-bit.github.io/BMmahimasannidhi/bible.html'),'_blank'); }
 renderBooks();
 </script></body></html>
