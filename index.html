@@ -14,6 +14,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon" href="IMG-20261104-WA0008.jpg">
+<link rel="preconnect" href="https://abacus.jasoncameron.dev">
+<link rel="preconnect" href="https://ntfy.sh">
 <style>
 *{box-sizing:border-box}
 html,body{font-family:sans-serif;background:#F2F5F0;margin:0;padding:0;width:100%;overflow-x:hidden}
@@ -131,9 +133,9 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div></div>
 <div class="best-header"><div class="logo">✝️</div><div><h1>BM మహిమ సన్నిధి</h1><p>తెలుగు క్రిస్టియన్ యాప్</p></div><div class="icons"><span onclick="document.getElementById('todayUpdatesBox').scrollIntoView({behavior:'smooth'})" title="లాస్ట్ అప్డేట్">🔔</span><span onclick="document.getElementById('searchBox').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('searchBox').focus(),400)" title="వెతకండి">🔍</span><span onclick="openChat()" title="అడ్మిన్ చాట్">👤</span></div></div>
 <div class="header">
-  <img src="jesus.jpg" alt="యేసు">
+  <img loading="eager" decoding="async" src="jesus.jpg" alt="యేసు">
   <div style="flex:1;text-align:center"><div class="bible-mission">📖 బైబిల్ మిషన్</div><h1 style="margin:4px 0;font-size:24px;line-height:1.2;color:#222">మహిమ సన్నిధి</h1><div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div><div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div></div>
-  <img src="devadasu.jpg" alt="దేవదాసు">
+  <img loading="eager" decoding="async" src="devadasu.jpg" alt="దేవదాసు">
 </div>
 <div class="notif-bar" id="notifBar"><div style="font-weight:bold;color:#0B3D2E">🔔 ఉదయం 6 గంటలకి - రోజూ వాక్యం నోటిఫికేషన్ కావాలా?</div><div style="font-size:12px;color:#666">Allow నొక్కితే - మార్నింగ్ మీకు వాక్యం వచ్చిందని వస్తుంది 🙏</div><button onclick="askNotif()">🔔 నోటిఫికేషన్ ఆన్ చేయండి</button><div id="notifStatus" style="font-size:12px;color:#2E7D32;margin-top:4px"></div></div>
 <div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center;"><div style="font-size:15px;color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div><div style="font-size:32px;font-weight:900;color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div></div>
@@ -175,9 +177,9 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <a href="books.html"><div class="circle" style="border:2px solid #2196F3;background:#E3F2FD">📚</div><div class="lname">బుక్స్</div></a>
   <a href="videos.html"><div class="circle" style="border:2px solid #E53935;background:#FFEBEE">🎥</div><div class="lname">వీడియోస్</div></a>
   <a href="songs.html"><div class="circle" style="border:2px solid #FF9800;background:#FFF8E1">🎵</div><div class="lname">పాటలు</div></a>
-  <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
-  <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
-  <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
+  <a href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="circle" style="border:2px solid #25D366"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><div class="lname">Channel</div></a>
+  <a href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="circle" style="border:2px solid #1877F2"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"></div><div class="lname">Facebook</div></a>
+  <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
   <a href="#" onclick="openChat();return false"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">💬</div><div class="lname">అడ్మిన్ చాట్</div></a>
 </div>
 <div class="circle-grid">
@@ -187,9 +189,9 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <a class="c-item" href="songs.html"><div class="c-circle c-song">🎵</div><b>పాటలు</b></a>
   <a class="c-item" href="books.html"><div class="c-circle c-book">📚</div><b>పుస్తకాలు</b></a>
   <a class="c-item" href="videos.html"><div class="c-circle c-video">🎥</div><b>వీడియోలు</b></a>
-  <a class="c-item" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="c-circle c-yt"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><b>YouTube</b></a>
-  <a class="c-item" href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="c-circle c-fb"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"></div><b>Facebook</b></a>
-  <a class="c-item" href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="c-circle c-wa"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><b>WhatsApp</b></a>
+  <a class="c-item" href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="c-circle c-yt"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><b>YouTube</b></a>
+  <a class="c-item" href="https://www.facebook.com/share/1Hj7LwsXjP/" target="_blank"><div class="c-circle c-fb"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"></div><b>Facebook</b></a>
+  <a class="c-item" href="https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46" target="_blank"><div class="c-circle c-wa"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div><b>WhatsApp</b></a>
   <a class="c-item" href="#" onclick="openChat();return false"><div class="c-circle c-chat">💬</div><b>Admin Chat</b></a>
   <a class="c-item" href="gallery.html"><div class="c-circle c-gal">🖼️</div><b>గ్యాలరీ</b></a>
   <a class="c-item" href="voice.html"><div class="c-circle c-voice">🎤</div><b>వాయిస్</b></a>
@@ -212,8 +214,8 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 <div class="section qr-box">
 <h3>🙏 మా సేవ అభివృద్ధికై</h3>
-<img src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #0B3D2E;margin-bottom:12px" alt="Mahima Sannidhi Banner">
-<img src="IMG-20261106-WA0037.jpg" style="width:220px;max-width:100%;height:auto" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
+<img loading="lazy" decoding="async" src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #0B3D2E;margin-bottom:12px" alt="Mahima Sannidhi Banner">
+<img loading="lazy" decoding="async" src="IMG-20261106-WA0037.jpg" style="width:220px;max-width:100%;height:auto" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';document.getElementById('qrError').style.display='block'">
 <div id="qrError" style="display:none;color:red;font-size:13px;margin-top:8px">⚠️ QR - GitHub లో లేదు!</div>
 <p style="font-weight:bold">Ms2 Bible Mission</p>
 <div class="upi-box"><b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br><small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small></div>
@@ -255,7 +257,6 @@ window.addEventListener('popstate', function(){ let s = getNavStack(); if(s.leng
 if(!sessionStorage.getItem('ms_back_init')){ sessionStorage.setItem('ms_back_init','1'); history.pushState({ms:1},''); }
 function shareAnyPage(){ let pageLink = window.location.href; let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html"; let pageName = "BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్"; let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️"; window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank"); }
 async function updateVisitorCount(){ if(location.search.includes('admin=1')){ localStorage.setItem('ms_is_admin','1'); } let isAdmin = localStorage.getItem('ms_is_admin')==='1'; let box = document.getElementById('visitorBox'); let el = document.getElementById('visitorCount'); try{ let r = await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits'); let j = await r.json(); let count = j.value || j.count || 0; if(isAdmin && box && el){ box.style.display='block'; el.textContent = count.toLocaleString('en-IN'); } localStorage.setItem('ms_visitor_count', count); }catch(e){ if(isAdmin && box && el){ box.style.display='block'; el.textContent = localStorage.getItem('ms_visitor_count') || '...'; } } }
-setTimeout(updateVisitorCount, 2500);
 function installAppUniversal(){ if(window.deferredPrompt){ window.deferredPrompt.prompt(); window.deferredPrompt.userChoice.then((r)=>{ if(r.outcome==='accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); } window.deferredPrompt=null; }); } else { let b = document.getElementById('installBtn'); if(b){ b.style.display='block'; b.scrollIntoView({behavior:'smooth'}); } } }
 function getSavedBooks(){ try{ return JSON.parse(localStorage.getItem('ms_saved_books')||'[]'); }catch(e){ return []; } }
 function toggleSaveBook(title, btn){ let saved = getSavedBooks(); let i = saved.indexOf(title); if(i>=0){ saved.splice(i,1); btn.textContent='🔖 Save'; btn.classList.remove('saved'); } else { saved.push(title); btn.textContent='✅ Saved'; btn.classList.add('saved'); } localStorage.setItem('ms_saved_books', JSON.stringify(saved)); }
@@ -286,14 +287,13 @@ function renderPosts(){
   let base = q ? allPosts.filter(isScheduledVisible) : getRecentPosts();
   let list = base.filter(p => ((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));
   let box = document.getElementById('postsList'); if(!box) return;
-  if(list.length==0){ box.innerHTML = q ? '📭 ఇంకా ఏమీ లేవు!' : '📭 నిన్న + ఈ రోజు ఏమీ లేవు!'; } else { box.innerHTML = list.map(p=>{ let idx = allPosts.indexOf(p); let img = p.image ? `<img src="${p.image}">` : ''; return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది - అక్కడ షేర్ ఉంటుంది</div></div>`; }).join(''); }
+  if(list.length==0){ box.innerHTML = q ? '📭 ఇంకా ఏమీ లేవు!' : '📭 నిన్న + ఈ రోజు ఏమీ లేవు!'; } else { box.innerHTML = list.map(p=>{ let idx = allPosts.indexOf(p); let img = p.image ? `<img loading="lazy" decoding="async" src="${p.image}">` : ''; return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది - అక్కడ షేర్ ఉంటుంది</div></div>`; }).join(''); }
   let bBox=document.getElementById('booksResult');
   if(q && allBooks.length){ let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q)); let saved = getSavedBooks(); if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map((b,bi)=>`<div class="post" onclick="event.stopPropagation();location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content" id="book-desc-${bi}">${b.desc||''}</div><div class="book-actions" onclick="event.stopPropagation()"><button class="btn-save ${saved.includes(b.title)?'saved':''}" onclick="toggleSaveBook('${(b.title||'').replace(/'/g,"\\'")}',this)">${saved.includes(b.title)?'✅ Saved':'🔖 Save'}</button><button class="btn-underline" onclick="toggleUnderlineBook(${bi},this)">✏️ Underline</button></div></div>`).join(''); else bBox.innerHTML=''; } else if(bBox) bBox.innerHTML='';
 }
-function openPost(i){ let p=allPosts[i]; if(!p) return; document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0F2F6B;text-align:center;font-weight:700;font-size:22px">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center;color:#3B2314;font-weight:500">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`; document.getElementById('postModal').style.display='flex'; lockBody(); }
+function openPost(i){ let p=allPosts[i]; if(!p) return; document.getElementById('postModalContent').innerHTML=`${p.image?`<img loading="lazy" decoding="async" src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0F2F6B;text-align:center;font-weight:700;font-size:22px">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center;color:#3B2314;font-weight:500">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`; document.getElementById('postModal').style.display='flex'; lockBody(); }
 function closePost(){ document.getElementById('postModal').style.display='none'; unlockBody(); }
 document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.id==='postModal') closePost(); });
-loadPosts();
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; window.deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
 document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else { installAppUniversal(); } };
@@ -337,7 +337,6 @@ updateCountdown();
 let _t=new Date(); let _mons=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']; let _lm=document.getElementById('liveMon'); if(_lm) _lm.textContent=_mons[_t.getMonth()]; let _ld=document.getElementById('liveDay'); if(_ld) _ld.textContent=_t.getDate();
 function isSameDay(d1,d2){ return d1 && d2 && d1.getFullYear()===d2.getFullYear() && d1.getMonth()===d2.getMonth() && d1.getDate()===d2.getDate(); }
 function getItemDate(it){ let s = it.date || it.createdAt || it.created || it.updatedAt || it.publishAt || it.schedDate || ""; if(!s) return null; let d = parsePostDate(s); if(d) return d; let d2 = new Date(s); return isNaN(d2)?null:d2; }
-// ✅ FIXED 2 - LAST UPDATE - posts.json వద్దు - పాట / బుక్ / వీడియో / వాయిస్ మాత్రమే - కొత్తది వచ్చేవరకు ఉంటుంది
 async function loadTodayUpdates(){
   let box=document.getElementById('todayUpdatesList'); if(!box) return;
   let all=[];
@@ -360,11 +359,8 @@ async function loadTodayUpdates(){
   box.innerHTML = `<div class="today-item" onclick="location.href='${latest.link}'"><span style="font-size:22px">${latest.icon}</span><b>${String(latest.title||'').slice(0,70)}<small>${latest.label} • 📅 Last Update: ${dStr}</small></b><span class="go">➡️</span></div>`;
   try{ localStorage.setItem('ms_today_cache', JSON.stringify([latest])); }catch(e){}
 }
-loadTodayUpdates();
-// 🙏 SPONSOR - TOUCH TO OPEN
 function openSponImg(src){ document.getElementById('sponFullImg').src=src; document.getElementById('sponImgModal').style.display='flex'; lockBody(); }
 document.getElementById('sponImgModal').addEventListener('click',e=>{ if(e.target.id==='sponImgModal'){ document.getElementById('sponImgModal').style.display='none'; unlockBody(); } });
-// ✅ FIXED 1 - SPONSOR - Cache తో - మీరు తీసేవరకు పోడు - 15/30 రోజులు ఉంటుంది
 async function loadSponCarousel(){
   let wrap=document.getElementById('sponScroll');
   let dots=document.getElementById('sponDots');
@@ -386,7 +382,7 @@ function renderSponsors(ads){
   let dots=document.getElementById('sponDots');
   if(!wrap) return;
   wrap.innerHTML=ads.map(a=>{
-    let photo=a.photo ? `<img src="${a.photo}" alt="" onclick="openSponImg('${a.photo}')" onerror="this.style.display='none'">` : `<div style="font-size:55px;padding:14px;text-align:center">${a.emoji||'🙏'}</div>`;
+    let photo=a.photo ? `<img loading="lazy" decoding="async" src="${a.photo}" alt="" onclick="openSponImg('${a.photo}')" onerror="this.style.display='none'">` : `<div style="font-size:55px;padding:14px;text-align:center">${a.emoji||'🙏'}</div>`;
     let wa=a.whatsapp ? `<a href="https://wa.me/${a.whatsapp}?text=${encodeURIComponent('🙏 '+(a.name||'')+' - Details Kavali')}" target="_blank" style="background:#25D366;color:#fff;padding:7px 12px;border-radius:20px;font-weight:bold;display:inline-block;text-decoration:none;font-size:13px;margin:2px">💚 WhatsApp</a>` : '';
     let call=a.phone ? `<a href="tel:${a.phone}" style="background:#0B3D2E;color:#fff;padding:7px 12px;border-radius:20px;font-weight:bold;display:inline-block;text-decoration:none;font-size:13px;margin:2px">📞 Call Now</a>` : '';
     let main=a.link ? `<a href="${a.link}" target="_blank" style="background:#FF0000;color:#fff;padding:7px 12px;border-radius:20px;font-weight:bold;display:inline-block;text-decoration:none;font-size:13px;margin:2px">${a.button||'👉 చూడండి'}</a>` : '';
@@ -399,7 +395,11 @@ function renderSponsors(ads){
   window._sponTimer=setInterval(()=>{ if(!wrap) return; idx=(idx+1)%ads.length; wrap.scrollTo({left: idx*wrap.clientWidth, behavior:'smooth'}); let d=dots.querySelectorAll('span'); d.forEach((s,j)=> s.className = j==idx?'on':''); }, 10000);
   wrap.onscroll = ()=>{ let i=Math.round(wrap.scrollLeft / wrap.clientWidth); let d=dots.querySelectorAll('span'); d.forEach((s,j)=> s.className = j==i?'on':''); };
 }
-loadSponCarousel();
+// ✅ FAST LOAD - ముందు పేజీ చూపించు, తరువాత డేటా తెచ్చు
+loadPosts();
+setTimeout(()=>{ loadTodayUpdates(); }, 1200);
+setTimeout(()=>{ loadSponCarousel(); }, 2200);
+setTimeout(updateVisitorCount, 4000);
 </script>
 </body>
-                                                                                                                                                                                                                </html>
+  </html>
