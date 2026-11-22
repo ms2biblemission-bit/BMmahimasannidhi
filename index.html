@@ -139,7 +139,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div style="flex:1;text-align:center"><div class="bible-mission">📖 బైబిల్ మిషన్</div><h1 style="margin:4px 0;font-size:24px;line-height:1.2;color:#222">మహిమ సన్నిధి</h1><div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div><div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div></div>
   <img loading="eager" decoding="async" src="devadasu.jpg" alt="దేవదాసు">
 </div>
-<!-- 🔍 UNIVERSAL SEARCH - పైన - నోటిఫికేషన్ ఉన్న చోట -->
 <div class="search-wrap">
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / పాట / బుక్ / వాయిస్ / వీడియో / YouTube" oninput="globalSearch()">
 <div id="globalResult" style="display:none;margin-top:8px"></div>
@@ -205,7 +204,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 <div class="vakya-card" id="topCard">
   <div style="font-size:28px">✝️</div>
-  <img id="topImage" src="">
+  <img id="topImage" src="" loading="lazy" decoding="async">
   <div>💬 వాక్యం</div>
   <div id="topTitle" style="font-weight:700;margin:12px 0;font-size:22px;color:#0F2F6B;line-height:1.4">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
   <div id="topContent" style="white-space:pre-line;font-size:17px;color:#3B2314;font-weight:500;line-height:1.7"></div>
@@ -226,7 +225,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="upi-box"><b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br><small>Google Pay / PhonePe / Paytm - ఏదైనా వాడవచ్చు</small></div>
 <p style="font-size:13px;color:gray">ప్రభువు పని కోసం - ప్రేమతో ఇచ్చే కానుక</p>
 </div>
-<!-- 🔔 చిన్న నోటిఫికేషన్ - కింద - సైట్ లింక్ పైన -->
 <div class="notif-mini">🔔 రోజూ ఉదయం 6 గంటలకి వాక్యం నోటిఫికేషన్ కావాలా?<button onclick="askNotif()">🔔 ఆన్ చేయండి</button><div id="notifStatus" style="font-size:11px;color:#2E7D32;margin-top:4px"></div></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 <div class="bottom-nav">
@@ -252,7 +250,16 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div></div>
 <script>
 function toggleRecent(){ let w=document.getElementById('recentWrap'); let b=document.getElementById('recentBtn'); if(!w) return; let open=w.style.display==='none'; w.style.display=open?'block':'none'; if(b) b.textContent=open?'📜 నిన్న + ఈ రోజు - మూసేయండి ✖️':'📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి'; if(open){ renderPosts(); } }
-async function fetchFast(url, ms=3000){ try{ let c=new AbortController(); let t=setTimeout(()=>c.abort(), ms); let r=await fetch(url,{signal:c.signal,cache:'no-store'}); clearTimeout(t); if(!r.ok) return null; return await r.json(); }catch(e){ return null; } }
+// ✅ FAST FIX - క్యాష్ తో - Date.now() లేదు - ముందు ఫోన్లో ఉన్నది చూపిస్తుంది
+async function fetchFast(url, ms=3000){
+  let file = url.split('?')[0];
+  try{ let cached = localStorage.getItem('cache_'+file); if(cached) return JSON.parse(cached); }catch(e){}
+  try{ let c=new AbortController(); let t=setTimeout(()=>c.abort(), ms); let r=await fetch(file,{signal:c.signal}); clearTimeout(t); if(!r.ok) return null; let j=await r.json(); try{ localStorage.setItem('cache_'+file, JSON.stringify(j)); }catch(e){} return j; }catch(e){ return null; }
+}
+// వెనకాల కొత్తది ఉందేమో చూసి క్యాష్ అప్డేట్ చెయ్ - హోమ్ ఆగదు
+function refreshInBackground(file){
+  fetch(file).then(r=>r.json()).then(j=>{ try{ localStorage.setItem('cache_'+file, JSON.stringify(j)); }catch(e){} }).catch(()=>{});
+}
 async function askNotif(){ if(!('Notification' in window)){ alert('ఈ ఫోన్ లో నోటిఫికేషన్ రాదు అండి!'); return; } let p = await Notification.requestPermission(); let st=document.getElementById('notifStatus'); if(p==='granted'){ localStorage.setItem('ms_notif_on','1'); if(st) st.textContent='✅ ఆన్ అయ్యింది! ప్రతి రోజు ఉదయం 6 గంటలకి వస్తుంది 🙏'; alert('✅ నోటిఫికేషన్ ఆన్ అయ్యింది! ఉదయం 6 గంటలకి వస్తుంది 🙏'); scheduleMorning(); } else { if(st) st.textContent='❌ Allow నొక్కలేదు - మళ్ళీ ప్రయత్నించండి'; } }
 function scheduleMorning(){ if(!('Notification' in window) || Notification.permission!=='granted') return; if(localStorage.getItem('ms_notif_on')!=='1') return; let now=new Date(); let next=new Date(); next.setHours(6,0,0,0); if(next<=now) next.setDate(next.getDate()+1); let ms=next-now; setTimeout(()=>{ try{ new Notification('🙏 BM మహిమ సన్నిధి - మరనాత ✝️',{body:'ఈ రోజు వాక్యం వచ్చింది! చదవండి - ప్రార్థించండి 🙏', icon:'IMG-20261104-WA0008.jpg'}); }catch(e){} scheduleMorning(); }, ms); }
 if(localStorage.getItem('ms_notif_on')==='1'){ let st=document.getElementById('notifStatus'); if(st) st.textContent='✅ నోటిఫికేషన్ ఆన్ లో ఉంది - ఉదయం 6 గంటలకి వస్తుంది'; scheduleMorning(); }
@@ -282,12 +289,14 @@ async function sharePost(i, type){ let p = allPosts[i]; if(!p) return; let appLi
 function shareButtonsHTML(idx){ return `<div class="share-row" onclick="event.stopPropagation()"><button class="btn-fb" onclick="sharePost(${idx},'fb')">📘 Facebook</button><button class="btn-wa" onclick="sharePost(${idx},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${idx},'copy')">🔗 కాపీ</button></div>`; }
 async function loadPosts(){
   try{ let cached = JSON.parse(localStorage.getItem('ms_posts_cache')||'[]'); if(cached.length){ allPosts = cached; renderPosts(); } }catch(e){}
-  let data = await fetchFast('posts.json?v='+Date.now(), 4000);
+  let data = await fetchFast('posts.json', 4000);
   if(data && Array.isArray(data)){ allPosts = data.map(p=>({title:fixT(p.title), content:fixT(p.content), date:p.date, schedDate:p.schedDate||"", schedTime:p.schedTime||p.time||"", image:p.image, audio:p.audio, type:p.type, publishAt:p.publishAt})); try{ localStorage.setItem('ms_posts_cache', JSON.stringify(allPosts.slice(0,20))); }catch(e){} }
-  let bData = await fetchFast('books.json?v='+Date.now(), 3000); if(bData) allBooks = bData;
+  let bData = await fetchFast('books.json', 3000); if(bData) allBooks = bData;
   let recent = getRecentPosts();
   if(recent.length>0){ let p = recent[0]; document.getElementById('topTitle').innerHTML = p.title || ''; document.getElementById('topContent').innerText = p.content || ''; document.getElementById('topDate').innerText = '📅 ' + (p.date||''); let ti = document.getElementById('topImage'); if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; } } else { document.getElementById('topTitle').innerHTML = '🙏 ఈ రోజు వాక్యం ఇంకా రాలేదు'; document.getElementById('topContent').innerText = 'కొంచెం సేపు ఆగండి - అడ్మిన్ త్వరలో పెడతారు.'; }
   document.getElementById('topShare').innerHTML = ''; renderPosts();
+  // వెనకాల కొత్తది వస్తే క్యాష్ అప్డేట్
+  refreshInBackground('posts.json'); refreshInBackground('books.json');
 }
 function renderPosts(){
   let q = document.getElementById('searchBox').value.toLowerCase().trim();
@@ -298,7 +307,6 @@ function renderPosts(){
   let bBox=document.getElementById('booksResult');
   if(q && allBooks.length){ let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q)); let saved = getSavedBooks(); if(bl.length) bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map((b,bi)=>`<div class="post" onclick="event.stopPropagation();location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content" id="book-desc-${bi}">${b.desc||''}</div><div class="book-actions" onclick="event.stopPropagation()"><button class="btn-save ${saved.includes(b.title)?'saved':''}" onclick="toggleSaveBook('${(b.title||'').replace(/'/g,"\\'")}',this)">${saved.includes(b.title)?'✅ Saved':'🔖 Save'}</button><button class="btn-underline" onclick="toggleUnderlineBook(${bi},this)">✏️ Underline</button></div></div>`).join(''); else bBox.innerHTML=''; } else if(bBox) bBox.innerHTML='';
 }
-// 🔍 GLOBAL SEARCH - అన్నీ వెతుకుతుంది
 async function globalSearch(){
   let q=document.getElementById('searchBox').value.toLowerCase().trim();
   let box=document.getElementById('globalResult');
@@ -322,9 +330,9 @@ async function globalSearch(){
   links.filter(x=> (x.t+x.k).toLowerCase().includes(q)).forEach(x=>{ h+=`<div class="today-item" onclick="location.href='${x.l}'"><b>${x.t}</b><span class="go">➡️</span></div>`; });
   let posts = allPosts.filter(p=> ((p.title||'')+(p.content||'')).toLowerCase().includes(q)).slice(0,3);
   posts.forEach(p=>{ let idx=allPosts.indexOf(p); h+=`<div class="today-item" onclick="openPost(${idx})"><b>📜 ${p.title||''}<small>వాక్యం • ${p.date||''}</small></b><span class="go">➡️</span></div>`; });
-  if(!_gSongs.length){ try{ _gSongs=await fetchFast('songs.json?v='+Date.now(),2000)||[]; }catch(e){} }
-  if(!_gVoice.length){ try{ _gVoice=await fetchFast('voice.json?v='+Date.now(),2000)||[]; }catch(e){} }
-  if(!_gVideos.length){ try{ _gVideos=await fetchFast('videos.json?v='+Date.now(),2000)||[]; }catch(e){} }
+  if(!_gSongs.length){ try{ _gSongs=await fetchFast('songs.json',2000)||[]; }catch(e){} }
+  if(!_gVoice.length){ try{ _gVoice=await fetchFast('voice.json',2000)||[]; }catch(e){} }
+  if(!_gVideos.length){ try{ _gVideos=await fetchFast('videos.json',2000)||[]; }catch(e){} }
   _gSongs.filter(s=> (s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{ h+=`<div class="today-item" onclick="location.href='songs.html'"><b>🎵 ${s.title||s.name}<small>పాట</small></b><span class="go">➡️</span></div>`; });
   _gVoice.filter(s=> (s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{ h+=`<div class="today-item" onclick="location.href='voice.html'"><b>🎤 ${s.title||s.name}<small>వాయిస్</small></b><span class="go">➡️</span></div>`; });
   _gVideos.filter(s=> (s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{ h+=`<div class="today-item" onclick="location.href='videos.html'"><b>🎥 ${s.title||s.name}<small>వీడియో</small></b><span class="go">➡️</span></div>`; });
@@ -381,13 +389,13 @@ function getItemDate(it){ let s = it.date || it.createdAt || it.created || it.up
 async function loadTodayUpdates(){
   let box=document.getElementById('todayUpdatesList'); if(!box) return;
   let all=[];
-  let songs = await fetchFast('songs.json?v='+Date.now(), 3000) || [];
+  let songs = await fetchFast('songs.json', 3000) || [];
   if(Array.isArray(songs)) songs.forEach(s=>{ all.push({icon:'🎵',label:'కొత్త పాట',title:s.title||s.name||'పాట',date:getItemDate(s),link:'songs.html'}); });
-  let books = await fetchFast('books.json?v='+Date.now(), 3000) || [];
+  let books = await fetchFast('books.json', 3000) || [];
   if(Array.isArray(books)) books.forEach(b=>{ all.push({icon:'📚',label:'మెసేజ్ బుక్ / బుక్',title:b.title||'బుక్',date:getItemDate(b),link:'books.html'}); });
-  let videos = await fetchFast('videos.json?v='+Date.now(), 3000) || [];
+  let videos = await fetchFast('videos.json', 3000) || [];
   if(Array.isArray(videos)) videos.forEach(v=>{ all.push({icon:'🎥',label:'కొత్త వీడియో',title:v.title||'వీడియో',date:getItemDate(v),link:'videos.html'}); });
-  let voice = await fetchFast('voice.json?v='+Date.now(), 3000) || [];
+  let voice = await fetchFast('voice.json', 3000) || [];
   if(Array.isArray(voice)) voice.forEach(v=>{ all.push({icon:'🎤',label:'కొత్త వాయిస్',title:v.title||'వాయిస్',date:getItemDate(v),link:'voice.html'}); });
   all = all.filter(x=>x.date).sort((a,b)=> b.date - a.date);
   if(!all.length){
@@ -410,7 +418,7 @@ async function loadSponCarousel(){
   try{ cached=JSON.parse(localStorage.getItem('ms_spon_cache')||'[]'); }catch(e){}
   if(cached.length) renderSponsors(cached);
   let ads=null;
-  try{ let r=await fetch('sponsors.json?v='+Date.now()); ads=await r.json(); }catch(e){ ads=null; }
+  try{ let r=await fetch('sponsors.json'); ads=await r.json(); }catch(e){ ads=null; }
   if(ads && Array.isArray(ads) && ads.length){
     try{ localStorage.setItem('ms_spon_cache', JSON.stringify(ads)); }catch(e){}
     renderSponsors(ads);
@@ -437,9 +445,9 @@ function renderSponsors(ads){
   wrap.onscroll = ()=>{ let i=Math.round(wrap.scrollLeft / wrap.clientWidth); let d=dots.querySelectorAll('span'); d.forEach((s,j)=> s.className = j==i?'on':''); };
 }
 loadPosts();
-setTimeout(()=>{ loadTodayUpdates(); }, 1200);
-setTimeout(()=>{ loadSponCarousel(); }, 2200);
-setTimeout(updateVisitorCount, 4000);
+setTimeout(()=>{ loadTodayUpdates(); }, 3000);
+setTimeout(()=>{ loadSponCarousel(); }, 4000);
+setTimeout(updateVisitorCount, 6000);
 </script>
 </body>
-  </html>
+                                                                                                                                         </html>
