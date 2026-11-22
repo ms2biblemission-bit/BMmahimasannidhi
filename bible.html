@@ -5,14 +5,13 @@
 .books{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 10px} .book{background:#fff;border-radius:14px;padding:12px;text-align:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);border:1px solid #DCEEDB} .book b{font-size:14px;color:#0B3D2E;display:block} .book small{color:#888;font-size:11px}
 .chaps{display:flex;flex-wrap:wrap;gap:8px;padding:10px} .chaps button{width:52px;height:52px;border-radius:12px;border:1px solid #C8A96A;background:#FFF8E1;font-weight:bold;font-size:17px;cursor:pointer;touch-action:manipulation}
 .nav{display:flex;gap:8px;padding:10px;align-items:center} .nav button{flex:1;padding:12px;border:none;border-radius:12px;font-weight:bold;cursor:pointer} .prev{background:#eee} .next{background:#0B3D2E;color:#fff} .midbtn{flex:1.4!important;background:#FFF8E1!important;border:2px solid #FFD54F!important;color:#0B3D2E!important;font-size:16px!important}
-.curbar{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;margin:10px;text-align:center;font-weight:bold;color:#0B3D2E} .curbar button{background:#0B3D2E;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer} .curbar .bigbook{background:#0B3D2E;color:#fff;border:none;padding:12px 18px;border-radius:20px;font-weight:bold;font-size:16px;width:100%;margin:8px 0 0 0;cursor:pointer} .zoomrow{display:flex;gap:8px;margin-top:8px} .zoomrow button{flex:1!important;margin:0!important}
+.curbar{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:10px;margin:10px;text-align:center;font-weight:bold;color:#0B3D2E} .curbar button{background:#0B3D2E;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer} .curbar .bigbook{background:#0B3D2E;color:#fff;border:none;padding:12px 18px;border-radius:20px;font-weight:bold;font-size:16px;width:100%;margin:8px 0 0 0;cursor:pointer} .zoomrow{display:flex;gap:8px;margin-top:8px} .zoomrow button{flex:1!important;margin:0!important;padding:12px 6px!important;border-radius:12px!important;font-size:15px!important} .zoomrow button.savebtn{background:#FFD54F!important;color:#000!important;border:2px solid #FFC107!important} .zoomrow button.pctbtn{background:#fff!important;color:#0B3D2E!important;border:2px solid #0B3D2E!important}
 .verse{background:#FFFEF8;margin:10px;border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)} .verse .ref{color:#0F2F6B;font-weight:bold;font-size:15px} .verse .en{font-size:19px;line-height:1.7;color:#3B2314;font-weight:500;margin-top:8px} .verse .shr{text-align:right;margin-top:8px;display:flex;gap:8px;justify-content:flex-end} .verse .shr button{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer} .verse .shr button.bmk{background:#FFF8E1;color:#0B3D2E;border:2px solid #FFD54F} .verse .shr button.bmk.saved{background:#0B3D2E;color:#fff}
 .search{width:calc(100% - 20px);margin:0 10px;padding:12px;border-radius:10px;border:1px solid #C8E6C9;font-size:16px}
 .bottom{position:fixed;left:12px;right:12px;bottom:10px;background:#fff;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;justify-content:space-around;padding:10px 4px} .bottom a{text-decoration:none;color:#555;font-size:11px;text-align:center;flex:1} .bottom .ic{font-size:22px;display:block}
 .backbtn{background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;padding:10px;border-radius:12px;font-weight:bold;width:calc(100% - 20px);margin:10px;cursor:pointer}
 .retrybtn{background:#0B3D2E;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold;cursor:pointer;margin-top:8px}
 .langbtn{border:none;padding:9px 18px;border-radius:20px;font-weight:bold;cursor:pointer;margin:4px}
-.zoombar{display:flex;gap:8px;padding:0 10px 10px} .zoombar button{flex:1;padding:11px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;background:#fff;border:2px solid #0B3D2E;color:#0B3D2E;font-size:15px}
 #frameWrap{overflow:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;margin:0 10px}
 #frameWrap iframe{display:block;border:none;background:#fff;transform-origin:top left}
 .saved-item{background:#fff;margin:8px 10px;padding:12px;border-radius:12px;border:1px solid #DCEEDB;display:flex;gap:8px;align-items:center} .saved-item b{flex:1;color:#0B3D2E}
@@ -23,7 +22,6 @@
 <div id="bookList"></div>
 <div id="chapList" style="display:none"></div>
 <div id="curBar" style="display:none"></div>
-<div id="zoomBar" style="display:none" class="zoombar"><button onclick="changeZoom(-1)">A- చిన్నది</button><button onclick="changeZoom(0)" id="zoomLabel">🔍 100%</button><button onclick="changeZoom(1)">A+ పెద్దది 🔍</button></div>
 <div id="verseList"></div>
 <div id="loadMsg" style="text-align:center;padding:12px;color:#666"></div>
 <div class="bottom"><a href="index.html"><span class="ic">🏠</span>Home</a><a href="bible.html"><span class="ic">📖</span>Bible</a><a href="prayer.html"><span class="ic">🙏</span>ప్రార్థన</a><a href="videos.html"><span class="ic">▶️</span>మీడియా</a></div>
@@ -52,29 +50,28 @@ function setLang(l){ LANG=l; document.getElementById('btnTe').style.background=l
 let curBook = 0, curChap = 1, lastEn=[], reqId=0;
 let EN_DATA=null, EN_FILE='en_kjv', DATA_LOADING=null;
 let ZOOM = parseFloat(localStorage.getItem('ms_bible_zoom')||'1') || 1;
-// 🔖 BOOKMARK
 function getBookmarks(){ try{ return JSON.parse(localStorage.getItem('ms_bible_bookmarks')||'[]'); }catch(e){ return []; } }
 function saveBookmarks(a){ try{ localStorage.setItem('ms_bible_bookmarks', JSON.stringify(a)); }catch(e){} }
 function bmkKey(bk,chap,verse){ return bk+'|'+chap+'|'+(verse||0); }
 function isBookmarked(bk,chap,verse){ return getBookmarks().some(x=>x.key===bmkKey(bk,chap,verse)); }
 function toggleBookmark(bk,chap,verse,text,btn){
   let list=getBookmarks(); let key=bmkKey(bk,chap,verse); let i=list.findIndex(x=>x.key===key);
-  if(i>=0){ list.splice(i,1); if(btn){ btn.textContent='🔖 Save'; btn.classList.remove('saved'); } alert('❌ Bookmark తీసేసాను'); }
-  else { let b=BOOKS[bk]; list.unshift({key:key,book:bk,chap:chap,verse:verse,title:(LANG=='te'?b[0]:b[1])+' '+(verse?chap+':'+verse:chap+' అధ్యాయం'),text:text||'',lang:LANG,time:new Date().toLocaleDateString('te-IN')}); if(btn){ btn.textContent='✅ Saved'; btn.classList.add('saved'); } alert('✅ Bookmark Save అయ్యింది 🙏'); }
+  if(i>=0){ list.splice(i,1); if(btn){ btn.textContent='🔖 Save'; } alert('❌ Bookmark తీసేసాను'); }
+  else { let b=BOOKS[bk]; list.unshift({key:key,book:bk,chap:chap,verse:verse,title:(LANG=='te'?b[0]:b[1])+' '+(verse?chap+':'+verse:chap+' అధ్యాయం'),text:text||'',lang:LANG,time:new Date().toLocaleDateString('te-IN')}); if(btn){ btn.textContent='✅ Saved'; } alert('✅ Bookmark Save అయ్యింది 🙏'); }
   saveBookmarks(list);
 }
 function showSaved(){
   let list=getBookmarks(); let box=document.getElementById('savedBox');
-  document.getElementById('bookList').style.display='none'; document.getElementById('chapList').style.display='none'; document.getElementById('curBar').style.display='none'; document.getElementById('zoomBar').style.display='none'; document.getElementById('verseList').innerHTML='';
+  document.getElementById('bookList').style.display='none'; document.getElementById('chapList').style.display='none'; document.getElementById('curBar').style.display='none'; document.getElementById('verseList').innerHTML='';
   box.style.display='block';
   if(!list.length){ box.innerHTML=`<div style="padding:16px;text-align:center">📭 ఇంకా ఏమీ Save చేయలేదు<br><small>ఏదైనా వచనం పక్కన 🔖 Save నొక్కండి</small><br><br><button class="backbtn" onclick="hideSaved()">⬅️ Back to Books</button></div>`; return; }
   box.innerHTML=`<button class="backbtn" onclick="hideSaved()">⬅️ Back to Books</button><div style="padding:0 10px;font-weight:bold;color:#0B3D2E">🔖 Saved Bookmarks - ${list.length}</div>`+list.map((x,i)=>`<div class="saved-item"><b>${x.title}<br><small style="color:#666;font-weight:normal">${(x.text||'').slice(0,80)} • ${x.time}</small></b><button onclick="openSaved(${i})" style="background:#0B3D2E;color:#fff;border:none;padding:8px 12px;border-radius:20px;font-weight:bold">Open ➡️</button><button onclick="delSaved(${i})" style="background:#eee;border:none;padding:8px 12px;border-radius:20px;font-weight:bold">🗑️</button></div>`).join('');
 }
 function hideSaved(){ document.getElementById('savedBox').style.display='none'; document.getElementById('bookList').style.display='block'; renderBooks(); }
-function openSaved(i){ let x=getBookmarks()[i]; if(!x) return; LANG=x.lang||'te'; setLang(LANG); document.getElementById('savedBox').style.display='none'; curBook=x.book; if(x.verse){ goChap(x.chap); } else { goChap(x.chap); } }
+function openSaved(i){ let x=getBookmarks()[i]; if(!x) return; LANG=x.lang||'te'; setLang(LANG); document.getElementById('savedBox').style.display='none'; curBook=x.book; goChap(x.chap); }
 function delSaved(i){ let l=getBookmarks(); l.splice(i,1); saveBookmarks(l); showSaved(); }
 function applyZoom(){
-  document.getElementById('zoomLabel').textContent = '🔍 ' + Math.round(ZOOM*100) + '%';
+  document.querySelectorAll('.zoomPct').forEach(el=>{ el.textContent='🔍 '+Math.round(ZOOM*100)+'%'; });
   let f=document.querySelector('#frameWrap iframe');
   if(f){ f.style.transform='scale('+ZOOM+')'; f.style.width=(100/ZOOM)+'%'; f.style.height=(80/ZOOM)+'vh'; }
   document.querySelectorAll('.verse .en').forEach(e=>{ e.style.fontSize = Math.round(19*ZOOM)+'px'; });
@@ -99,11 +96,10 @@ function openBook(i){
   document.getElementById('bookList').style.display='none';
   document.getElementById('savedBox').style.display='none';
   document.getElementById('curBar').style.display='none';
-  document.getElementById('zoomBar').style.display='none';
   document.getElementById('verseList').innerHTML='';
   document.getElementById('loadMsg').textContent='👆 Select Chapter above';
 }
-function backToBooks(){ document.getElementById('savedBox').style.display='none'; document.getElementById('chapList').style.display='none'; document.getElementById('curBar').style.display='none'; document.getElementById('zoomBar').style.display='none'; document.getElementById('verseList').innerHTML=''; document.getElementById('bookList').style.display='block'; document.getElementById('bSearch').value=''; renderBooks(); document.getElementById('loadMsg').textContent=''; window.scrollTo({top:0,behavior:'smooth'}); }
+function backToBooks(){ document.getElementById('savedBox').style.display='none'; document.getElementById('chapList').style.display='none'; document.getElementById('curBar').style.display='none'; document.getElementById('verseList').innerHTML=''; document.getElementById('bookList').style.display='block'; document.getElementById('bSearch').value=''; renderBooks(); document.getElementById('loadMsg').textContent=''; window.scrollTo({top:0,behavior:'smooth'}); }
 function showChaps(){ document.getElementById('chapList').style.display='block'; document.getElementById('chapList').scrollIntoView({behavior:'smooth'}); }
 function goChap(c){
   window.scrollTo({top:0, behavior:'smooth'});
@@ -113,9 +109,8 @@ function goChap(c){
   document.getElementById('bookList').style.display='none';
   document.getElementById('savedBox').style.display='none';
   document.getElementById('curBar').style.display='block';
-  document.getElementById('zoomBar').style.display='flex';
   let savedChap = isBookmarked(curBook,curChap,0);
-  document.getElementById('curBar').innerHTML=`<div>📖 ${b[0]} ${curChap}</div><button class="bigbook" onclick="backToBooks()">📚 ${b[0]} ${curChap} ▼ - నొక్కితే అన్ని Books</button><div class="zoomrow"><button onclick="changeZoom(-1)">A- చిన్నది</button><button onclick="toggleBookmark(curBook,curChap,0,'',this)">${savedChap?'✅ Saved':'🔖 ఈ అధ్యాయం Save'}</button><button onclick="changeZoom(1)">A+ పెద్దది 🔍</button></div><div class="zoomrow"><button onclick="showChaps()">📖 Change Chapter</button></div>`;
+  document.getElementById('curBar').innerHTML=`<div>📖 ${b[0]} ${curChap}</div><button class="bigbook" onclick="backToBooks()">📚 ${b[0]} ${curChap} ▼ - నొక్కితే అన్ని Books</button><div class="zoomrow"><button onclick="changeZoom(-1)">A- చిన్నది</button><button class="savebtn" onclick="toggleBookmark(curBook,curChap,0,'',this)">${savedChap?'✅ Saved':'🔖 Save'}</button><button onclick="changeZoom(1)">A+ పెద్దది 🔍</button></div><div class="zoomrow"><button onclick="showChaps()">📖 Change Chapter</button><button class="pctbtn zoomPct" onclick="changeZoom(0)">🔍 ${Math.round(ZOOM*100)}%</button></div>`;
   document.getElementById('verseList').innerHTML='';
   loadChapter();
 }
