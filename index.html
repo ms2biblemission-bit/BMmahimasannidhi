@@ -47,25 +47,26 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.15);overflow:hidden;background:white}
 .logo-row .circle img{width:100%;height:100%;object-fit:cover}
 .logo-row .lname{font-size:12px;color:#0A1A5C;font-weight:900;margin-top:5px}
-.sev-box{background:#0A1A5C;margin:10px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:14px 0 0;overflow:hidden;border:2px solid #FFD54F;position:relative}
+/* ✅ 2వ పేజీ - లైట్ బ్లూ - డార్క్ లేదు */
+.sev-box{background:#E8F0FE;margin:10px;border-radius:24px;box-shadow:0 4px 14px rgba(0,0,0,.08);padding:14px 0 0;overflow:hidden;border:2px solid #0A1A5C;position:relative}
 .sev-head{display:flex;justify-content:space-between;align-items:center;padding:0 14px;flex-wrap:wrap;gap:4px}
-.sev-head b{font-size:20px;color:#fff}
-.sev-head span{font-size:12px;color:#222;background:#FFD54F;padding:5px 10px;border-radius:20px;font-weight:900}
+.sev-head b{font-size:20px;color:#0A1A5C}
+.sev-head span{font-size:12px;color:#fff;background:#0A1A5C;padding:5px 10px;border-radius:20px;font-weight:900}
 .sev-track{display:flex;transition:transform .5s ease}
 .sev-slide{min-width:100%;text-align:center;padding:16px 14px 6px}
-.sev-big{width:122px;height:122px;border-radius:50%;margin:auto;display:flex;align-items:center;justify-content:center;font-size:62px;background:#fff;box-shadow:0 0 0 4px #FFD54F,0 10px 22px rgba(0,0,0,.3);border:3px solid #FFD54F;overflow:hidden}
+.sev-big{width:122px;height:122px;border-radius:50%;margin:auto;display:flex;align-items:center;justify-content:center;font-size:62px;background:#fff;box-shadow:0 0 0 4px #0A1A5C,0 4px 14px rgba(0,0,0,.12);border:3px solid #FFD54F;overflow:hidden}
 .sev-big img{width:68px;height:68px;object-fit:contain}
-.sev-slide b{display:block;font-size:24px;color:#fff;margin-top:12px;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-.sev-slide small{color:#0A1A5C;font-size:14px;background:#fff;padding:4px 12px;border-radius:20px;display:inline-block;margin-top:6px}
-.sev-slide a{display:inline-block;background:#FFD54F;color:#222;padding:12px 30px;border-radius:25px;font-weight:900;text-decoration:none;margin-top:12px;font-size:16px;box-shadow:0 6px 18px rgba(255,180,0,.6);border:1px solid #fff}
+.sev-slide b{display:block;font-size:24px;color:#0A1A5C;margin-top:12px}
+.sev-slide small{color:#fff;font-size:14px;background:#0A1A5C;padding:4px 12px;border-radius:20px;display:inline-block;margin-top:6px}
+.sev-slide a{display:inline-block;background:#FFD54F;color:#222;padding:12px 30px;border-radius:25px;font-weight:900;text-decoration:none;margin-top:12px;font-size:16px;box-shadow:0 4px 12px rgba(0,0,0,.12);border:1px solid #0A1A5C}
 .sev-dots{text-align:center;margin-top:12px}
-.sev-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);margin:0 3px;cursor:pointer}
-.sev-dots span.on{background:#FFD54F;width:22px;border-radius:10px}
+.sev-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#B0BEC5;margin:0 3px;cursor:pointer}
+.sev-dots span.on{background:#0A1A5C;width:22px;border-radius:10px}
 .sev-footer{background:#0A1A5C;color:#fff;text-align:center;padding:12px 10px;font-weight:900;font-size:16px;line-height:1.5;border-top:2px solid #FFD54F}
 .sev-footer small{display:block;color:#fff;font-weight:900;font-size:12px}
-.ms-footer{background:#0A1A5C;border:2px solid #FFD54F;color:#fff;text-align:center;padding:16px 12px;margin:12px 10px 10px;border-radius:18px}
-.ms-footer b{color:#fff;font-size:18px}
-.ms-footer p{margin:6px 0 0;font-size:13px;color:#fff}
+.ms-footer{background:#FFFFFF;border:2px solid #0A1A5C;color:#0A1A5C;text-align:center;padding:16px 12px;margin:12px 10px 10px;border-radius:18px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.ms-footer b{color:#0A1A5C;font-size:18px}
+.ms-footer p{margin:6px 0 0;font-size:13px;color:#222}
 .vakya-card{background:#FFFFFF;border:1px solid #E8C86A;margin:12px;padding:14px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08);color:#222}
 .vakya-card img{width:100%;border-radius:12px;margin-bottom:12px;max-height:320px;object-fit:cover;display:none}
 .section{background:#FFFFFF;border:1px solid #E8C86A;margin:12px;padding:15px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.08);color:#222}
@@ -114,6 +115,9 @@ input.search::placeholder{color:#777}
 .page.active{display:block}
 #page-more .section,#page-more .notif-mini,#page-more .site-link{border-color:#065F46 !important}
 #page-more .section h3{color:#065F46 !important}
+#page-prayer .section{border-color:#075E54 !important}
+#page-prayer h3{color:#075E54 !important}
+.prayer-card{background:#fff;border:2px solid #075E54;border-radius:16px;padding:14px;margin:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);text-align:center}
 </style>
 </head>
 <body>
@@ -121,6 +125,7 @@ input.search::placeholder{color:#777}
 <div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') this.classList.remove('open')"><div class="drawerBox">
 <div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
 <div class="menu-item" onclick="showPage('home');document.getElementById('drawer').classList.remove('open')">🏠 <span>Home<small>మెయిన్ పేజీ</small></span></div>
+<div class="menu-item" onclick="showPage('prayer');document.getElementById('drawer').classList.remove('open')">🙏 <span>ప్రార్థన చాట్<small>వాట్సాప్ లాగే - హ్యాండ్ రైస్ - వాయిస్</small></span></div>
 <div class="menu-item" onclick="location.href='bible.html'">📖 <span>Bible<small>తెలుగు + KJV - ఆఫ్‌లైన్</small></span></div>
 <div class="menu-item" onclick="location.href='calendar.html'">📅 <span>Calendar<small>మా సందేశం మహిమ సన్నిధి క్యాలండర్</small></span></div>
 <div class="menu-item" onclick="location.href='books.html'">📚 <span>Books<small>పుస్తకాలు</small></span></div>
@@ -147,6 +152,11 @@ input.search::placeholder{color:#777}
   <h3>📣 లాస్ట్ అప్డేట్</h3>
   <div id="todayUpdatesList" style="font-size:14px;color:#222;text-align:center;padding:8px">🙏 లాస్ట్ అప్డేట్ వస్తోంది... 👇</div>
   <div style="font-size:11px;color:#666;text-align:center;margin-top:4px">👆 నొక్కితే ఆ పాట / బుక్ / వీడియో / వాయిస్ ఓపెన్ అవుతుంది</div>
+</div>
+<div onclick="location.href='prayer-chat.html'" style="background:#075E54;border:2px solid #FFD54F;border-radius:14px;padding:14px;margin:12px;text-align:center;cursor:pointer">
+<div style="font-size:28px">💬🙏</div>
+<div style="color:#fff;font-size:18px">🙏 ప్రేయర్ చాట్ - వాట్సాప్ లాగే!</div>
+<div style="color:#FFE082;font-size:13px;margin-top:4px">✋ హ్యాండ్ రైస్ - 🎤 వాయిస్ - ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం 👆 నొక్కండి</div>
 </div>
 <div class="spon-wrap">
 <div style="display:flex;justify-content:space-between;align-items:center">
@@ -183,9 +193,9 @@ input.search::placeholder{color:#777}
 </div>
 <div id="page-media" class="page">
 <div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
-  <a href="quiz.html" style="flex:1;background:#0A1A5C;color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:900;">🏆<br>క్విజ్<br><small>బైబిల్ క్విజ్ ఆడండి</small></a>
-  <a href="daily.html" style="flex:1;background:#0A1A5C;color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:900;">📖<br>దినవరి వాక్యం<br><small>ఈరోజు వచనం చదవండి</small></a>
-  <a href="prayer.html" style="flex:1;background:#0A1A5C;color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:900;">🙏<br>ప్రార్థన డైరీ<br><small>మీ ప్రార్థనలు రాయండి</small></a>
+  <a href="quiz.html" style="flex:1;background:#E8F0FE;color:#0A1A5C;border:2px solid #0A1A5C;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:900;">🏆<br>క్విజ్<br><small>బైబిల్ క్విజ్ ఆడండి</small></a>
+  <a href="daily.html" style="flex:1;background:#E8F0FE;color:#0A1A5C;border:2px solid #0A1A5C;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:900;">📖<br>దినవరి వాక్యం<br><small>ఈరోజు వచనం చదవండి</small></a>
+  <a href="prayer.html" style="flex:1;background:#E8F0FE;color:#0A1A5C;border:2px solid #0A1A5C;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:900;">🙏<br>ప్రార్థన డైరీ<br><small>మీ ప్రార్థనలు రాయండి</small></a>
 </div>
 <div class="logo-row">
   <a href="bible.html"><div class="circle" style="border:2px solid #FFD54F;background:#E8F5E9">📖</div><div class="lname">బైబిల్</div></a>
@@ -218,13 +228,35 @@ input.search::placeholder{color:#777}
     <div class="sev-slide"><div class="sev-big">📜</div><b>వాక్యం</b><br><small>పాత వాక్యాలు</small><br><a href="archive.html">👉 చదవండి</a></div>
   </div>
   <div class="sev-dots" id="sevDots"></div>
-  <div style="text-align:center;font-size:11px;color:#fff;margin-top:4px">👈 పక్కకు స్వైప్ చేయండి - డాట్ నొక్కితే మారుతుంది</div>
+  <div style="text-align:center;font-size:11px;color:#0A1A5C;margin-top:4px">👈 పక్కకు స్వైప్ చేయండి - డాట్ నొక్కితే మారుతుంది</div>
   <div class="sev-footer">✦ 🙏 బైబిల్ మిషన్ మహిమ సన్నిధి 🙏 ✦<small>మరనాత ✝️ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</small></div>
 </div>
 <div class="ms-footer">
   <div style="font-size:28px">✝️</div>
   <b>✦ 🙏 బైబిల్ మిషన్ మహిమ సన్నిధి 🙏 ✦</b>
   <p>సన్నిధి వర్తమానములు - సన్నిధి సహవాసం<br>John Dalli | మరనాత ✝️</p>
+</div>
+</div>
+<div id="page-prayer" class="page">
+<div style="background:#075E54;color:#fff;padding:16px;text-align:center;border-radius:0 0 20px 20px">
+<div style="font-size:32px">🙏💬</div>
+<b style="font-size:20px">ప్రార్థన చాట్ - వాట్సాప్ లాగే!</b>
+<p style="font-size:13px;margin:4px 0">ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం</p>
+</div>
+<div class="prayer-card">
+<div style="font-size:13px;color:#075E54">🕐 ప్రేయర్ టైమ్ - అడ్మిన్ సెట్ చేస్తారు</div>
+<div style="font-size:22px;color:#075E54;margin:6px 0">🙏 ఉదయం 6:00</div>
+<div style="font-size:13px;color:#222;line-height:1.6">✋ హ్యాండ్ రైస్ చేయండి - అడ్మిన్ ✅ ఓకే ఇస్తే<br>🎤 మీ మైక్ ఓపెన్ అవుతుంది - వాయిస్ ప్రార్థన చేయండి!<br>👂 మిగతా వాళ్ళు వింటారు - ఆమెన్ చెప్తారు!</div>
+<button onclick="location.href='prayer-chat.html'" style="background:#25D366;color:#fff;border:none;padding:16px 30px;border-radius:25px;font-size:18px;margin-top:12px;cursor:pointer">💬 ప్రార్థన చాట్ ఓపెన్ చేయండి 👆</button>
+<p style="font-size:12px;color:#666">👆 నొక్కితే వాట్సాప్ లాగే చాట్ ఓపెన్ అవుతుంది</p>
+</div>
+<div class="prayer-card">
+<b style="color:#075E54">✋ ఎలా వాడాలి?</b>
+<p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ చాట్ ఓపెన్ చేసి - మీ పేరు రాయండి<br>2️⃣ ✋ హ్యాండ్ రైస్ నొక్కండి<br>3️⃣ అడ్మిన్ ✅ ఓకే ఇస్తే - 🎤 మైక్ నొక్కి ప్రార్థన చేయండి<br>4️⃣ మిగతా వాళ్ళు ▶️ నొక్కి వినండి - 🙏 ఆమెన్ చెప్పండి</p>
+</div>
+<div class="prayer-card">
+<b style="color:#075E54">🔴 అడ్మిన్ కి మాత్రమే</b><br>
+<button onclick="location.href='prayer-chat.html?admin=1'" style="background:#075E54;color:#fff;border:none;padding:12px 22px;border-radius:20px;font-size:15px;margin-top:8px;cursor:pointer">⚙️ అడ్మిన్ ప్యానెల్ - టైమ్ / LIVE / బ్లాక్</button>
 </div>
 </div>
 <div id="page-more" class="page">
@@ -244,6 +276,7 @@ input.search::placeholder{color:#777}
 <div class="bottom-nav" id="bottomNav">
   <a href="#" id="nav-home" class="active" onclick="showPage('home');return false"><span class="ic">🏠</span>హోమ్</a>
   <a href="#" id="nav-media" onclick="showPage('media');return false"><span class="ic">▶️</span>మీడియా</a>
+  <a href="#" id="nav-prayer" onclick="showPage('prayer');return false"><span class="ic">🙏</span>ప్రార్థన</a>
   <button id="nav-more" onclick="showPage('more')"><span class="ic">•••</span>మరిన్ని</button>
 </div>
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:900">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
@@ -261,7 +294,7 @@ input.search::placeholder{color:#777}
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
 </div></div>
 <script>
-function showPage(p){document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));let el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.bottom-nav a, .bottom-nav button').forEach(b=>b.classList.remove('active'));let nav=document.getElementById('nav-'+p);if(nav)nav.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});let col=p==='media'?'#0A1A5C':p==='more'?'#065F46':'#7A0C1D';let tb=document.getElementById('topbar');if(tb)tb.style.background=col;let bh=document.getElementById('bestHeader');if(bh)bh.style.background=col;let bn=document.getElementById('bottomNav');if(bn)bn.style.background=col;if(p==='media'){setTimeout(()=>sevShow(sevIdx),100);}}
+function showPage(p){document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));let el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.bottom-nav a, .bottom-nav button').forEach(b=>b.classList.remove('active'));let nav=document.getElementById('nav-'+p);if(nav)nav.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});let col=p==='media'?'#5B8DEF':p==='prayer'?'#075E54':p==='more'?'#065F46':'#7A0C1D';let tb=document.getElementById('topbar');if(tb)tb.style.background=col;let bh=document.getElementById('bestHeader');if(bh)bh.style.background=col;let bn=document.getElementById('bottomNav');if(bn)bn.style.background=col;if(p==='media'){setTimeout(()=>sevShow(sevIdx),100);}}
 function toggleRecent(){let w=document.getElementById('recentWrap');let b=document.getElementById('recentBtn');if(!w)return;let open=w.style.display==='none';w.style.display=open?'block':'none';if(b)b.textContent=open?'📜 నిన్న + ఈ రోజు - మూసేయండి ✖️':'📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి';if(open){renderPosts();}}
 async function fetchFast(url,ms=3000){let file=url.split('?')[0];try{let cached=localStorage.getItem('cache_'+file);if(cached)return JSON.parse(cached);}catch(e){}try{let c=new AbortController();let t=setTimeout(()=>c.abort(),ms);let r=await fetch(file,{signal:c.signal});clearTimeout(t);if(!r.ok)return null;let j=await r.json();try{localStorage.setItem('cache_'+file,JSON.stringify(j));}catch(e){}return j;}catch(e){return null;}}
 function refreshInBackground(file){fetch(file).then(r=>r.json()).then(j=>{try{localStorage.setItem('cache_'+file,JSON.stringify(j));}catch(e){}}).catch(()=>{});}
@@ -284,7 +317,7 @@ function getRecentPosts(){return allPosts.filter(p=>isScheduledVisible(p)&&isRec
 async function sharePost(i,type){let p=allPosts[i];if(!p)return;let appLink="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";let text=(p.title||'')+'\n\n'+(p.content||'')+'\n\n📖 BM మహిమ సన్నిధి\n🙏 మరనాత\n\n📲 యాప్ 👇\n'+appLink;if(p.image&&navigator.share){try{let res=await fetch(p.image);let blob=await res.blob();let file=new File([blob],'mahima-sannidhi.jpg',{type:blob.type||'image/jpeg'});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({title:p.title||'BM మహిమ సన్నిధి',text:text,files:[file]});return;}}catch(e){}}if(type==='fb'){if(p.image){let a=document.createElement('a');a.href=p.image;a.download='mahima-sannidhi.jpg';document.body.appendChild(a);a.click();a.remove();alert('✅ ఇమేజ్ డౌన్లోడ్ అయ్యింది!');}try{await navigator.clipboard.writeText(text+'\n'+location.href);}catch(e){}window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank');}else if(type==='wa'){window.open('https://wa.me/?text='+encodeURIComponent(text+'\n'+location.href),'_blank');}else{try{await navigator.clipboard.writeText(text+'\n'+location.href);alert('✅ కాపీ అయ్యింది!');}catch(e){prompt('కాపీ చేసుకోండి:',text);}}}
 async function loadPosts(){try{let cached=JSON.parse(localStorage.getItem('ms_posts_cache')||'[]');if(cached.length){allPosts=cached;renderPosts();}}catch(e){}let data=await fetchFast('posts.json',4000);if(data&&Array.isArray(data)){allPosts=data.map(p=>({title:fixT(p.title),content:fixT(p.content),date:p.date,schedDate:p.schedDate||"",schedTime:p.schedTime||p.time||"",image:p.image,audio:p.audio,type:p.type,publishAt:p.publishAt}));try{localStorage.setItem('ms_posts_cache',JSON.stringify(allPosts.slice(0,20)));}catch(e){}}let bData=await fetchFast('books.json',3000);if(bData)allBooks=bData;let recent=getRecentPosts();if(recent.length>0){let p=recent[0];document.getElementById('topTitle').innerHTML=p.title||'';document.getElementById('topContent').innerText=p.content||'';document.getElementById('topDate').innerText='📅 '+(p.date||'');let ti=document.getElementById('topImage');if(p.image){ti.src=p.image;ti.style.display='block';}else{ti.style.display='none';}}else{document.getElementById('topTitle').innerHTML='🙏 ఈ రోజు వాక్యం ఇంకా రాలేదు';document.getElementById('topContent').innerText='కొంచెం సేపు ఆగండి - అడ్మిన్ త్వరలో పెడతారు.';}document.getElementById('topShare').innerHTML='';renderPosts();refreshInBackground('posts.json');refreshInBackground('books.json');}
 function renderPosts(){let q=document.getElementById('searchBox').value.toLowerCase().trim();let base=q?allPosts.filter(isScheduledVisible):getRecentPosts();let list=base.filter(p=>((p.title||'')+(p.content||'')+(p.date||'')).toLowerCase().includes(q));let box=document.getElementById('postsList');if(!box)return;if(list.length==0){box.innerHTML=q?'📭 ఇంకా ఏమీ లేవు!':'📭 నిన్న + ఈ రోజు ఏమీ లేవు!';}else{box.innerHTML=list.map(p=>{let idx=allPosts.indexOf(p);let img=p.image?`<img src="${p.image}">`:'';return `<div class="post" onclick="openPost(${idx})">${img}<div class="p-title">${p.title||''}</div><div class="p-content">${(p.content||'').slice(0,120)}${(p.content||'').length>120?'... 👆 నొక్కండి':''}</div><div class="p-date">📅 ${p.date||''} • 👆 నొక్కితే పూర్తిగా ఓపెన్ అవుతుంది</div></div>`;}).join('');}let bBox=document.getElementById('booksResult');if(q&&allBooks.length){let bl=allBooks.filter(b=>bookText(b).toLowerCase().includes(q));if(bl.length)bBox.innerHTML='<h3>📚 బుక్స్ లో దొరికినవి</h3>'+bl.map((b,bi)=>`<div class="post" onclick="location.href='books.html'"><div class="p-title">📚 ${b.title}</div><div class="p-content">${b.desc||''}</div></div>`).join('');else bBox.innerHTML='';}else if(bBox)bBox.innerHTML='';}
-async function globalSearch(){let q=document.getElementById('searchBox').value.toLowerCase().trim();let box=document.getElementById('globalResult');if(!q){box.style.display='none';box.innerHTML='';renderPosts();return;}box.style.display='block';let links=[{t:'📖 బైబిల్',k:'bible బైబిల్',l:'bible.html'},{t:'📚 పుస్తకాలు / Books',k:'book బుక్ పుస్తకం',l:'books.html'},{t:'🎵 పాటలు / Songs',k:'song పాట పాటలు',l:'songs.html'},{t:'🎤 వాయిస్',k:'voice వాయిస్',l:'voice.html'},{t:'🎥 వీడియోలు',k:'video వీడియో',l:'videos.html'},{t:'📅 క్యాలండర్',k:'calendar క్యాలండర్',l:'calendar.html'},{t:'🖼️ గ్యాలరీ / ఫోటోలు',k:'gallery ఫోటో గ్యాలరీ',l:'gallery.html'},{t:'▶️ YouTube',k:'youtube యూట్యూబ్',l:'https://youtube.com/@maasandesham_mahimasannidhi'},{t:'📘 Facebook',k:'facebook ఫేస్బుక్',l:'https://www.facebook.com/share/1Hj7LwsXjP/'},{t:'💚 WhatsApp Channel',k:'whatsapp వాట్సాప్',l:'https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46'},{t:'🙏 ప్రార్థన డైరీ',k:'prayer ప్రార్థన',l:'prayer.html'},{t:'🏆 బైబిల్ క్విజ్',k:'quiz క్విజ్',l:'quiz.html'}];let h='';links.filter(x=>(x.t+x.k).toLowerCase().includes(q)).forEach(x=>{h+=`<div class="today-item" onclick="location.href='${x.l}'"><b>${x.t}</b><span class="go">➡️</span></div>`;});let posts=allPosts.filter(p=>((p.title||'')+(p.content||'')).toLowerCase().includes(q)).slice(0,3);posts.forEach(p=>{let idx=allPosts.indexOf(p);h+=`<div class="today-item" onclick="openPost(${idx})"><b>📜 ${p.title||''}<small>వాక్యం • ${p.date||''}</small></b><span class="go">➡️</span></div>`;});if(!_gSongs.length){try{_gSongs=await fetchFast('songs.json',2000)||[];}catch(e){}}if(!_gVoice.length){try{_gVoice=await fetchFast('voice.json',2000)||[];}catch(e){}}if(!_gVideos.length){try{_gVideos=await fetchFast('videos.json',2000)||[];}catch(e){}}_gSongs.filter(s=>(s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{h+=`<div class="today-item" onclick="location.href='songs.html'"><b>🎵 ${s.title||s.name}<small>పాట</small></b><span class="go">➡️</span></div>`;});_gVoice.filter(s=>(s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{h+=`<div class="today-item" onclick="location.href='voice.html'"><b>🎤 ${s.title||s.name}<small>వాయిస్</small></b><span class="go">➡️</span></div>`;});_gVideos.filter(s=>(s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{h+=`<div class="today-item" onclick="location.href='videos.html'"><b>🎥 ${s.title||s.name}<small>వీడియో</small></b><span class="go">➡️</span></div>`;});allBooks.filter(b=>bookText(b).toLowerCase().includes(q)).slice(0,3).forEach(b=>{h+=`<div class="today-item" onclick="location.href='books.html'"><b>📚 ${b.title}<small>బుక్</small></b><span class="go">➡️</span></div>`;});box.innerHTML=h?h:'<div style="text-align:center;padding:10px;color:#666">📭 ఏమీ దొరకలేదు</div>';renderPosts();}
+async function globalSearch(){let q=document.getElementById('searchBox').value.toLowerCase().trim();let box=document.getElementById('globalResult');if(!q){box.style.display='none';box.innerHTML='';renderPosts();return;}box.style.display='block';let links=[{t:'📖 బైబిల్',k:'bible బైబిల్',l:'bible.html'},{t:'📚 పుస్తకాలు / Books',k:'book బుక్ పుస్తకం',l:'books.html'},{t:'🎵 పాటలు / Songs',k:'song పాట పాటలు',l:'songs.html'},{t:'🎤 వాయిస్',k:'voice వాయిస్',l:'voice.html'},{t:'🎥 వీడియోలు',k:'video వీడియో',l:'videos.html'},{t:'📅 క్యాలండర్',k:'calendar క్యాలండర్',l:'calendar.html'},{t:'🖼️ గ్యాలరీ / ఫోటోలు',k:'gallery ఫోటో గ్యాలరీ',l:'gallery.html'},{t:'▶️ YouTube',k:'youtube యూట్యూబ్',l:'https://youtube.com/@maasandesham_mahimasannidhi'},{t:'📘 Facebook',k:'facebook ఫేస్బుక్',l:'https://www.facebook.com/share/1Hj7LwsXjP/'},{t:'💚 WhatsApp Channel',k:'whatsapp వాట్సాప్',l:'https://whatsapp.com/channel/0029VaCRzULJ3juvCaBRpq46'},{t:'🙏 ప్రార్థన డైరీ',k:'prayer ప్రార్థన',l:'prayer.html'},{t:'🏆 బైబిల్ క్విజ్',k:'quiz క్విజ్',l:'quiz.html'},{t:'🙏 ప్రార్థన చాట్',k:'prayer chat ప్రార్థన చాట్',l:'prayer-chat.html'}];let h='';links.filter(x=>(x.t+x.k).toLowerCase().includes(q)).forEach(x=>{h+=`<div class="today-item" onclick="location.href='${x.l}'"><b>${x.t}</b><span class="go">➡️</span></div>`;});let posts=allPosts.filter(p=>((p.title||'')+(p.content||'')).toLowerCase().includes(q)).slice(0,3);posts.forEach(p=>{let idx=allPosts.indexOf(p);h+=`<div class="today-item" onclick="openPost(${idx})"><b>📜 ${p.title||''}<small>వాక్యం • ${p.date||''}</small></b><span class="go">➡️</span></div>`;});if(!_gSongs.length){try{_gSongs=await fetchFast('songs.json',2000)||[];}catch(e){}}if(!_gVoice.length){try{_gVoice=await fetchFast('voice.json',2000)||[];}catch(e){}}if(!_gVideos.length){try{_gVideos=await fetchFast('videos.json',2000)||[];}catch(e){}}_gSongs.filter(s=>(s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{h+=`<div class="today-item" onclick="location.href='songs.html'"><b>🎵 ${s.title||s.name}<small>పాట</small></b><span class="go">➡️</span></div>`;});_gVoice.filter(s=>(s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{h+=`<div class="today-item" onclick="location.href='voice.html'"><b>🎤 ${s.title||s.name}<small>వాయిస్</small></b><span class="go">➡️</span></div>`;});_gVideos.filter(s=>(s.title||s.name||'').toLowerCase().includes(q)).slice(0,3).forEach(s=>{h+=`<div class="today-item" onclick="location.href='videos.html'"><b>🎥 ${s.title||s.name}<small>వీడియో</small></b><span class="go">➡️</span></div>`;});allBooks.filter(b=>bookText(b).toLowerCase().includes(q)).slice(0,3).forEach(b=>{h+=`<div class="today-item" onclick="location.href='books.html'"><b>📚 ${b.title}<small>బుక్</small></b><span class="go">➡️</span></div>`;});box.innerHTML=h?h:'<div style="text-align:center;padding:10px;color:#666">📭 ఏమీ దొరకలేదు</div>';renderPosts();}
 function openPost(i){let p=allPosts[i];if(!p)return;document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0F2F6B;text-align:center;font-weight:900;font-size:22px">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center;color:#3B2314;font-weight:900">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`;document.getElementById('postModal').style.display='flex';lockBody();}
 function closePost(){document.getElementById('postModal').style.display='none';unlockBody();}
 document.getElementById('postModal').addEventListener('click',e=>{if(e.target.id==='postModal')closePost();});
@@ -321,4 +354,4 @@ setTimeout(()=>{loadSponCarousel();},4000);
 setTimeout(updateVisitorCount,6000);
 </script>
 </body>
-                                                                                                                                                                          </html>
+  </html>
