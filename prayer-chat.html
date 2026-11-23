@@ -35,14 +35,14 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 <div class="prayer-time">🙏 <b>ఉదయం 6:00 - ప్రార్థన టైమ్</b> - వాయిస్ + చాట్ - మన App లోనే!</div>
 
 <div id="adminBox">
-<b style="color:#7A0C1D">👑 అడ్మిన్ - పాస్టర్ - ఇది మన App - మన కంట్రోల్!</b><br><br>
+<b style="color:#7A0C1D">👑 అడ్మిన్ - పాస్టర్</b><br><br>
 <button onclick="stopSpeaker()" style="background:#222;color:#fff">🔇 అందరినీ మ్యూట్ - నేనే మాట్లాడతా</button>
+<button onclick="clearAllHands()" style="background:#FF9800;color:#fff">🧹 హ్యాండ్ లు అన్నీ క్లియర్ చేయి</button>
 </div>
 
-<!-- ✅ వాయిస్ - మన App లోనే - పైన చిన్న బార్ - వేరే సైట్ కాదు! -->
 <div id="voiceBar">
 <div style="font-size:28px">🎤</div>
-<b id="voiceStatus" style="color:#075E54">వాయిస్ లో జాయిన్ అవ్వలేదు</b><br>
+<b id="voiceStatus" style="color:#075E54">వాయిస్ లోకి వెళ్తున్నాం... 3 సెకన్లు ఆగండి!</b><br>
 <span style="font-size:12px;color:#666">వీడియో లేదు - కెమెరా లేదు - వాయిస్ మాత్రమే!</span><br>
 <button id="voiceBtn" onclick="toggleVoice()" style="background:#075E54;color:#fff">🎤 వాయిస్ లో జాయిన్ అవ్వండి</button>
 </div>
@@ -55,7 +55,6 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 
 <div id="msgs"></div>
 
-<!-- ✅ మైక్ - కింద - చాట్ దగ్గరే! -->
 <div class="bottom">
 <button onclick="raiseHand()" style="background:#FFD54F">✋</button>
 <button id="micBtn" onclick="toggleVoice()" style="background:#FF0000;color:#fff">🎤</button>
@@ -69,6 +68,12 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 const TOPIC='ms2-prayer-chat-2026';
 let IS_ADMIN=location.search.includes('admin=1');
 if(IS_ADMIN){document.getElementById('adminBox').style.display='block';document.getElementById('handQueue').style.display='block';}
+// ✅ ✅ పాత హ్యాండ్ లు - పేజీ ఓపెన్ చేస్తే - క్లియర్! - puah హ్యాండ్ మళ్ళీ రాదు!
+localStorage.removeItem('ms_prayer_hands');
+localStorage.removeItem('ms_prayer_speaker');
+// ✅ ✅ పాత undefined మెసేజ్ లు - క్లియర్!
+try{let _a=JSON.parse(localStorage.getItem('ms_prayer_local')||'[]');_a=_a.filter(x=>x.msg&&x.msg!=='undefined');localStorage.setItem('ms_prayer_local',JSON.stringify(_a));}catch(e){}
+
 function myName(){let n=localStorage.getItem('ms_prayer_name');if(!n){n=prompt('🙏 మీ పేరు:')||'భక్తుడు';localStorage.setItem('ms_prayer_name',n);}return n;}
 function getHands(){try{return JSON.parse(localStorage.getItem('ms_prayer_hands')||'[]');}catch(e){return [];}}
 function setHands(a){localStorage.setItem('ms_prayer_hands',JSON.stringify(a));}
@@ -77,91 +82,74 @@ function setSpeaker(n){if(n)localStorage.setItem('ms_prayer_speaker',n);else loc
 let toastTimer=null;
 function toast(m){let e=document.getElementById('toast');e.textContent=m;e.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{e.style.display='none';},4000);}
 
-// ===== ✅ మన సొంత వాయిస్ - Jitsi లేదు! - PeerJS - Audio Only! =====
 let peer=null, myPeerId='', myStream=null, currentCalls={}, joined=false, isMuted=true;
-let peersList={}; // name -> peerId
-
-function myPeerIdGen(){
-  let id=localStorage.getItem('ms_voice_peer');
-  if(!id){id='BM-'+Math.random().toString(36).slice(2,8);localStorage.setItem('ms_voice_peer',id);}
-  return id;
-}
-async function toggleVoice(){
-  if(!joined){ await joinVoice(); } else { toggleMic(); }
-}
+let peersList={};
+function myPeerIdGen(){let id=localStorage.getItem('ms_voice_peer');if(!id){id='BM-'+Math.random().toString(36).slice(2,8);localStorage.setItem('ms_voice_peer',id);}return id;}
+async function toggleVoice(){ if(!joined){ await joinVoice(); } else { toggleMic(); } }
 async function joinVoice(){
   let name=myName(); myPeerId=myPeerIdGen();
   try{
-    // ✅ Audio Only - వీడియో లేదు - కెమెరా లేదు!
     myStream=await navigator.mediaDevices.getUserMedia({audio:true, video:false});
-    // మొదట మ్యూట్ - పాస్టర్ / ఓకే వచ్చిన వాళ్ళు మాత్రమే మాట్లాడతారు!
     myStream.getAudioTracks().forEach(t=>t.enabled=false); isMuted=true;
-  }catch(e){ alert('⚠️ మైక్ కి Allow నొక్కండి అండి!'); return; }
+  }catch(e){ document.getElementById('voiceStatus').textContent='⚠️ మైక్ కి Allow నొక్కండి - మళ్ళీ 🎤 నొక్కండి!'; return; }
   peer=new Peer(myPeerId);
   peer.on('open', async ()=>{
     joined=true;
     document.getElementById('voiceStatus').textContent='✅ వాయిస్ లో ఉన్నారు - వింటున్నారు...';
     document.getElementById('voiceBtn').textContent='🔇 వాయిస్ నుండి బయటకు వెళ్ళు';
     document.getElementById('micBtn').style.background='#666';
-    toast('🎤 వాయిస్ లో జాయిన్ అయ్యారు! మన App లోనే - వీడియో లేదు!');
-    // అందరికీ చెప్పు - నేను వచ్చాను!
+    toast('🎤 వాయిస్ లో జాయిన్ అయ్యారు! మన App లోనే!');
     try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'VOICE_JOIN|'+name+'|'+myPeerId});}catch(e){}
-    // ✅ పాస్టర్ అయితే - వెంటనే స్పీకర్ - మాట్లాడతారు!
-    if(IS_ADMIN){ setSpeaker(name); await broadcastToAll(); unmuteMe(); }
+    if(IS_ADMIN){ setSpeaker(name); await broadcastToAll(); unmuteMe(); updateSpeakerUI(); }
   });
-  // ✅ ఎవరైనా కాల్ చేస్తే - విను - మాట్లాడకు!
   peer.on('call', call=>{
-    call.answer(null);
+    try{ call.answer(myStream); }catch(e){ try{call.answer(null);}catch(e2){} }
     call.on('stream', s=>{
       let a=document.getElementById('remoteAudio');
-      a.srcObject=s; a.play().catch(()=>{});
+      a.srcObject=s; a.muted=false; a.volume=1;
+      a.play().catch(()=>{ document.addEventListener('click', ()=>a.play(), {once:true}); });
     });
     currentCalls[call.peer]=call;
   });
-  peer.on('error', e=>{ console.log(e); });
 }
-function unmuteMe(){
-  if(!myStream) return;
-  myStream.getAudioTracks().forEach(t=>t.enabled=true); isMuted=false;
-  document.getElementById('micBtn').style.background='#25D366';
-  toast('🎤 మీ మైక్ ON అయ్యింది - మాట్లాడండి!');
-}
-function muteMe(){
-  if(!myStream) return;
-  myStream.getAudioTracks().forEach(t=>t.enabled=false); isMuted=true;
-  document.getElementById('micBtn').style.background='#FF0000';
-}
+function unmuteMe(){ if(!myStream) return; myStream.getAudioTracks().forEach(t=>t.enabled=true); isMuted=false; document.getElementById('micBtn').style.background='#25D366'; toast('🎤 మీ మైక్ ON - మాట్లాడండి!'); }
+function muteMe(){ if(!myStream) return; myStream.getAudioTracks().forEach(t=>t.enabled=false); isMuted=true; document.getElementById('micBtn').style.background='#FF0000'; }
 function toggleMic(){
-  // ✅ పాస్టర్ / ఓకే వచ్చిన వాళ్ళు మాత్రమే - మైక్ ON చేయగలరు!
-  if(getSpeaker()!==myName() && !IS_ADMIN){
-    toast('⚠️ పాస్టర్ ఓకే ఇస్తేనే - మీరు మాట్లాడగలరు! ముందు ✋ నొక్కండి!');
-    return;
-  }
+  if(getSpeaker()!==myName() && !IS_ADMIN){ toast('⚠️ పాస్టర్ ఓకే ఇస్తేనే - మీరు మాట్లాడగలరు! ముందు ✋ నొక్కండి!'); return; }
   if(isMuted){ unmuteMe(); broadcastToAll(); } else { muteMe(); }
 }
 async function broadcastToAll(){
   if(!peer || !myStream) return;
-  // నాకు తెలిసిన అందరికీ - నా వాయిస్ పంపు!
   for(let pid in peersList){
     if(pid===myPeerId) continue;
-    try{
-      if(currentCalls[pid]){ try{currentCalls[pid].close();}catch(e){} }
-      let call=peer.call(pid, myStream);
-      currentCalls[pid]=call;
-    }catch(e){}
+    try{ if(currentCalls[pid]){ try{currentCalls[pid].close();}catch(e){} } let call=peer.call(pid, myStream); currentCalls[pid]=call; }catch(e){}
   }
 }
+// ✅ ✅ ఆటో జాయిన్ - పేజీ ఓపెన్ అవ్వగానే - వాయిస్ లోకి!
+window.addEventListener('load', ()=>{ setTimeout(async ()=>{ if(!joined) await joinVoice(); }, 1500); });
+// ✅ ✅ ప్రతి 5 సెకన్లకు - నేను ఉన్నాను - అని చెప్పు!
+setInterval(async ()=>{
+  if(joined){
+    try{ await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'VOICE_JOIN|'+myName()+'|'+myPeerId}); }catch(e){}
+    if(getSpeaker()===myName()) broadcastToAll();
+  }
+}, 5000);
+
 function updateSpeakerUI(){
   let sp=getSpeaker();
   document.getElementById('speakerBar').style.display=sp?'block':'none';
   document.getElementById('speakerName').textContent=sp;
   if(IS_ADMIN) renderHandQueue();
-  // ✅ నేను స్పీకర్ కాకపోతే - నా మైక్ ఆఫ్!
   if(joined && sp!==myName() && !IS_ADMIN){ muteMe(); }
 }
 function renderHandQueue(){
   let hands=getHands();
   document.getElementById('handList').innerHTML=hands.length?hands.map(n=>'<div style="background:#FFF3E0;padding:10px;border-radius:10px;margin:4px;display:flex;justify-content:space-between;align-items:center"><b>✋ '+n+' - ప్రార్థన చేస్తా!</b><span><button onclick="approveHand(\''+n+'\')" style="background:#25D366;color:#fff">✅ ఓకే - వీళ్ళకే మైక్</button><button onclick="rejectHand(\''+n+'\')" style="background:#999;color:#fff">❌ వద్దు</button></span></div>').join(''):'<p style="color:#666">ఇంకా ఎవరూ హ్యాండ్ రైస్ చేయలేదు</p>';
+}
+async function clearAllHands(){
+  setHands([]); setSpeaker(IS_ADMIN?myName():'');
+  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLEAR_HANDS|'});}catch(e){}
+  updateSpeakerUI(); toast('🧹 హ్యాండ్ లు అన్నీ క్లియర్ అయ్యాయి!');
 }
 async function raiseHand(){
   let me=myName();let h=getHands();
@@ -174,13 +162,11 @@ async function approveHand(name){
   setSpeaker(name);setHands(getHands().filter(n=>n!==name));
   try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_APPROVE|'+name});}catch(e){}
   updateSpeakerUI();toast('✅ '+name+' కి మైక్ ఇచ్చారు!');
-  // ✅ పాస్టర్ - తన మైక్ ఆఫ్ చేసి - వాళ్ళని వినాలి!
   if(IS_ADMIN) muteMe();
 }
 async function rejectHand(name){setHands(getHands().filter(n=>n!==name));try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_REJECT|'+name});}catch(e){}updateSpeakerUI();}
 async function stopSpeaker(){
   setSpeaker('');setHands([]);
-  // ✅ పాస్టరే మళ్ళీ స్పీకర్!
   if(IS_ADMIN){ setSpeaker(myName()); unmuteMe(); broadcastToAll(); }
   try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_STOP|'});}catch(e){}
   updateSpeakerUI();toast('🔇 అందరినీ మ్యూట్ చేశారు - పాస్టర్ మాత్రమే మాట్లాడతారు!');
@@ -198,25 +184,32 @@ async function sendMsg(){
   t.value='';renderMsgs();
 }
 document.getElementById('txt').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+
+// ✅ ✅ ✅ ఇదే - హ్యాండ్ ఫిక్స్! - పాత మెసేజ్ లు - మళ్ళీ రావు! - కొత్తవి మాత్రమే!
+let seenIds=new Set();
+let lastPollTime=Math.floor(Date.now()/1000);
 async function poll(){
   try{
-    let r=await fetch('https://ntfy.sh/'+TOPIC+'/json?since=all&poll=1');
+    // ✅ since= ఇప్పుడు - అంటే - ఇప్పటి నుండి - కొత్తవి మాత్రమే!
+    let r=await fetch('https://ntfy.sh/'+TOPIC+'/json?since='+lastPollTime+'&poll=1');
     let txt=await r.text();let a=loadLocal();let ch=false;
+    lastPollTime=Math.floor(Date.now()/1000);
     txt.split('\n').filter(Boolean).forEach(l=>{
       try{
         let j=JSON.parse(l);if(!j.message)return;
+        if(j.id && seenIds.has(j.id)) return; if(j.id) seenIds.add(j.id);
         if(j.message.startsWith('VOICE_JOIN|')){
           let p=j.message.split('|');let nm=p[1], pid=p[2];
           if(pid && pid!==myPeerId){ peersList[pid]=nm;
-            // ✅ కొత్త వాళ్ళు వస్తే - నేను స్పీకర్ అయితే - వాళ్ళకి నా వాయిస్ పంపు!
             if(joined && getSpeaker()===myName() && myStream){ try{ peer.call(pid, myStream); }catch(e){} }
           }
           return;
         }
+        if(j.message.startsWith('PRAYER_CLEAR_HANDS|')){ setHands([]); updateSpeakerUI(); return; }
         if(j.message.startsWith('PRAYER_HAND|')){let n=j.message.split('|')[1];let h=getHands();if(n&&!h.includes(n)){h.push(n);setHands(h);}updateSpeakerUI();return;}
         if(j.message.startsWith('PRAYER_APPROVE|')){let n=j.message.split('|')[1];setSpeaker(n);setHands(getHands().filter(x=>x!==n));updateSpeakerUI();
           if(n===myName()){ unmuteMe(); broadcastToAll(); toast('✅ 🎉 పాస్టర్ మీకు ఓకే ఇచ్చారు! ఇప్పుడు మాట్లాడండి!'); }
-          else toast('🎤 '+n+' కి పాస్టర్ ఓకే ఇచ్చారు - వాళ్ళు మాట్లాడుతున్నారు!');return;}
+          else toast('🎤 '+n+' కి పాస్టర్ ఓకే ఇచ్చారు!');return;}
         if(j.message.startsWith('PRAYER_REJECT|')){let n=j.message.split('|')[1];setHands(getHands().filter(x=>x!==n));updateSpeakerUI();return;}
         if(j.message.startsWith('PRAYER_STOP|')){setSpeaker('');setHands([]);updateSpeakerUI();return;}
         if(j.message.startsWith('PRAYER|')){let p=j.message.split('|');let m={name:p[1],msg:p[3]};if(!m.msg||m.msg==='undefined'||m.msg==='')return;if(!a.some(x=>x.msg===m.msg&&x.name===m.name)){a.push(m);ch=true;}}
