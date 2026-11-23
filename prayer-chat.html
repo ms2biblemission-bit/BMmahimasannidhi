@@ -4,90 +4,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🙏 LIVE ప్రేయర్ - BM మహిమ సన్నిధి</title>
+<script src="https://meet.jit.si/external_api.js"></script>
 <style>
 *{box-sizing:border-box;font-weight:900 !important}
 body{margin:0;font-family:sans-serif;background:#ECE5DD}
-.top{background:#075E54;color:#fff;padding:12px;display:flex;gap:10px;align-items:center}
+.top{background:#075E54;color:#fff;padding:14px;display:flex;gap:10px;align-items:center}
 .top button{background:none;border:none;color:#fff;font-size:22px}
-.top b{flex:1}
-.rule{background:#FFD54F;color:#222;text-align:center;padding:10px;font-size:13px;line-height:1.6}
-.rule b{font-size:15px}
-#stepBox{background:#fff;margin:12px;padding:14px;border-radius:14px;text-align:center;border:2px solid #075E54}
-#stepBox button{border:none;padding:14px 20px;border-radius:25px;font-size:16px;margin:5px;cursor:pointer}
-#liveFrame{width:100%;height:520px;border:0;background:#000;display:none}
-.tip{background:#FFF3E0;border:2px solid #FF9800;padding:10px;margin:12px;border-radius:12px;font-size:13px;line-height:1.8;text-align:center}
+.top b{flex:1;font-size:17px}
+#stepBox{background:#fff;margin:12px;padding:18px;border-radius:16px;text-align:center;border:3px solid #075E54}
+#bigBtn{border:none;padding:18px 24px;border-radius:30px;font-size:19px;background:#FF0000;color:#fff;width:100%;max-width:380px}
+#jitsiBox{width:100%;height:580px;background:#000;display:none}
+.rule{background:#FFF3E0;border:2px solid #FF9800;padding:12px;margin:12px;border-radius:12px;font-size:14px;line-height:2;text-align:center}
 </style>
 </head>
 <body>
-<div class="top"><button onclick="location.href='index.html'">⬅️</button><b>🙏 LIVE ప్రేయర్ - ఉదయం 6:00</b></div>
-
-<div class="rule">
-<b>🔴 ఒకే రూల్ - అడ్మిన్ మాట్లాడుతుంటే - అందరూ వింటారు!</b><br>
-అడ్మిన్ ఆగితే - భక్తుడు మాట్లాడతాడు!
-</div>
+<div class="top"><button onclick="location.href='index.html'">⬅️</button><b>🙏 LIVE ప్రేయర్</b></div>
 
 <div id="stepBox">
-<div style="font-size:32px">🎤🔴</div>
-<b style="font-size:17px;color:#075E54" id="stepTitle">LIVE ప్రేయర్ లోకి రండి!</b>
-<p style="font-size:13px;color:#555" id="stepText">App లేదు - Install లేదు - Browser లోనే!</p>
-
-<!-- అడ్మిన్ కి -->
-<div id="adminBtns" style="display:none">
-<button onclick="joinAsAdmin()" style="background:#FF0000;color:#fff">🔴 అడ్మిన్ - LIVE స్టార్ట్ చేయండి</button>
-<p style="font-size:12px;color:#666">మీరు ముందు జాయిన్ అవ్వండి - తర్వాత భక్తులు వస్తారు!</p>
+<div style="font-size:40px">🙏🔴</div>
+<b id="title" style="font-size:19px;color:#075E54">LIVE ప్రేయర్ లోకి రండి!</b>
+<p style="font-size:14px;color:#555;line-height:1.7">
+ఒక్క బటన్ నొక్కితే చాలు!<br>
+App లేదు - Chrome అని వెతకనక్కర్లేదు!
+</p>
+<button id="bigBtn" onclick="joinLive()">🔴 LIVE లోకి వెళ్ళండి</button>
+<p style="font-size:12px;color:#888">నొక్కాక - 2 సెకన్లు ఆగండి - LIVE వస్తుంది!</p>
 </div>
 
-<!-- భక్తుడికి -->
-<div id="userBtns">
-<button onclick="joinAsUser()" style="background:#075E54;color:#fff">🔴 భక్తుడు - LIVE లో జాయిన్ అవ్వండి</button>
-<p style="font-size:12px;color:#666">నొక్కితే - LIVE ఓపెన్ అవుతుంది - Join నొక్కండి!</p>
-</div>
+<div id="jitsiBox"></div>
 
-<button onclick="location.href='index.html'" style="background:#999;color:#fff">🏠 హోమ్ కి వెళ్ళండి</button>
-</div>
-
-<iframe id="liveFrame" allow="camera; microphone; fullscreen; display-capture"></iframe>
-
-<div class="tip">
-<b>🙏 LIVE లోపల - ఇలా చేయండి - బయట ఏమీ నొక్కవద్దు!</b><br>
-<b>👑 అడ్మిన్:</b> లోపల - కింద - 🎤 మైక్ ఆన్ చేసి మాట్లాడండి - అందరికీ వినబడుతుంది!<br>
-<b>🙏 భక్తుడు:</b> లోపల - కింద - 🎤 మైక్ OFF లో పెట్టుకోండి - వినండి మాత్రమే!<br>
-<b>✋ ప్రార్థన చేయాలా?</b> లోపల - కింద - ✋ గుర్తు నొక్కండి - అడ్మిన్ కి కనబడుతుంది!<br>
-<b>✅ అడ్మిన్ ఓకే అంటే:</b> అప్పుడు మీ 🎤 ఆన్ చేసి - ప్రార్థన చేయండి!<br>
-<b>❌ తిరుగుతూ ఉంటే:</b> పేజీ Refresh చేయండి - మళ్ళీ Join నొక్కండి - నెట్ స్లో ఉంది!
+<div class="rule">
+<b>🙏 ఎలా చేయాలి - 3 మాటలు మాత్రమే!</b><br>
+<b>1. అందరూ - మొదట - మైక్ OFF లోనే ఉంటారు - వినండి మాత్రమే!</b><br>
+<b>2. ప్రార్థన కావాలా? - కింద ✋ నొక్కండి - పాస్టర్ కి కనబడుతుంది!</b><br>
+<b>3. పాస్టర్ పిలిస్తే - కింద 🎤 నొక్కండి - మాట్లాడండి - అయ్యాక మళ్ళీ 🎤 నొక్కి ఆపండి!</b><br>
+<b>👑 పాస్టర్ - మీరే ముందు జాయిన్ అవ్వండి - మీ 🎤 మాత్రమే ON చేయండి!</b>
 </div>
 
 <script>
 let IS_ADMIN = location.search.includes('admin=1');
 if(IS_ADMIN){
-  document.getElementById('adminBtns').style.display='block';
-  document.getElementById('userBtns').style.display='none';
-  document.getElementById('stepTitle').textContent='👑 అడ్మిన్ - మీరే LIVE స్టార్ట్ చేయండి!';
-  document.getElementById('stepText').textContent='మీరు ముందు జాయిన్ అవ్వండి - మీ మాట అందరికీ వినబడుతుంది!';
+  document.getElementById('title').textContent = '👑 అయ్యా - మీరే ముందు LIVE స్టార్ట్ చేయండి!';
+  document.getElementById('bigBtn').textContent = '🔴 పాస్టర్ - LIVE స్టార్ట్ చేయండి';
 }
 function getRoom(){
-  // ఒకే రోజు - ఒకే రూమ్ - అందరూ ఒకే చోట!
   let d = new Date();
-  let day = d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
-  return 'BM-Mahima-Sannidhi-Prayer-'+day;
+  return 'BM-Mahima-Sannidhi-Prayer-'+d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
 }
-function joinAsAdmin(){
-  let name = 'Admin - John Dalli';
-  let url = 'https://p2p.mirotalk.com/'+getRoom()+'?name='+encodeURIComponent(name);
-  openLive(url,'👑 అడ్మిన్ LIVE లో ఉన్నారు - మాట్లాడుతున్నారు!');
-}
-function joinAsUser(){
+function joinLive(){
   let name = localStorage.getItem('ms_prayer_name');
+  if(IS_ADMIN) name = 'Pastor - John Dalli';
   if(!name){ name = prompt('🙏 మీ పేరు:')||'భక్తుడు'; localStorage.setItem('ms_prayer_name',name); }
-  let url = 'https://p2p.mirotalk.com/'+getRoom()+'?name='+encodeURIComponent(name);
-  openLive(url,'🙏 LIVE లో ఉన్నారు - అడ్మిన్ మాట వినండి!');
-}
-function openLive(url,msg){
-  let f = document.getElementById('liveFrame');
-  f.src = url;
-  f.style.display='block';
-  document.getElementById('stepBox').innerHTML = '<b style="color:#075E54;font-size:17px">🔴 LIVE నడుస్తోంది!</b><p style="font-size:13px;color:#555">'+msg+'<br>కింద LIVE లోనే - మైక్ / హ్యాండ్ ఉంటాయి!</p><button onclick="location.reload()" style="background:#999;color:#fff;border:none;padding:12px 20px;border-radius:25px">❌ LIVE నుండి బయటకి</button>';
-  f.scrollIntoView({behavior:'smooth'});
+
+  document.getElementById('stepBox').innerHTML = '<b style="color:#075E54;font-size:18px">🔴 LIVE నడుస్తోంది!</b><p style="font-size:14px;color:#555">కింద - LIVE లోనే - 🎤 / ✋ ఉంటాయి!<br>అందరి మైక్ OFF లోనే ఉంటుంది - పాస్టర్ మాత్రమే మాట్లాడతారు!</p><button onclick="location.reload()" style="background:#999;color:#fff;border:none;padding:12px 20px;border-radius:25px;font-size:15px">❌ LIVE నుండి బయటకి</button>';
+  let box = document.getElementById('jitsiBox');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth'});
+
+  let api = new JitsiMeetExternalAPI('meet.jit.si', {
+    roomName: getRoom(),
+    parentNode: box,
+    width: '100%',
+    height: 580,
+    userInfo: { displayName: name },
+    configOverwrite: {
+      prejoinPageEnabled: false, // ✅ Join - Allow - ఇవన్నీ రావు - డైరెక్ట్ LIVE!
+      disableDeepLinking: true, // ✅ App అడగదు!
+      startWithAudioMuted: true, // ✅ అందరి మైక్ - ముందు OFF!
+      startWithVideoMuted: true, // ✅ వీడియో OFF - వాయిస్ మాత్రమే!
+      enableWelcomePage: false,
+    },
+    interfaceConfigOverwrite: {
+      SHOW_JITSI_WATERMARK: false,
+      SHOW_WATERMARK_FOR_GUESTS: false,
+      // ✅ కేవలం 3 బటన్లు మాత్రమే - పెద్దవాళ్ళకి గందరగోళం లేదు!
+      TOOLBAR_BUTTONS: ['microphone','hangup','raisehand']
+    }
+  });
+
+  // ✅ పాస్టర్ జాయిన్ అయ్యాక - పాస్టర్ మైక్ మాత్రమే ఆటో ON!
+  api.addEventListener('videoConferenceJoined', ()=>{
+    if(IS_ADMIN){
+      setTimeout(()=>{ api.executeCommand('toggleAudio'); }, 1000);
+    }
+  });
 }
 </script>
 </body>
