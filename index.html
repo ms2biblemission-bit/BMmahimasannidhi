@@ -21,6 +21,8 @@
 html,body{font-family:sans-serif;background:#F2F5F0;margin:0;padding:0;width:100%;overflow-x:hidden}
 body{padding-bottom:95px}
 body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
+.page{display:none}
+.page.active{display:block}
 .topbar{position:sticky;top:0;z-index:95;background:#0B3D2E;color:#fff;display:flex;align-items:center;gap:10px;padding:9px 12px}
 .topbar button{background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer}
 .topbar b{flex:1;text-align:center;font-size:18px}
@@ -133,7 +135,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="menu-item" onclick="shareAnyPage()">📤 <span>Share App</span></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 </div></div>
-<div class="best-header"><div class="logo">✝️</div><div><h1>BM మహిమ సన్నిధి</h1><p>తెలుగు క్రిస్టియన్ యాప్</p></div><div class="icons"><span onclick="document.getElementById('todayUpdatesBox').scrollIntoView({behavior:'smooth'})" title="లాస్ట్ అప్డేట్">🔔</span><span onclick="document.getElementById('searchBox').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('searchBox').focus(),400)" title="వెతకండి">🔍</span><span onclick="openChat()" title="అడ్మిన్ చాట్">👤</span></div></div>
+<div class="best-header"><div class="logo">✝️</div><div><h1>BM మహిమ సన్నిధి</h1><p>తెలుగు క్రిస్టియన్ యాప్</p></div><div class="icons"><span onclick="showPage('home');document.getElementById('todayUpdatesBox').scrollIntoView({behavior:'smooth'})" title="లాస్ట్ అప్డేట్">🔔</span><span onclick="document.getElementById('searchBox').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('searchBox').focus(),400)" title="వెతకండి">🔍</span><span onclick="openChat()" title="అడ్మిన్ చాట్">👤</span></div></div>
 <div class="header">
   <img loading="eager" decoding="async" src="jesus.jpg" alt="యేసు">
   <div style="flex:1;text-align:center"><div class="bible-mission">📖 బైబిల్ మిషన్</div><h1 style="margin:4px 0;font-size:24px;line-height:1.2;color:#222">మహిమ సన్నిధి</h1><div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div><div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div></div>
@@ -143,11 +145,23 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / పాట / బుక్ / వాయిస్ / వీడియో / YouTube" oninput="globalSearch()">
 <div id="globalResult" style="display:none;margin-top:8px"></div>
 </div>
+
+<!-- ============ PAGE 1 : HOME - FB లాగా ============ -->
+<div id="page-home" class="page active">
 <div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center;"><div style="font-size:15px;color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div><div style="font-size:32px;font-weight:900;color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div></div>
 <div id="todayUpdatesBox" class="today-box">
   <h3>📣 లాస్ట్ అప్డేట్</h3>
   <div id="todayUpdatesList" style="font-size:14px;color:#666;text-align:center;padding:8px">🙏 లాస్ట్ అప్డేట్ వస్తోంది... 👇</div>
   <div style="font-size:11px;color:#888;text-align:center;margin-top:4px">👆 నొక్కితే ఆ పాట / బుక్ / వీడియో / వాయిస్ ఓపెన్ అవుతుంది</div>
+</div>
+<div class="vakya-card" id="topCard">
+  <div style="font-size:28px">✝️</div>
+  <img id="topImage" src="" loading="lazy" decoding="async">
+  <div>💬 వాక్యం</div>
+  <div id="topTitle" style="font-weight:700;margin:12px 0;font-size:22px;color:#0F2F6B;line-height:1.4">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
+  <div id="topContent" style="white-space:pre-line;font-size:17px;color:#3B2314;font-weight:500;line-height:1.7"></div>
+  <div id="topDate">📅 4/11/2026</div>
+  <div id="topShare" class="share-row"></div>
 </div>
 <div class="spon-wrap">
 <div style="display:flex;justify-content:space-between;align-items:center">
@@ -168,6 +182,10 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div id="countSub" style="font-size:13px;opacity:.9;color:#fff">డిసెంబర్ 25 వరకు - యేసు వస్తున్నాడు ✝️</div>
 </div>
 <div onclick="location.href='calendar.html'" style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:11px;margin:0 12px 12px;text-align:center;cursor:pointer"><div style="font-weight:bold;color:#0B3D2E">📅 జన 24, 25, 26 - మహా సభలు</div><div style="font-size:12px;color:#666;margin-top:3px">ముందుగానే ప్రార్థనలో గుర్తుంచుకోండి 🙏 👆 నొక్కితే క్యాలండర్</div></div>
+</div>
+
+<!-- ============ PAGE 2 : MEDIA ============ -->
+<div id="page-media" class="page">
 <div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
   <a href="quiz.html" style="flex:1;background:linear-gradient(135deg,#8B5CF6,#EC4899);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;">🏆<br>క్విజ్<br><small>బైబిల్ క్విజ్ ఆడండి</small></a>
   <a href="daily.html" style="flex:1;background:linear-gradient(135deg,#2563EB,#06B6D4);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;">📖<br>దినవరి వాక్యం<br><small>ఈరోజు వచనం చదవండి</small></a>
@@ -202,20 +220,15 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <a class="c-item" href="voice.html"><div class="c-circle c-voice">🎤</div><b>వాయిస్</b></a>
   <a class="c-item" href="archive.html"><div class="c-circle c-vakya">📜</div><b>వాక్యం</b></a>
 </div>
-<div class="vakya-card" id="topCard">
-  <div style="font-size:28px">✝️</div>
-  <img id="topImage" src="" loading="lazy" decoding="async">
-  <div>💬 వాక్యం</div>
-  <div id="topTitle" style="font-weight:700;margin:12px 0;font-size:22px;color:#0F2F6B;line-height:1.4">మెలుకువ కలిగి ప్రార్థించండి<br>ఆమెన్ ప్రభువైన యేసు త్వరగా వచ్చుచున్నాడు</div>
-  <div id="topContent" style="white-space:pre-line;font-size:17px;color:#3B2314;font-weight:500;line-height:1.7"></div>
-  <div id="topDate">📅 4/11/2026</div>
-  <div id="topShare" class="share-row"></div>
-</div>
-<div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి - ఇక్కడ నొక్కండి</button></div>
 <div class="section" style="padding:10px">
 <button onclick="toggleRecent()" id="recentBtn" style="width:100%;background:#0B3D2E;color:#fff;border:none;padding:12px;border-radius:12px;font-weight:bold;font-size:15px;cursor:pointer">📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి</button>
 <div id="recentWrap" style="display:none"><p style="font-size:12px;color:gray;margin:10px 0 0;text-align:center">పాతవి ఆటోమేటిక్ గా గ్యాలరీ / పాత మెసేజ్ లు లోకి వెళ్ళిపోతాయి</p><div id="postsList">లోడ్ అవుతోంది...</div><div id="booksResult"></div></div>
 </div>
+</div>
+
+<!-- ============ PAGE 3 : MORE ============ -->
+<div id="page-more" class="page">
+<div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి - ఇక్కడ నొక్కండి</button></div>
 <div class="section qr-box">
 <h3>🙏 మా సేవ అభివృద్ధికై</h3>
 <img loading="lazy" decoding="async" src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #0B3D2E;margin-bottom:12px" alt="Mahima Sannidhi Banner">
@@ -227,12 +240,12 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </div>
 <div class="notif-mini">🔔 రోజూ ఉదయం 6 గంటలకి వాక్యం నోటిఫికేషన్ కావాలా?<button onclick="askNotif()">🔔 ఆన్ చేయండి</button><div id="notifStatus" style="font-size:11px;color:#2E7D32;margin-top:4px"></div></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
+</div>
+
 <div class="bottom-nav">
-  <a href="index.html" class="active"><span class="ic">🏠</span>హోమ్</a>
-  <a href="bible.html"><span class="ic">📖</span>బైబిల్</a>
-  <a href="prayer.html"><span class="ic">🙏</span>ప్రార్థన</a>
-  <a href="videos.html"><span class="ic">▶️</span>మీడియా</a>
-  <button onclick="document.getElementById('drawer').classList.add('open')"><span class="ic">•••</span>మరిన్ని</button>
+  <button onclick="showPage('home',this)" class="active" id="btn-home"><span class="ic">🏠</span>హోమ్</button>
+  <button onclick="showPage('media',this)" id="btn-media"><span class="ic">▶️</span>మీడియా</button>
+  <button onclick="showPage('more',this)" id="btn-more"><span class="ic">☰</span>మరిన్ని</button>
 </div>
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 <div class="modal" id="sponImgModal" style="align-items:center"><div style="background:#000;width:100%;max-width:600px;padding:10px;text-align:center"><img id="sponFullImg" src="" style="width:100%;height:auto;max-height:85vh;object-fit:contain;border-radius:12px"><br><button onclick="document.getElementById('sponImgModal').style.display='none';unlockBody()" style="background:#fff;color:#000;border:none;padding:10px 20px;border-radius:20px;font-weight:bold;margin-top:8px">✖️ మూసేయండి</button></div></div>
@@ -249,14 +262,20 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
 </div></div>
 <script>
+function showPage(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  let pg=document.getElementById('page-'+id); if(pg) pg.classList.add('active');
+  document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else { let b=document.getElementById('btn-'+id); if(b) b.classList.add('active'); }
+  window.scrollTo(0,0);
+}
 function toggleRecent(){ let w=document.getElementById('recentWrap'); let b=document.getElementById('recentBtn'); if(!w) return; let open=w.style.display==='none'; w.style.display=open?'block':'none'; if(b) b.textContent=open?'📜 నిన్న + ఈ రోజు - మూసేయండి ✖️':'📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి'; if(open){ renderPosts(); } }
-// ✅ FAST FIX - క్యాష్ తో - Date.now() లేదు - ముందు ఫోన్లో ఉన్నది చూపిస్తుంది
 async function fetchFast(url, ms=3000){
   let file = url.split('?')[0];
   try{ let cached = localStorage.getItem('cache_'+file); if(cached) return JSON.parse(cached); }catch(e){}
   try{ let c=new AbortController(); let t=setTimeout(()=>c.abort(), ms); let r=await fetch(file,{signal:c.signal}); clearTimeout(t); if(!r.ok) return null; let j=await r.json(); try{ localStorage.setItem('cache_'+file, JSON.stringify(j)); }catch(e){} return j; }catch(e){ return null; }
 }
-// వెనకాల కొత్తది ఉందేమో చూసి క్యాష్ అప్డేట్ చెయ్ - హోమ్ ఆగదు
 function refreshInBackground(file){
   fetch(file).then(r=>r.json()).then(j=>{ try{ localStorage.setItem('cache_'+file, JSON.stringify(j)); }catch(e){} }).catch(()=>{});
 }
@@ -295,7 +314,6 @@ async function loadPosts(){
   let recent = getRecentPosts();
   if(recent.length>0){ let p = recent[0]; document.getElementById('topTitle').innerHTML = p.title || ''; document.getElementById('topContent').innerText = p.content || ''; document.getElementById('topDate').innerText = '📅 ' + (p.date||''); let ti = document.getElementById('topImage'); if(p.image){ ti.src=p.image; ti.style.display='block'; } else { ti.style.display='none'; } } else { document.getElementById('topTitle').innerHTML = '🙏 ఈ రోజు వాక్యం ఇంకా రాలేదు'; document.getElementById('topContent').innerText = 'కొంచెం సేపు ఆగండి - అడ్మిన్ త్వరలో పెడతారు.'; }
   document.getElementById('topShare').innerHTML = ''; renderPosts();
-  // వెనకాల కొత్తది వస్తే క్యాష్ అప్డేట్
   refreshInBackground('posts.json'); refreshInBackground('books.json');
 }
 function renderPosts(){
@@ -450,4 +468,4 @@ setTimeout(()=>{ loadSponCarousel(); }, 4000);
 setTimeout(updateVisitorCount, 6000);
 </script>
 </body>
-                                                                                                                                         </html>
+  </html>
