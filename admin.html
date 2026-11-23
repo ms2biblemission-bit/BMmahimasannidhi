@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin - Mahima Sannidhi</title><style>body{font-family:system-ui;padding:12px;padding-bottom:140px;max-width:650px;margin:auto;background:#fff8ec}input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}button{background:#b8860b;color:#fff;border:0;padding:12px;border-radius:8px;width:100%;font-size:16px;cursor:pointer;touch-action:manipulation}.tabs{display:flex;gap:5px;flex-wrap:wrap}.tabs button{width:auto;padding:8px 10px;background:#eee;color:#333}.tabs button.on{background:#b8860b;color:#fff}.card{border:1px solid #eee;padding:10px;border-radius:10px;margin:10px 0;background:#fff}img{max-width:100%;border-radius:8px}.small{padding:8px!important;width:auto!important;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid img{height:130px;object-fit:cover;width:100%}.pageBox{background:#FFF8E1;border-left:4px solid #FF9800;padding:10px;border-radius:10px;margin:10px 0}.pageBox textarea{min-height:260px!important;height:260px!important;font-size:17px!important;line-height:1.6!important;padding:12px!important}.songBox{background:#E8F5E9;border-left:4px solid #2E7D32;padding:10px;border-radius:10px;margin:10px 0;cursor:pointer}iframe{width:100%;height:200px;border:0;border-radius:10px}audio{width:100%}.addBtn{width:auto!important;flex:1;background:#673AB7!important;font-size:14px!important;padding:10px 4px!important}.tip{background:#E8F5E9;padding:10px;border-radius:8px;font-size:14px}.vdBtn{display:block;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;margin:6px 0;color:#fff}.sched{background:#FFF3E0;border:1px solid #FFCC80;padding:10px;border-radius:10px;margin:6px 0}</style></head><body>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin - Mahima Sannidhi</title><style>body{font-family:system-ui;padding:12px;padding-bottom:140px;max-width:650px;margin:auto;background:#fff8ec}input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}button{background:#b8860b;color:#fff;border:0;padding:12px;border-radius:8px;width:100%;font-size:16px;cursor:pointer;touch-action:manipulation}.tabs{display:flex;gap:5px;flex-wrap:wrap}.tabs button{width:auto;padding:8px 10px;background:#eee;color:#333}.tabs button.on{background:#b8860b;color:#fff}.card{border:1px solid #eee;padding:10px;border-radius:10px;margin:10px 0;background:#fff}img{max-width:100%;border-radius:8px}.small{padding:8px!important;width:auto!important;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid img{height:130px;object-fit:cover;width:100%}.pageBox{background:#FFF8E1;border-left:4px solid #FF9800;padding:10px;border-radius:10px;margin:10px 0}.pageBox textarea{min-height:260px!important;height:260px!important;font-size:17px!important;line-height:1.6!important;padding:12px!important}.songBox{background:#E8F5E9;border-left:4px solid #2E7D32;padding:10px;border-radius:10px;margin:10px 0;cursor:pointer}iframe{width:100%;height:200px;border:0;border-radius:10px}audio{width:100%}.addBtn{width:auto!important;flex:1;background:#673AB7!important;font-size:14px!important;padding:10px 4px!important}.tip{background:#E8F5E9;padding:10px;border-radius:8px;font-size:14px}.vdBtn{display:block;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;margin:6px 0;color:#fff}.sched{background:#FFF3E0;border:1px solid #FFCC80;padding:10px;border-radius:10px;margin:6px 0}.prayerCard{background:#E0F2F1;border:2px solid #075E54;padding:12px;border-radius:12px;margin:10px 0}.handItem{background:#FFF3E0;padding:10px;border-radius:10px;margin:6px 0;display:flex;justify-content:space-between;align-items:center;gap:8px}</style></head><body>
 <h2>🙏 Mahima Sannidhi - Admin</h2>
-<!-- 👁️📲 లెక్క - అడ్మిన్ కి మాత్రమే -->
 <div style="background:#0B3D2E;color:#fff;border-radius:14px;padding:14px;margin:10px 0;text-align:center">
   <div style="font-size:15px;opacity:.9">👁️ మన యాప్ ని చూసిన వారు</div>
   <div id="vCount" style="font-size:36px;font-weight:900;color:#FFE082">...</div>
@@ -19,8 +18,36 @@
 <button type="button" onclick="setTab('voice',this)">🎙️ వాయిస్</button>
 <button type="button" onclick="setTab('gallery',this)">🖼️ గ్యాలరీ</button>
 <button type="button" onclick="setTab('videos',this)">🎥 వీడియోస్</button>
+<button type="button" onclick="setTab('prayer',this)" style="background:#075E54;color:#fff">🙏 ప్రార్థన</button>
 </div>
-<p style="font-size:13px">చాట్ 👉 <b>admin-chat.html</b></p>
+<p style="font-size:13px">చాట్ 👉 <b>admin-chat.html</b> | ప్రార్థన చాట్ 👉 <b><a href="prayer-chat.html?admin=1">prayer-chat.html?admin=1</a></b></p>
+
+<!-- ✅ 🙏 ప్రార్థన అడ్మిన్ - కొత్తది -->
+<div id="prayerBox" style="display:none">
+<div class="prayerCard">
+<h3 style="margin:0 0 8px;color:#075E54">🙏 ప్రేయర్ కంట్రోల్ - జూమ్ లాగే!</h3>
+<b>🕐 ప్రేయర్ టైమ్:</b><input id="prayerTimeInput" type="time" value="06:00">
+<button type="button" onclick="savePrayerTime()" style="background:#075E54">✅ టైమ్ సేవ్ - అందరికీ చెప్పండి</button>
+<button type="button" onclick="startPrayerLive()" style="background:#FF0000;margin-top:8px;font-size:18px;padding:14px">🔴 LIVE - ప్రేయర్ స్టార్ట్ - అందరికీ నోటిఫికేషన్</button>
+<button type="button" onclick="stopSpeaker()" style="background:#222;margin-top:8px">⏹️ ప్రార్థన ఆపు - మైక్ లాక్</button>
+<button type="button" onclick="location.href='prayer-chat.html?admin=1'" style="background:#25D366;margin-top:8px">💬 ప్రేయర్ చాట్ లోకి వెళ్ళండి 👉</button>
+</div>
+<div class="prayerCard">
+<h3 style="margin:0 0 8px;color:#075E54">🎤 ఇప్పుడు ప్రార్థన చేస్తున్నది: <span id="speakerName">-</span></h3>
+<p style="font-size:13px;color:#666;margin:0">వీళ్ళు మాత్రమే మాట్లాడగలరు - మిగతా వాళ్ళ మైక్ లాక్!</p>
+</div>
+<div class="prayerCard">
+<h3 style="margin:0 0 8px;color:#075E54">✋ హ్యాండ్ రైస్ చేసిన వారు - మీరు ఓకే చేయండి:</h3>
+<div id="handList"><p style="color:#666">ఇంకా ఎవరూ హ్యాండ్ రైస్ చేయలేదు</p></div>
+<button type="button" onclick="refreshPrayerAdmin()" style="background:#075E54;margin-top:8px">🔄 రిఫ్రెష్ - హ్యాండ్ రైస్ చూడండి</button>
+</div>
+<div class="prayerCard">
+<h3 style="margin:0 0 8px;color:#C62828">🚫 బ్లాక్ చేసిన వారు</h3>
+<div id="prayerBlockedList">ఎవరూ బ్లాక్ కాలేదు</div>
+<button type="button" onclick="clearPrayerBlocked()" style="background:#999;margin-top:8px">✅ అందరినీ అన్‌బ్లాక్ చేయండి</button>
+</div>
+</div>
+
 <div id="normalBox">
 <p><b id="tabName">📝 వాక్యం</b> - <span id="folderName" style="color:gray">Folder: posts.json</span></p>
 <div id="videoTip" class="tip" style="display:none">📌 <b>వీడియో ఎలా పెట్టాలి?</b><br>1. వీడియోని Drive లో పెట్టి <b>Anyone with link</b> చేయండి<br>2. ఆ Drive లింక్ ని Copy చేసి కింద <b>Link</b> లో Paste చేయండి<br>3. Title రాసి <b>✅ సేవ్</b> నొక్కండి - యాప్ లో ▶️ చూడండి + ⬇️ డౌన్లోడ్ వస్తుంది</div>
@@ -76,6 +103,42 @@ const OWNER="ms2biblemission-bit", REPO="BMmahimasannidhi";
 let cur="posts", curList=[], curSha="", books=[], booksSha="", curBookIdx=0, SAVED_IMG="";
 let songs=[], songsSha="", curSongFolder="ఆంధ్ర క్రైస్తవ కీర్తనలు", curSongIdx=-1, SONG_IMG="";
 let files={posts:"posts.json",songs:"songs.json",books:"books.json",voice:"voice.json",gallery:"gallery.json",videos:"videos.json"};
+const PRAYER_TOPIC='ms2-prayer-chat-2026';
+function getPrayerHands(){try{return JSON.parse(localStorage.getItem('ms_prayer_hands')||'[]');}catch(e){return [];}}
+function setPrayerHands(a){localStorage.setItem('ms_prayer_hands',JSON.stringify(a));}
+function getPrayerBlocked(){try{return JSON.parse(localStorage.getItem('ms_prayer_blocked')||'[]');}catch(e){return [];}}
+async function savePrayerTime(){let t=document.getElementById('prayerTimeInput').value||'06:00';localStorage.setItem('ms_prayer_time',t);try{await fetch('https://ntfy.sh/'+PRAYER_TOPIC,{method:'POST',body:'PRAYER_TIME|'+t});}catch(e){}alert('✅ ప్రేయర్ టైమ్ - '+t+' కి సెట్ అయ్యింది!');}
+async function startPrayerLive(){try{await fetch('https://ntfy.sh/'+PRAYER_TOPIC,{method:'POST',body:'PRAYER_LIVE|🙏 ప్రేయర్ స్టార్ట్ అయ్యింది! ఇప్పుడే జాయిన్ అవ్వండి!'});}catch(e){}alert('🔴 LIVE - అందరికీ నోటిఫికేషన్ వెళ్ళిపోయింది!');}
+async function approvePrayerHand(name){localStorage.setItem('ms_prayer_speaker',name);setPrayerHands(getPrayerHands().filter(n=>n!==name));try{await fetch('https://ntfy.sh/'+PRAYER_TOPIC,{method:'POST',body:'PRAYER_APPROVE|'+name});}catch(e){}refreshPrayerAdmin();alert('✅ '+name+' కి మైక్ ఇచ్చారు! ఇప్పుడు వాళ్ళు మాత్రమే ప్రార్థన చేస్తారు!');}
+async function rejectPrayerHand(name){setPrayerHands(getPrayerHands().filter(n=>n!==name));try{await fetch('https://ntfy.sh/'+PRAYER_TOPIC,{method:'POST',body:'PRAYER_REJECT|'+name});}catch(e){}refreshPrayerAdmin();}
+async function stopSpeaker(){localStorage.removeItem('ms_prayer_speaker');setPrayerHands([]);try{await fetch('https://ntfy.sh/'+PRAYER_TOPIC,{method:'POST',body:'PRAYER_STOP|'});}catch(e){}refreshPrayerAdmin();alert('⏹️ ప్రార్థన ఆపేశారు - మైక్ లాక్!');}
+function clearPrayerBlocked(){localStorage.removeItem('ms_prayer_blocked');refreshPrayerAdmin();alert('✅ అందరినీ అన్‌బ్లాక్ చేశారు!');}
+function refreshPrayerAdmin(){
+ let hands=getPrayerHands();
+ document.getElementById('speakerName').textContent=localStorage.getItem('ms_prayer_speaker')||'-';
+ document.getElementById('handList').innerHTML=hands.length?hands.map(n=>'<div class="handItem"><b>✋ '+n+'</b><span style="display:flex;gap:6px"><button type="button" onclick="approvePrayerHand(\''+n.replace(/'/g,'')+'\')" style="background:#25D366;width:auto;padding:10px 14px">✅ ఓకే</button><button type="button" onclick="rejectPrayerHand(\''+n.replace(/'/g,'')+'\')" style="background:#999;width:auto;padding:10px 14px">❌ వద్దు</button></span></div>').join(''):'<p style="color:#666">ఇంకా ఎవరూ హ్యాండ్ రైస్ చేయలేదు</p>';
+ let b=getPrayerBlocked();
+ document.getElementById('prayerBlockedList').innerHTML=b.length?b.map(n=>'<div>🚫 '+n+'</div>').join(''):'ఎవరూ బ్లాక్ కాలేదు';
+ let t=localStorage.getItem('ms_prayer_time')||'06:00';
+ let inp=document.getElementById('prayerTimeInput'); if(inp) inp.value=t;
+}
+async function pollPrayerAdmin(){
+ try{
+  let r=await fetch('https://ntfy.sh/'+PRAYER_TOPIC+'/json?since=all&poll=1');
+  let txt=await r.text();
+  txt.split('\n').filter(Boolean).forEach(l=>{
+   try{
+    let j=JSON.parse(l); if(!j.message) return;
+    if(j.message.startsWith('PRAYER_HAND|')){let n=j.message.split('|')[1]; let h=getPrayerHands(); if(n && !h.includes(n)){h.push(n); setPrayerHands(h);} refreshPrayerAdmin(); if(cur==='prayer') alert('✋ '+n+' హ్యాండ్ రైస్ చేశారు! ఓకే చేయండి!');}
+    if(j.message.startsWith('PRAYER_TIME|')){let t=j.message.split('|')[1]; if(t) localStorage.setItem('ms_prayer_time',t); refreshPrayerAdmin();}
+    if(j.message.startsWith('PRAYER_APPROVE|')){let n=j.message.split('|')[1]; localStorage.setItem('ms_prayer_speaker',n); setPrayerHands(getPrayerHands().filter(x=>x!==n)); refreshPrayerAdmin();}
+    if(j.message.startsWith('PRAYER_STOP|')){localStorage.removeItem('ms_prayer_speaker'); setPrayerHands([]); refreshPrayerAdmin();}
+    if(j.message.startsWith('PRAYER_BLOCK|')){let n=j.message.split('|')[1]; let b=getPrayerBlocked(); if(n && !b.includes(n)){b.push(n); localStorage.setItem('ms_prayer_blocked',JSON.stringify(b));} refreshPrayerAdmin();}
+   }catch(e){}
+  });
+ }catch(e){}
+}
+setInterval(pollPrayerAdmin,5000); setInterval(refreshPrayerAdmin,10000);
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function fixT(s){ if(!s) return ''; try{ if(/[\u00C0-\u00FF]/.test(s) || s.indexOf('Ã')>=0){ let b=new Uint8Array([...s].map(c=>c.charCodeAt(0)&255)); let d=new TextDecoder('utf-8').decode(b); if(d.indexOf('[STRIPPED 3 bytes]')===-1) return d; } }catch(e){} return s; }
 function b64e(s){ let b=new TextEncoder().encode(s), out=""; for(let i=0;i<b.length;i+=30000){ out+=String.fromCharCode.apply(null,b.subarray(i,i+30000)); } return btoa(out); }
@@ -85,188 +148,34 @@ function getImg(p){ return p.img||p.image||p.photo||""; }
 function getFolderOf(s){ return (s.book||s.folder||s.author||"ఆంధ్ర క్రైస్తవ కీర్తనలు").trim()||"ఆంధ్ర క్రైస్తవ కీర్తనలు"; }
 function ytId(u){ if(!u) return ""; let m=u.match(/(?:youtube\.com\/.*v=|youtu\.be\/|shorts\/)([^&\?\/]+)/); return m?m[1]:""; }
 function driveId(u){ if(!u) return ""; let m=u.match(/\/d\/([^\/\?]+)/); return m?m[1]:""; }
-function parseSchedDate(dStr, tStr){
-  if(!dStr) return null;
-  dStr=String(dStr).trim();
-  let ymd="";
-  if(/^\d{4}-\d{2}-\d{2}$/.test(dStr)) ymd=dStr;
-  else if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dStr)){ let p=dStr.split("/"); ymd=p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0"); }
-  else return null;
-  return new Date(ymd+"T"+(tStr||"00:00")+":00");
-}
-function schedStatus(p){
-  if(!p.schedDate && !p.schedTime) return "✅ కనబడుతోంది";
-  let d = p.schedDate || p.date;
-  let dt = parseSchedDate(d, p.schedTime||p.time||"00:00");
-  if(!dt) return "✅ కనబడుతోంది";
-  return dt <= new Date() ? "✅ కనబడుతోంది" : "⏳ ఇంకా రాలేదు - "+d+" "+(p.schedTime||"");
-}
-function toISODate(dStr){
-  if(!dStr) return "";
-  if(/^\d{4}-\d{2}-\d{2}$/.test(dStr)) return dStr;
-  if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dStr)){ let p=dStr.split("/"); return p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0"); }
-  return dStr;
-}
+function parseSchedDate(dStr, tStr){ if(!dStr) return null; dStr=String(dStr).trim(); let ymd=""; if(/^\d{4}-\d{2}-\d{2}$/.test(dStr)) ymd=dStr; else if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dStr)){ let p=dStr.split("/"); ymd=p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0"); } else return null; return new Date(ymd+"T"+(tStr||"00:00")+":00"); }
+function schedStatus(p){ if(!p.schedDate && !p.schedTime) return "✅ కనబడుతోంది"; let d = p.schedDate || p.date; let dt = parseSchedDate(d, p.schedTime||p.time||"00:00"); if(!dt) return "✅ కనబడుతోంది"; return dt <= new Date() ? "✅ కనబడుతోంది" : "⏳ ఇంకా రాలేదు - "+d+" "+(p.schedTime||""); }
+function toISODate(dStr){ if(!dStr) return ""; if(/^\d{4}-\d{2}-\d{2}$/.test(dStr)) return dStr; if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dStr)){ let p=dStr.split("/"); return p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0"); } return dStr; }
 function linkHTML(l){ if(!l) return ""; let id=ytId(l); if(id) return `<a href="${l}" target="_blank"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" style="width:100%;border-radius:10px"></a><br><a href="${l}" target="_blank">▶️ YouTube లో ఓపెన్ చేయండి</a>`; let did=driveId(l); if(did){ let view="https://drive.google.com/file/d/"+did+"/view"; let down="https://drive.google.com/uc?export=download&id="+did; return `<a class="vdBtn" style="background:#E53935" href="${view}" target="_blank">▶️ వీడియో చూడండి</a><a class="vdBtn" style="background:#4CAF50" href="${down}" target="_blank">⬇️ డౌన్లోడ్ చేసుకోండి</a>`; } if(l.match(/\.mp3|\.m4a|\.wav/i)) return `<audio controls src="${l}"></audio>`; return `<a href="${l}" target="_blank">🔗 ${l}</a>`; }
 function previewLink(){ document.getElementById('linkPreview').innerHTML=linkHTML(document.getElementById('link').value.trim()); }
 async function getFreshSha(file){ try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,{headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"}}); let j=await r.json(); return j.sha||""; }catch(e){ return ""; } }
 function setSelectOptions(sel, items){ sel.innerHTML=""; items.forEach(it=>{ let o=document.createElement('option'); o.value=it.value; o.textContent=it.text; sel.appendChild(o); }); }
-async function loadCur(){
-  if(cur==='books'){ loadBooks(); return; }
-  if(cur==='songs'){ loadSongs(); return; }
-  let token=getToken(); if(!token) return;
-  document.getElementById('status').innerText="Loading "+files[cur]+"...";
-  try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ curSha=j.sha; curList=JSON.parse(b64d(j.content)); } else { curSha=""; curList=[]; } }catch(e){ curSha=""; curList=[]; }
-  curList=curList.map(p=>({title:fixT(p.title||""), msg:fixT(p.msg||p.content||""), link:p.link||p.url||"", img:getImg(p), date:p.date||"", schedDate:p.schedDate||"", schedTime:p.schedTime||p.time||"", _orig:p}));
-  document.getElementById('status').innerText="✅ "+files[cur]+" - "+curList.length+" ఉన్నాయి"; show();
-}
-function setTab(t,btn){
-  cur=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
-  document.getElementById('normalBox').style.display = (t==='books'||t==='songs') ? 'none':'block';
-  document.getElementById('booksBox').style.display = t==='books' ? 'block':'none';
-  document.getElementById('songsBox').style.display = t==='songs' ? 'block':'none';
-  document.getElementById('videoTip').style.display = t==='videos' ? 'block':'none';
-  if(t!=='books'&&t!=='songs'){ document.getElementById('tabName').innerText=btn.innerText; document.getElementById('folderName').innerText="Folder: "+files[cur]; newItem(); }
-  loadCur();
-}
+async function loadCur(){ if(cur==='books'){ loadBooks(); return; } if(cur==='songs'){ loadSongs(); return; } if(cur==='prayer'){ refreshPrayerAdmin(); return; } let token=getToken(); if(!token) return; document.getElementById('status').innerText="Loading "+files[cur]+"..."; try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ curSha=j.sha; curList=JSON.parse(b64d(j.content)); } else { curSha=""; curList=[]; } }catch(e){ curSha=""; curList=[]; } curList=curList.map(p=>({title:fixT(p.title||""), msg:fixT(p.msg||p.content||""), link:p.link||p.url||"", img:getImg(p), date:p.date||"", schedDate:p.schedDate||"", schedTime:p.schedTime||p.time||"", _orig:p})); document.getElementById('status').innerText="✅ "+files[cur]+" - "+curList.length+" ఉన్నాయి"; show(); }
+function setTab(t,btn){ cur=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); document.getElementById('normalBox').style.display = (t==='books'||t==='songs'||t==='prayer') ? 'none':'block'; document.getElementById('booksBox').style.display = t==='books' ? 'block':'none'; document.getElementById('songsBox').style.display = t==='songs' ? 'block':'none'; document.getElementById('prayerBox').style.display = t==='prayer' ? 'block':'none'; document.getElementById('videoTip').style.display = t==='videos' ? 'block':'none'; if(t!=='books'&&t!=='songs'&&t!=='prayer'){ document.getElementById('tabName').innerText=btn.innerText; document.getElementById('folderName').innerText="Folder: "+files[cur]; newItem(); } loadCur(); }
 function newItem(){ document.getElementById('editIdx').value="-1"; document.getElementById('title').value=""; document.getElementById('msg').value=""; document.getElementById('link').value=""; document.getElementById('linkPreview').innerHTML=""; document.getElementById('preview').style.display='none'; document.getElementById('photoMsg').innerText=""; document.getElementById('photo').value=""; SAVED_IMG=""; document.getElementById('schedDate').value=""; document.getElementById('schedTime').value="10:00"; document.getElementById('saveBtn').innerText="✅ సేవ్ చేయండి"; }
-function editOne(i){
-  let p=curList[i]; document.getElementById('editIdx').value=i; document.getElementById('title').value=p.title; document.getElementById('msg').value=p.msg; document.getElementById('link').value=p.link; previewLink();
-  SAVED_IMG=p.img||""; if(p.img){ document.getElementById('preview').src=p.img; document.getElementById('preview').style.display='block'; document.getElementById('photoMsg').innerText="✅ పాత ఫోటో ఉంది"; }
-  document.getElementById('schedDate').value=toISODate(p.schedDate||""); document.getElementById('schedTime').value=p.schedTime||"10:00";
-  document.getElementById('saveBtn').innerText="💾 Update చేయండి"; window.scrollTo(0,0);
-}
-function show(){
-  document.getElementById('count').innerText=curList.length+" ఉన్నాయి";
-  let box=document.getElementById('list'); box.innerHTML="";
-  if(cur==='gallery'){
-    if(!curList.length){ box.textContent="📭 గ్యాలరీ ఖాళీ"; return; }
-    let g=document.createElement('div'); g.className='grid';
-    curList.forEach((p,i)=>{ let d=document.createElement('div'); d.className='card'; d.style.margin='0'; if(p.img){ let im=document.createElement('img'); im.src=p.img; d.appendChild(im); } let b=document.createElement('b'); b.textContent=p.title||"ఫోటో"; d.appendChild(b); d.appendChild(document.createElement('br')); let st=document.createElement('div'); st.style.fontSize='12px'; st.style.color='#666'; st.textContent=schedStatus(p); d.appendChild(st); let e=document.createElement('button'); e.className='small'; e.style.background='#2196F3'; e.textContent='✏️ ఎడిట్'; e.onclick=()=>editOne(i); d.appendChild(e); let del=document.createElement('button'); del.className='small'; del.style.background='red'; del.textContent='❌ Delete'; del.onclick=()=>delOne(i); d.appendChild(del); g.appendChild(d); });
-    box.appendChild(g); return;
-  }
-  curList.forEach((p,i)=>{ let d=document.createElement('div'); d.className='card'; let b=document.createElement('b'); b.textContent=`📂 ${files[cur]} - ${i+1}. ${p.title||"(Title లేదు)"}`; d.appendChild(b); let st=document.createElement('div'); st.style.fontSize='13px'; st.style.color='#666'; st.textContent="📅 "+schedStatus(p); d.appendChild(st); let pp=document.createElement('p'); pp.style.whiteSpace='pre-line'; pp.textContent=p.msg; d.appendChild(pp); let lh=document.createElement('div'); lh.innerHTML=linkHTML(p.link); d.appendChild(lh); if(p.img){ let im=document.createElement('img'); im.src=p.img; d.appendChild(im); } d.appendChild(document.createElement('br')); let e=document.createElement('button'); e.className='small'; e.style.background='#2196F3'; e.textContent='✏️ ఎడిట్'; e.onclick=()=>editOne(i); d.appendChild(e); let del=document.createElement('button'); del.className='small'; del.style.background='red'; del.textContent='❌ Delete'; del.onclick=()=>delOne(i); d.appendChild(del); box.appendChild(d); });
-  if(!curList.length) box.textContent="ఇంకా లేవు";
-}
-async function saveCur(){
-  let fresh=await getFreshSha(files[cur]); if(fresh) curSha=fresh;
-  let toSave=curList.map(p=>{ let o=p._orig||{}; if(cur==='posts') return {...o,title:p.title,content:p.msg,image:p.img,date:p.date,schedDate:p.schedDate,schedTime:p.schedTime,time:p.schedTime}; return {...o,title:p.title,msg:p.msg,content:p.msg,link:p.link,img:p.img,image:p.img,date:p.date,schedDate:p.schedDate,schedTime:p.schedTime,time:p.schedTime}; });
-  let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`; let body={message:"update "+cur,content:b64e(JSON.stringify(toSave))}; if(curSha) body.sha=curSha;
-  return fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)});
-}
-async function savePost(){
-  let t=document.getElementById('title').value.trim(), m=document.getElementById('msg').value, l=document.getElementById('link').value.trim(), im=SAVED_IMG, idx=parseInt(document.getElementById('editIdx').value);
-  let sd=document.getElementById('schedDate').value, st=document.getElementById('schedTime').value||"10:00";
-  if(!t && !m && !l && !im){ alert("ఏదైనా ఒకటి పెట్టండి"); return; }
-  if(idx>=0 && curList[idx]){ curList[idx]={...curList[idx],title:t,msg:m,link:l,img:im,schedDate:sd,schedTime:st}; if(sd) curList[idx].date=sd; }
-  else curList.unshift({title:t,msg:m,link:l,img:im,date:sd||todayISO(),schedDate:sd,schedTime:st});
-  try{ let r=await saveCur(); if(r.ok){alert("✅ సేవ్ అయింది!"); newItem(); loadCur();} else alert("❌ Save కాలేదు - Token Expire అయి ఉండొచ్చు"); }catch(e){ alert("❌ Save కాలేదు: "+e.message); }
-}
+function editOne(i){ let p=curList[i]; document.getElementById('editIdx').value=i; document.getElementById('title').value=p.title; document.getElementById('msg').value=p.msg; document.getElementById('link').value=p.link; previewLink(); SAVED_IMG=p.img||""; if(p.img){ document.getElementById('preview').src=p.img; document.getElementById('preview').style.display='block'; document.getElementById('photoMsg').innerText="✅ పాత ఫోటో ఉంది"; } document.getElementById('schedDate').value=toISODate(p.schedDate||""); document.getElementById('schedTime').value=p.schedTime||"10:00"; document.getElementById('saveBtn').innerText="💾 Update చేయండి"; window.scrollTo(0,0); }
+function show(){ document.getElementById('count').innerText=curList.length+" ఉన్నాయి"; let box=document.getElementById('list'); box.innerHTML=""; if(cur==='gallery'){ if(!curList.length){ box.textContent="📭 గ్యాలరీ ఖాళీ"; return; } let g=document.createElement('div'); g.className='grid'; curList.forEach((p,i)=>{ let d=document.createElement('div'); d.className='card'; d.style.margin='0'; if(p.img){ let im=document.createElement('img'); im.src=p.img; d.appendChild(im); } let b=document.createElement('b'); b.textContent=p.title||"ఫోటో"; d.appendChild(b); d.appendChild(document.createElement('br')); let st=document.createElement('div'); st.style.fontSize='12px'; st.style.color='#666'; st.textContent=schedStatus(p); d.appendChild(st); let e=document.createElement('button'); e.className='small'; e.style.background='#2196F3'; e.textContent='✏️ ఎడిట్'; e.onclick=()=>editOne(i); d.appendChild(e); let del=document.createElement('button'); del.className='small'; del.style.background='red'; del.textContent='❌ Delete'; del.onclick=()=>delOne(i); d.appendChild(del); g.appendChild(d); }); box.appendChild(g); return; } curList.forEach((p,i)=>{ let d=document.createElement('div'); d.className='card'; let b=document.createElement('b'); b.textContent=`📂 ${files[cur]} - ${i+1}. ${p.title||"(Title లేదు)"}`; d.appendChild(b); let st=document.createElement('div'); st.style.fontSize='13px'; st.style.color='#666'; st.textContent="📅 "+schedStatus(p); d.appendChild(st); let pp=document.createElement('p'); pp.style.whiteSpace='pre-line'; pp.textContent=p.msg; d.appendChild(pp); let lh=document.createElement('div'); lh.innerHTML=linkHTML(p.link); d.appendChild(lh); if(p.img){ let im=document.createElement('img'); im.src=p.img; d.appendChild(im); } d.appendChild(document.createElement('br')); let e=document.createElement('button'); e.className='small'; e.style.background='#2196F3'; e.textContent='✏️ ఎడిట్'; e.onclick=()=>editOne(i); d.appendChild(e); let del=document.createElement('button'); del.className='small'; del.style.background='red'; del.textContent='❌ Delete'; del.onclick=()=>delOne(i); d.appendChild(del); box.appendChild(d); }); if(!curList.length) box.textContent="ఇంకా లేవు"; }
+async function saveCur(){ let fresh=await getFreshSha(files[cur]); if(fresh) curSha=fresh; let toSave=curList.map(p=>{ let o=p._orig||{}; if(cur==='posts') return {...o,title:p.title,content:p.msg,image:p.img,date:p.date,schedDate:p.schedDate,schedTime:p.schedTime,time:p.schedTime}; return {...o,title:p.title,msg:p.msg,content:p.msg,link:p.link,img:p.img,image:p.img,date:p.date,schedDate:p.schedDate,schedTime:p.schedTime,time:p.schedTime}; }); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`; let body={message:"update "+cur,content:b64e(JSON.stringify(toSave))}; if(curSha) body.sha=curSha; return fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); }
+async function savePost(){ let t=document.getElementById('title').value.trim(), m=document.getElementById('msg').value, l=document.getElementById('link').value.trim(), im=SAVED_IMG, idx=parseInt(document.getElementById('editIdx').value); let sd=document.getElementById('schedDate').value, st=document.getElementById('schedTime').value||"10:00"; if(!t && !m && !l && !im){ alert("ఏదైనా ఒకటి పెట్టండి"); return; } if(idx>=0 && curList[idx]){ curList[idx]={...curList[idx],title:t,msg:m,link:l,img:im,schedDate:sd,schedTime:st}; if(sd) curList[idx].date=sd; } else curList.unshift({title:t,msg:m,link:l,img:im,date:sd||todayISO(),schedDate:sd,schedTime:st}); try{ let r=await saveCur(); if(r.ok){alert("✅ సేవ్ అయింది!"); newItem(); loadCur();} else alert("❌ Save కాలేదు - Token Expire అయి ఉండొచ్చు"); }catch(e){ alert("❌ Save కాలేదు: "+e.message); } }
 async function delOne(i){ if(!confirm("ఇది మాత్రమే Delete చేయాలా?")) return; curList.splice(i,1); let r=await saveCur(); if(r.ok) loadCur(); }
 document.getElementById('photo').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f)return; let rd=new FileReader(); rd.onload=ev=>{let img=new Image(); img.onload=()=>{let c=document.createElement('canvas'); let w=img.width,h=img.height,max=800; if(w>max){h=h*max/w;w=max;} c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h); let s=c.toDataURL('image/jpeg',0.7); SAVED_IMG=s; document.getElementById('preview').src=s; document.getElementById('preview').style.display='block'; document.getElementById('photoMsg').innerText="✅ ఫోటో రెడీ";}; img.src=ev.target.result;}; rd.readAsDataURL(f); });
-async function loadSongs(){
-  let token=getToken(); if(!token) return;
-  document.getElementById('status').innerText="Loading songs.json...";
-  try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/songs.json`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ songsSha=j.sha; songs=JSON.parse(b64d(j.content)); } else { songsSha=""; songs=[]; } }catch(e){ songsSha=""; songs=[]; }
-  songs=songs.map(s=>({title:fixT(s.title||""), content:fixT(s.content||s.msg||""), link:s.link||s.url||"", img:getImg(s), folder:getFolderOf(s), date:s.date||s.createdAt||"", updatedAt:s.updatedAt||""}));
-  let folders=[...new Set(songs.map(s=>s.folder))];
-  if(!folders.includes(curSongFolder) && folders.length) curSongFolder=folders[0];
-  if(!folders.length) folders=["ఆంధ్ర క్రైస్తవ కీర్తనలు"];
-  let sel=document.getElementById('songFolderSelect');
-  setSelectOptions(sel, folders.map(f=>({value:f, text:`📁 ${f} (${songs.filter(s=>s.folder===f).length} పాటలు)`})));
-  sel.value=curSongFolder;
-  document.getElementById('status').innerText="✅ songs.json - "+songs.length+" పాటలు";
-  onFolderChange();
-}
-function onFolderChange(){
-  curSongFolder=document.getElementById('songFolderSelect').value;
-  let list=songs.map((s,i)=>({...s,_idx:i})).filter(s=>s.folder===curSongFolder);
-  let sel=document.getElementById('songSelect');
-  if(!list.length){ setSelectOptions(sel,[{value:"-1",text:"పాట లేదు"}]); curSongIdx=-1; }
-  else{ setSelectOptions(sel, list.map((s,pi)=>({value:String(s._idx), text:`${pi+1}. ${s.title||'పాట'}`}))) ; curSongIdx=list[0]._idx; sel.value=String(curSongIdx); }
-  document.getElementById('songCount').innerText=list.length+" పాటలు";
-  let box=document.getElementById('songsList'); box.innerHTML="";
-  list.forEach((s,pi)=>{ let d=document.createElement('div'); d.className='songBox'; let b=document.createElement('b'); b.textContent=`${pi+1}. ${s.title||''}`; d.appendChild(b); let sub=document.createElement('div'); sub.style.cssText='color:gray;font-size:13px'; sub.textContent=`👆 నొక్కితే పైన ఎడిట్ ఓపెన్ అవుతుంది ${s.link?'| ▶️ YouTube/MP3 ఉంది':''} ${s.img?'| 📷 ఫోటో ఉంది':''}`; d.appendChild(sub); d.onclick=()=>{ document.getElementById('songSelect').value=String(s._idx); openSongEdit(); window.scrollTo(0,0); }; let sRow=document.createElement('div'); sRow.style.cssText='display:flex;gap:6px;margin-top:8px'; let sUp=document.createElement('button'); sUp.type='button'; sUp.className='small'; sUp.style.background='#673AB7'; sUp.style.flex='1'; sUp.textContent='⬆️ పైకి'; sUp.onclick=(e)=>{e.stopPropagation(); moveSongUp(s._idx);}; sRow.appendChild(sUp); let sDown=document.createElement('button'); sDown.type='button'; sDown.className='small'; sDown.style.background='#009688'; sDown.style.flex='1'; sDown.textContent='⬇️ కిందకి'; sDown.onclick=(e)=>{e.stopPropagation(); moveSongDown(s._idx);}; sRow.appendChild(sDown); d.appendChild(sRow); box.appendChild(d); });
-  if(!list.length) box.textContent="📭 పాటలు లేవు";
-  openSongEdit();
-}
-function openSongEdit(){
-  let v=document.getElementById('songSelect').value; curSongIdx=parseInt(v);
-  if(isNaN(curSongIdx)||curSongIdx<0||!songs[curSongIdx]){ document.getElementById('songTitle').value=""; document.getElementById('songContent').value=""; document.getElementById('songLink').value=""; document.getElementById('songLinkPreview').innerHTML=""; document.getElementById('songPreview').style.display='none'; SONG_IMG=""; return; }
-  let s=songs[curSongIdx];
-  document.getElementById('songTitle').value=s.title;
-  document.getElementById('songContent').value=s.content;
-  document.getElementById('songLink').value=s.link;
-  document.getElementById('songLinkPreview').innerHTML=linkHTML(s.link);
-  SONG_IMG=s.img||"";
-  if(s.img){ document.getElementById('songPreview').src=s.img; document.getElementById('songPreview').style.display='block'; document.getElementById('songPhotoMsg').innerText="✅ పాత ఫోటో ఉంది"; } else { document.getElementById('songPreview').style.display='none'; document.getElementById('songPhotoMsg').innerText=""; }
-}
-async function saveSongsToGit(){
-  document.getElementById('status').innerText="⏳ పాట సేవ్ అవుతోంది... దయచేసి ఆగండి";
-  try{
-    let fresh=await getFreshSha("songs.json"); if(fresh) songsSha=fresh;
-    let toSave=songs.map((s,i)=>({title:s.title,content:s.content,msg:s.content,link:s.link,url:s.link,img:s.img,image:s.img,folder:s.folder,book:s.folder,author:s.folder,num:i+1,date:s.date||todayISO(),createdAt:s.date||todayISO(),updatedAt:todayISO()}));
-    let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/songs.json`; let body={message:"update songs",content:b64e(JSON.stringify(toSave))}; if(songsSha) body.sha=songsSha;
-    let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)});
-    if(r.ok){ alert("✅ పాట సేవ్ అయింది! హోమ్ లో ఈరోజు కొత్తగా వచ్చినవి లో వస్తుంది!"); loadSongs(); } else { let j=await r.json().catch(()=>({})); alert("❌ సేవ్ కాలేదు: "+(j.message||r.status)+" - Token Expire అయి ఉండొచ్చు"); document.getElementById('status').innerText="❌ "+(j.message||r.status); }
-  }catch(e){ alert("❌ సేవ్ కాలేదు: "+e.message); document.getElementById('status').innerText="❌ "+e.message; }
-}
-function saveCurrentSong(){
-  if(curSongIdx<0){ alert("ముందు పాట ఎంచుకోండి"); return; }
-  songs[curSongIdx].title=document.getElementById('songTitle').value;
-  songs[curSongIdx].content=document.getElementById('songContent').value;
-  songs[curSongIdx].link=document.getElementById('songLink').value;
-  songs[curSongIdx].img=SONG_IMG;
-  songs[curSongIdx].folder=curSongFolder;
-  if(!songs[curSongIdx].date) songs[curSongIdx].date=todayISO();
-  songs[curSongIdx].updatedAt=todayISO();
-  saveSongsToGit();
-}
+async function loadSongs(){ let token=getToken(); if(!token) return; document.getElementById('status').innerText="Loading songs.json..."; try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/songs.json`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ songsSha=j.sha; songs=JSON.parse(b64d(j.content)); } else { songsSha=""; songs=[]; } }catch(e){ songsSha=""; songs=[]; } songs=songs.map(s=>({title:fixT(s.title||""), content:fixT(s.content||s.msg||""), link:s.link||s.url||"", img:getImg(s), folder:getFolderOf(s), date:s.date||s.createdAt||"", updatedAt:s.updatedAt||""})); let folders=[...new Set(songs.map(s=>s.folder))]; if(!folders.includes(curSongFolder) && folders.length) curSongFolder=folders[0]; if(!folders.length) folders=["ఆంధ్ర క్రైస్తవ కీర్తనలు"]; let sel=document.getElementById('songFolderSelect'); setSelectOptions(sel, folders.map(f=>({value:f, text:`📁 ${f} (${songs.filter(s=>s.folder===f).length} పాటలు)`}))); sel.value=curSongFolder; document.getElementById('status').innerText="✅ songs.json - "+songs.length+" పాటలు"; onFolderChange(); }
+function onFolderChange(){ curSongFolder=document.getElementById('songFolderSelect').value; let list=songs.map((s,i)=>({...s,_idx:i})).filter(s=>s.folder===curSongFolder); let sel=document.getElementById('songSelect'); if(!list.length){ setSelectOptions(sel,[{value:"-1",text:"పాట లేదు"}]); curSongIdx=-1; } else{ setSelectOptions(sel, list.map((s,pi)=>({value:String(s._idx), text:`${pi+1}. ${s.title||'పాట'}`}))) ; curSongIdx=list[0]._idx; sel.value=String(curSongIdx); } document.getElementById('songCount').innerText=list.length+" పాటలు"; let box=document.getElementById('songsList'); box.innerHTML=""; list.forEach((s,pi)=>{ let d=document.createElement('div'); d.className='songBox'; let b=document.createElement('b'); b.textContent=`${pi+1}. ${s.title||''}`; d.appendChild(b); let sub=document.createElement('div'); sub.style.cssText='color:gray;font-size:13px'; sub.textContent=`👆 నొక్కితే పైన ఎడిట్ ఓపెన్ అవుతుంది ${s.link?'| ▶️ YouTube/MP3 ఉంది':''} ${s.img?'| 📷 ఫోటో ఉంది':''}`; d.appendChild(sub); d.onclick=()=>{ document.getElementById('songSelect').value=String(s._idx); openSongEdit(); window.scrollTo(0,0); }; let sRow=document.createElement('div'); sRow.style.cssText='display:flex;gap:6px;margin-top:8px'; let sUp=document.createElement('button'); sUp.type='button'; sUp.className='small'; sUp.style.background='#673AB7'; sUp.style.flex='1'; sUp.textContent='⬆️ పైకి'; sUp.onclick=(e)=>{e.stopPropagation(); moveSongUp(s._idx);}; sRow.appendChild(sUp); let sDown=document.createElement('button'); sDown.type='button'; sDown.className='small'; sDown.style.background='#009688'; sDown.style.flex='1'; sDown.textContent='⬇️ కిందకి'; sDown.onclick=(e)=>{e.stopPropagation(); moveSongDown(s._idx);}; sRow.appendChild(sDown); d.appendChild(sRow); box.appendChild(d); }); if(!list.length) box.textContent="📭 పాటలు లేవు"; openSongEdit(); }
+function openSongEdit(){ let v=document.getElementById('songSelect').value; curSongIdx=parseInt(v); if(isNaN(curSongIdx)||curSongIdx<0||!songs[curSongIdx]){ document.getElementById('songTitle').value=""; document.getElementById('songContent').value=""; document.getElementById('songLink').value=""; document.getElementById('songLinkPreview').innerHTML=""; document.getElementById('songPreview').style.display='none'; SONG_IMG=""; return; } let s=songs[curSongIdx]; document.getElementById('songTitle').value=s.title; document.getElementById('songContent').value=s.content; document.getElementById('songLink').value=s.link; document.getElementById('songLinkPreview').innerHTML=linkHTML(s.link); SONG_IMG=s.img||""; if(s.img){ document.getElementById('songPreview').src=s.img; document.getElementById('songPreview').style.display='block'; document.getElementById('songPhotoMsg').innerText="✅ పాత ఫోటో ఉంది"; } else { document.getElementById('songPreview').style.display='none'; document.getElementById('songPhotoMsg').innerText=""; } }
+async function saveSongsToGit(){ document.getElementById('status').innerText="⏳ పాట సేవ్ అవుతోంది... దయచేసి ఆగండి"; try{ let fresh=await getFreshSha("songs.json"); if(fresh) songsSha=fresh; let toSave=songs.map((s,i)=>({title:s.title,content:s.content,msg:s.content,link:s.link,url:s.link,img:s.img,image:s.img,folder:s.folder,book:s.folder,author:s.folder,num:i+1,date:s.date||todayISO(),createdAt:s.date||todayISO(),updatedAt:todayISO()})); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/songs.json`; let body={message:"update songs",content:b64e(JSON.stringify(toSave))}; if(songsSha) body.sha=songsSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ alert("✅ పాట సేవ్ అయింది! హోమ్ లో ఈరోజు కొత్తగా వచ్చినవి లో వస్తుంది!"); loadSongs(); } else { let j=await r.json().catch(()=>({})); alert("❌ సేవ్ కాలేదు: "+(j.message||r.status)+" - Token Expire అయి ఉండొచ్చు"); document.getElementById('status').innerText="❌ "+(j.message||r.status); } }catch(e){ alert("❌ సేవ్ కాలేదు: "+e.message); document.getElementById('status').innerText="❌ "+e.message; } }
+function saveCurrentSong(){ if(curSongIdx<0){ alert("ముందు పాట ఎంచుకోండి"); return; } songs[curSongIdx].title=document.getElementById('songTitle').value; songs[curSongIdx].content=document.getElementById('songContent').value; songs[curSongIdx].link=document.getElementById('songLink').value; songs[curSongIdx].img=SONG_IMG; songs[curSongIdx].folder=curSongFolder; if(!songs[curSongIdx].date) songs[curSongIdx].date=todayISO(); songs[curSongIdx].updatedAt=todayISO(); saveSongsToGit(); }
 function newSongInFolder(){ songs.push({title:"కొత్త పాట",content:"",link:"",img:"",folder:curSongFolder,date:todayISO(),updatedAt:todayISO()}); curSongIdx=songs.length-1; saveSongsToGit(); }
 function newSongFolder(){ let n=prompt("కొత్త పాటల బుక్ / ఫోల్డర్ పేరు:", "కొత్త పాటలు"); if(!n) return; curSongFolder=n.trim(); songs.push({title:"కొత్త పాట",content:"",link:"",img:"",folder:curSongFolder,date:todayISO(),updatedAt:todayISO()}); saveSongsToGit(); }
 function delSongFolder(){ if(!confirm("ఈ ఫోల్డర్ + దీని పాటలు మొత్తం తీసేయి")) return; songs=songs.filter(s=>s.folder!==curSongFolder); curSongFolder="ఆంధ్ర క్రైస్తవ కీర్తనలు"; saveSongsToGit(); }
 function delCurrentSong(){ if(curSongIdx<0) return; if(!confirm("ఈ పాట తీసేయాలా?")) return; songs.splice(curSongIdx,1); saveSongsToGit(); }
 document.getElementById('songPhoto').addEventListener('change',e=>{ let f=e.target.files[0]; if(!f) return; let rd=new FileReader(); rd.onload=ev=>{ let img=new Image(); img.onload=()=>{ let c=document.createElement('canvas'); let w=img.width,h=img.height,max=800; if(w>max){h=h*max/w;w=max;} c.width=w;c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); SONG_IMG=c.toDataURL('image/jpeg',0.7); document.getElementById('songPreview').src=SONG_IMG; document.getElementById('songPreview').style.display='block'; document.getElementById('songPhotoMsg').innerText="✅ ఫోటో రెడీ - ఇప్పుడు 💾 సేవ్ నొక్కండి"; }; img.src=ev.target.result; }; rd.readAsDataURL(f); });
 document.getElementById('songLink').addEventListener('input',e=>{ document.getElementById('songLinkPreview').innerHTML=linkHTML(e.target.value.trim()); });
-async function loadBooks(){
-  let token=getToken();
-  document.getElementById('status').innerText="Loading books.json... (Raw)";
-  books=[];
-  try{
-    let r=await fetch('https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/main/books.json?v='+Date.now());
-    if(r.ok){ let j=await r.json(); if(Array.isArray(j)&&j.length){ books=j; } }
-  }catch(e){}
-  if(!books.length){
-    try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ booksSha=j.sha; books=JSON.parse(b64d(j.content)); } }catch(e){}
-  }
-  try{ let s=await getFreshSha("books.json"); if(s) booksSha=s; }catch(e){}
-  if(!Array.isArray(books)) books=[];
-  books=books.map(b=>{
-    let rawPages = b.pages || b.chapters || b.items || [];
-    let pages = (Array.isArray(rawPages)?rawPages:[]).map(p=>({
-      title: fixT(p.title||p.t||p.name||""),
-      content: fixT(p.content||p.c||p.text||p.msg||""),
-      img: p.img||p.image||p.photo||"",
-      date: p.date||p.createdAt||p.updatedAt||"",
-      updatedAt: p.updatedAt||p.date||""
-    }));
-    if(!pages.length && (b.msg||b.content)){
-      pages=[{title:fixT(b.title||""), content:fixT(b.msg||b.content||""), img:"", date:b.date||"", updatedAt:""}];
-    }
-    return {id: b.id!=null?b.id:Date.now()+Math.random(), title:fixT(b.title||""), desc:fixT(b.desc||b.description||b.msg||""), date:b.date||b.updatedAt||"", updatedAt:b.updatedAt||b.date||"", pages:pages};
-  });
-  if(!books.length){
-    books=[{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",date:todayISO(),updatedAt:todayISO(),pages:[{title:"అధ్యాయం 1 - సృష్టి",content:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.",img:"",date:todayISO(),updatedAt:todayISO()}]}];
-    document.getElementById('status').innerText="⚠️ books.json ఖాళీ - డిఫాల్ట్ బుక్ చూపిస్తున్నాను - కొత్త బుక్ పెట్టి సేవ్ చేయండి!";
-  } else {
-    document.getElementById('status').innerText="✅ books.json - "+books.length+" బుక్స్ - పాతవన్నీ వచ్చాయి!";
-  }
-  if(curBookIdx>=books.length) curBookIdx=0;
-  let sel=document.getElementById('bookSelect');
-  setSelectOptions(sel, books.map((b,i)=>({value:String(i), text:`📖 ${b.title||"బుక్ "+(i+1)} (${b.pages.length} పేజీలు)`})));
-  if(books.length) sel.value=String(curBookIdx);
-  openBook();
-}
+async function loadBooks(){ let token=getToken(); document.getElementById('status').innerText="Loading books.json... (Raw)"; books=[]; try{ let r=await fetch('https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/main/books.json?v='+Date.now()); if(r.ok){ let j=await r.json(); if(Array.isArray(j)&&j.length){ books=j; } } }catch(e){} if(!books.length){ try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ booksSha=j.sha; books=JSON.parse(b64d(j.content)); } }catch(e){} } try{ let s=await getFreshSha("books.json"); if(s) booksSha=s; }catch(e){} if(!Array.isArray(books)) books=[]; books=books.map(b=>{ let rawPages = b.pages || b.chapters || b.items || []; let pages = (Array.isArray(rawPages)?rawPages:[]).map(p=>({ title: fixT(p.title||p.t||p.name||""), content: fixT(p.content||p.c||p.text||p.msg||""), img: p.img||p.image||p.photo||"", date: p.date||p.createdAt||p.updatedAt||"", updatedAt: p.updatedAt||p.date||"" })); if(!pages.length && (b.msg||b.content)){ pages=[{title:fixT(b.title||""), content:fixT(b.msg||b.content||""), img:"", date:b.date||"", updatedAt:""}]; } return {id: b.id!=null?b.id:Date.now()+Math.random(), title:fixT(b.title||""), desc:fixT(b.desc||b.description||b.msg||""), date:b.date||b.updatedAt||"", updatedAt:b.updatedAt||b.date||"", pages:pages}; }); if(!books.length){ books=[{id:1,title:"📖 బుక్ 1 - ఆదికాండం వివరణ",desc:"సృష్టి నుండి - దేవుని ప్రణాళిక",date:todayISO(),updatedAt:todayISO(),pages:[{title:"అధ్యాయం 1 - సృష్టి",content:"ఆది 1:1 - ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను.",img:"",date:todayISO(),updatedAt:todayISO()}]}]; document.getElementById('status').innerText="⚠️ books.json ఖాళీ - డిఫాల్ట్ బుక్ చూపిస్తున్నాను - కొత్త బుక్ పెట్టి సేవ్ చేయండి!"; } else { document.getElementById('status').innerText="✅ books.json - "+books.length+" బుక్స్ - పాతవన్నీ వచ్చాయి!"; } if(curBookIdx>=books.length) curBookIdx=0; let sel=document.getElementById('bookSelect'); setSelectOptions(sel, books.map((b,i)=>({value:String(i), text:`📖 ${b.title||"బుక్ "+(i+1)} (${b.pages.length} పేజీలు)`}))); if(books.length) sel.value=String(curBookIdx); openBook(); }
 function openBook(){ let idx=parseInt(document.getElementById('bookSelect').value); if(isNaN(idx)) return; curBookIdx=idx; let b=books[idx]; if(!b) return; document.getElementById('bookTitle').value=b.title; document.getElementById('bookDesc').value=b.desc; document.getElementById('pageCount').innerText=b.pages.length+" పేజీలు"; let box=document.getElementById('pagesList'); box.innerHTML=""; b.pages.forEach((p,pi)=>{ let d=document.createElement('div'); d.className='pageBox'; let b1=document.createElement('b'); b1.textContent=`పేజీ ${pi+1} ${p.date?'• 📅 '+p.date:''}`; d.appendChild(b1); let l1=document.createElement('label'); l1.textContent='పేజీ శీర్షిక'; d.appendChild(l1); let inp=document.createElement('input'); inp.id='pt_'+pi; inp.value=p.title; d.appendChild(inp); let l2=document.createElement('label'); l2.textContent='పేజీ వివరణ'; d.appendChild(l2); let ta=document.createElement('textarea'); ta.id='pc_'+pi; ta.rows=12; ta.value=p.content; d.appendChild(ta); let row=document.createElement('div'); row.style.cssText='display:flex;gap:6px;flex-wrap:wrap'; let s1=document.createElement('button'); s1.type='button'; s1.style.background='#2196F3'; s1.style.flex='1'; s1.textContent='💾 ఈ పేజీ సేవ్'; s1.onclick=()=>savePage(pi); row.appendChild(s1); let d1=document.createElement('button'); d1.type='button'; d1.style.background='red'; d1.style.flex='1'; d1.textContent='🗑️ ఈ పేజీ తీసేయి'; d1.onclick=()=>delPage(pi); row.appendChild(d1); d.appendChild(row); let row3=document.createElement('div'); row3.style.cssText='display:flex;gap:6px;margin-top:6px'; let upBtn=document.createElement('button'); upBtn.type='button'; upBtn.style.cssText='flex:1;background:#673AB7;color:#fff;padding:10px;border-radius:8px;border:0'; upBtn.textContent='⬆️ పైకి జరుపు'; upBtn.onclick=()=>movePageUp(pi); row3.appendChild(upBtn); let downBtn=document.createElement('button'); downBtn.type='button'; downBtn.style.cssText='flex:1;background:#009688;color:#fff;padding:10px;border-radius:8px;border:0'; downBtn.textContent='⬇️ కిందకి జరుపు'; downBtn.onclick=()=>movePageDown(pi); row3.appendChild(downBtn); d.appendChild(row3); box.appendChild(d); }); if(!b.pages.length) box.textContent="📭 పేజీలు లేవు"; }
 async function saveBooksToGit(){ try{ let fresh=await getFreshSha("books.json"); if(fresh) booksSha=fresh; let today=todayISO(); let toSave=books.map(b=>{ let pages=b.pages.map(p=>({title:p.title, content:p.content, msg:p.content, img:p.img||"", date:p.date||today, createdAt:p.date||today, updatedAt:today})); let chapters=b.pages.map(p=>({t:p.title, c:p.content, img:p.img||"", date:p.date||today, createdAt:p.date||today, updatedAt:today})); return {id:b.id, title:b.title, desc:b.desc, description:b.desc, date:b.date||today, createdAt:b.date||today, updatedAt:today, pages:pages, chapters:chapters}; }); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`; let body={message:"update books",content:b64e(JSON.stringify(toSave))}; if(booksSha) body.sha=booksSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ alert("✅ బుక్ సేవ్ అయింది! హోమ్ లో ✨ ఈరోజు కొత్తగా వచ్చినవి లో వస్తుంది!"); loadBooks(); } else { let j=await r.json().catch(()=>({})); alert("❌ Save కాలేదు: "+(j.message||r.status)); } }catch(e){ alert("❌ Save కాలేదు: "+e.message); } }
 function newBook(){ books.unshift({id:Date.now(),title:"కొత్త బుక్", desc:"", date:todayISO(), updatedAt:todayISO(), pages:[{title:"పేజీ 1", content:"", date:todayISO(), updatedAt:todayISO()}]}); curBookIdx=0; saveBooksToGit(); }
@@ -282,12 +191,7 @@ function movePageDown(pi){ let b=books[curBookIdx]; if(pi>=b.pages.length-1){ al
 async function saveBooksFast(){ try{ let fresh=await getFreshSha("books.json"); if(fresh) booksSha=fresh; let today=todayISO(); let toSave=books.map(b=>{ let pages=b.pages.map(p=>({title:p.title, content:p.content, msg:p.content, img:p.img||"", date:p.date||today, createdAt:p.date||today, updatedAt:today})); let chapters=b.pages.map(p=>({t:p.title, c:p.content, img:p.img||"", date:p.date||today, createdAt:p.date||today, updatedAt:today})); return {id:b.id, title:b.title, desc:b.desc, description:b.desc, date:b.date||today, createdAt:b.date||today, updatedAt:today, pages:pages, chapters:chapters}; }); let url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/books.json`; let body={message:"move page",content:b64e(JSON.stringify(toSave))}; if(booksSha) body.sha=booksSha; let r=await fetch(url,{method:"PUT",headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"},body:JSON.stringify(body)}); if(r.ok){ document.getElementById('status').innerText="✅ జరిగింది!"; } else { alert("❌ సేవ్ కాలేదు - మళ్ళీ నొక్కండి"); } }catch(e){ alert("❌ "+e.message); } }
 function moveSongUp(idx){ let folder=curSongFolder; let listIdx=songs.map((s,i)=>i).filter(i=>songs[i].folder===folder); let pos=listIdx.indexOf(idx); if(pos<=0){ alert('ఇది ఇప్పటికే పైన ఉంది'); return; } let prevIdx=listIdx[pos-1]; let tmp=songs[idx]; songs[idx]=songs[prevIdx]; songs[prevIdx]=tmp; saveSongsToGit(); }
 function moveSongDown(idx){ let folder=curSongFolder; let listIdx=songs.map((s,i)=>i).filter(i=>songs[i].folder===folder); let pos=listIdx.indexOf(idx); if(pos>=listIdx.length-1){ alert('ఇది ఇప్పటికే కింద ఉంది'); return; } let nextIdx=listIdx[pos+1]; let tmp=songs[idx]; songs[idx]=songs[nextIdx]; songs[nextIdx]=tmp; saveSongsToGit(); }
-// 👁️📲 అడ్మిన్ కి మాత్రమే - లెక్క
-async function loadAdminCount(){
-  try{ let r=await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi/visits'); let j=await r.json(); let el=document.getElementById('vCount'); if(el) el.textContent=(j.value||0).toLocaleString('en-IN'); }catch(e){}
-  try{ let r2=await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi-installs'); let j2=await r2.json(); let el2=document.getElementById('iCount'); if(el2) el2.textContent=(j2.value||0).toLocaleString('en-IN'); }catch(e){}
-}
-loadAdminCount();
-setInterval(loadAdminCount, 10000);
-document.getElementById('token').value=localStorage.getItem('gh_token')||""; loadCur();
+async function loadAdminCount(){ try{ let r=await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi/visits'); let j=await r.json(); let el=document.getElementById('vCount'); if(el) el.textContent=(j.value||0).toLocaleString('en-IN'); }catch(e){} try{ let r2=await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi-installs'); let j2=await r2.json(); let el2=document.getElementById('iCount'); if(el2) el2.textContent=(j2.value||0).toLocaleString('en-IN'); }catch(e){} }
+loadAdminCount(); setInterval(loadAdminCount, 10000);
+document.getElementById('token').value=localStorage.getItem('gh_token')||""; loadCur(); refreshPrayerAdmin();
 </script></body></html>
