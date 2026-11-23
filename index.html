@@ -46,7 +46,6 @@ body.lock{overflow:hidden;position:fixed;width:100%;height:100%}
 .logo-row .circle{width:62px;height:62px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,0.15);overflow:hidden;background:white}
 .logo-row .circle img{width:100%;height:100%;object-fit:cover}
 .logo-row .lname{font-size:12px;color:#222;font-weight:bold;margin-top:5px}
-/* సేవలు - ఒక్కొక్కటి - 5 సెకన్లకి - ఆటో + స్వైప్ */
 .sev-box{background:#fff;margin:10px;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:14px 0 10px;overflow:hidden}
 .sev-head{display:flex;justify-content:space-between;padding:0 14px}
 .sev-head b{font-size:18px;color:#0B3D2E}
@@ -123,27 +122,23 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="menu-item" onclick="shareAnyPage()">📤 <span>Share App</span></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 </div></div>
-
 <div class="best-header"><div class="logo">✝️</div><div><h1>BM మహిమ సన్నిధి</h1><p>తెలుగు క్రిస్టియన్ యాప్</p></div><div class="icons"><span onclick="showPage('home');document.getElementById('todayUpdatesBox').scrollIntoView({behavior:'smooth'})" title="లాస్ట్ అప్డేట్">🔔</span><span onclick="showPage('home');setTimeout(()=>document.getElementById('searchBox').focus(),300)" title="వెతకండి">🔍</span><span onclick="openChat()" title="అడ్మిన్ చాట్">👤</span></div></div>
 <div class="header">
   <img src="jesus.jpg" alt="యేసు">
   <div style="flex:1;text-align:center"><div class="bible-mission">📖 బైబిల్ మిషన్</div><h1 style="margin:4px 0;font-size:24px;line-height:1.2;color:#222">మహిమ సన్నిధి</h1><div style="font-size:12px;opacity:.9">సన్నిధి వర్తమానములు - సన్నిధి సహవాసం</div><div style="margin-top:4px;font-size:12px">John Dalli | మరనాత ✝️</div></div>
   <img src="devadasu.jpg" alt="దేవదాసు">
 </div>
-
-<!-- ============ PAGE 1 - HOME ============ -->
 <div id="page-home" class="page active">
 <div class="search-wrap">
 <input class="search" id="searchBox" placeholder="🔍 వెతకండి... వాక్యం / పాట / బుక్ / వాయిస్ / వీడియో / YouTube" oninput="globalSearch()">
 <div id="globalResult" style="display:none;margin-top:8px"></div>
 </div>
-<div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center;"><div style="font-size:15px;color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div><div style="font-size:32px;font-weight:900;color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div></div>
+<div id="visitorBox" style="display:none; background:#fff; border:2px solid #0B3D2E; border-radius:16px; padding:12px; margin:12px; text-align:center;"><div style="font-size:15px;color:#666;">👁️ మన యాప్ ని చూసిన వారు (మీకు మాత్రమే)</div><div style="font-size:32px;font-weight:900;color:#0B3D2E;"><span id="visitorCount">...</span> మంది</div><div style="font-size:14px;color:#059669;margin-top:4px;">📲 ఇన్స్టాల్ చేసుకున్న వారు: <b><span id="installCount">...</span> మంది</b></div></div>
 <div id="todayUpdatesBox" class="today-box">
   <h3>📣 లాస్ట్ అప్డేట్</h3>
   <div id="todayUpdatesList" style="font-size:14px;color:#666;text-align:center;padding:8px">🙏 లాస్ట్ అప్డేట్ వస్తోంది... 👇</div>
   <div style="font-size:11px;color:#888;text-align:center;margin-top:4px">👆 నొక్కితే ఆ పాట / బుక్ / వీడియో / వాయిస్ ఓపెన్ అవుతుంది</div>
 </div>
-<!-- ✅ స్పాన్సర్ - పైకి వచ్చేసింది -->
 <div class="spon-wrap">
 <div style="display:flex;justify-content:space-between;align-items:center">
 <b style="color:#0B3D2E;font-size:15px">🙏 మన స్పాన్సర్స్ 🌐</b>
@@ -157,7 +152,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <a href="https://wa.me/919885579798?text=🙏%20మా%20యాడ్%20BM%20App%20లో%20పెట్టాలి" style="background:#25D366;color:#fff;padding:8px 14px;border-radius:20px;font-weight:bold;display:inline-block;text-decoration:none;font-size:13px">💰 మీ యాడ్ ₹100 నుండి</a>
 </div>
 </div>
-<!-- ✅ వాక్యం - కిందకి వెళ్ళిపోయింది -->
 <div class="vakya-card" id="topCard">
   <div style="font-size:28px">✝️</div>
   <img id="topImage" src="" loading="lazy">
@@ -178,8 +172,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div id="recentWrap" style="display:none"><p style="font-size:12px;color:gray;margin:10px 0 0;text-align:center">పాతవి ఆటోమేటిక్ గా గ్యాలరీ / పాత మెసేజ్ లు లోకి వెళ్ళిపోతాయి</p><div id="postsList">లోడ్ అవుతోంది...</div><div id="booksResult"></div></div>
 </div>
 </div>
-
-<!-- ============ PAGE 2 - MEDIA ============ -->
 <div id="page-media" class="page">
 <div style="display:flex;gap:10px;padding:0 12px;margin:12px 0;">
   <a href="quiz.html" style="flex:1;background:linear-gradient(135deg,#8B5CF6,#EC4899);color:white;text-align:center;padding:14px 5px;border-radius:16px;text-decoration:none;font-weight:bold;">🏆<br>క్విజ్<br><small>బైబిల్ క్విజ్ ఆడండి</small></a>
@@ -200,7 +192,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <a href="https://youtube.com/@maasandesham_mahimasannidhi?si=mYsvkZn4owe6bKkC" target="_blank"><div class="circle" style="border:2px solid #FF0000"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"></div><div class="lname">YouTube</div></a>
   <a href="#" onclick="openChat();return false"><div class="circle" style="border:2px solid #673AB7;background:#EDE7F6">💬</div><div class="lname">అడ్మిన్ చాట్</div></a>
 </div>
-<!-- ✅ సేవలు - ఒక్కొక్కటి - 5 సెకన్లకి ఆటో + స్వైప్ -->
 <div class="sev-box">
   <div class="sev-head"><b>సేవలు</b><span>👈 స్వైప్ చేయండి</span></div>
   <div class="sev-track" id="sevTrack">
@@ -221,8 +212,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
   <div style="text-align:center;font-size:11px;color:#888;margin-top:4px">5 సెకన్లకి ఆటోమేటిక్ గా మారుతుంది • పక్కకు స్వైప్ చేయండి 👈</div>
 </div>
 </div>
-
-<!-- ============ PAGE 3 - MORE ============ -->
 <div id="page-more" class="page">
 <div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి - ఇక్కడ నొక్కండి</button></div>
 <div class="section qr-box">
@@ -237,13 +226,11 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="notif-mini">🔔 రోజూ ఉదయం 6 గంటలకి వాక్యం నోటిఫికేషన్ కావాలా?<button onclick="askNotif()">🔔 ఆన్ చేయండి</button><div id="notifStatus" style="font-size:11px;color:#2E7D32;margin-top:4px"></div></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 సైట్ లింక్ షేర్ చేయండి</button><br><small style="opacity:.8">🙏 BM మహిమ సన్నిధి - మరనాత ✝️</small></div>
 </div>
-
 <div class="bottom-nav">
   <a href="#" id="nav-home" class="active" onclick="showPage('home');return false"><span class="ic">🏠</span>హోమ్</a>
   <a href="#" id="nav-media" onclick="showPage('media');return false"><span class="ic">▶️</span>మీడియా</a>
   <button id="nav-more" onclick="showPage('more')"><span class="ic">•••</span>మరిన్ని</button>
 </div>
-
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px;font-weight:bold">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 <div class="modal" id="sponImgModal" style="align-items:center"><div style="background:#000;width:100%;max-width:600px;padding:10px;text-align:center"><img id="sponFullImg" src="" style="width:100%;height:auto;max-height:85vh;object-fit:contain;border-radius:12px"><br><button onclick="document.getElementById('sponImgModal').style.display='none';unlockBody()" style="background:#fff;color:#000;border:none;padding:10px 20px;border-radius:20px;font-weight:bold;margin-top:8px">✖️ మూసేయండి</button></div></div>
 <div class="modal" id="chatModal"><div class="modalBox">
@@ -258,7 +245,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <button onclick="sendUserChat()" style="width:100%;padding:13px;background:#0B3D2E;color:white;border:none;border-radius:25px;font-weight:bold;font-size:16px;margin-top:8px">📩 పంపండి</button>
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
 </div></div>
-
 <script>
 function showPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
@@ -279,7 +265,25 @@ async function askNotif(){ if(!('Notification' in window)){ alert('ఈ ఫోన
 function scheduleMorning(){ if(!('Notification' in window) || Notification.permission!=='granted') return; if(localStorage.getItem('ms_notif_on')!=='1') return; let now=new Date(); let next=new Date(); next.setHours(6,0,0,0); if(next<=now) next.setDate(next.getDate()+1); let ms=next-now; setTimeout(()=>{ try{ new Notification('🙏 BM మహిమ సన్నిధి - మరనాత ✝️',{body:'ఈ రోజు వాక్యం వచ్చింది! చదవండి - ప్రార్థించండి 🙏', icon:'IMG-20261104-WA0008.jpg'}); }catch(e){} scheduleMorning(); }, ms); }
 if(localStorage.getItem('ms_notif_on')==='1'){ let st=document.getElementById('notifStatus'); if(st) st.textContent='✅ నోటిఫికేషన్ ఆన్ లో ఉంది - ఉదయం 6 గంటలకి వస్తుంది'; scheduleMorning(); }
 function shareAnyPage(){ let pageLink = window.location.href; let appLink = "https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html"; let pageName = "BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్"; let text = "🙏 " + pageName + " 👇\n" + pageLink + "\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n" + appLink + "\n\nమరనాత ✝️"; window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank"); }
-async function updateVisitorCount(){ if(location.search.includes('admin=1')){ localStorage.setItem('ms_is_admin','1'); } let isAdmin = localStorage.getItem('ms_is_admin')==='1'; let box = document.getElementById('visitorBox'); let el = document.getElementById('visitorCount'); try{ let r = await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits'); let j = await r.json(); let count = j.value || j.count || 0; if(isAdmin && box && el){ box.style.display='block'; el.textContent = count.toLocaleString('en-IN'); } localStorage.setItem('ms_visitor_count', count); }catch(e){ if(isAdmin && box && el){ box.style.display='block'; el.textContent = localStorage.getItem('ms_visitor_count') || '...'; } } }
+async function updateVisitorCount(){
+  if(location.search.includes('admin=1')){ localStorage.setItem('ms_is_admin','1'); }
+  let isAdmin = localStorage.getItem('ms_is_admin')==='1';
+  let box = document.getElementById('visitorBox');
+  let el = document.getElementById('visitorCount');
+  let instEl = document.getElementById('installCount');
+  try{
+    let r = await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits');
+    let j = await r.json();
+    let count = j.value || j.count || 0;
+    if(isAdmin && box && el){ box.style.display='block'; el.textContent = count.toLocaleString('en-IN'); }
+    localStorage.setItem('ms_visitor_count', count);
+  }catch(e){ if(isAdmin && box && el){ box.style.display='block'; el.textContent = localStorage.getItem('ms_visitor_count') || '...'; } }
+  try{
+    let r2 = await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi-installs');
+    let j2 = await r2.json();
+    if(isAdmin && instEl) instEl.textContent = (j2.value||0).toLocaleString('en-IN');
+  }catch(e){}
+}
 function getSavedBooks(){ try{ return JSON.parse(localStorage.getItem('ms_saved_books')||'[]'); }catch(e){ return []; } }
 function toggleSaveBook(title, btn){ let saved = getSavedBooks(); let i = saved.indexOf(title); if(i>=0){ saved.splice(i,1); btn.textContent='🔖 Save'; btn.classList.remove('saved'); } else { saved.push(title); btn.textContent='✅ Saved'; btn.classList.add('saved'); } localStorage.setItem('ms_saved_books', JSON.stringify(saved)); }
 function toggleUnderlineBook(id, btn){ let el = document.getElementById('book-desc-'+id); if(el){ el.classList.toggle('underlined'); btn.textContent = el.classList.contains('underlined') ? '✅ Underline అయ్యింది' : '✏️ Underline'; } }
@@ -351,7 +355,10 @@ function closePost(){ document.getElementById('postModal').style.display='none';
 document.getElementById('postModal').addEventListener('click',e=>{ if(e.target.id==='postModal') closePost(); });
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; window.deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
-document.getElementById('installBtn').onclick=()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else { alert('📲 బ్రౌజర్ మెనూ లో - Add to Home Screen - నొక్కండి!'); } };
+document.getElementById('installBtn').onclick=()=>{
+  fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi-installs').catch(()=>{});
+  if(deferredPrompt){ deferredPrompt.prompt(); } else { alert('📲 బ్రౌజర్ మెనూ లో - Add to Home Screen - నొక్కండి!'); }
+};
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 const CHAT_TOPIC = 'ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){ let c=localStorage.getItem('ms_chat_code'); if(!c){ c=''+Math.floor(1000+Math.random()*9000); localStorage.setItem('ms_chat_code',c); } return c; }
@@ -449,7 +456,6 @@ function renderSponsors(ads){
   window._sponTimer=setInterval(()=>{ if(!wrap) return; idx=(idx+1)%ads.length; wrap.scrollTo({left: idx*wrap.clientWidth, behavior:'smooth'}); let d=dots.querySelectorAll('span'); d.forEach((s,j)=> s.className = j==idx?'on':''); }, 10000);
   wrap.onscroll = ()=>{ let i=Math.round(wrap.scrollLeft / wrap.clientWidth); let d=dots.querySelectorAll('span'); d.forEach((s,j)=> s.className = j==i?'on':''); };
 }
-// ✅ సేవలు - 5 సెకన్లకి ఆటో + స్వైప్
 let sevIdx = 0;
 let sevTimer = null;
 function sevShow(i){
@@ -484,4 +490,4 @@ setTimeout(()=>{ loadSponCarousel(); }, 4000);
 setTimeout(updateVisitorCount, 6000);
 </script>
 </body>
-                                                                                                 </html>
+                           </html>
