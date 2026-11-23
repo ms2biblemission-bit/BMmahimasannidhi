@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🙏 LIVE ప్రేయర్ - BM మహిమ సన్నిధి</title>
+<script src="https://meet.ffmuc.net/external_api.js"></script>
 <style>
 *{box-sizing:border-box;font-weight:900 !important}
 body{margin:0;font-family:sans-serif;background:#ECE5DD}
@@ -16,6 +17,7 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 #adminBox button{border:none;padding:10px 16px;border-radius:20px;font-size:14px;margin:4px}
 #liveBox{background:#fff;border:2px solid #075E54;border-radius:16px;padding:14px;margin:12px;text-align:center}
 #liveBox button{border:none;padding:14px 20px;border-radius:25px;font-size:16px;margin:5px}
+#jitsiBox{width:100%;height:220px;background:#000;display:none;border-radius:12px;overflow:hidden;margin:12px}
 #handQueue{display:none;background:#fff;border:2px solid #FFD54F;padding:12px;margin:12px;border-radius:12px}
 #handQueue button{border:none;padding:8px 14px;border-radius:20px;font-size:13px;margin:3px}
 #speakerBar{display:none;background:#25D366;color:#fff;text-align:center;padding:12px;font-size:15px}
@@ -31,12 +33,11 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 <body>
 <div class="top"><button onclick="location.href='index.html'">⬅️</button><b>🙏 LIVE ప్రేయర్ గ్రూప్</b></div>
 <div id="toast"></div>
-<div class="prayer-time">🙏 <b>ఉదయం 6:00 - ప్రేయర్ టైమ్</b> - LIVE లో కలిసి ప్రార్థిద్దాం!</div>
+<div class="prayer-time">🙏 <b>ఉదయం 6:00 - ప్రేయర్ టైమ్</b> - వాయిస్ + చాట్ మాత్రమే!</div>
 
 <div id="adminBox">
-<b style="color:#7A0C1D">👑 అడ్మిన్ ప్యానెల్ - ఇది మన App - మన ఇష్టం!</b><br><br>
+<b style="color:#7A0C1D">👑 అడ్మిన్ ప్యానెల్ - ఇది మన App!</b><br><br>
 <button onclick="stopSpeaker()" style="background:#222;color:#fff">🔇 అందరినీ మ్యూట్ - నేనే మాట్లాడతా</button>
-<button onclick="joinVoice()" style="background:#FF0000;color:#fff">🔴 నా వాయిస్ స్టార్ట్</button>
 </div>
 
 <div id="liveBox">
@@ -44,19 +45,20 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 <b style="font-size:18px;color:#075E54">LIVE వాయిస్ ప్రార్థన - మన App లోనే!</b>
 <p style="font-size:13px;color:#555;line-height:1.6">
 ✅ Login లేదు - Sign in లేదు - App లేదు!<br>
-✅ అందరి మైక్ - ముందు OFF లోనే ఉంటుంది!<br>
-✅ పాస్టర్ ఓకే అంటేనే - ఆ ఒక్కరి మైక్ ON అవుతుంది!
+✅ వీడియో లేదు - కెమెరా బటన్ లేదు!<br>
+✅ చాట్ + వాయిస్ మాత్రమే!
 </p>
-<button onclick="joinVoice()" style="background:#075E54;color:#fff">🔴 LIVE వాయిస్ లో జాయిన్ అవ్వండి</button><br>
-<span style="font-size:12px;color:#666">నొక్కితే - కొత్త ట్యాబ్ లో LIVE వస్తుంది - చాట్ ఇక్కడే ఉంటుంది!</span><br>
+<button id="joinBtn" onclick="joinVoice()" style="background:#075E54;color:#fff">🔴 LIVE వాయిస్ లో జాయిన్ అవ్వండి</button><br>
 <button onclick="raiseHand()" style="background:#FFD54F;color:#222">✋ హ్యాండ్ రైస్ - నేను ప్రార్థన చేస్తా</button>
 </div>
 
+<div id="jitsiBox"></div>
+
 <div id="handQueue">
-<b style="color:#7A0C1D">✋ హ్యాండ్ రైస్ చేసిన వారు - ప్రార్థన చేయాలనుకుంటున్నారు:</b>
+<b style="color:#7A0C1D">✋ హ్యాండ్ రైస్ చేసిన వారు:</b>
 <div id="handList" style="margin-top:8px"></div>
 </div>
-<div id="speakerBar">🎤 <span id="speakerName"></span> ప్రార్థన చేస్తున్నారు... 🙏 మిగతా వాళ్ళు వినండి - మైక్ OFF లో పెట్టండి!</div>
+<div id="speakerBar">🎤 <span id="speakerName"></span> ప్రార్థన చేస్తున్నారు... 🙏 మిగతా వాళ్ళు వినండి!</div>
 
 <div id="msgs"></div>
 <div class="bottom">
@@ -69,6 +71,7 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 const TOPIC='ms2-prayer-chat-2026';
 let IS_ADMIN=location.search.includes('admin=1');
 if(IS_ADMIN){document.getElementById('adminBox').style.display='block';document.getElementById('handQueue').style.display='block';}
+let jitsiApi=null;
 function myName(){let n=localStorage.getItem('ms_prayer_name');if(!n){n=prompt('🙏 మీ పేరు:')||'భక్తుడు';localStorage.setItem('ms_prayer_name',n);}return n;}
 function getHands(){try{return JSON.parse(localStorage.getItem('ms_prayer_hands')||'[]');}catch(e){return [];}}
 function setHands(a){localStorage.setItem('ms_prayer_hands',JSON.stringify(a));}
@@ -81,10 +84,38 @@ function joinVoice(){
   let name=myName();
   let d=new Date();
   let room='BM-Mahima-Sannidhi-Prayer-'+d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
-  // ✅ ✅ iframe లేదు! - కొత్త ట్యాబ్ లో - refused to connect రాదు!
-  let url='https://meet.ffmuc.net/'+room+'#userInfo.displayName="'+encodeURIComponent(IS_ADMIN?'Pastor - John Dalli':name)+'"&config.prejoinPageEnabled=false&config.startWithAudioMuted=true&config.startWithVideoMuted=true&config.disableDeepLinking=true';
-  window.open(url,'_blank');
-  toast('🔴 LIVE కొత్త ట్యాబ్ లో ఓపెన్ అయ్యింది! అక్కడ Join - Allow నొక్కండి!');
+  let box=document.getElementById('jitsiBox');
+  box.style.display='block';
+  box.innerHTML='';
+  box.scrollIntoView({behavior:'smooth'});
+  document.getElementById('joinBtn').textContent='🔴 LIVE నడుస్తోంది - కింద చూడండి!';
+  // ✅ ✅ ✅ ఇక్కడే - కెమెరా బటన్ తీసేశాను!
+  jitsiApi=new JitsiMeetExternalAPI('meet.ffmuc.net',{
+    roomName:room,
+    parentNode:box,
+    width:'100%',height:220,
+    userInfo:{displayName:IS_ADMIN?'Pastor - John Dalli':name},
+    configOverwrite:{
+      prejoinPageEnabled:false,
+      disableDeepLinking:true,
+      startWithAudioMuted:true,
+      startWithVideoMuted:true,
+      startAudioOnly:true, // ✅ వాయిస్ మాత్రమే!
+      disableVideo:true, // ✅ వీడియో ఆఫ్!
+      enableWelcomePage:false,
+      disableInviteFunctions:true
+    },
+    interfaceConfigOverwrite:{
+      SHOW_JITSI_WATERMARK:false,
+      SHOW_WATERMARK_FOR_GUESTS:false,
+      // ✅ ✅ కేవలం ఈ 3 బటన్లు మాత్రమే! - కెమెరా లేదు! వీడియో లేదు!
+      TOOLBAR_BUTTONS:['microphone','hangup','raisehand']
+    }
+  });
+  jitsiApi.addEventListener('videoConferenceJoined',()=>{
+    if(IS_ADMIN){ setTimeout(()=>{ jitsiApi.executeCommand('toggleAudio'); },800); }
+    toast('🔴 LIVE లో జాయిన్ అయ్యారు! వాయిస్ మాత్రమే - వీడియో లేదు!');
+  });
 }
 
 function updateSpeakerUI(){
@@ -107,13 +138,14 @@ async function raiseHand(){
 async function approveHand(name){
   setSpeaker(name);setHands(getHands().filter(n=>n!==name));
   try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_APPROVE|'+name});}catch(e){}
-  updateSpeakerUI();toast('✅ '+name+' కి మైక్ ఇచ్చారు! ఇప్పుడు వాళ్ళు మాట్లాడతారు!');
+  updateSpeakerUI();toast('✅ '+name+' కి మైక్ ఇచ్చారు!');
 }
 async function rejectHand(name){setHands(getHands().filter(n=>n!==name));try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_REJECT|'+name});}catch(e){}updateSpeakerUI();}
 async function stopSpeaker(){
   setSpeaker('');setHands([]);
+  if(jitsiApi){ try{jitsiApi.executeCommand('muteEveryone');}catch(e){} }
   try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_STOP|'});}catch(e){}
-  updateSpeakerUI();toast('🔇 అందరినీ మ్యూట్ చేశారు - ఇప్పుడు పాస్టర్ మాత్రమే మాట్లాడతారు!');
+  updateSpeakerUI();toast('🔇 అందరినీ మ్యూట్ చేశారు - పాస్టర్ మాత్రమే మాట్లాడతారు!');
 }
 function loadLocal(){try{return JSON.parse(localStorage.getItem('ms_prayer_local')||'[]');}catch(e){return [];}}
 function renderMsgs(){
@@ -136,7 +168,7 @@ async function poll(){
       try{
         let j=JSON.parse(l);if(!j.message)return;
         if(j.message.startsWith('PRAYER_HAND|')){let n=j.message.split('|')[1];let h=getHands();if(n&&!h.includes(n)){h.push(n);setHands(h);}updateSpeakerUI();return;}
-        if(j.message.startsWith('PRAYER_APPROVE|')){let n=j.message.split('|')[1];setSpeaker(n);setHands(getHands().filter(x=>x!==n));updateSpeakerUI();if(n===myName())toast('✅ 🎉 పాస్టర్ మీకు ఓకే ఇచ్చారు! LIVE ట్యాబ్ లో 🎤 నొక్కి - మాట్లాడండి!');else toast('🎤 '+n+' కి పాస్టర్ ఓకే ఇచ్చారు - వాళ్ళు మాట్లాడుతున్నారు - వినండి!');return;}
+        if(j.message.startsWith('PRAYER_APPROVE|')){let n=j.message.split('|')[1];setSpeaker(n);setHands(getHands().filter(x=>x!==n));updateSpeakerUI();if(n===myName())toast('✅ 🎉 పాస్టర్ మీకు ఓకే ఇచ్చారు! LIVE లో 🎤 నొక్కి - మాట్లాడండి!');else toast('🎤 '+n+' కి పాస్టర్ ఓకే ఇచ్చారు - వాళ్ళు మాట్లాడుతున్నారు!');return;}
         if(j.message.startsWith('PRAYER_REJECT|')){let n=j.message.split('|')[1];setHands(getHands().filter(x=>x!==n));updateSpeakerUI();return;}
         if(j.message.startsWith('PRAYER_STOP|')){setSpeaker('');setHands([]);updateSpeakerUI();return;}
         if(j.message.startsWith('PRAYER|')){let p=j.message.split('|');let m={name:p[1],msg:p[3]};if(!m.msg||m.msg==='undefined'||m.msg==='')return;if(!a.some(x=>x.msg===m.msg&&x.name===m.name)){a.push(m);ch=true;}}
