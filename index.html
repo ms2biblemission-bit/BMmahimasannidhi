@@ -117,6 +117,8 @@ input.search::placeholder{color:#777}
 #page-prayer .section{border-color:#075E54 !important}
 #page-prayer h3{color:#075E54 !important}
 .prayer-card{background:#fff;border:2px solid #075E54;border-radius:16px;padding:14px;margin:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);text-align:center}
+.prayer-msg{background:#fff;border:1px solid #eee;border-radius:12px;padding:10px;margin:8px 12px}
+.prayer-msg.pending{border:2px dashed #ff9800;background:#fff3e0}
 </style>
 </head>
 <body>
@@ -124,7 +126,7 @@ input.search::placeholder{color:#777}
 <div class="drawer" id="drawer" onclick="if(event.target.id==='drawer') this.classList.remove('open')"><div class="drawerBox">
 <div class="drawerTop" style="background-image:url('jesus.jpg')"><span>🙏 BM మహిమ సన్నిధి<br><small>మరనాత ✝️</small></span></div>
 <div class="menu-item" onclick="showPage('home');document.getElementById('drawer').classList.remove('open')">🏠 <span>Home<small>మెయిన్ పేజీ</small></span></div>
-<div class="menu-item" onclick="showPage('prayer');document.getElementById('drawer').classList.remove('open')">🙏 <span>ప్రార్థన చాట్<small>వాట్సాప్ లాగే - హ్యాండ్ రైస్ - వాయిస్</small></span></div>
+<div class="menu-item" onclick="showPage('prayer');document.getElementById('drawer').classList.remove('open')">🙏 <span>ప్రార్థన<small>ప్రార్థన మెసేజ్ - అడ్మిన్ చూస్తారు</small></span></div>
 <div class="menu-item" onclick="location.href='bible.html'">📖 <span>Bible<small>తెలుగు + KJV - ఆఫ్‌లైన్</small></span></div>
 <div class="menu-item" onclick="location.href='calendar.html'">📅 <span>Calendar<small>మా సందేశం మహిమ సన్నిధి క్యాలండర్</small></span></div>
 <div class="menu-item" onclick="location.href='books.html'">📚 <span>Books<small>పుస్తకాలు</small></span></div>
@@ -154,8 +156,8 @@ input.search::placeholder{color:#777}
 </div>
 <div onclick="showPage('prayer')" style="background:#075E54;border:2px solid #FFD54F;border-radius:14px;padding:14px;margin:12px;text-align:center;cursor:pointer">
 <div style="font-size:28px">💬🙏</div>
-<div style="color:#fff;font-size:18px">🙏 ప్రేయర్ చాట్ - వాట్సాప్ లాగే!</div>
-<div style="color:#FFE082;font-size:13px;margin-top:4px">✋ హ్యాండ్ రైస్ - 🎤 వాయిస్ - ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం 👆 నొక్కండి</div>
+<div style="color:#fff;font-size:18px">🙏 ప్రార్థన - మెసేజ్ పంపండి!</div>
+<div style="color:#FFE082;font-size:13px;margin-top:4px">ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం 👆 నొక్కండి</div>
 </div>
 <div class="spon-wrap">
 <div style="display:flex;justify-content:space-between;align-items:center">
@@ -239,31 +241,26 @@ input.search::placeholder{color:#777}
 <div id="page-prayer" class="page">
 <div style="background:#075E54;color:#fff;padding:16px;text-align:center;border-radius:0 0 20px 20px">
 <div style="font-size:32px">🙏💬</div>
-<b style="font-size:20px">ప్రార్థన - వాయిస్ మాత్రమే!</b>
+<b style="font-size:20px">ప్రార్థన - మెసేజ్</b>
 <p style="font-size:13px;margin:4px 0">ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం - App లోనే!</p>
 </div>
-<div style="background:#fff7e6;border:2px solid #FFD54F;border-radius:16px;padding:14px;margin:12px;text-align:center">
-<div style="font-size:18px;color:#7a3b00">🙏 వాయిస్ ప్రార్థన - Voice Only</div>
-<div style="margin-top:6px"><span id="voiceStatus" style="background:#ff0000;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px">● LIVE - వాయిస్ లో ఉన్నారు - వీడియో ఆఫ్</span></div>
-<p style="font-size:13px;color:#555;margin:8px 0">App లోనే ఉంటుంది - బయటకి వెళ్ళదు - వీడియో కనబడదు</p>
-<div style="background:#fff;border:1px solid #eee;border-radius:12px;padding:12px">
-<div style="font-size:14px">🎙️ <b>ప్రార్థన జరుగుతోంది...</b></div>
-<div id="voice-status2" style="font-size:12px;color:green;margin-top:4px">మైక్ ఆన్ అయ్యింది - వినిపిస్తోంది</div>
-<div id="hand-status" style="font-size:12px;color:#075E54;margin-top:4px">✋ హ్యాండ్ రైస్ చేయండి - అడ్మిన్ ఓకే ఇస్తే మైక్ వస్తుంది</div>
-</div>
-<div style="display:flex;gap:10px;margin-top:12px">
-<button onclick="raiseHand()" style="flex:1;background:#FFD54F;color:#222;border:0;padding:12px;border-radius:30px;font-weight:900;font-size:14px">✋ హ్యాండ్ రైస్</button>
-<button id="mic-btn2" onclick="toggleMic2()" style="flex:1;background:#22c55e;color:#fff;border:0;padding:12px;border-radius:30px;font-weight:900;font-size:14px">🎙️ మైక్ ఆన్</button>
-</div>
-<button onclick="leaveVoice2()" style="width:100%;background:#ef4444;color:#fff;border:0;padding:12px;border-radius:30px;font-weight:900;font-size:15px;margin-top:10px">📞 కట్ చేయండి</button>
-<iframe id="mirotalk-frame" src="https://p2p.mirotalk.com/join?room=mahima-sannidhi-prayer-1985&audio=1&video=0" allow="microphone; camera; autoplay" style="width:100%;height:420px;border:0;border-radius:12px;background:#000;display:block;margin-top:12px;"></iframe>
-<p style="font-size:12px;color:#666;margin:8px 0 0">👆 పైన Allow అడిగితే Allow నొక్కండి - అప్పుడే వాయిస్ వస్తుంది 🙏</p>
-<a href="https://p2p.mirotalk.com/join?room=mahima-sannidhi-prayer-1985&audio=1&video=0" target="_blank" style="display:block;background:#075E54;color:#fff;padding:12px;border-radius:20px;font-weight:900;text-decoration:none;margin-top:8px">🎙️ App లో రాకపోతే - ఇక్కడ నొక్కి - బయట జాయిన్ అవ్వండి</a>
-</div>
 <div class="prayer-card">
-<b style="color:#075E54">✋ ఎలా వాడాలి?</b>
-<p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ ✋ హ్యాండ్ రైస్ నొక్కండి<br>2️⃣ అడ్మిన్ ✅ ఓకే ఇస్తే - 🎤 మైక్ నొక్కి ప్రార్థన చేయండి<br>3️⃣ మిగతా వాళ్ళు వింటారు - 🙏 ఆమెన్ చెప్తారు<br>4️⃣ వీడియో రాదు - ఫేస్ కనబడదు</p>
+<div style="font-size:16px">🙏 <b>ప్రార్థన గ్రూప్ - అడ్మిన్ చేతిలోనే!</b></div>
+<div id="prayerGroupStatus" style="font-size:13px;color:#075E54;margin-top:6px">● గ్రూప్ స్టేటస్ చూస్తున్నాం...</div>
+<div id="prayerAdminBox" style="display:none;margin-top:10px">
+<button onclick="prayerSetOpen(true)" style="width:100%;background:#25D366;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px">✅ గ్రూప్ OPEN చేయండి</button>
+<button onclick="prayerSetOpen(false)" style="width:100%;background:#ef4444;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px;margin-top:8px">⛔ గ్రూప్ CLOSE చేయండి</button>
+<div style="margin-top:8px"><label style="font-size:13px">⏰ ఎన్ని నిమిషాలు ఓపెన్?</label><input id="prayerMins" type="number" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:4px"><button onclick="prayerSetTimer()" style="width:100%;background:#FFD54F;border:0;padding:10px;border-radius:20px;margin-top:6px">⏰ టైమ్ పెట్టండి</button></div>
+<div id="prayerTimerShow" style="font-size:12px;color:#075E54;margin-top:6px"></div>
 </div>
+</div>
+<div id="prayerClosedBox" style="display:none;background:#ffebee;color:#c62828;text-align:center;padding:16px;margin:12px;border-radius:14px">⛔ ప్రార్థన గ్రూప్ CLOSE లో ఉంది<br><small>అడ్మిన్ OPEN చేసే వరకు ఆగండి 🙏</small></div>
+<div id="prayerMsgs"></div>
+<div style="display:flex;gap:6px;padding:10px" id="prayerInputRow">
+<input id="prayerInput" placeholder="🙏 ఎవరి కోసం ప్రార్థన..." style="flex:1;padding:12px;border-radius:25px;border:1px solid #ccc">
+<button onclick="prayerSend()" style="background:#25D366;color:#fff;border:0;padding:12px 18px;border-radius:25px">➤ పంపు</button>
+</div>
+<div class="prayer-card"><b style="color:#075E54">✋ ఎలా వాడాలి?</b><p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ మెసేజ్ రాసి పంపండి - ముందు అడ్మిన్ కే కనబడుతుంది<br>2️⃣ అడ్మిన్ ✅ ఓకే చేస్తే అందరికీ కనబడుతుంది<br>3️⃣ అడ్మిన్ 🙏 దీని గురించి ప్రార్థించండి అంటే - ప్రేరణ కలిగిన వారు ఆమెన్ చెప్పండి</p></div>
 </div>
 <div id="page-more" class="page">
 <div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి - ఇక్కడ నొక్కండి</button></div>
@@ -300,11 +297,37 @@ input.search::placeholder{color:#777}
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
 </div></div>
 <script>
-let micOn2=true;
-function raiseHand(){ document.getElementById('hand-status').innerText='✋ మీరు హ్యాండ్ రైస్ చేసారు - అడ్మిన్ చూస్తున్నారు 🙏'; alert('✋ హ్యాండ్ రైస్ చేసారు - అడ్మిన్ ఓకే ఇస్తారు 🙏'); }
-function toggleMic2(){ micOn2=!micOn2; let b=document.getElementById('mic-btn2'); b.innerText=micOn2?'🎙️ మైక్ ఆన్':'🔇 మైక్ ఆఫ్'; b.style.background=micOn2?'#22c55e':'#888'; document.getElementById('voice-status2').innerText=micOn2?'మైక్ ఆన్ అయ్యింది - వినిపిస్తోంది':'మైక్ ఆఫ్ - మీ వాయిస్ వినిపించదు'; }
-function leaveVoice2(){ document.getElementById('mirotalk-frame').src=''; alert('ప్రార్థన నుండి బయటకి వచ్చారు 🙏'); }
-function showPage(p){document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));let el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.bottom-nav a, .bottom-nav button').forEach(b=>b.classList.remove('active'));let nav=document.getElementById('nav-'+p);if(nav)nav.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});let col=p==='media'?'#5B8DEF':p==='prayer'?'#075E54':p==='more'?'#065F46':'#7A0C1D';let tb=document.getElementById('topbar');if(tb)tb.style.background=col;let bh=document.getElementById('bestHeader');if(bh)bh.style.background=col;let bn=document.getElementById('bottomNav');if(bn)bn.style.background=col;if(p==='media'){setTimeout(()=>sevShow(sevIdx),100);}}
+let prayerMsgs=JSON.parse(localStorage.getItem('ms_prayer_msgs2')||'[]');
+function prayerIsAdmin(){return location.search.includes('admin=1')||localStorage.getItem('ms_is_admin')==='1';}
+function prayerIsOpen(){let s=JSON.parse(localStorage.getItem('ms_prayer_open2')||'{"open":false,"until":0}');if(s.until&&Date.now()>s.until){s.open=false;localStorage.setItem('ms_prayer_open2',JSON.stringify(s));}return s.open;}
+function prayerSetOpen(o){localStorage.setItem('ms_prayer_open2',JSON.stringify({open:o,until:0}));prayerRender();alert(o?'✅ గ్రూప్ OPEN అయ్యింది':'⛔ గ్రూప్ CLOSE అయ్యింది');}
+function prayerSetTimer(){let m=parseInt(document.getElementById('prayerMins').value)||30;let u=Date.now()+m*60000;localStorage.setItem('ms_prayer_open2',JSON.stringify({open:true,until:u}));document.getElementById('prayerTimerShow').innerText='⏰ '+m+' నిమిషాలు - '+new Date(u).toLocaleTimeString('te-IN')+' వరకు';prayerRender();}
+function prayerRender(){
+  let open=prayerIsOpen();let admin=prayerIsAdmin();
+  document.getElementById('prayerAdminBox').style.display=admin?'block':'none';
+  document.getElementById('prayerGroupStatus').innerText=open?'🟢 గ్రూప్ OPEN లో ఉంది - మెసేజ్ పంపవచ్చు':'🔴 గ్రూప్ CLOSE లో ఉంది - అడ్మిన్ OPEN చేసే వరకు ఆగండి';
+  document.getElementById('prayerClosedBox').style.display=open?'none':'block';
+  document.getElementById('prayerInputRow').style.display=open?'flex':'none';
+  let box=document.getElementById('prayerMsgs');let show=admin?prayerMsgs:prayerMsgs.filter(m=>m.showAll);
+  if(!show.length) box.innerHTML='<p style="text-align:center;color:#999">ఇంకా ప్రార్థనలు లేవు 🙏</p>';
+  else box.innerHTML=show.map(m=>{
+    let idx=prayerMsgs.indexOf(m);let btns=admin?'<div style="display:flex;gap:6px;margin-top:8px"><button onclick="prayerApprove('+idx+')" style="flex:1;background:#25D366;color:#fff;border:0;padding:8px;border-radius:15px">👁️ అందరికీ చూపించు</button><button onclick="prayerPrayFor('+idx+')" style="flex:1;background:#FFD54F;border:0;padding:8px;border-radius:15px">🙏 దీని గురించి ప్రార్థించండి</button><button onclick="prayerDel('+idx+')" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:15px">🗑️</button></div>':'';
+    return '<div class="prayer-msg '+(m.showAll?'':'pending')+'"><b>🙏 '+m.name+'</b> '+(m.showAll?'':'<span style="font-size:11px;background:#075E54;color:#fff;padding:3px 8px;border-radius:10px">అడ్మిన్ మాత్రమే</span>')+'<div style="font-size:16px;margin-top:4px">'+m.text+'</div><small style="color:#999">'+m.time+'</small>'+(m.pray?'<div style="color:#075E54;margin-top:4px">🙏 దీని గురించి ప్రార్థించండి - ప్రేరణ కలిగిన వారు ఆమెన్ చెప్పండి!</div>':'')+btns+'</div>';
+  }).join('');
+}
+function prayerSend(){
+  if(!prayerIsOpen()){alert('⛔ గ్రూప్ CLOSE లో ఉంది');return;}
+  let t=document.getElementById('prayerInput').value.trim();if(!t)return;
+  let name=localStorage.getItem('ms_chat_name')||'భక్తుడు';
+  prayerMsgs.push({name:name,text:t,time:new Date().toLocaleString('te-IN'),showAll:false,pray:false});
+  localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));
+  document.getElementById('prayerInput').value='';alert('✅ అడ్మిన్ కి వెళ్ళింది! అడ్మిన్ ఓకే చేస్తే అందరికీ కనబడుతుంది 🙏');prayerRender();
+}
+function prayerApprove(i){prayerMsgs[i].showAll=true;localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerRender();}
+function prayerPrayFor(i){prayerMsgs[i].showAll=true;prayerMsgs[i].pray=true;localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerRender();}
+function prayerDel(i){if(!confirm('తీసేయాలా?'))return;prayerMsgs.splice(i,1);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerRender();}
+prayerRender();
+function showPage(p){document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));let el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.bottom-nav a, .bottom-nav button').forEach(b=>b.classList.remove('active'));let nav=document.getElementById('nav-'+p);if(nav)nav.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});let col=p==='media'?'#5B8DEF':p==='prayer'?'#075E54':p==='more'?'#065F46':'#7A0C1D';let tb=document.getElementById('topbar');if(tb)tb.style.background=col;let bh=document.getElementById('bestHeader');if(bh)bh.style.background=col;let bn=document.getElementById('bottomNav');if(bn)bn.style.background=col;if(p==='media'){setTimeout(()=>sevShow(sevIdx),100);}if(p==='prayer'){prayerRender();}}
 function toggleRecent(){let w=document.getElementById('recentWrap');let b=document.getElementById('recentBtn');if(!w)return;let open=w.style.display==='none';w.style.display=open?'block':'none';if(b)b.textContent=open?'📜 నిన్న + ఈ రోజు - మూసేయండి ✖️':'📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి';if(open){renderPosts();}}
 async function fetchFast(url,ms=3000){let file=url.split('?')[0];try{let cached=localStorage.getItem('cache_'+file);if(cached)return JSON.parse(cached);}catch(e){}try{let c=new AbortController();let t=setTimeout(()=>c.abort(),ms);let r=await fetch(file,{signal:c.signal});clearTimeout(t);if(!r.ok)return null;let j=await r.json();try{localStorage.setItem('cache_'+file,JSON.stringify(j));}catch(e){}return j;}catch(e){return null;}}
 function refreshInBackground(file){fetch(file).then(r=>r.json()).then(j=>{try{localStorage.setItem('cache_'+file,JSON.stringify(j));}catch(e){}}).catch(()=>{});}
@@ -364,4 +387,4 @@ setTimeout(()=>{loadSponCarousel();},4000);
 setTimeout(updateVisitorCount,6000);
 </script>
 </body>
-  </html>
+                                                                                                                           </html>
