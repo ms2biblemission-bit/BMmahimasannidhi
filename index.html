@@ -298,7 +298,7 @@ input.search::placeholder{color:#777}
 </div></div>
 <script>
 let prayerMsgs=JSON.parse(localStorage.getItem('ms_prayer_msgs2')||'[]');
-function prayerIsAdmin(){return location.search.includes('admin=1')||localStorage.getItem('ms_is_admin')==='1';}
+function prayerIsAdmin(){return location.search.includes('admin=1985');}
 function prayerIsOpen(){let s=JSON.parse(localStorage.getItem('ms_prayer_open2')||'{"open":false,"until":0}');if(s.until&&Date.now()>s.until){s.open=false;localStorage.setItem('ms_prayer_open2',JSON.stringify(s));}return s.open;}
 function prayerSetOpen(o){localStorage.setItem('ms_prayer_open2',JSON.stringify({open:o,until:0}));prayerRender();alert(o?'✅ గ్రూప్ OPEN అయ్యింది':'⛔ గ్రూప్ CLOSE అయ్యింది');}
 function prayerSetTimer(){let m=parseInt(document.getElementById('prayerMins').value)||30;let u=Date.now()+m*60000;localStorage.setItem('ms_prayer_open2',JSON.stringify({open:true,until:u}));document.getElementById('prayerTimerShow').innerText='⏰ '+m+' నిమిషాలు - '+new Date(u).toLocaleTimeString('te-IN')+' వరకు';prayerRender();}
@@ -335,7 +335,7 @@ async function askNotif(){if(!('Notification' in window)){alert('ఈ ఫోన�
 function scheduleMorning(){if(!('Notification' in window)||Notification.permission!=='granted')return;if(localStorage.getItem('ms_notif_on')!=='1')return;let now=new Date();let next=new Date();next.setHours(6,0,0,0);if(next<=now)next.setDate(next.getDate()+1);let ms=next-now;setTimeout(()=>{try{new Notification('🙏 BM మహిమ సన్నిధి - మరనాత ✝️',{body:'ఈ రోజు వాక్యం వచ్చింది! చదవండి - ప్రార్థించండి 🙏',icon:'IMG-20261104-WA0008.jpg'});}catch(e){}scheduleMorning();},ms);}
 if(localStorage.getItem('ms_notif_on')==='1'){let st=document.getElementById('notifStatus');if(st)st.textContent='✅ నోటిఫికేషన్ ఆన్ లో ఉంది - ఉదయం 6 గంటలకి వస్తుంది';scheduleMorning();}
 function shareAnyPage(){let pageLink=window.location.href;let appLink="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html";let pageName="BM మహిమ సన్నిధి 🙏\nరోజూ వాక్యం, పాటలు, బైబిల్ క్విజ్";let text="🙏 "+pageName+" 👇\n"+pageLink+"\n\n📲 యాప్ డౌన్లోడ్ చేసుకోండి 👇\n"+appLink+"\n\nమరనాత ✝️";window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");}
-async function updateVisitorCount(){if(location.search.includes('admin=1')){localStorage.setItem('ms_is_admin','1');}let isAdmin=localStorage.getItem('ms_is_admin')==='1';let box=document.getElementById('visitorBox');let el=document.getElementById('visitorCount');let instEl=document.getElementById('installCount');try{let r=await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits');let j=await r.json();let count=j.value||j.count||0;if(isAdmin&&box&&el){box.style.display='block';el.textContent=count.toLocaleString('en-IN');}localStorage.setItem('ms_visitor_count',count);}catch(e){if(isAdmin&&box&&el){box.style.display='block';el.textContent=localStorage.getItem('ms_visitor_count')||'...';}}try{let r2=await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi-installs');let j2=await r2.json();if(isAdmin&&instEl)instEl.textContent=(j2.value||0).toLocaleString('en-IN');}catch(e){}}
+async function updateVisitorCount(){let isAdmin=location.search.includes('admin=1985');let box=document.getElementById('visitorBox');let el=document.getElementById('visitorCount');let instEl=document.getElementById('installCount');try{let r=await fetch('https://abacus.jasoncameron.dev/hit/bm-mahima-sannidhi/visits');let j=await r.json();let count=j.value||j.count||0;if(isAdmin&&box&&el){box.style.display='block';el.textContent=count.toLocaleString('en-IN');}localStorage.setItem('ms_visitor_count',count);}catch(e){if(isAdmin&&box&&el){box.style.display='block';el.textContent=localStorage.getItem('ms_visitor_count')||'...';}}try{let r2=await fetch('https://abacus.jasoncameron.dev/count/bm-mahima-sannidhi-installs');let j2=await r2.json();if(isAdmin&&instEl)instEl.textContent=(j2.value||0).toLocaleString('en-IN');}catch(e){}}
 function getSavedBooks(){try{return JSON.parse(localStorage.getItem('ms_saved_books')||'[]');}catch(e){return [];}}
 let allPosts=[];let allBooks=[];let _scrollY=0;let _gSongs=[],_gVoice=[],_gVideos=[];
 function lockBody(){if(document.body.classList.contains('lock'))return;_scrollY=window.scrollY;document.body.classList.add('lock');document.body.style.top='-'+_scrollY+'px';}
@@ -387,4 +387,4 @@ setTimeout(()=>{loadSponCarousel();},4000);
 setTimeout(updateVisitorCount,6000);
 </script>
 </body>
-                                                                                                                           </html>
+  </html>
