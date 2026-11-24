@@ -1,213 +1,166 @@
 <!DOCTYPE html>
-<html lang="te">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎯 క్విజ్ - BM మహిమ సన్నిధి</title>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🎯 క్విజ్ - BM మహిమ సన్నిధి</title>
 <style>
-*{box-sizing:border-box} body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:90px}
-.header{background:#0B3D2E;color:white;padding:18px 12px;text-align:center;border-radius:0 0 28px 28px}
-.header a{color:white;text-decoration:none;font-weight:bold}
+*{box-sizing:border-box}body{font-family:system-ui;margin:0;background:#E8F5E9;padding-bottom:90px}
+.header{background:#0B3D2E;color:#fff;padding:18px 12px;text-align:center;border-radius:0 0 28px 28px}
+.header a{color:#fff;text-decoration:none;font-weight:bold}
 .wrap{padding:14px;max-width:650px;margin:auto}
 .langRow{display:flex;gap:8px;margin:12px 0}
 .langRow button{flex:1;padding:12px 4px;border-radius:20px;border:2px solid #0B3D2E;background:#fff;font-weight:bold;font-size:15px;cursor:pointer}
 .langRow button.on{background:#0B3D2E;color:#fff}
 .timerBox{background:#FFF3CD;border:2px solid #FF9800;border-radius:14px;padding:10px;text-align:center;font-size:19px;margin:10px 0;display:none}
 .timerBox b{color:#C62828;font-size:24px}
-.doorWrap{position:relative;height:420px;background:#0B3D2E;border-radius:22px;overflow:hidden;box-shadow:0 6px 20px #0003;border:6px solid #5D4037;cursor:pointer}
-.doorLeft,.doorRight{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(#8D6E63,#5D4037);transition:transform 0.8s ease;z-index:5;display:flex;align-items:center;justify-content:center;color:white;font-size:50px}
-.doorLeft{left:0;border-right:3px solid #3E2723}
-.doorRight{right:0;border-left:3px solid #3E2723}
-.doorWrap.open .doorLeft{transform:translateX(-100%)}
-.doorWrap.open .doorRight{transform:translateX(100%)}
+.doorWrap{position:relative;height:420px;background:#0B3D2E;border-radius:22px;overflow:hidden;border:6px solid #5D4037;cursor:pointer}
+.doorLeft,.doorRight{position:absolute;top:0;width:50%;height:100%;background:linear-gradient(#8D6E63,#5D4037);transition:transform .8s;z-index:5;display:flex;align-items:center;justify-content:center;font-size:50px}
+.doorLeft{left:0}.doorRight{right:0}.doorWrap.open .doorLeft{transform:translateX(-100%)}.doorWrap.open .doorRight{transform:translateX(100%)}
 .doorCenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:4;text-align:center;padding:20px}
-.doorHandle{width:16px;height:16px;background:gold;border-radius:50%;position:absolute;top:50%;z-index:6}
-.handleL{right:10px} .handleR{left:10px}
-.doorWrap.open .doorHandle{opacity:0}
-.quizBox{background:white;border-radius:20px;padding:16px;box-shadow:0 2px 10px #0001;margin-top:14px}
-.qCard{background:white;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 8px #0001;border:1px solid #eee}
+.qCard{background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 8px #0001}
 .opt{display:block;width:100%;text-align:left;background:#F1F8E9;border:2px solid #C8E6C9;padding:12px;border-radius:12px;margin:8px 0;font-size:17px;cursor:pointer}
-.opt.correct{background:#C8E6C9;border-color:#2E7D32}
-.opt.wrong{background:#FFCDD2;border-color:#C62828}
-.opt:disabled{opacity:.9}
-.closeBtn{background:#C62828;color:white;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
+.opt.correct{background:#C8E6C9;border-color:#2E7D32}.opt.wrong{background:#FFCDD2;border-color:#C62828}.opt:disabled{opacity:.9}
+.closeBtn{background:#C62828;color:#fff;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;cursor:pointer}
 .resultBox{background:#fff;border:2px solid #0B3D2E;border-radius:18px;padding:18px;text-align:center;display:none;margin-top:14px}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#0B3D2E;display:flex;justify-content:space-around;padding:8px 2px}
-.bottom-nav a{flex:1;color:white;text-decoration:none;text-align:center;font-size:12px;font-weight:bold;padding:6px 1px;display:flex;flex-direction:column;align-items:center;gap:2px}
-.bottom-nav .active{background:rgba(255,255,255,.18);border-radius:12px}
-</style>
-</head>
-<body>
-<div class="header"><a href="index.html">← హోమ్</a><h2 style="margin:8px 0 0">🎯 బైబిల్ క్విజ్ - HARD!</h2><div style="font-size:13px;opacity:.9">30 సెకండ్లలో 5 ప్రశ్నలు - రిపీట్ రాదు!</div></div>
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#0B3D2E;display:flex;justify-content:space-around;padding:8px}
+.bottom-nav a{flex:1;color:#fff;text-decoration:none;text-align:center;font-size:12px}
+</style></head><body>
+<div class="header"><a href="index.html">← హోమ్</a><h2>🎯 బైబిల్ క్విజ్ - HARD!</h2><div>నవంబర్ 25 - డిసెంబర్ 9 - 15 రోజులు - రిపీట్ లేదు!</div></div>
 <div class="wrap">
-<div class="langRow">
-<button id="btn-te" class="on" onclick="setLang('te')">తెలుగు</button>
-<button id="btn-en" onclick="setLang('en')">English</button>
-<button id="btn-hi" onclick="setLang('hi')">हिंदी</button>
-</div>
+<div class="langRow"><button id="btn-te" class="on" onclick="setLang('te')">తెలుగు</button><button id="btn-en" onclick="setLang('en')">English</button><button id="btn-hi" onclick="setLang('hi')">हिंदी</button></div>
 <div class="timerBox" id="timerBox">⏰ <span id="timerText">మిగిలింది: 30 సెకండ్లు</span><br><b id="timerNum">30</b></div>
-
-<div class="doorWrap" id="door" onclick="openDoor()">
-  <div class="doorLeft">🚪<div class="doorHandle handleL"></div></div>
-  <div class="doorRight">🚪<div class="doorHandle handleR"></div></div>
-  <div class="doorCenter">
-    <div style="font-size:55px">🎯</div>
-    <div style="font-size:26px;font-weight:bold;color:white" id="doorTitle">బైబిల్ క్విజ్ - HARD!</div>
-    <div style="color:#FFE082;margin-top:6px" id="doorSub">తలుపు నొక్కి ఓపెన్ చేయండి 👆<br>30 సెకండ్లు - 5 ప్రశ్నలు - రిపీట్ రాదు!</div>
-    <div style="background:gold;color:#3E2723;padding:10px 20px;border-radius:20px;font-weight:bold;margin-top:16px">🚪 తలుపు తెరవండి</div>
-  </div>
+<div class="doorWrap" id="door" onclick="openDoor()"><div class="doorLeft">🚪</div><div class="doorRight">🚪</div><div class="doorCenter"><div style="font-size:55px">🎯</div><div style="font-size:26px;font-weight:bold;color:#fff" id="doorTitle">బైబిల్ క్విజ్ - HARD!</div><div style="color:#FFE082;margin-top:6px" id="doorSub">తలుపు నొక్కి ఓపెన్ చేయండి 👆<br>30 సెకండ్లు - 5 ప్రశ్నలు - రిపీట్ రాదు!</div><div style="background:gold;color:#3E2723;padding:10px 20px;border-radius:20px;font-weight:bold;margin-top:16px">🚪 తలుపు తెరవండి</div></div></div>
+<div style="text-align:center;color:gray;font-size:13px;margin-top:10px" id="doorHint">తలుపు మూసి ఉంది</div>
+<div id="quizArea" style="display:none"><div style="display:flex;justify-content:space-between;align-items:center"><b id="scoreLabel">📖 స్కోర్: 0 / 5</b><button class="closeBtn" onclick="closeDoor()">✖️ మూసేయండి</button></div><div id="dayLabel" style="text-align:center;color:#0B3D2E;font-size:14px;margin-top:6px"></div><div id="qList"></div><button onclick="finishQuiz()" id="submitBtn" style="width:100%;background:#0B3D2E;color:#fff;border:none;padding:14px;border-radius:12px;font-weight:bold;font-size:17px;margin-top:10px">✅ సబ్మిట్ - మార్క్స్ చూడండి</button></div>
+<div class="resultBox" id="resultBox"><div style="font-size:50px" id="resultEmoji">🏆</div><div style="font-size:26px;font-weight:bold;color:#0B3D2E" id="resultTitle">మీ మార్క్స్: 0 / 5</div><div style="font-size:16px;margin-top:8px" id="resultMsg"></div><button onclick="closeDoor()" style="background:#C62828;color:#fff;border:none;padding:10px 20px;border-radius:20px;margin-top:14px">🚪 తలుపు మూసేయండి</button><div style="font-size:13px;color:#666;margin-top:8px">రేపు - కొత్త 5 ప్రశ్నలు వస్తాయి!</div></div>
 </div>
-<div style="text-align:center;color:gray;font-size:13px;margin-top:10px" id="doorHint">తలుపు మూసి ఉంది - నొక్కితే తెరుచుకుంటుంది</div>
-
-<div id="quizArea" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center">
-    <b style="font-size:18px;color:#0B3D2E" id="scoreLabel">📖 ప్రశ్నలు - స్కోర్: 0 / 5</b>
-    <button class="closeBtn" onclick="closeDoor()">✖️ మూసేయండి</button>
-  </div>
-  <div id="qList"></div>
-  <button onclick="finishQuiz()" style="width:100%;background:#0B3D2E;color:white;border:none;padding:14px;border-radius:12px;font-weight:bold;font-size:17px;margin-top:10px" id="submitBtn">✅ సబ్మిట్ - మార్క్స్ చూడండి</button>
-</div>
-
-<div class="resultBox" id="resultBox">
-  <div style="font-size:50px" id="resultEmoji">🏆</div>
-  <div style="font-size:26px;font-weight:bold;color:#0B3D2E" id="resultTitle">మీ మార్క్స్: 0 / 5</div>
-  <div style="font-size:16px;margin-top:8px" id="resultMsg"></div>
-  <button onclick="playAgain()" style="background:#25D366;color:#fff;border:none;padding:12px 22px;border-radius:20px;font-weight:bold;margin-top:14px;font-size:16px">🔄 మళ్ళీ ఆడండి - కొత్త 5 ప్రశ్నలు!</button><br>
-  <button onclick="closeDoor()" style="background:#C62828;color:#fff;border:none;padding:10px 20px;border-radius:20px;margin-top:10px">🚪 తలుపు మూసేయండి</button>
-</div>
-</div>
-<nav class="bottom-nav">
-  <a href="index.html"><span style="font-size:22px">🏠</span>హోమ్</a>
-  <a href="books.html"><span style="font-size:22px">📚</span>పుస్తకాలు</a>
-  <a href="songs.html"><span style="font-size:22px">🎵</span>పాటలు</a>
-  <a href="quiz.html" class="active"><span style="font-size:22px">🎯</span>క్విజ్</a>
-</nav>
+<nav class="bottom-nav"><a href="index.html">🏠<br>హోమ్</a><a href="books.html">📚<br>పుస్తకాలు</a><a href="songs.html">🎵<br>పాటలు</a><a href="quiz.html">🎯<br>క్విజ్</a></nav>
 <script>
-let lang='te';
-let currentQs=[]; let answers={}; let score=0; let timerInt=null; let timeLeft=30; let quizStarted=false; let finished=false;
+let lang='te';let currentQs=[];let answers={};let score=0;let timerInt=null;let timeLeft=30;let finished=false;
+// 75 QUESTIONS - 15 DAYS x 5 - NO REPEAT
+// Format: [TeQ,EnQ,HiQ, [TeOpts],[EnOpts],[HiOpts], ansIndex]
 let pool=[
-{q:{te:"1. ఇశ్రాయేలీయులు అరణ్యంలో ఎన్ని సంవత్సరాలు తిరిగారు?",en:"1. How many years did Israelites wander in the wilderness?",hi:"1. इस्राएली जंगल में कितने साल भटके?"},opts:{te:["40 సంవత్సరాలు","30 సంవత్సరాలు","7 సంవత్సరాలు","12 సంవత్సరాలు"],en:["40 years","30 years","7 years","12 years"],hi:["40 साल","30 साल","7 साल","12 साल"]},ans:0},
-{q:{te:"2. మోషే ఎన్ని సంవత్సరాలు బ్రతికాడు?",en:"2. How many years did Moses live?",hi:"2. मूसा कितने साल जीवित रहा?"},opts:{te:["120 సంవత్సరాలు","100 సంవత్సరాలు","80 సంవత్సరాలు","150 సంవత్సరాలు"],en:["120 years","100 years","80 years","150 years"],hi:["120 साल","100 साल","80 साल","150 साल"]},ans:0},
-{q:{te:"3. యేసు ప్రభువు ఏ నదిలో బాప్తిస్మం పొందారు?",en:"3. In which river was Jesus baptized?",hi:"3. यीशु ने किस नदी में बपतिस्मा लिया?"},opts:{te:["యొర్దాను నది","నైలు నది","యూఫ్రటీస్","గలిలయ సముద్రం"],en:["River Jordan","River Nile","Euphrates","Sea of Galilee"],hi:["यर्दन नदी","नील नदी","फरात","गलील सागर"]},ans:0},
-{q:{te:"4. దావీదు రాజు తండ్రి పేరు ఏమిటి?",en:"4. What was the name of King David's father?",hi:"4. राजा दाऊद के पिता का नाम क्या था?"},opts:{te:["యెష్షయి","శౌలు","శామ్యూలు","అబ్రాహాము"],en:["Jesse","Saul","Samuel","Abraham"],hi:["यिशै","शाऊल","शमूएल","अब्राहम"]},ans:0},
-{q:{te:"5. బైబిల్ లో మొత్తం ఎన్ని పుస్తకాలు ఉన్నాయి?",en:"5. How many books are there in the Bible?",hi:"5. बाइबिल में कुल कितनी पुस्तकें हैं?"},opts:{te:["66","60","70","40"],en:["66","60","70","40"],hi:["66","60","70","40"]},ans:0},
-{q:{te:"6. యోనా ఎన్ని రోజులు చేప కడుపులో ఉన్నాడు?",en:"6. How many days was Jonah in the fish's belly?",hi:"6. योना मछली के पेट में कितने दिन रहा?"},opts:{te:["3 రోజులు","7 రోజులు","1 రోజు","40 రోజులు"],en:["3 days","7 days","1 day","40 days"],hi:["3 दिन","7 दिन","1 दिन","40 दिन"]},ans:0},
-{q:{te:"7. సొలొమోను రాజు దేవుణ్ణి ఏమి అడిగాడు?",en:"7. What did King Solomon ask God for?",hi:"7. राजा सुलैमान ने परमेश्वर से क्या माँगा?"},opts:{te:["జ్ఞానం","ధనం","దీర్ఘాయువు","సైన్యం"],en:["Wisdom","Wealth","Long life","Army"],hi:["बुद्धि","धन","दीर्घायु","सेना"]},ans:0},
-{q:{te:"8. యేసు ప్రభువు మొదటి అద్భుతం ఎక్కడ చేసారు?",en:"8. Where did Jesus perform His first miracle?",hi:"8. यीशु ने पहला चमत्कार कहाँ किया?"},opts:{te:["కానా పెళ్ళిలో","బెత్లెహేములో","నజరేతులో","యెరూషలేములో"],en:["At Cana wedding","In Bethlehem","In Nazareth","In Jerusalem"],hi:["काना शादी में","बैतलहम में","नासरत में","येरूशलेम में"]},ans:0},
-{q:{te:"9. పౌలు అసలు పేరు ఏమిటి?",en:"9. What was Paul's original name?",hi:"9. पौलुस का मूल नाम क्या था?"},opts:{te:["సౌలు","పేతురు","బర్నబా","సీల"],en:["Saul","Peter","Barnabas","Silas"],hi:["शाऊल","पतरस","बरनबास","सीलास"]},ans:0},
-{q:{te:"10. మోషేకి దేవుడు ఎక్కడ దర్శనం ఇచ్చాడు? (మండే పొద)",en:"10. Where did God appear to Moses? (Burning bush)",hi:"10. परमेश्वर मूसा को कहाँ दिखाई दिए? (जलती झाड़ी)"},opts:{te:["సీనాయి పర్వతం దగ్గర","ఒలీవ పర్వతం","సీయోను","గొల్గొతా"],en:["Near Mount Sinai","Mount of Olives","Zion","Golgotha"],hi:["सीनै पर्वत के पास","जैतून पर्वत","सिय्योन","गोलगोथा"]},ans:0},
-{q:{te:"11. యేసు ప్రభువును ఎవరు 30 వెండి నాణేలకు అమ్మారు?",en:"11. Who betrayed Jesus for 30 pieces of silver?",hi:"11. यीशु को 30 चाँदी के सिक्कों में किसने बेचा?"},opts:{te:["యూదా ఇస్కరియోతు","పేతురు","తోమా","యోహాను"],en:["Judas Iscariot","Peter","Thomas","John"],hi:["यहूदा इस्करियोती","पतरस","थोमा","यूहन्ना"]},ans:0},
-{q:{te:"12. నోవాహు ఓడలో ఎన్ని రోజులు వర్షం కురిసింది?",en:"12. How many days did it rain in Noah's time?",hi:"12. नूह के समय कितने दिन बारिश हुई?"},opts:{te:["40 రోజులు","30 రోజులు","7 రోజులు","100 రోజులు"],en:["40 days","30 days","7 days","100 days"],hi:["40 दिन","30 दिन","7 दिन","100 दिन"]},ans:0},
+["మోషే ఎన్ని సంవత్సరాలు బ్రతికాడు?","How many years did Moses live?","मूसा कितने साल जीवित रहा?",["120","100","80","150"],["120","100","80","150"],["120","100","80","150"],0],
+["ఇశ్రాయేలీయులు అరణ్యంలో ఎన్ని సంవత్సరాలు తిరిగారు?","How many years did Israelites wander?","इस्राएली जंगल में कितने साल भटके?",["40","30","7","12"],["40","30","7","12"],["40","30","7","12"],0],
+["యేసు ఏ నదిలో బాప్తిస్మం పొందారు?","In which river was Jesus baptized?","यीशु ने किस नदी में बपतिस्मा लिया?",["యొర్దాను","నైలు","యూఫ్రటీస్","గలిలయ"],["Jordan","Nile","Euphrates","Galilee"],["यर्दन","नील","फरात","गलील"],0],
+["దావీదు తండ్రి పేరు?","King David's father name?","राजा दाऊद के पिता का नाम?",["యెష్షయి","శౌలు","శామ్యూలు","అబ్రాహాము"],["Jesse","Saul","Samuel","Abraham"],["यिशै","शाऊल","शमूएल","अब्राहम"],0],
+["బైబిల్ లో మొత్తం ఎన్ని పుస్తకాలు?","How many books in Bible?","बाइबिल में कुल कितनी पुस्तकें?",["66","60","70","40"],["66","60","70","40"],["66","60","70","40"],0],
+["యోనా చేప కడుపులో ఎన్ని రోజులు?","How many days Jonah in fish?","योना मछली के पेट में कितने दिन?",["3","7","1","40"],["3","7","1","40"],["3","7","1","40"],0],
+["సొలొమోను దేవుణ్ణి ఏమి అడిగాడు?","What did Solomon ask God?","सुलैमान ने परमेश्वर से क्या माँगा?",["జ్ఞానం","ధనం","దీర్ఘాయువు","సైన్యం"],["Wisdom","Wealth","Long life","Army"],["बुद्धि","धन","दीर्घायु","सेना"],0],
+["యేసు మొదటి అద్భుతం ఎక్కడ?","Where was Jesus first miracle?","यीशु का पहला चमत्कार कहाँ?",["కానా పెళ్ళి","బెత్లెహేము","నజరేతు","యెరూషలేము"],["Cana wedding","Bethlehem","Nazareth","Jerusalem"],["काना शादी","बैतलहम","नासरत","येरूशलेम"],0],
+["పౌలు అసలు పేరు?","Paul's original name?","पौलुस का मूल नाम?",["సౌలు","పేతురు","బర్నబా","సీల"],["Saul","Peter","Barnabas","Silas"],["शाऊल","पतरस","बरनबास","सीलास"],0],
+["మండే పొద - మోషేకి ఎక్కడ దర్శనం?","Where did God appear to Moses - burning bush?","परमेश्वर मूसा को कहाँ दिखाई दिए?",["సీనాయి దగ్గర","ఒలీవ","సీయోను","గొల్గొతా"],["Near Sinai","Olives","Zion","Golgotha"],["सीनै के पास","जैतून","सिय्योन","गोलगोथा"],0],
+["యేసును 30 వెండి నాణేలకు ఎవరు అమ్మారు?","Who betrayed Jesus for 30 silver?","यीशु को 30 चाँदी में किसने बेचा?",["యూదా","పేతురు","తోమా","యోహాను"],["Judas","Peter","Thomas","John"],["यहूदा","पतरस","थोमा","यूहन्ना"],0],
+["నోవాహు కాలంలో ఎన్ని రోజులు వర్షం?","How many days rain in Noah's time?","नूह के समय कितने दिन बारिश?",["40","30","7","100"],["40","30","7","100"],["40","30","7","100"],0],
+["ఆదాము భార్య పేరు?","Adam's wife name?","आदम की पत्नी का नाम?",["హవ్వ","మరియ","రూతు","ఎస్తేరు"],["Eve","Mary","Ruth","Esther"],["हव्वा","मरियम","रूत","एस्तेर"],0],
+["అబ్రాహాము కుమారుడు - బలి ఇవ్వబోయినవాడు?","Abraham's son to be sacrificed?","अब्राहम का बेटा जिसे बलि देने वाला था?",["ఇస్సాకు","ఇష్మాయేలు","యాకోబు","యోసేపు"],["Isaac","Ishmael","Jacob","Joseph"],["इसहाक","इश्माएल","याकूब","यूसुफ"],0],
+["యాకోబు ఎన్ని మంది కుమారులు?","How many sons did Jacob have?","याकूब के कितने बेटे थे?",["12","10","7","5"],["12","10","7","5"],["12","10","7","5"],0],
+["యోసేపును అన్నలు ఎక్కడ అమ్మారు?","Where was Joseph sold by brothers?","यूसुफ को भाइयों ने कहाँ बेचा?",["ఐగుప్తుకు","బబులోనుకు","కనానుకు","మోయాబుకు"],["To Egypt","To Babylon","To Canaan","To Moab"],["मिस्र को","बाबुल को","कनान को","मोआब को"],0],
+["ఫరో కలలో ఎన్ని ఆవులు?","How many cows in Pharaoh's dream?","फिरौन के सपने में कितनी गायें?",["7 లావు + 7 సన్న","5","10","3"],["7 fat + 7 thin","5","10","3"],["7 मोटी + 7 पतली","5","10","3"],0],
+["మోషే చేతిలో కర్ర ఏమైంది?","What did Moses' staff become?","मूसा की लाठी क्या बन गई?",["పాము","చేప","పక్షి","రాయి"],["Snake","Fish","Bird","Stone"],["साँप","मछली","पक्षी","पत्थर"],0],
+["దేవుడు మోషేకి ఎన్ని ఆజ్ఞలు ఇచ్చాడు?","How many commandments?","परमेश्वर ने मूसा को कितनी आज्ञाएँ दीं?",["10","7","12","5"],["10","7","12","5"],["10","7","12","5"],0],
+["ఎర్ర సముద్రం ఎవరు చీల్చారు?","Who split the Red Sea?","लाल समुद्र किसने चीर दिया?",["మోషే","అహరోను","యెహోషువ","దావీదు"],["Moses","Aaron","Joshua","David"],["मूसा","हारून","यहोशू","दाऊद"],0],
+["మన్నా ఎన్ని రోజులు కురిసింది? - వారంలో?","Manna fell how many days a week?","मन्ना हफ्ते में कितने दिन गिरा?",["6","7","5","3"],["6","7","5","3"],["6","7","5","3"],0],
+["ఆదికాండము ఎవరు రాసారు?","Who wrote Genesis?","उत्पत्ति किसने लिखी?",["మోషే","దావీదు","పౌలు","పేతురు"],["Moses","David","Paul","Peter"],["मूसा","दाऊद","पौलुस","पतरस"],0],
+["సమ్సోను బలం ఎక్కడ ఉంది?","Where was Samson's strength?","शिमशोन की शक्ति कहाँ थी?",["జుట్టులో","చేతిలో","కళ్ళలో","కాళ్ళలో"],["In hair","In hands","In eyes","In legs"],["बालों में","हाथों में","आँखों में","पैरों में"],0],
+["గొల్యాతు ఎత్తు ఎంత? - సుమారు?","How tall was Goliath approx?","गोलियत कितना लंबा था लगभग?",["9 అడుగులు","6 అడుగులు","5 అడుగులు","12 అడుగులు"],["9 feet","6 feet","5 feet","12 feet"],["9 फीट","6 फीट","5 फीट","12 फीट"],0],
+["దావీదు గొల్యాతును దేనితో కొట్టాడు?","David killed Goliath with what?","दाऊद ने गोलियत को किससे मारा?",["వడిసెల + రాయి","కత్తి","ఈటె","బాణం"],["Sling + stone","Sword","Spear","Arrow"],["गोफन + पत्थर","तलवार","भाला","तीर"],0],
+["దావీదు ఎన్ని సంవత్సరాలు రాజుగా ఉన్నాడు?","How many years David was king?","दाऊद कितने साल राजा रहा?",["40","30","20","50"],["40","30","20","50"],["40","30","20","50"],0],
+["సొలొమోను మందిరం ఎక్కడ కట్టాడు?","Where did Solomon build temple?","सुलैमान ने मंदिर कहाँ बनाया?",["యెరూషలేము","బెత్లెహేము","నజరేతు","హెబ్రోను"],["Jerusalem","Bethlehem","Nazareth","Hebron"],["येरूशलेम","बैतलहम","नासरत","हेब्रोन"],0],
+["ఏలీయా ఎక్కడికి ఎత్తబడ్డాడు?","Elijah taken up to heaven how?","एलिय्याह स्वर्ग कैसे गया?",["అగ్ని రథంలో","మేఘంలో","పడవలో","గుర్రం మీద"],["Fiery chariot","Cloud","Boat","Horse"],["अग्नि रथ में","बादल में","नाव में","घोड़े पर"],0],
+["ఎలీషా ఏ నదిలో గొడ్డలి తేలించాడు?","In which river did Elisha float axe?","एलीशा ने किस नदी में कुल्हाड़ी तैराई?",["యొర్దాను","నైలు","యూఫ్రటీస్","కీషోను"],["Jordan","Nile","Euphrates","Kishon"],["यर्दन","नील","फरात","कीशोन"],0],
+["దానియేలు ఎక్కడ వేయబడ్డాడు?","Where was Daniel thrown?","दानिय्येल को कहाँ डाला गया?",["సింహాల గుహలో","అగ్ని గుండంలో","జైలులో","బావిలో"],["Lions' den","Fiery furnace","Prison","Well"],["शेरों की मांद","आग की भट्टी","जेल","कुआँ"],0],
+["షద్రక్, మేషక్, అబేద్నెగో - ఎక్కడ?","Shadrach, Meshach, Abednego - where?","शद्रक, मेशक, अबेदनगो - कहाँ?",["అగ్ని గుండం","సింహాల గుహ","జైలు","ఎడారి"],["Fiery furnace","Lions' den","Prison","Desert"],["आग की भट्टी","शेरों की मांद","जेल","रेगिस्तान"],0],
+["యోనా ఏ పట్టణానికి వెళ్ళాలి?","Jonah was to go to which city?","योना को किस नगर जाना था?",["నీనెవె","తర్షీషు","బబులోను","యెరూషలేము"],["Nineveh","Tarshish","Babylon","Jerusalem"],["निनवे","तर्शीश","बाबुल","येरूशलेम"],0],
+["యేసు ఎక్కడ జన్మించారు?","Where was Jesus born?","यीशु कहाँ पैदा हुए?",["బెత్లెహేము","నజరేతు","యెరూషలేము","గలిలయ"],["Bethlehem","Nazareth","Jerusalem","Galilee"],["बैतलहम","नासरत","येरूशलेम","गलील"],0],
+["యేసు తల్లి పేరు?","Jesus' mother name?","यीशु की माँ का नाम?",["మరియ","మార్త","రూతు","ఎలిజబెత్"],["Mary","Martha","Ruth","Elizabeth"],["मरियम","मार्था","रूत","इलीशिबा"],0],
+["యేసుకు బాప్తిస్మం ఎవరు ఇచ్చారు?","Who baptized Jesus?","यीशु को बपतिस्मा किसने दिया?",["యోహాను","పేతురు","పౌలు","యాకోబు"],["John","Peter","Paul","James"],["यूहन्ना","पतरस","पौलुस","याकूब"],0],
+["యేసు ఎన్ని రోజులు ఉపవాసం?","How many days Jesus fasted?","यीशु ने कितने दिन उपवास किया?",["40","30","7","21"],["40","30","7","21"],["40","30","7","21"],0],
+["యేసు మొదటి శిష్యుడు ఎవరు? - ఒకరు?","One of first disciples?","पहले शिष्यों में से एक?",["పేతురు","యూదా","తోమా","మత్తయి"],["Peter","Judas","Thomas","Matthew"],["पतरस","यहूदा","थोमा","मत्ती"],0],
+["యేసు ఎంతమంది శిష్యులు?","How many disciples of Jesus?","यीशु के कितने शिष्य?",["12","10","7","70"],["12","10","7","70"],["12","10","7","70"],0],
+["యేసు నీటి మీద నడిచినప్పుడు - ఎవరు మునిగాడు?","Who sank while walking on water?","पानी पर चलते हुए कौन डूबा?",["పేతురు","యోహాను","యాకోబు","ఆండ్రూ"],["Peter","John","James","Andrew"],["पतरस","यूहन्ना","याकूब","अन्द्रियास"],0],
+["లాజరు ఎన్ని రోజుల తర్వాత లేపబడ్డాడు?","Lazarus raised after how many days?","लाज़र कितने दिन बाद जिलाया गया?",["4","3","7","1"],["4","3","7","1"],["4","3","7","1"],0],
+["యేసు ఎన్ని రొట్టెలతో 5000 మందికి పెట్టారు?","How many loaves for 5000?","5000 को कितनी रोटियों से खिलाया?",["5","7","12","3"],["5","7","12","3"],["5","7","12","3"],0],
+["యేసు చివరి భోజనంలో - ఏమి ఇచ్చారు?","At Last Supper, what did Jesus give?","अंतिम भोज में यीशु ने क्या दिया?",["రొట్టె + ద్రాక్షారసం","చేప","మాంసం","పాలు"],["Bread + wine","Fish","Meat","Milk"],["रोटी + दाखरस","मछली","मांस","दूध"],0],
+["యేసు ఎక్కడ సిలువ వేయబడ్డారు?","Where was Jesus crucified?","यीशु कहाँ क्रूस पर चढ़ाए गए?",["గొల్గొతా","ఒలీవ","సీయోను","గెత్సేమనే"],["Golgotha","Olives","Zion","Gethsemane"],["गोलगोथा","जैतून","सिय्योन","गतसमनी"],0],
+["యేసు ఎన్నవ రోజు లేచారు?","On which day Jesus rose?","यीशु किस दिन जी उठे?",["3వ రోజు","2వ రోజు","7వ రోజు","1వ రోజు"],["3rd day","2nd day","7th day","1st day"],["तीसरे दिन","दूसरे दिन","सातवें दिन","पहले दिन"],0],
+["పరిశుద్ధాత్మ ఎప్పుడు దిగివచ్చారు?","When did Holy Spirit come?","पवित्र आत्मा कब उतरा?",["పెంతెకొస్తు రోజు","పస్కా","సుక్కోత్","యోమ్ కిప్పూర్"],["Pentecost","Passover","Tabernacles","Yom Kippur"],["पिन्तेकुस्त","फसह","सुक्कोट","योम किप्पुर"],0],
+["పౌలు ఎక్కడికి వెళ్తూ దర్శనం పొందాడు?","Paul's vision on road to where?","पौलुस को किस रास्ते पर दर्शन हुआ?",["దమస్కు","యెరూషలేము","అంతియొకయ","రోమా"],["Damascus","Jerusalem","Antioch","Rome"],["दमिश्क","येरूशलेम","अन्ताकिया","रोम"],0],
+["పౌలు ఎన్ని మిషనరీ యాత్రలు?","How many missionary journeys of Paul?","पौलुस की कितनी मिशनरी यात्राएँ?",["3","2","4","1"],["3","2","4","1"],["3","2","4","1"],0],
+["ప్రకటన గ్రంథం ఎవరు రాసారు?","Who wrote Revelation?","प्रकाशितवाक्य किसने लिखा?",["యోహాను","పేతురు","పౌలు","యాకోబు"],["John","Peter","Paul","James"],["यूहन्ना","पतरस","पौलुस","याकूब"],0],
+["బైబిల్ లో చివరి పుస్తకం?","Last book of Bible?","बाइबिल की अंतिम पुस्तक?",["ప్రకటన","మలాకీ","యూదా","యోహాను"],["Revelation","Malachi","Jude","John"],["प्रकाशितवाक्य","मलाकी","यहूदा","यूहन्ना"],0],
+["కీర్తనలు ఎన్ని అధ్యాయాలు?","How many chapters in Psalms?","भजन संहिता में कितने अध्याय?",["150","100","120","66"],["150","100","120","66"],["150","100","120","66"],0],
+["అతి పొడవైన కీర్తన?","Longest Psalm?","सबसे लंबा भजन?",["119","23","1","150"],["119","23","1","150"],["119","23","1","150"],0],
+["యేసు ప్రభువు తండ్రి - భూమి మీద?","Jesus' earthly father?","यीशु के धरती के पिता?",["యోసేపు","జకర్యా","షిమ్యోను","అన్న"],["Joseph","Zechariah","Simeon","Anna"],["यूसुफ","जकर्याह","शमौन","हन्ना"],0],
+["యోహాను బాప్తిస్మం ఇచ్చేవాడు - ఏమి తినేవాడు?","What did John the Baptist eat?","यूहन्ना बपतिस्मा देने वाला क्या खाता था?",["మిడతలు + తేనె","చేప + రొట్టె","మాంసం","పండ్లు"],["Locusts + honey","Fish + bread","Meat","Fruits"],["टिड्डियाँ + शहद","मछली + रोटी","मांस","फल"],0],
+["మరియ - ఎలిజబెత్ - ఏమి అవుతారు?","Mary and Elizabeth relation?","मरियम और इलीशिबा का रिश्ता?",["బంధువులు","అక్కాచెల్లెళ్ళు","తల్లి కూతురు","అత్త కోడలు"],["Relatives","Sisters","Mother-daughter","Mother-in-law"],["रिश्तेदार","बहनें","माँ-बेटी","सास-बहू"],0],
+["యేసు 12 ఏళ్ళ వయసులో ఎక్కడ ఉన్నారు?","Jesus at 12 years - where?","यीशु 12 साल की उम्र में कहाँ थे?",["దేవాలయంలో","ఇంట్లో","బడిలో","పొలంలో"],["In Temple","At home","In school","In field"],["मंदिर में","घर में","स्कूल में","खेत में"],0],
+["యేసు ఏ వృత్తి?","What was Jesus' profession?","यीशु का पेशा क्या था?",["వడ్రంగి","జాలరి","రైతు","వైద్యుడు"],["Carpenter","Fisherman","Farmer","Doctor"],["बढ़ई","मछुआरा","किसान","डॉक्टर"],0],
+["పేతురు ఏ వృత్తి?","Peter's profession?","पतरस का पेशा?",["జాలరి","వడ్రంగి","పన్ను","సైనికుడు"],["Fisherman","Carpenter","Tax collector","Soldier"],["मछुआरा","बढ़ई","कर वसूलने वाला","सैनिक"],0],
+["మత్తయి ఏ వృత్తి?","Matthew's profession?","मत्ती का पेशा?",["పన్ను వసూలు","జాలరి","వడ్రంగి","వైద్యుడు"],["Tax collector","Fisherman","Carpenter","Doctor"],["कर वसूलने वाला","मछुआरा","बढ़ई","डॉक्टर"],0],
+["లూకా ఏ వృత్తి?","Luke's profession?","लूका का पेशा?",["వైద్యుడు","జాలరి","వడ్రంగి","రాజు"],["Doctor","Fisherman","Carpenter","King"],["डॉक्टर","मछुआरा","बढ़ई","राजा"],0],
+["తోమా - ఏమని పిలుస్తారు?","Thomas called as?","थोमा को क्या कहते हैं?",["అవిశ్వాసి తోమా","చిన్న తోమా","పెద్ద తోమా","వడ్రంగి తోమా"],["Doubting Thomas","Little Thomas","Big Thomas","Carpenter Thomas"],["अविश्वासी थोमा","छोटा थोमा","बड़ा थोमा","बढ़ई थोमा"],0],
+["యేసు సిలువ మీద - మొదటి మాట?","First word of Jesus on cross?","क्रूस पर यीशु का पहला वचन?",["తండ్రీ, వీరిని క్షమించుము","నా దేవా, ఎందుకు విడిచితివి","ఇది సమాప్తమాయెను","దాహమగుచున్నది"],["Father, forgive them","My God, why forsaken","It is finished","I thirst"],["पिता, इन्हें क्षमा कर","हे मेरे परमेश्वर, क्यों छोड़ा","पूरा हुआ","मुझे प्यास लगी है"],0],
+["యేసు సమాధి - ఎవరిది?","Whose tomb was Jesus buried in?","यीशु की कब्र किसकी थी?",["యోసేపు - అరిమతయ","నికోదేము","పిలాతు","హేరోదు"],["Joseph of Arimathea","Nicodemus","Pilate","Herod"],["अरिमतिया के यूसुफ","नीकुदेमुस","पिलातुस","हेरोद"],0],
+["మగ్దలేనే మరియ - మొదట ఎవరిని చూసింది?","Mary Magdalene first saw whom after resurrection?","मरियम मगदलीनी ने पहले किसे देखा?",["యేసును","దూతను","పేతురును","యోహానును"],["Jesus","Angel","Peter","John"],["यीशु","स्वर्गदूत","पतरस","यूहन्ना"],0],
+["స్తెఫను - మొదటి హతసాక్షి - ఎలా చనిపోయాడు?","Stephen first martyr - how died?","स्तिफनुस पहला शहीद - कैसे मरा?",["రాళ్ళతో కొట్టి","సిలువ","కత్తి","అగ్ని"],["Stoned","Crucified","Sword","Fire"],["पत्थर मारकर","क्रूस","तलवार","आग"],0],
+["అపొస్తలుల కార్యములు ఎవరు రాసారు?","Who wrote Acts?","प्रेरितों के काम किसने लिखे?",["లూకా","పౌలు","పేతురు","యోహాను"],["Luke","Paul","Peter","John"],["लूका","पौलुस","पतरस","यूहन्ना"],0],
+["బబులోను చెర - ఎన్ని సంవత్సరాలు?","Babylonian captivity - how many years?","बाबुल की गुलामी कितने साल?",["70","40","50","10"],["70","40","50","10"],["70","40","50","10"],0],
+["ఎస్తేరు - ఏ రాజు భార్య?","Esther was wife of which king?","एस्तेर किस राजा की पत्नी थी?",["అహష్వేరోషు","దార్యావేషు","సైరస్","హేరోదు"],["Ahasuerus","Darius","Cyrus","Herod"],["अहश्वेरोश","दारयावेश","कुस्रू","हेरोद"],0],
+["రూతు - ఎవరి కోడలు?","Ruth was daughter-in-law of whom?","रूत किसकी बहू थी?",["నయోమి","సారా","రాహాబు","హన్నా"],["Naomi","Sarah","Rahab","Hannah"],["नाओमी","सारा","राहाब","हन्ना"],0],
+["హన్నా కుమారుడు?","Hannah's son?","हन्ना का बेटा?",["సమూయేలు","దావీదు","శౌలు","సొలొమోను"],["Samuel","David","Saul","Solomon"],["शमूएल","दाऊद","शाऊल","सुलैमान"],0],
+["శౌలు - మొదటి రాజు - ఏ గోత్రం?","Saul first king - which tribe?","शाऊल पहला राजा - किस गोत्र से?",["బెన్యామీను","యూదా","లేవి","ఎఫ్రాయిము"],["Benjamin","Judah","Levi","Ephraim"],["बिन्यामीन","यहूदा","लेवी","एफ्रैम"],0],
+["దావీదు - ఏ గోత్రం?","David - which tribe?","दाऊद - किस गोत्र से?",["యూదా","బెన్యామీను","లేవి","దాను"],["Judah","Benjamin","Levi","Dan"],["यहूदा","बिन्यामीन","लेवी","दान"],0],
+["అబ్రాహాము - మొదటి పేరు?","Abraham's first name?","अब्राहम का पहला नाम?",["అబ్రాము","అబ్రాహాము","ఇస్సాకు","యాకోబు"],["Abram","Abraham","Isaac","Jacob"],["अब्राम","अब्राहम","इसहाक","याकूब"],0],
+["సారా - మొదటి పేరు?","Sarah's first name?","सारा का पहला नाम?",["శారయి","సారా","హాగరు","రెబెక్కా"],["Sarai","Sarah","Hagar","Rebekah"],["सारै","सारा","हाजिरा","रिबका"],0],
+["యాకోబు - కొత్త పేరు?","Jacob's new name?","याकूब का नया नाम?",["ఇశ్రాయేలు","ఇస్సాకు","అబ్రాహాము","యోసేపు"],["Israel","Isaac","Abraham","Joseph"],["इस्राएल","इसहाक","अब्राहम","यूसुफ"],0],
+["ఆదాము - ఎన్ని సంవత్సరాలు బ్రతికాడు?","How many years Adam lived?","आदम कितने साल जीवित रहा?",["930","900","1000","800"],["930","900","1000","800"],["930","900","1000","800"],0],
+["మెతూషెల - ఎన్ని సంవత్సరాలు?","Methuselah - how many years?","मतूशेलह कितने साल?",["969","900","800","1000"],["969","900","800","1000"],["969","900","800","1000"],0],
+["నోవాహు - ఓడలో ఎంతమంది?","How many people in Noah's ark?","नूह की नाव में कितने लोग?",["8","10","12","7"],["8","10","12","7"],["8","10","12","7"],0],
+["దేవుడు - ఏ రోజు విశ్రాంతి?","God rested on which day?","परमेश्वर ने किस दिन विश्राम किया?",["7వ రోజు","6వ రోజు","1వ రోజు","3వ రోజు"],["7th day","6th day","1st day","3rd day"],["7वाँ दिन","6वाँ दिन","1ला दिन","3रा दिन"],0],
 ];
-function setLang(l){lang=l;document.querySelectorAll('.langRow button').forEach(b=>b.classList.remove('on'));document.getElementById('btn-'+l).classList.add('on');if(quizStarted && !finished){renderQ();}updateTexts();}
+function setLang(l){lang=l;document.querySelectorAll('.langRow button').forEach(b=>b.classList.remove('on'));document.getElementById('btn-'+l).classList.add('on');if(currentQs.length&&!finished)renderQ();updateTexts();}
 function updateTexts(){
- let titles={te:"బైబిల్ క్విజ్ - HARD!",en:"Bible Quiz - HARD!",hi:"बाइबिल क्विज़ - HARD!"};
- let subs={te:"తలుపు నొక్కి ఓపెన్ చేయండి 👆<br>30 సెకండ్లు - 5 ప్రశ్నలు - రిపీట్ రాదు!",en:"Tap door to open 👆<br>30 seconds - 5 Questions - No Repeat!",hi:"दरवाज़ा दबाकर खोलें 👆<br>30 सेकंड - 5 प्रश्न - दोहराव नहीं!"};
- document.getElementById('doorTitle').innerHTML=titles[lang];
- document.getElementById('doorSub').innerHTML=subs[lang];
- let scoreTxt={te:"📖 ప్రశ్నలు - స్కోర్: ",en:"📖 Questions - Score: ",hi:"📖 प्रश्न - स्कोर: "};
- document.getElementById('scoreLabel').innerText=scoreTxt[lang]+score+" / 5";
- document.getElementById('submitBtn').innerText={te:"✅ సబ్మిట్ - మార్క్స్ చూడండి",en:"✅ Submit - See Marks",hi:"✅ सबमिट - मार्क्स देखें"}[lang];
+let titles={te:"బైబిల్ క్విజ్ - HARD!",en:"Bible Quiz - HARD!",hi:"बाइबिल क्विज़ - HARD!"};
+let subs={te:"తలుపు నొక్కి ఓపెన్ చేయండి 👆<br>30 సెకండ్లు - 5 ప్రశ్నలు - రిపీట్ రాదు!",en:"Tap door to open 👆<br>30 seconds - 5 Questions - No Repeat!",hi:"दरवाज़ा दबाकर खोलें 👆<br>30 सेकंड - 5 प्रश्न - दोहराव नहीं!"};
+document.getElementById('doorTitle').innerHTML=titles[lang];document.getElementById('doorSub').innerHTML=subs[lang];
+document.getElementById('scoreLabel').innerText={te:"📖 స్కోర్: ",en:"📖 Score: ",hi:"📖 स्कोर: "}[lang]+score+" / 5";
+document.getElementById('submitBtn').innerText={te:"✅ సబ్మిట్ - మార్క్స్ చూడండి",en:"✅ Submit - See Marks",hi:"✅ सबमिट - मार्क्स देखें"}[lang];
 }
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function pick5(){
- let copy=[...pool]; shuffle(copy);
- let five=copy.slice(0,5);
- return five.map(item=>{
-   let order=[0,1,2,3]; shuffle(order);
-   let newOpts=order.map(i=>item.opts[lang][i]);
-   let newAns=order.indexOf(item.ans);
-   // For other langs we need same shuffle - we store original and shuffle mapping
-   return {q:item.q, opts:newOpts, ans:newAns, orig:item, order:order};
- });
-}
-function openDoor(){
- document.getElementById('door').classList.add('open');
- document.getElementById('doorHint').textContent={te:"తలుపు తెరుచుకుంది! 30 సెకండ్లు మొదలయ్యాయి! 👇",en:"Door opened! 30 seconds started! 👇",hi:"दरवाज़ा खुल गया! 30 सेकंड शुरू! 👇"}[lang];
- setTimeout(()=>{ document.getElementById('quizArea').style.display='block'; document.getElementById('quizArea').scrollIntoView({behavior:'smooth'}); },600);
- startQuiz();
-}
-function startQuiz(){
- quizStarted=true; finished=false; score=0; answers={}; timeLeft=30;
- currentQs=pick5();
- document.getElementById('resultBox').style.display='none';
- document.getElementById('timerBox').style.display='block';
- document.getElementById('submitBtn').style.display='block';
- renderQ(); startTimer();
-}
-function startTimer(){
- if(timerInt) clearInterval(timerInt);
- updateTimerUI();
- timerInt=setInterval(()=>{
-   timeLeft--;
-   updateTimerUI();
-   if(timeLeft<=0){ clearInterval(timerInt); finishQuiz(true); }
- },1000);
-}
-function updateTimerUI(){
- document.getElementById('timerNum').innerText=timeLeft;
- document.getElementById('timerText').innerText={te:"మిగిలింది: "+timeLeft+" సెకండ్లు",en:"Remaining: "+timeLeft+" seconds",hi:"बचा हुआ: "+timeLeft+" सेकंड"}[lang];
- if(timeLeft<=10) document.getElementById('timerNum').style.color="#C62828";
- else document.getElementById('timerNum').style.color="#0B3D2E";
-}
+function getDayIdx(){let start=new Date(2026,10,25);let today=new Date();today.setHours(0,0,0,0);let diff=Math.floor((today-start)/(1000*60*60*24));if(diff<0)diff=0;if(diff>14)diff=14;return {diff:diff,date:today};}
+function openDoor(){document.getElementById('door').classList.add('open');document.getElementById('doorHint').textContent={te:"తలుపు తెరుచుకుంది! 30 సెకండ్లు మొదలయ్యాయి! 👇",en:"Door opened! 30 seconds started! 👇",hi:"दरवाज़ा खुल गया! 30 सेकंड शुरू! 👇"}[lang];setTimeout(()=>{document.getElementById('quizArea').style.display='block';document.getElementById('quizArea').scrollIntoView({behavior:'smooth'});},600);startQuiz();}
+function startQuiz(){finished=false;score=0;answers={};timeLeft=30;let d=getDayIdx();let startIdx=d.diff*5;currentQs=pool.slice(startIdx,startIdx+5);document.getElementById('resultBox').style.display='none';document.getElementById('timerBox').style.display='block';document.getElementById('submitBtn').style.display='block';document.getElementById('dayLabel').innerText="📅 "+d.date.toLocaleDateString('te-IN',{day:'numeric',month:'long'})+" • రోజు "+(d.diff+1)+" / 15 • ఈరోజు 5 కొత్త ప్రశ్నలు!";renderQ();startTimer();}
+function startTimer(){if(timerInt)clearInterval(timerInt);updateTimerUI();timerInt=setInterval(()=>{timeLeft--;updateTimerUI();if(timeLeft<=0){clearInterval(timerInt);finishQuiz(true);}},1000);}
+function updateTimerUI(){document.getElementById('timerNum').innerText=timeLeft;document.getElementById('timerText').innerText={te:"మిగిలింది: "+timeLeft+" సెకండ్లు",en:"Remaining: "+timeLeft+" seconds",hi:"बचा हुआ: "+timeLeft+" सेकंड"}[lang];}
 function renderQ(){
- let box=document.getElementById('qList'); box.innerHTML='';
- currentQs.forEach((item,qi)=>{
-   // Re-build opts for current lang using stored order
-   let optsForLang=item.order.map(i=>item.orig.opts[lang][i]);
-   let ansForLang=item.order.indexOf(item.orig.ans);
-   item.opts=optsForLang; item.ans=ansForLang;
-   let card=document.createElement('div'); card.className='qCard';
-   let h=document.createElement('div'); h.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E'; h.textContent=item.orig.q[lang];
-   card.appendChild(h);
-   optsForLang.forEach((o,oi)=>{
-     let b=document.createElement('button'); b.className='opt'; b.textContent=o;
-     if(answers[qi]!==undefined){ b.disabled=true; if(oi===ansForLang) b.classList.add('correct'); else if(oi===answers[qi]) b.classList.add('wrong'); }
-     b.onclick=()=>{
-       if(finished || answers[qi]!==undefined) return;
-       answers[qi]=oi;
-       if(oi===ansForLang){ score++; }
-       document.getElementById('scoreLabel').innerText={te:"📖 ప్రశ్నలు - స్కోర్: ",en:"📖 Questions - Score: ",hi:"📖 प्रश्न - स्कोर: "}[lang]+score+" / 5";
-       renderQ();
-     };
-     card.appendChild(b);
-   });
-   box.appendChild(card);
- });
+let box=document.getElementById('qList');box.innerHTML='';
+let langIdx=lang==='te'?0:lang==='en'?1:2;let optIdx=lang==='te'?3:lang==='en'?4:5;
+currentQs.forEach((item,qi)=>{
+let card=document.createElement('div');card.className='qCard';
+let h=document.createElement('div');h.style.cssText='font-size:19px;font-weight:bold;color:#0B3D2E';h.textContent=(qi+1)+". "+item[langIdx];card.appendChild(h);
+let opts=item[optIdx];let order=[0,1,2,3];
+// Shuffle options once per question - keep stable by using qi + day
+let shuffled=[...opts];if(!item._shuffled){let a=[0,1,2,3];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}item._shuffled=a;item._ans=a.indexOf(item[6]);}
+let ans=item._ans;
+item._shuffled.forEach((origOi,displayOi)=>{
+let b=document.createElement('button');b.className='opt';b.textContent=opts[origOi];
+if(answers[qi]!==undefined){b.disabled=true;if(origOi===item[6])b.classList.add('correct');else if(displayOi===answers[qi])b.classList.add('wrong');}
+b.onclick=()=>{if(finished||answers[qi]!==undefined)return;answers[qi]=displayOi;if(origOi===item[6])score++;document.getElementById('scoreLabel').innerText={te:"📖 స్కోర్: ",en:"📖 Score: ",hi:"📖 स्कोर: "}[lang]+score+" / 5";renderQ();};
+card.appendChild(b);
+});
+box.appendChild(card);
+});
 }
 function finishQuiz(auto=false){
- if(finished) return; finished=true;
- if(timerInt) clearInterval(timerInt);
- // Count score from answers (already counted, but recalc safe)
- let correct=0; currentQs.forEach((it,qi)=>{ if(answers[qi]===it.ans) correct++; });
- score=correct;
- document.getElementById('submitBtn').style.display='none';
- document.getElementById('quizArea').style.display='none';
- let box=document.getElementById('resultBox'); box.style.display='block';
- let title={te:"మీ మార్క్స్: ",en:"Your Marks: ",hi:"आपके मार्क्स: "}[lang]+correct+" / 5";
- document.getElementById('resultTitle').innerText=title;
- let msg="", emoji="";
- if(correct===5){emoji="🏆👑"; msg={te:"వావ్! 5/5 - మీరు బైబిల్ పండితులు! 🙏",en:"Wow! 5/5 - You are a Bible Scholar! 🙏",hi:"वाह! 5/5 - आप बाइबिल विद्वान हैं! 🙏"}[lang];}
- else if(correct>=3){emoji="👏"; msg={te:"బాగుంది! ఇంకొంచెం ప్రయత్నిస్తే 5/5 వస్తుంది!",en:"Good! Try a little more for 5/5!",hi:"अच्छा! थोड़ा और प्रयास करें, 5/5 मिलेगा!"}[lang];}
- else {emoji="📖"; msg={te:"పర్లేదు! బైబిల్ చదివి మళ్ళీ ఆడండి! 🙏",en:"No problem! Read Bible and play again! 🙏",hi:"कोई बात नहीं! बाइबिल पढ़ें और फिर खेलें! 🙏"}[lang];}
- if(auto) msg+="\n⏰ "+{te:"టైమ్ అయిపోయింది - 30 సెకండ్లు!",en:"Time Up - 30 Seconds Over!",hi:"समय समाप्त - 30 सेकंड खत्म!"}[lang];
- document.getElementById('resultEmoji').innerText=emoji;
- document.getElementById('resultMsg').innerText=msg;
- box.scrollIntoView({behavior:'smooth'});
+if(finished)return;finished=true;if(timerInt)clearInterval(timerInt);
+let correct=0;currentQs.forEach((it,qi)=>{let chosen=answers[qi];if(chosen!==undefined){let origOi=it._shuffled[chosen];if(origOi===it[6])correct++;}});
+score=correct;document.getElementById('submitBtn').style.display='none';document.getElementById('quizArea').style.display='none';
+let box=document.getElementById('resultBox');box.style.display='block';
+document.getElementById('resultTitle').innerText={te:"మీ మార్క్స్: ",en:"Your Marks: ",hi:"आपके मार्क्स: "}[lang]+correct+" / 5";
+let msg="",emoji="";
+if(correct===5){emoji="🏆👑";msg={te:"వావ్! 5/5 - మీరు బైబిల్ పండితులు! 🙏",en:"Wow! 5/5 - You are a Bible Scholar! 🙏",hi:"वाह! 5/5 - आप बाइबिल विद्वान हैं! 🙏"}[lang];}
+else if(correct>=3){emoji="👏";msg={te:"బాగుంది! రేపు 5/5 వస్తుంది!",en:"Good! Tomorrow 5/5!",hi:"अच्छा! कल 5/5 मिलेगा!"}[lang];}
+else{emoji="📖";msg={te:"పర్లేదు! బైబిల్ చదివి రేపు మళ్ళీ ఆడండి! 🙏",en:"No problem! Read Bible and play tomorrow! 🙏",hi:"कोई बात नहीं! बाइबिल पढ़ें और कल फिर खेलें! 🙏"}[lang];}
+if(auto)msg+="\n⏰ "+{te:"టైమ్ అయిపోయింది - 30 సెకండ్లు!",en:"Time Up - 30 Seconds Over!",hi:"समय समाप्त - 30 सेकंड खत्म!"}[lang];
+document.getElementById('resultEmoji').innerText=emoji;document.getElementById('resultMsg').innerText=msg;box.scrollIntoView({behavior:'smooth'});
 }
-function playAgain(){ startQuiz(); document.getElementById('quizArea').style.display='block'; document.getElementById('resultBox').style.display='none'; document.getElementById('quizArea').scrollIntoView({behavior:'smooth'}); }
-function closeDoor(){
- document.getElementById('quizArea').style.display='none';
- document.getElementById('resultBox').style.display='none';
- document.getElementById('timerBox').style.display='none';
- document.getElementById('door').classList.remove('open');
- document.getElementById('doorHint').textContent={te:"తలుపు మూసుకుపోయింది - మళ్ళీ నొక్కి తెరవండి",en:"Door closed - Tap again to open",hi:"दरवाज़ा बंद हो गया - फिर दबाकर खोलें"}[lang];
- window.scrollTo({top:0,behavior:'smooth'});
- if(timerInt) clearInterval(timerInt);
- quizStarted=false; finished=false; score=0; answers={};
- updateTexts();
-}
+function closeDoor(){document.getElementById('quizArea').style.display='none';document.getElementById('resultBox').style.display='none';document.getElementById('timerBox').style.display='none';document.getElementById('door').classList.remove('open');document.getElementById('doorHint').textContent={te:"తలుపు మూసుకుపోయింది",en:"Door closed",hi:"दरवाज़ा बंद हो गया"}[lang];window.scrollTo({top:0,behavior:'smooth'});if(timerInt)clearInterval(timerInt);finished=false;score=0;answers={};updateTexts();}
 updateTexts();
-</script>
-</body>
-</html>
+</script></body></html>
