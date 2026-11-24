@@ -107,6 +107,7 @@ input.search::placeholder{color:#777}
 .prayer-card{background:#fff;border:2px solid #075E54;border-radius:16px;padding:14px;margin:12px;text-align:center}
 .prayer-msg{background:#fff;border:1px solid #eee;border-radius:12px;padding:10px;margin:8px 12px}
 .prayer-msg.pending{border:2px dashed #ff9800;background:#fff3e0}
+.prayer-msg.adminmsg{background:#E3F2FD;border:2px solid #1877F2}
 </style>
 </head>
 <body>
@@ -181,12 +182,14 @@ input.search::placeholder{color:#777}
 <div id="page-prayer" class="page">
 <div style="background:#075E54;color:#fff;padding:16px;text-align:center;border-radius:0 0 20px 20px"><div style="font-size:32px">🙏💬</div><b style="font-size:20px">ప్రార్థన - మెసేజ్</b><p style="font-size:13px;margin:4px 0">ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం - App లోనే!</p></div>
 <div style="background:#FFF7CC;border:2px solid #FFD54F;border-radius:14px;padding:12px;margin:12px;text-align:center"><div style="font-size:15px">📅 <b>షెడ్యూల్ - తరువాత ప్రార్థన</b></div><div id="prayerSchedShow" style="font-size:14px;color:#7a3b00;margin-top:4px">ఇంకా షెడ్యూల్ పెట్టలేదు</div></div>
-<div class="prayer-card"><div style="font-size:16px">🙏 <b>ప్రార్థన గ్రూప్ - అడ్మిన్ చేతిలోనే!</b></div><div id="prayerGroupStatus" style="font-size:13px;color:#075E54;margin-top:6px">● చూస్తున్నాం... 5 సెకన్లలో అప్డేట్ అవుతుంది</div><div id="prayerAdminBox" style="display:none;margin-top:10px"><button onclick="prayerAdminSend('OPEN')" style="width:100%;background:#25D366;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px">✅ గ్రూప్ OPEN చేయండి - అందరికీ OPEN అవుతుంది</button><button onclick="prayerAdminSend('CLOSE')" style="width:100%;background:#ef4444;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px;margin-top:8px">⛔ గ్రూప్ CLOSE చేయండి - అందరికీ CLOSE అవుతుంది</button><div style="margin-top:10px;text-align:left"><label style="font-size:13px">📅 రేపు / తరువాత ఎప్పుడు? (ఉదా: రేపు ఉదయం 6 గంటలకి)</label><input id="prayerSchedInput" placeholder="రేపు ఉదయం 6 గంటలకి ప్రార్థన" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:4px"><button onclick="prayerSetSched()" style="width:100%;background:#FFD54F;border:0;padding:10px;border-radius:20px;margin-top:6px">📅 షెడ్యూల్ పెట్టండి - అందరికీ కనబడుతుంది</button></div><div style="margin-top:8px"><label style="font-size:13px">⏰ ఎన్ని నిమిషాలు ఓపెన్?</label><input id="prayerMins" type="number" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:4px"><button onclick="prayerSetTimer()" style="width:100%;background:#FFD54F;border:0;padding:10px;border-radius:20px;margin-top:6px">⏰ టైమ్ పెట్టండి</button></div><div id="prayerTimerShow" style="font-size:12px;color:#075E54;margin-top:6px"></div></div></div>
+<div class="prayer-card"><div style="font-size:16px">🙏 <b>ప్రార్థన గ్రూప్ - అడ్మిన్ చేతిలోనే!</b></div><div id="prayerGroupStatus" style="font-size:13px;color:#075E54;margin-top:6px">● చూస్తున్నాం... 5 సెకన్లలో అప్డేట్ అవుతుంది</div>
+<div style="display:flex;gap:6px;margin-top:10px"><button onclick="prayerClearMy()" style="flex:1;background:#fff;border:2px solid #075E54;color:#075E54;padding:10px;border-radius:20px">🧹 నా చాట్ క్లియర్ - నాకే</button></div>
+<div id="prayerAdminBox" style="display:none;margin-top:10px"><button onclick="prayerAdminSend('OPEN')" style="width:100%;background:#25D366;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px">✅ గ్రూప్ OPEN చేయండి - అందరికీ OPEN అవుతుంది</button><button onclick="prayerAdminSend('CLOSE')" style="width:100%;background:#ef4444;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px;margin-top:8px">⛔ గ్రూప్ CLOSE చేయండి - అందరికీ CLOSE అవుతుంది</button><button onclick="prayerClearAll()" style="width:100%;background:#222;color:#fff;border:0;padding:12px;border-radius:20px;font-size:15px;margin-top:8px">🧹🧹 అందరికీ క్లియర్ చాట్ - ప్రార్థన అయిపోయింది</button><div style="margin-top:10px;text-align:left"><label style="font-size:13px">📅 రేపు / తరువాత ఎప్పుడు? (ఉదా: రేపు ఉదయం 6 గంటలకి)</label><input id="prayerSchedInput" placeholder="రేపు ఉదయం 6 గంటలకి ప్రార్థన" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:4px"><button onclick="prayerSetSched()" style="width:100%;background:#FFD54F;border:0;padding:10px;border-radius:20px;margin-top:6px">📅 షెడ్యూల్ పెట్టండి - అందరికీ కనబడుతుంది</button></div><div style="margin-top:8px"><label style="font-size:13px">⏰ ఎన్ని నిమిషాలు ఓపెన్?</label><input id="prayerMins" type="number" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:4px"><button onclick="prayerSetTimer()" style="width:100%;background:#FFD54F;border:0;padding:10px;border-radius:20px;margin-top:6px">⏰ టైమ్ పెట్టండి</button></div><div id="prayerTimerShow" style="font-size:12px;color:#075E54;margin-top:6px"></div></div></div>
 <div id="prayerBlockedBox" style="display:none;background:#ffebee;color:#c62828;text-align:center;padding:14px;margin:12px;border-radius:14px">🚫 మీరు బ్లాక్ అయ్యారు - అడ్మిన్ ని సంప్రదించండి 🙏</div>
 <div id="prayerClosedBox" style="display:none;background:#ffebee;color:#c62828;text-align:center;padding:16px;margin:12px;border-radius:14px">⛔ ప్రార్థన గ్రూప్ CLOSE లో ఉంది<br><small>అడ్మిన్ OPEN చేసే వరకు ఆగండి 🙏</small></div>
 <div id="prayerMsgs"></div>
 <div style="display:flex;gap:6px;padding:10px" id="prayerInputRow"><input id="prayerInput" placeholder="🙏 ఎవరి కోసం ప్రార్థన..." style="flex:1;padding:12px;border-radius:25px;border:1px solid #ccc"><button onclick="prayerSend()" style="background:#25D366;color:#fff;border:0;padding:12px 18px;border-radius:25px">➤ పంపు</button></div>
-<div class="prayer-card"><b style="color:#075E54">✋ ఎలా వాడాలి?</b><p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ మెసేజ్ రాసి పంపండి - ముందు అడ్మిన్ కే కనబడుతుంది<br>2️⃣ అడ్మిన్ ✅ ఓకే చేస్తే అందరికీ కనబడుతుంది<br>3️⃣ అడ్మిన్ 🙏 దీని గురించి ప్రార్థించండి అంటే - ప్రేరణ కలిగిన వారు ఆమెన్ చెప్పండి</p></div>
+<div class="prayer-card"><b style="color:#075E54">✋ ఎలా వాడాలి?</b><p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ మెసేజ్ రాసి పంపండి - ముందు అడ్మిన్ కే కనబడుతుంది<br>2️⃣ అడ్మిన్ ✅ ఓకే చేస్తే అందరికీ కనబడుతుంది<br>3️⃣ అడ్మిన్ 🙏 దీని గురించి ప్రార్థించండి అంటే - ప్రేరణ కలిగిన వారు ఆమెన్ చెప్పండి<br>4️⃣ మీ మెసేజ్ మీద ✏️ ఎడిట్ / 🗑️ డిలీట్ నొక్కి మార్చుకోవచ్చు</p></div>
 </div>
 <div id="page-more" class="page">
 <div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి - ఇక్కడ నొక్కండి</button></div>
@@ -209,6 +212,8 @@ async function prayerNtfySend(msg){try{await fetch('https://ntfy.sh/'+PRAYER_TOP
 function prayerAdminSend(cmd){prayerNtfySend('PRAYER_'+cmd);if(cmd==='OPEN'){prayerOpen=true;}if(cmd==='CLOSE'){prayerOpen=false;}prayerRender();alert(cmd==='OPEN'?'✅ అందరికీ OPEN అయ్యింది!':'⛔ అందరికీ CLOSE అయ్యింది!');}
 function prayerSetSched(){let t=document.getElementById('prayerSchedInput').value.trim();if(!t)return;prayerNtfySend('PRAYER_SCHED_'+t);prayerSched=t;prayerRender();alert('✅ షెడ్యూల్ అందరికీ కనబడుతుంది!');}
 function prayerSetTimer(){let m=parseInt(document.getElementById('prayerMins').value)||30;prayerNtfySend('PRAYER_TIMER_'+m);document.getElementById('prayerTimerShow').innerText='⏰ '+m+' నిమిషాలు ఓపెన్ - అందరికీ తెలిసింది';setTimeout(()=>{prayerAdminSend('CLOSE');},m*60000);prayerRender();}
+function prayerClearMy(){if(!confirm('మీ ఫోన్ లో మాత్రమే క్లియర్ చేయాలా?'))return;prayerMsgs=[];localStorage.setItem('ms_prayer_msgs2',JSON.stringify([]));prayerRender();alert('✅ మీ చాట్ క్లియర్ అయ్యింది - ఇతరులకి ఉంటుంది');}
+function prayerClearAll(){if(!confirm('అందరికీ క్లియర్ చేయాలా? ప్రార్థన అయిపోయిందా?'))return;let ts=Date.now();prayerNtfySend('PRAYER_CLEARALL_'+ts);prayerMsgs=[];localStorage.setItem('ms_prayer_msgs2',JSON.stringify([]));localStorage.setItem('ms_prayer_clear_ts',ts);prayerRender();alert('✅ అందరికీ క్లియర్ అయ్యింది!');}
 function prayerRender(){
   let open=prayerOpen;let admin=prayerIsAdmin();
   document.getElementById('prayerAdminBox').style.display=admin?'block':'none';
@@ -218,28 +223,36 @@ function prayerRender(){
   document.getElementById('prayerBlockedBox').style.display=blocked?'block':'none';
   document.getElementById('prayerClosedBox').style.display=(!open&&!blocked)?'block':'none';
   document.getElementById('prayerInputRow').style.display=(open&&!blocked)?'flex':'none';
-  let box=document.getElementById('prayerMsgs');let show=admin?prayerMsgs:prayerMsgs.filter(m=>m.showAll&&!prayerBlockedCodes.includes(m.code));
+  let box=document.getElementById('prayerMsgs');let myCode=prayerMyCode();
+  let show=admin?prayerMsgs:prayerMsgs.filter(m=>m.showAll&&!prayerBlockedCodes.includes(m.code));
   if(!show.length) box.innerHTML='<p style="text-align:center;color:#999">ఇంకా ప్రార్థనలు లేవు 🙏</p>';
   else box.innerHTML=show.map(m=>{
-    let idx=prayerMsgs.indexOf(m);let btns=admin?'<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button onclick="prayerApprove(\''+m.id+'\')" style="flex:1;background:#25D366;color:#fff;border:0;padding:8px;border-radius:15px">👁️ అందరికీ చూపించు</button><button onclick="prayerPrayFor(\''+m.id+'\')" style="flex:1;background:#FFD54F;border:0;padding:8px;border-radius:15px">🙏 దీని గురించి ప్రార్థించండి</button><button onclick="prayerBlock(\''+m.id+'\')" style="background:#222;color:#fff;border:0;padding:8px 12px;border-radius:15px">🚫 బ్లాక్</button><button onclick="prayerDel(\''+m.id+'\')" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:15px">🗑️</button></div>':'';
-    return '<div class="prayer-msg '+(m.showAll?'':'pending')+'"><b>🙏 '+m.name+'</b> '+(m.showAll?'':'<span style="font-size:11px;background:#075E54;color:#fff;padding:3px 8px;border-radius:10px">అడ్మిన్ మాత్రమే</span>')+'<div style="font-size:16px;margin-top:4px">'+m.text+'</div><small style="color:#999">'+m.time+'</small>'+(m.pray?'<div style="color:#075E54;margin-top:4px">🙏 దీని గురించి ప్రార్థించండి - ప్రేరణ కలిగిన వారు ఆమెన్ చెప్పండి!</div>':'')+btns+'</div>';
+    let canEdit = admin || m.code===myCode;
+    let btns='';
+    if(admin) btns+='<button onclick="prayerApprove(\''+m.id+'\')" style="flex:1;background:#25D366;color:#fff;border:0;padding:8px;border-radius:15px">👁️ అందరికీ చూపించు</button><button onclick="prayerPrayFor(\''+m.id+'\')" style="flex:1;background:#FFD54F;border:0;padding:8px;border-radius:15px">🙏 దీని గురించి ప్రార్థించండి</button>';
+    if(canEdit) btns+='<button onclick="prayerEdit(\''+m.id+'\')" style="background:#0A1A5C;color:#fff;border:0;padding:8px 12px;border-radius:15px">✏️ ఎడిట్</button><button onclick="prayerDel(\''+m.id+'\')" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:15px">🗑️ డిలీట్</button>';
+    if(admin) btns+='<button onclick="prayerBlock(\''+m.id+'\')" style="background:#222;color:#fff;border:0;padding:8px 12px;border-radius:15px">🚫 బ్లాక్</button>';
+    let adminBadge = m.isAdmin ? '<span style="background:#1877F2;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px">💙 అడ్మిన్ మెసేజ్</span>' : (m.showAll?'':'<span style="font-size:11px;background:#075E54;color:#fff;padding:3px 8px;border-radius:10px">అడ్మిన్ మాత్రమే</span>');
+    return '<div class="prayer-msg '+(m.isAdmin?'adminmsg':'')+' '+(m.showAll?'':'pending')+'"><b>🙏 '+(m.isAdmin?'అడ్మిన్':m.name)+'</b> '+adminBadge+'<div style="font-size:16px;margin-top:4px">'+m.text+'</div><small style="color:#999">'+m.time+(m.edited?' • ✏️ ఎడిట్ చేసారు':'')+'</small>'+(m.pray?'<div style="color:#075E54;margin-top:4px">🙏 దీని గురించి ప్రార్థించండి - ప్రేరణ కలిగిన వారు ఆమెన్ చెప్పండి!</div>':'')+'<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+btns+'</div></div>';
   }).join('');
 }
 function prayerSend(){
   if(prayerIsBlocked()){alert('🚫 మీరు బ్లాక్ అయ్యారు');return;}
-  if(!prayerOpen){alert('⛔ గ్రూప్ CLOSE లో ఉంది - అడ్మిన్ OPEN చేసే వరకు ఆగండి 🙏');return;}
+  if(!prayerOpen && !prayerIsAdmin()){alert('⛔ గ్రూప్ CLOSE లో ఉంది - అడ్మిన్ OPEN చేసే వరకు ఆగండి 🙏');return;}
   let t=document.getElementById('prayerInput').value.trim();if(!t)return;
-  let name=localStorage.getItem('ms_chat_name')||'భక్తుడు';
+  let isAdmin=prayerIsAdmin();
+  let name=isAdmin?'అడ్మిన్':(localStorage.getItem('ms_chat_name')||'భక్తుడు');
   let code=prayerMyCode();let id='M'+Date.now()+'_'+Math.floor(Math.random()*9999);
-  let m={id:id,name:name,text:t,time:new Date().toLocaleString('te-IN'),showAll:false,pray:false,code:code};
+  let m={id:id,name:name,text:t,time:new Date().toLocaleString('te-IN'),showAll:isAdmin?true:false,pray:false,code:code,isAdmin:isAdmin};
   prayerMsgs.push(m);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));
-  prayerNtfySend('PRAYER_MSG_'+id+'|'+code+'|'+name+'|'+t);
-  document.getElementById('prayerInput').value='';alert('✅ అడ్మిన్ కి వెళ్ళింది!');prayerRender();
+  prayerNtfySend('PRAYER_MSG_'+id+'|'+code+'|'+name+'|'+(isAdmin?'1':'0')+'|'+t);
+  document.getElementById('prayerInput').value='';alert(isAdmin?'✅ అడ్మిన్ మెసేజ్ అందరికీ వెళ్ళింది!':'✅ అడ్మిన్ కి వెళ్ళింది!');prayerRender();
 }
 function prayerApprove(id){let m=prayerMsgs.find(x=>x.id===id);if(!m)return;m.showAll=true;localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_SHOW_'+id);prayerRender();}
 function prayerPrayFor(id){let m=prayerMsgs.find(x=>x.id===id);if(!m)return;m.showAll=true;m.pray=true;localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_PRAY_'+id);prayerRender();}
+function prayerEdit(id){let m=prayerMsgs.find(x=>x.id===id);if(!m)return;let nt=prompt('మెసేజ్ మార్చండి:',m.text);if(nt===null)return;nt=nt.trim();if(!nt)return;m.text=nt;m.edited=true;localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_EDIT_'+id+'|'+nt);prayerRender();alert('✅ ఎడిట్ అయ్యింది!');}
 function prayerBlock(id){let m=prayerMsgs.find(x=>x.id===id);if(!m)return;let code=m.code;if(!confirm('ఈ వ్యక్తిని బ్లాక్ చేయాలా?'))return;prayerNtfySend('PRAYER_BLOCK_'+code);if(!prayerBlockedCodes.includes(code))prayerBlockedCodes.push(code);localStorage.setItem('ms_prayer_blocked',JSON.stringify(prayerBlockedCodes));prayerRender();alert('🚫 బ్లాక్ చేసారు!');}
-function prayerDel(id){if(!confirm('తీసేయాలా?'))return;prayerMsgs=prayerMsgs.filter(x=>x.id!==id);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerRender();}
+function prayerDel(id){if(!confirm('డిలీట్ చేయాలా? అందరికీ డిలీట్ అవుతుంది'))return;prayerMsgs=prayerMsgs.filter(x=>x.id!==id);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_DEL_'+id);prayerRender();}
 async function prayerPoll(){
   try{
     let r=await fetch('https://ntfy.sh/'+PRAYER_TOPIC+'/json?since=all&poll=1');
@@ -248,10 +261,13 @@ async function prayerPoll(){
       if(msg==='PRAYER_OPEN'){prayerOpen=true;changed=true;}
       if(msg==='PRAYER_CLOSE'){prayerOpen=false;changed=true;}
       if(msg.startsWith('PRAYER_SCHED_')){prayerSched=msg.replace('PRAYER_SCHED_','');changed=true;}
+      if(msg.startsWith('PRAYER_CLEARALL_')){let ts=parseInt(msg.replace('PRAYER_CLEARALL_',''))||0;let last=parseInt(localStorage.getItem('ms_prayer_clear_ts')||'0');if(ts>last){prayerMsgs=[];localStorage.setItem('ms_prayer_msgs2',JSON.stringify([]));localStorage.setItem('ms_prayer_clear_ts',ts);changed=true;}}
       if(msg.startsWith('PRAYER_BLOCK_')){let c=msg.replace('PRAYER_BLOCK_','').trim();if(!prayerBlockedCodes.includes(c)){prayerBlockedCodes.push(c);localStorage.setItem('ms_prayer_blocked',JSON.stringify(prayerBlockedCodes));}changed=true;}
-      if(msg.startsWith('PRAYER_MSG_')){let rest=msg.replace('PRAYER_MSG_','');let p=rest.split('|');let id=p[0],code=p[1],name=p[2],text=p.slice(3).join('|');if(!prayerMsgs.some(m=>m.id===id)){prayerMsgs.push({id:id,name:name,text:text,time:new Date(j.time*1000).toLocaleString('te-IN'),showAll:false,pray:false,code:code});changed=true;}}
+      if(msg.startsWith('PRAYER_MSG_')){let rest=msg.replace('PRAYER_MSG_','');let p=rest.split('|');let id=p[0],code=p[1],name=p[2],isA=p[3]==='1',text=p.slice(4).join('|');if(!prayerMsgs.some(m=>m.id===id)){prayerMsgs.push({id:id,name:name,text:text,time:new Date(j.time*1000).toLocaleString('te-IN'),showAll:isA?true:false,pray:false,code:code,isAdmin:isA});changed=true;}}
       if(msg.startsWith('PRAYER_SHOW_')){let id=msg.replace('PRAYER_SHOW_','').trim();let f=prayerMsgs.find(m=>m.id===id);if(f){f.showAll=true;changed=true;}}
       if(msg.startsWith('PRAYER_PRAY_')){let id=msg.replace('PRAYER_PRAY_','').trim();let f=prayerMsgs.find(m=>m.id===id);if(f){f.showAll=true;f.pray=true;changed=true;}}
+      if(msg.startsWith('PRAYER_EDIT_')){let rest=msg.replace('PRAYER_EDIT_','');let idx=rest.indexOf('|');let id=rest.slice(0,idx),nt=rest.slice(idx+1);let f=prayerMsgs.find(m=>m.id===id);if(f){f.text=nt;f.edited=true;changed=true;}}
+      if(msg.startsWith('PRAYER_DEL_')){let id=msg.replace('PRAYER_DEL_','').trim();let before=prayerMsgs.length;prayerMsgs=prayerMsgs.filter(m=>m.id!==id);if(prayerMsgs.length!==before)changed=true;}
     }catch(e){}});
     if(changed){localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));}
     prayerRender();
@@ -318,4 +334,4 @@ setTimeout(()=>{loadSponCarousel();},4000);
 setTimeout(updateVisitorCount,6000);
 </script>
 </body>
-                         </html>
+                                                                                                                                                                                                                            </html>
