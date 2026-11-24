@@ -13,24 +13,16 @@
 .dl{left:0}.dr{right:0}.doorWrap.open .dl{transform:translateX(-100%)}.doorWrap.open .dr{transform:translateX(100%)}
 .dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;color:#fff}
 .card{background:#fff;border-radius:18px;padding:18px;margin-top:14px;text-align:center;border:2px solid #FFD54F}
-.card h2{color:#0A1A5C;margin:0}.card p{font-size:20px;line-height:1.8;white-space:pre-line}
-.verse{font-size:22px;font-weight:bold;color:#7A0C1D;line-height:1.7}
-.verseEn{font-size:18px;color:#0A1A5C;line-height:1.7;margin-top:10px;border-top:1px dashed #ccc;padding-top:10px}
+.verse{font-size:22px;font-weight:bold;color:#7A0C1D;line-height:1.7;white-space:pre-line}
+.verseEn{font-size:18px;color:#0A1A5C;line-height:1.7;margin-top:10px;border-top:1px dashed #ccc;padding-top:10px;white-space:pre-line}
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#0A1A5C;display:flex;justify-content:space-around;padding:8px}
 .bottom-nav a{color:#fff;text-decoration:none;text-align:center;font-size:12px}
 </style></head><body>
-<div class="header"><a href="index.html">← హోమ్</a><h2>📖 దినవరి వాక్యం</h2><div>Daily Verse - Telugu + English</div></div>
+<div class="header"><a href="index.html">← హోమ్</a><h2>📖 దినవరి వాక్యం</h2><div>నవంబర్ 25 - జనవరి 5 - 42 రోజులు - రిపీట్ లేదు!</div></div>
 <div class="wrap">
 <div class="langRow"><button id="b-te" class="on" onclick="setL('te')">తెలుగు</button><button id="b-en" onclick="setL('en')">English</button><button id="b-both" onclick="setL('both')">తెలుగు + English</button></div>
 <div class="doorWrap" id="door" onclick="openDoor()"><div class="dl">🚪</div><div class="dr">🚪</div><div class="dc"><div style="font-size:50px">📖</div><div style="font-size:22px;font-weight:bold">ఈరోజు వాక్యం</div><div style="color:#FFE082">తలుపు తెరవండి 👆</div></div></div>
-<div id="verseArea" style="display:none">
-<div class="card"><h2 id="vTitle">🙏 నేటి వాక్యం</h2><p id="vDate" style="color:#666;font-size:14px"></p>
-<div id="vTe" class="verse"></div>
-<div id="vEn" class="verseEn"></div>
-<p style="font-size:14px;color:#666;margin-top:14px">🙏 ఈ వాక్యాన్ని రోజంతా ధ్యానించండి - ప్రార్థించండి!</p>
-<button onclick="shareVerse()" style="background:#25D366;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold">📤 షేర్ చేయండి</button>
-</div>
-</div></div>
+<div id="verseArea" style="display:none"><div class="card"><h2>🙏 నేటి వాక్యం</h2><p id="vDate" style="color:#666;font-size:14px"></p><div id="vTe" class="verse"></div><div id="vEn" class="verseEn"></div><p style="font-size:14px;color:#666;margin-top:14px">🙏 ఈ వాక్యాన్ని రోజంతా ధ్యానించండి!</p><button onclick="shareVerse()" style="background:#25D366;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-weight:bold">📤 షేర్ చేయండి</button></div></div></div>
 <nav class="bottom-nav"><a href="index.html">🏠<br>హోమ్</a><a href="bible.html">📖<br>బైబిల్</a><a href="daily.html">📖<br>వాక్యం</a><a href="quiz.html">🎯<br>క్విజ్</a></nav>
 <script>
 let lang='both';
@@ -38,15 +30,52 @@ let verses=[
 {te:"“ప్రభువు నా కాపరి, నాకు ఏమియు కొదువ లేదు.”\n— కీర్తనలు 23:1",en:"“The Lord is my shepherd, I lack nothing.”\n— Psalm 23:1"},
 {te:"“భయపడకుము, నేను నీకు తోడై ఉన్నాను.”\n— యెషయా 41:10",en:"“Do not fear, for I am with you.”\n— Isaiah 41:10"},
 {te:"“నీ పూర్ణహృదయముతో యెహోవాను నమ్ముకొనుము.”\n— సామెతలు 3:5",en:"“Trust in the Lord with all your heart.”\n— Proverbs 3:5"},
-{te:"“నేను నిన్ను ఎన్నడును విడువను, ఎన్నడును ఎడబాయను.”\n— హెబ్రీయులు 13:5",en:"“Never will I leave you, never will I forsake you.”\n— Hebrews 13:5"},
-{te:"“బలహీనతయందు నా కృప నీకు చాలును.”\n— 2 కొరింథీయులు 12:9",en:"“My grace is sufficient for you, for my power is made perfect in weakness.”\n— 2 Corinthians 12:9"},
-{te:"“ప్రభువునందు ఆనందించుము, ఆయన నీ హృదయ వాంఛలను తీర్చును.”\n— కీర్తనలు 37:4",en:"“Take delight in the Lord, and He will give you the desires of your heart.”\n— Psalm 37:4"},
+{te:"“నేను నిన్ను ఎన్నడును విడువను.”\n— హెబ్రీయులు 13:5",en:"“Never will I leave you.”\n— Hebrews 13:5"},
+{te:"“బలహీనతయందు నా కృప నీకు చాలును.”\n— 2 కొరింథీయులు 12:9",en:"“My grace is sufficient for you.”\n— 2 Corinthians 12:9"},
+{te:"“ప్రభువునందు ఆనందించుము.”\n— కీర్తనలు 37:4",en:"“Take delight in the Lord.”\n— Psalm 37:4"},
 {te:"“అడుగుడి, మీకు ఇవ్వబడును.”\n— మత్తయి 7:7",en:"“Ask and it will be given to you.”\n— Matthew 7:7"},
+{te:"“యెహోవా నా వెలుగు, నా రక్షణ.”\n— కీర్తనలు 27:1",en:"“The Lord is my light and my salvation.”\n— Psalm 27:1"},
+{te:"“నేను సమస్తమును చేయగలను.”\n— ఫిలిప్పీయులు 4:13",en:"“I can do all things through Christ.”\n— Philippians 4:13"},
+{te:"“దేవుడు మనకు ఆశ్రయము.”\n— కీర్తనలు 46:1",en:"“God is our refuge and strength.”\n— Psalm 46:1"},
+{te:"“శాంతిని మీకు అనుగ్రహించుచున్నాను.”\n— యోహాను 14:27",en:"“Peace I leave with you.”\n— John 14:27"},
+{te:"“కృంగిన హృదయము గలవారికి యెహోవా సమీపము.”\n— కీర్తనలు 34:18",en:"“The Lord is close to the brokenhearted.”\n— Psalm 34:18"},
+{te:"“యెహోవా యందు నిరీక్షించువారు నూతన బలము పొందుదురు.”\n— యెషయా 40:31",en:"“Those who hope in the Lord will renew their strength.”\n— Isaiah 40:31"},
+{te:"“దేవుడు లోకమును ఎంతో ప్రేమించెను.”\n— యోహాను 3:16",en:"“For God so loved the world.”\n— John 3:16"},
+{te:"“నీ వాక్యము నా పాదములకు దీపము.”\n— కీర్తనలు 119:105",en:"“Your word is a lamp for my feet.”\n— Psalm 119:105"},
+{te:"“బలమును ధైర్యమును తెచ్చుకొనుము.”\n— యెహోషువ 1:9",en:"“Be strong and courageous.”\n— Joshua 1:9"},
+{te:"“నా యొద్దకు రండి, నేను మీకు విశ్రాంతి ఇచ్చెదను.”\n— మత్తయి 11:28",en:"“Come to me, I will give you rest.”\n— Matthew 11:28"},
+{te:"“నీవు నీటిలో బడి వెళ్ళినప్పుడు నేను నీకు తోడైయుందును.”\n— యెషయా 43:2",en:"“When you pass through the waters, I will be with you.”\n— Isaiah 43:2"},
+{te:"“దేవుడు మన పక్షమున ఉన్నాడు.”\n— రోమా 8:31",en:"“If God is for us, who can be against us?”\n— Romans 8:31"},
+{te:"“నీ చింత యావత్తు ఆయన మీద వేయుము.”\n— 1 పేతురు 5:7",en:"“Cast all your anxiety on Him.”\n— 1 Peter 5:7"},
+{te:"“ప్రభువు నిన్ను కాపాడును.”\n— కీర్తనలు 121:7",en:"“The Lord will keep you from all harm.”\n— Psalm 121:7"},
+{te:"“ఆయన గాయములవలన మనకు స్వస్థత కలిగెను.”\n— యెషయా 53:5",en:"“By His wounds we are healed.”\n— Isaiah 53:5"},
+{te:"“నీ విశ్వాసము నిన్ను స్వస్థపరచెను.”\n— మార్కు 5:34",en:"“Your faith has healed you.”\n— Mark 5:34"},
+{te:"“ప్రభువు నా కొరకు యుద్ధము చేయును.”\n— నిర్గమకాండము 14:14",en:"“The Lord will fight for you.”\n— Exodus 14:14"},
+{te:"“నీవు నా కుడి చేతిని పట్టుకొని యున్నావు.”\n— కీర్తనలు 73:23",en:"“You hold me by my right hand.”\n— Psalm 73:23"},
+{te:"“నీతిమంతుల ప్రార్థన బహు బలమైనది.”\n— యాకోబు 5:16",en:"“The prayer of a righteous person is powerful.”\n— James 5:16"},
+{te:"“నేను మీకు తోడైయుండెదను.”\n— మత్తయి 28:20",en:"“I am with you always.”\n— Matthew 28:20"},
+{te:"“నూతన హృదయము నీకు ఇచ్చెదను.”\n— యెహెజ్కేలు 36:26",en:"“I will give you a new heart.”\n— Ezekiel 36:26"},
+{te:"“కన్నీళ్లు తుడిచివేయును.”\n— ప్రకటన 21:4",en:"“He will wipe every tear from their eyes.”\n— Revelation 21:4"},
+{te:"“ప్రభువు నా బండ, నా కోట.”\n— కీర్తనలు 18:2",en:"“The Lord is my rock, my fortress.”\n— Psalm 18:2"},
+{te:"“నీకు మేలు చేయుటకే నేను తలంచితిని.”\n— యిర్మీయా 29:11",en:"“For I know the plans I have for you.”\n— Jeremiah 29:11"},
+{te:"“వెలుగు చీకటిలో ప్రకాశించుచున్నది.”\n— యోహాను 1:5",en:"“The light shines in the darkness.”\n— John 1:5"},
+{te:"“ఆయన మన పాపములను క్షమించును.”\n— 1 యోహాను 1:9",en:"“He will forgive us our sins.”\n— 1 John 1:9"},
+{te:"“ప్రభువు రాక సమీపముగా ఉన్నది.”\n— యాకోబు 5:8",en:"“The Lord’s coming is near.”\n— James 5:8"},
+{te:"“నా ఆత్మను నీ చేతికి అప్పగించుచున్నాను.”\n— కీర్తనలు 31:5",en:"“Into Your hands I commit my spirit.”\n— Psalm 31:5"},
+{te:"“దేవుని ప్రేమ మన హృదయములలో కుమ్మరింపబడెను.”\n— రోమా 5:5",en:"“God’s love has been poured out into our hearts.”\n— Romans 5:5"},
+{te:"“యెహోవా నా ప్రార్థన వినెను.”\n— కీర్తనలు 6:9",en:"“The Lord has heard my cry.”\n— Psalm 6:9"},
+{te:"“ఆయన యందు విశ్వాసముంచువాడు సిగ్గుపడడు.”\n— రోమా 10:11",en:"“Anyone who believes in Him will never be put to shame.”\n— Romans 10:11"},
+{te:"“ప్రభువు మంచివాడు, ఆయన కృప నిత్యము.”\n— కీర్తనలు 100:5",en:"“The Lord is good, His love endures forever.”\n— Psalm 100:5"},
+{te:"“నీ మార్గములన్నిటిలో ఆయనను ఎరుగుము.”\n— సామెతలు 3:6",en:"“In all your ways submit to Him.”\n— Proverbs 3:6"},
+{te:"“నేను నిన్ను ఆశీర్వదించెదను.”\n— ఆదికాండము 12:2",en:"“I will bless you.”\n— Genesis 12:2"},
+{te:"“నీ దేవుడైన యెహోవా నీ మధ్య ఉన్నాడు.”\n— జెఫన్యా 3:17",en:"“The Lord your God is with you.”\n— Zephaniah 3:17"},
 ];
-let today=new Date();let idx=today.getDate()%verses.length;let v=verses[idx];
+let start=new Date(2026,10,25);
+function getIdx(){let today=new Date();today.setHours(0,0,0,0);let diff=Math.floor((today-start)/(1000*60*60*24));if(diff<0)diff=0;if(diff>41)diff=41;return {diff:diff,date:today};}
+let current=getIdx();
 function setL(l){lang=l;document.querySelectorAll('.langRow button').forEach(b=>b.classList.remove('on'));document.getElementById('b-'+l).classList.add('on');showVerse();}
-function showVerse(){document.getElementById('vDate').innerText="📅 "+today.toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'});let te=document.getElementById('vTe');let en=document.getElementById('vEn');if(lang==='te'){te.style.display='block';en.style.display='none';te.innerText=v.te;}else if(lang==='en'){te.style.display='none';en.style.display='block';en.innerText=v.en;en.style.border='none';}else{te.style.display='block';en.style.display='block';te.innerText=v.te;en.innerText=v.en;}}
+function showVerse(){let o=getIdx();let v=verses[o.diff];document.getElementById('vDate').innerText="📅 "+o.date.toLocaleDateString('te-IN',{day:'numeric',month:'long',year:'numeric'})+"  •  రోజు "+(o.diff+1)+" / 42";let te=document.getElementById('vTe');let en=document.getElementById('vEn');if(lang==='te'){te.style.display='block';en.style.display='none';te.innerText=v.te;}else if(lang==='en'){te.style.display='none';en.style.display='block';en.innerText=v.en;en.style.border='none';}else{te.style.display='block';en.style.display='block';te.innerText=v.te;en.innerText=v.en;}}
 function openDoor(){document.getElementById('door').classList.add('open');setTimeout(()=>{document.getElementById('verseArea').style.display='block';showVerse();document.getElementById('verseArea').scrollIntoView({behavior:'smooth'});},600);}
-function shareVerse(){let t="🙏 దినవరి వాక్యం 🙏\n\n"+v.te+"\n\n"+v.en+"\n\nBM మహిమ సన్నిధి";window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");}
+function shareVerse(){let o=getIdx();let v=verses[o.diff];let t="🙏 దినవరి వాక్యం 🙏\n\n"+v.te+"\n\n"+v.en+"\n\nBM మహిమ సన్నిధి";window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");}
 showVerse();
 </script></body></html>
