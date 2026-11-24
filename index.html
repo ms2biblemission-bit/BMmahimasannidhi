@@ -117,7 +117,6 @@ input.search::placeholder{color:#777}
 #page-prayer .section{border-color:#075E54 !important}
 #page-prayer h3{color:#075E54 !important}
 .prayer-card{background:#fff;border:2px solid #075E54;border-radius:16px;padding:14px;margin:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);text-align:center}
-#jitsiVoice{display:none;width:100%;height:200px;background:#111b21;border-radius:12px;overflow:hidden}
 </style>
 </head>
 <body>
@@ -243,25 +242,25 @@ input.search::placeholder{color:#777}
 <b style="font-size:20px">ప్రార్థన - వాయిస్ మాత్రమే!</b>
 <p style="font-size:13px;margin:4px 0">ఉదయం 6 గంటలకి - అందరం కలిసి ప్రార్థిద్దాం - App లోనే!</p>
 </div>
-<div class="prayer-card" style="padding:0;overflow:hidden">
-<div style="background:#075E54;color:#fff;padding:14px;text-align:center">
-<div style="font-size:36px">🎙️</div>
-<b style="font-size:18px">వాయిస్ ప్రార్థన - Voice Only</b>
-<div id="voiceStatus" style="color:#FFE082;font-size:13px;margin-top:4px">● వీడియో లేదు - కేవలం వాయిస్ మాత్రమే</div>
+<div style="background:#fff7e6;border:2px solid #FFD54F;border-radius:16px;padding:14px;margin:12px;text-align:center">
+<div style="font-size:18px;color:#7a3b00">🙏 వాయిస్ ప్రార్థన - Voice Only</div>
+<div style="margin-top:6px"><span id="voiceStatus" style="background:#ff0000;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px">● LIVE - వాయిస్ లో ఉన్నారు - వీడియో ఆఫ్</span></div>
+<p style="font-size:13px;color:#555;margin:8px 0">App లోనే ఉంటుంది - బయటకి వెళ్ళదు - వీడియో కనబడదు</p>
+<div style="background:#fff;border:1px solid #eee;border-radius:12px;padding:12px">
+<div style="font-size:14px">🎙️ <b>ప్రార్థన జరుగుతోంది...</b></div>
+<div id="voice-status2" style="font-size:12px;color:green;margin-top:4px">మైక్ ఆన్ అయ్యింది - వినిపిస్తోంది</div>
+<div id="hand-status" style="font-size:12px;color:#075E54;margin-top:4px">✋ హ్యాండ్ రైస్ చేయండి - అడ్మిన్ ఓకే ఇస్తే మైక్ వస్తుంది</div>
 </div>
-<div id="jitsiVoice"></div>
-<div style="padding:14px;text-align:center">
-<button id="voiceJoinBtn" onclick="startVoicePrayer()" style="background:#25D366;color:#fff;border:none;padding:15px 26px;border-radius:25px;font-size:17px;cursor:pointer;width:100%">🎙️ వాయిస్ లో చేరండి - Join Voice</button>
-<div id="voiceControls" style="display:none;gap:10px;justify-content:center;margin-top:10px">
-<button id="voiceMicBtn" onclick="toggleVoiceMic()" style="background:#00a884;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-size:15px">🎤 మైక్ ఆన్</button>
-<button onclick="leaveVoicePrayer()" style="background:#ea0038;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-size:15px">📞 కట్ చేయండి</button>
+<div style="display:flex;gap:10px;margin-top:12px">
+<button onclick="raiseHand()" style="flex:1;background:#FFD54F;color:#222;border:0;padding:12px;border-radius:30px;font-weight:900;font-size:14px">✋ హ్యాండ్ రైస్</button>
+<button id="mic-btn2" onclick="toggleMic2()" style="flex:1;background:#22c55e;color:#fff;border:0;padding:12px;border-radius:30px;font-weight:900;font-size:14px">🎙️ మైక్ ఆన్</button>
 </div>
-<p style="font-size:12px;color:#666;margin:8px 0 0">App లోనే ఉంటుంది - బయటకి వెళ్ళదు - WhatsApp Call లాగా 🙏</p>
-</div>
+<button onclick="leaveVoice2()" style="width:100%;background:#ef4444;color:#fff;border:0;padding:12px;border-radius:30px;font-weight:900;font-size:15px;margin-top:10px">📞 కట్ చేయండి</button>
+<iframe id="mirotalk-frame" src="https://p2p.mirotalk.com/join?room=mahima-sannidhi-prayer-1985&audio=1&video=0&screen=0&hide=1&notify=0" allow="microphone; camera; autoplay" style="width:1px;height:1px;border:0;opacity:0;position:absolute;left:-9999px;"></iframe>
 </div>
 <div class="prayer-card">
 <b style="color:#075E54">✋ ఎలా వాడాలి?</b>
-<p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ వాయిస్ లో చేరండి నొక్కండి<br>2️⃣ Allow అడిగితే Allow నొక్కండి<br>3️⃣ మైక్ ఆన్ లో ఉంచి ప్రార్థన చేయండి<br>4️⃣ వీడియో రాదు - ఫేస్ కనబడదు</p>
+<p style="text-align:left;font-size:14px;color:#222;line-height:1.9">1️⃣ ✋ హ్యాండ్ రైస్ నొక్కండి<br>2️⃣ అడ్మిన్ ✅ ఓకే ఇస్తే - 🎤 మైక్ నొక్కి ప్రార్థన చేయండి<br>3️⃣ మిగతా వాళ్ళు వింటారు - 🙏 ఆమెన్ చెప్తారు<br>4️⃣ వీడియో రాదు - ఫేస్ కనబడదు</p>
 </div>
 </div>
 <div id="page-more" class="page">
@@ -298,36 +297,11 @@ input.search::placeholder{color:#777}
 <button onclick="sendUserChat()" style="width:100%;padding:13px;background:#0B3D2E;color:white;border:none;border-radius:25px;font-weight:900;font-size:16px;margin-top:8px">📩 పంపండి</button>
 <button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button>
 </div></div>
-<script src="https://meet.jit.si/external_api.js"></script>
 <script>
-let voiceApi=null, voiceMuted=false;
-function startVoicePrayer(){
-  document.getElementById('jitsiVoice').style.display='block';
-  document.getElementById('voiceJoinBtn').style.display='none';
-  document.getElementById('voiceControls').style.display='flex';
-  document.getElementById('voiceStatus').innerText='● LIVE - వాయిస్ లో ఉన్నారు - వీడియో ఆఫ్';
-  voiceApi = new JitsiMeetExternalAPI("meet.jit.si", {
-    roomName: "mahima-sannidhi-prayer-1985",
-    parentNode: document.querySelector('#jitsiVoice'),
-    configOverwrite: { startWithVideoMuted:true, startWithAudioMuted:false, prejoinPageEnabled:false, startAudioOnly:true, disableVideo:true, filmstrip:{disabled:true}, toolbarButtons:['microphone','hangup'] },
-    interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK:false, SHOW_WATERMARK_FOR_GUESTS:false }
-  });
-}
-function toggleVoiceMic(){
-  if(!voiceApi) return;
-  voiceMuted=!voiceMuted;
-  voiceApi.executeCommand('toggleAudio');
-  let b=document.getElementById('voiceMicBtn');
-  b.innerText = voiceMuted ? '🔇 మైక్ ఆఫ్' : '🎤 మైక్ ఆన్';
-  b.style.background = voiceMuted ? '#ea0038' : '#00a884';
-}
-function leaveVoicePrayer(){
-  if(voiceApi) voiceApi.dispose();
-  document.getElementById('jitsiVoice').style.display='none';
-  document.getElementById('voiceControls').style.display='none';
-  document.getElementById('voiceJoinBtn').style.display='block';
-  document.getElementById('voiceStatus').innerText='● వీడియో లేదు - కేవలం వాయిస్ మాత్రమే';
-}
+let micOn2=true;
+function raiseHand(){ document.getElementById('hand-status').innerText='✋ మీరు హ్యాండ్ రైస్ చేసారు - అడ్మిన్ చూస్తున్నారు 🙏'; alert('✋ హ్యాండ్ రైస్ చేసారు - అడ్మిన్ ఓకే ఇస్తారు 🙏'); }
+function toggleMic2(){ micOn2=!micOn2; let b=document.getElementById('mic-btn2'); b.innerText=micOn2?'🎙️ మైక్ ఆన్':'🔇 మైక్ ఆఫ్'; b.style.background=micOn2?'#22c55e':'#888'; document.getElementById('voice-status2').innerText=micOn2?'మైక్ ఆన్ అయ్యింది - వినిపిస్తోంది':'మైక్ ఆఫ్ - మీ వాయిస్ వినిపించదు'; }
+function leaveVoice2(){ document.getElementById('mirotalk-frame').src=''; alert('ప్రార్థన నుండి బయటకి వచ్చారు 🙏'); }
 function showPage(p){document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));let el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.bottom-nav a, .bottom-nav button').forEach(b=>b.classList.remove('active'));let nav=document.getElementById('nav-'+p);if(nav)nav.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});let col=p==='media'?'#5B8DEF':p==='prayer'?'#075E54':p==='more'?'#065F46':'#7A0C1D';let tb=document.getElementById('topbar');if(tb)tb.style.background=col;let bh=document.getElementById('bestHeader');if(bh)bh.style.background=col;let bn=document.getElementById('bottomNav');if(bn)bn.style.background=col;if(p==='media'){setTimeout(()=>sevShow(sevIdx),100);}}
 function toggleRecent(){let w=document.getElementById('recentWrap');let b=document.getElementById('recentBtn');if(!w)return;let open=w.style.display==='none';w.style.display=open?'block':'none';if(b)b.textContent=open?'📜 నిన్న + ఈ రోజు - మూసేయండి ✖️':'📜 నిన్న + ఈ రోజు - ఇక్కడే! 👆 నొక్కితే చూడండి';if(open){renderPosts();}}
 async function fetchFast(url,ms=3000){let file=url.split('?')[0];try{let cached=localStorage.getItem('cache_'+file);if(cached)return JSON.parse(cached);}catch(e){}try{let c=new AbortController();let t=setTimeout(()=>c.abort(),ms);let r=await fetch(file,{signal:c.signal});clearTimeout(t);if(!r.ok)return null;let j=await r.json();try{localStorage.setItem('cache_'+file,JSON.stringify(j));}catch(e){}return j;}catch(e){return null;}}
