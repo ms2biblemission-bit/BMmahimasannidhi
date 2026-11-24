@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>వాయిస్ ప్రార్థన - మహిమ సన్నిధి</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:20px}
+.top{background:#075E54;color:#fff;padding:14px;display:flex;align-items:center;gap:10px}
+.top b{font-size:18px}
+.card{background:#fff;margin:12px;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.head{background:#075E54;color:#fff;padding:18px;text-align:center}
+#jitsiVoice{display:none;width:100%;height:200px;background:#111b21}
+.btn{border:0;padding:15px;border-radius:25px;font-weight:900;font-size:17px;cursor:pointer;width:100%}
+</style>
+</head>
+<body>
+<div class="top"><span onclick="history.back()" style="font-size:24px;cursor:pointer">⬅️</span><b>🙏 వాయిస్ ప్రార్థన</b></div>
 
+<div class="card">
+  <div class="head">
+    <div style="font-size:48px">🎙️</div>
+    <b style="font-size:20px">వాయిస్ ప్రార్థన - Voice Only</b>
+    <div id="voiceStatus" style="color:#FFE082;font-size:13px;margin-top:4px">● వీడియో లేదు - కేవలం వాయిస్ మాత్రమే</div>
+  </div>
+  <div id="jitsiVoice"></div>
+  <div style="padding:16px;text-align:center">
+    <button id="voiceJoinBtn" class="btn" style="background:#25D366;color:#fff" onclick="startVoicePrayer()">🎙️ వాయిస్ లో చేరండి - Join Voice</button>
+    <div id="voiceControls" style="display:none;gap:10px;margin-top:10px">
+      <button id="voiceMicBtn" onclick="toggleVoiceMic()" style="flex:1;background:#00a884;color:#fff;border:0;padding:13px;border-radius:20px;font-weight:900">🎤 మైక్ ఆన్</button>
+      <button onclick="leaveVoicePrayer()" style="flex:1;background:#ea0038;color:#fff;border:0;padding:13px;border-radius:20px;font-weight:900">📞 కట్</button>
+    </div>
+    <p style="font-size:12px;color:#666">App లోనే ఉంటుంది - బయటకి వెళ్ళదు - WhatsApp Call లాగా 🙏</p>
+  </div>
+</div>
+
+<div class="card" style="padding:14px;text-align:center">
+<b style="color:#075E54">✋ ఎలా వాడాలి?</b>
+<p style="text-align:left;font-size:14px;line-height:1.9;color:#222">1️⃣ వాయిస్ లో చేరండి నొక్కండి<br>2️⃣ Allow అడిగితే Allow నొక్కండి<br>3️⃣ మైక్ ఆన్ లో ఉంచి ప్రార్థన చేయండి<br>4️⃣ వీడియో రాదు - ఫేస్ కనబడదు</p>
+</div>
+
+<script src="https://meet.jit.si/external_api.js"></script>
+<script>
+let voiceApi=null, voiceMuted=false;
+function startVoicePrayer(){
+  document.getElementById('jitsiVoice').style.display='block';
+  document.getElementById('voiceJoinBtn').style.display='none';
+  document.getElementById('voiceControls').style.display='flex';
+  document.getElementById('voiceStatus').innerText='● LIVE - వాయిస్ లో ఉన్నారు - వీడియో ఆఫ్';
+  voiceApi = new JitsiMeetExternalAPI("meet.jit.si", {
+    roomName: "mahima-sannidhi-prayer-1985",
+    parentNode: document.querySelector('#jitsiVoice'),
+    configOverwrite: { startWithVideoMuted:true, startWithAudioMuted:false, prejoinPageEnabled:false, startAudioOnly:true, disableVideo:true, filmstrip:{disabled:true}, toolbarButtons:['microphone','hangup'] },
+    interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK:false, SHOW_WATERMARK_FOR_GUESTS:false }
+  });
+}
+function toggleVoiceMic(){
+  if(!voiceApi) return;
+  voiceMuted=!voiceMuted;
+  voiceApi.executeCommand('toggleAudio');
+  let b=document.getElementById('voiceMicBtn');
+  b.innerText = voiceMuted ? '🔇 మైక్ ఆఫ్' : '🎤 మైక్ ఆన్';
+  b.style.background = voiceMuted ? '#ea0038' : '#00a884';
+}
+function leaveVoicePrayer(){
+  if(voiceApi) voiceApi.dispose();
+  document.getElementById('jitsiVoice').style.display='none';
+  document.getElementById('voiceControls').style.display='none';
+  document.getElementById('voiceJoinBtn').style.display='block';
+  document.getElementById('voiceStatus').innerText='● వీడియో లేదు - కేవలం వాయిస్ మాత్రమే';
+}
+</script>
+</body>
+</html>
