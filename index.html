@@ -7,12 +7,12 @@
 <style>
 *{box-sizing:border-box;font-weight:900 !important}
 html,body{font-family:sans-serif;margin:0;padding:0;width:100%;overflow-x:hidden}
-body{padding-bottom:20px;background:#FFFFFF !important;color:#222}
-.topbar{position:sticky;top:0;z-index:95;background:#7A0C1D;color:#fff;display:flex;align-items:center;gap:10px;padding:9px 12px}
+body{padding-bottom:20px;padding-top:112px !important;background:#FFFFFF !important;color:#222}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;background:#7A0C1D;color:#fff;display:flex;align-items:center;gap:10px;padding:9px 12px;height:46px}
 .topbar button{background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer}
 .topbar b{flex:1;text-align:center;font-size:18px;color:#fff !important}
-/* ✅ కొత్తది - Facebook లాగా పైన Nav */
-.fb-nav{position:sticky;top:46px;z-index:94;background:#fff;display:flex;justify-content:space-around;align-items:center;border-bottom:2px solid #eee;padding:6px 4px 0}
+/* ✅ FIX - Facebook లాగా పైన Nav - ఎప్పుడూ అతుక్కుని ఉంటుంది */
+.fb-nav{position:fixed;top:46px;left:0;right:0;z-index:199;background:#fff;display:flex;justify-content:space-around;align-items:center;border-bottom:2px solid #eee;padding:6px 4px 0}
 .fb-nav a,.fb-nav button{flex:1;text-align:center;text-decoration:none;color:#666;background:none;border:none;font-size:12px;cursor:pointer;padding:8px 2px 10px;border-bottom:3px solid transparent}
 .fb-nav a.active,.fb-nav button.active{color:#7A0C1D;border-bottom:3px solid #7A0C1D}
 .fb-nav .ic{font-size:24px;display:block;line-height:1}
@@ -125,7 +125,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 </head>
 <body>
 <div class="topbar" id="topbar"><button onclick="document.getElementById('drawer').classList.add('open')">☰</button><b>🙏 BM మహిమ సన్నిధి</b><button onclick="location.href='books.html'">📚</button></div>
-<!-- ✅ కొత్తది - Facebook లాగా పైన Nav - కింద వద్దు -->
 <div class="fb-nav" id="fbNav">
 <a href="#" id="nav-home" class="active" onclick="showPage('home');return false"><span class="ic">🏠</span>హోమ్</a>
 <a href="#" id="nav-media" onclick="showPage('media');return false"><span class="ic">▶️</span>మీడియా</a>
@@ -189,7 +188,6 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div class="notif-mini">🔔 నోటిఫికేషన్ కావాలా?<button onclick="askNotif()">🔔 ఆన్ చేయండి</button><div id="notifStatus" style="font-size:11px;color:#065F46;margin-top:4px"></div></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 షేర్ చేయండి</button></div>
 </div>
-<!-- ❌ కింద Nav తీసేసాను - ఇక చాట్ టైమ్ లో అడ్డు రాదు -->
 <div class="modal" id="postModal"><div class="modalBox"><div style="text-align:right"><button onclick="closePost()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px">✖️ మూసేయండి</button></div><div id="postModalContent"></div></div></div>
 <div class="modal" id="sponImgModal" style="align-items:center"><div style="background:#000;width:100%;max-width:600px;padding:10px;text-align:center"><img id="sponFullImg" src="" style="width:100%;height:auto;max-height:85vh;object-fit:contain;border-radius:12px"><br><button onclick="document.getElementById('sponImgModal').style.display='none';unlockBody()" style="background:#fff;color:#000;border:none;padding:10px 20px;border-radius:20px;margin-top:8px">✖️ మూసేయండి</button></div></div>
 <div class="modal" id="chatModal"><div class="modalBox"><h3 style="margin:0;color:#0B3D2E">💬 అడ్మిన్ చాట్</h3><div id="blockedBanner" style="display:none;background:#FFEBEE;border:2px solid #E53935;padding:10px;border-radius:10px;color:#C62828;text-align:center;margin-bottom:10px">🚫 మీరు బ్లాక్ అయ్యారు</div><label>👤 మీ పేరు</label><input id="chatName" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="మీ పేరు"><label>🏡 మీ ఊరు</label><input id="chatVillage" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: పలుకుర్తి"><label>📞 ఫోన్ నంబర్</label><input id="chatPhone" type="tel" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin:6px 0" placeholder="ఉదా: 98765 43210"><div id="chatMsgs"></div><textarea id="chatText" rows="3" style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc" placeholder="ఇక్కడ ప్రార్థన రాయండి..."></textarea><button onclick="sendUserChat()" style="width:100%;padding:13px;background:#0B3D2E;color:white;border:none;border-radius:25px;font-size:16px;margin-top:8px">📩 పంపండి</button><button onclick="closeChat()" style="width:100%;padding:10px;background:#999;color:white;border:none;border-radius:25px;margin-top:8px">✖️ మూసేయండి</button></div></div>
@@ -260,4 +258,4 @@ setTimeout(()=>{loadSponCarousel();},3000);
 prayerRender();
 </script>
 </body>
-</html>
+  </html>
