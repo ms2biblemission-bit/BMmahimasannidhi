@@ -1,1 +1,117 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📖 దేవుని కథలు - BM మహిమ సన్నిధి</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui;margin:0;background:#FFF8E1;padding-bottom:100px}
+.header{background:#7A0C1D;color:#fff;padding:14px 10px;text-align:center;border-radius:0 0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.header a{color:#fff;text-decoration:none;font-weight:bold;font-size:15px}
+.header img{width:56px;height:56px;border-radius:50%;border:3px solid #FFD54F;object-fit:cover;flex-shrink:0}
+.wrap{padding:12px;max-width:700px;margin:auto}
+.banner{border-radius:20px;overflow:hidden;margin:12px 0;border:3px solid #FFD54F;position:relative}
+.banner img{width:100%;display:block;height:260px;object-fit:cover}
+.banner .txt{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;padding:30px 12px 12px;text-align:center}
+.banner .txt b{font-size:22px}
+.banner .txt p{margin:4px 0 0;font-size:13px}
+.prize{background:#fff;border:2px solid #FFD54F;border-radius:18px;padding:16px;text-align:center;margin:12px 0}
+.prize b{font-size:20px;color:#7A0C1D}
+.prize p{margin:6px 0 0;color:#555;font-size:14px;line-height:1.6}
+.formBox{background:#fff;border:1px solid #E8C86A;border-radius:18px;padding:14px;margin:12px 0}
+.formBox h3{margin:0 0 10px;color:#7A0C1D;text-align:center}
+.formBox input,.formBox textarea{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;margin:6px 0;font-size:16px;font-family:system-ui}
+.formBox textarea{min-height:110px}
+.formBox button{width:100%;background:#7A0C1D;color:#fff;border:none;padding:13px;border-radius:12px;font-weight:bold;font-size:17px;cursor:pointer}
+.story{background:#fff;border:1px solid #E8C86A;border-radius:18px;padding:14px;margin:12px 0}
+.story h3{margin:0;color:#7A0C1D;font-size:20px;text-align:center}
+.story .by{text-align:center;color:#888;font-size:13px;margin:4px 0 8px}
+.story .txt{white-space:pre-line;font-size:16px;line-height:1.8;text-align:center;color:#222}
+.story .meta{display:flex;justify-content:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.likeBtn{background:#FFE082;border:none;padding:10px 18px;border-radius:20px;font-weight:bold;font-size:15px;cursor:pointer}
+.likeBtn.liked{background:#FF5252;color:#fff}
+.viewBtn{background:#eee;border:none;padding:10px 14px;border-radius:20px;font-size:14px}
+.rank{background:#7A0C1D;color:#fff;display:inline-block;padding:4px 12px;border-radius:20px;font-size:13px}
+.searchBox{width:100%;padding:12px;border-radius:12px;border:1px solid #E8C86A;font-size:16px;background:#fff}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#7A0C1D;display:flex;justify-content:space-around;padding:10px;z-index:100}
+.bottom-nav a{flex:1;color:#fff;text-decoration:none;text-align:center;font-size:12px}
+.empty{text-align:center;color:#888;padding:20px;background:#fff;border-radius:16px}
+</style>
+</head>
+<body>
+<div class="header"><img src="jesus.jpg"><div style="flex:1;text-align:center"><a href="index.html">← హోమ్</a><div style="font-size:13px">📖 బైబిల్ మిషన్</div><h2 style="margin:2px 0;font-size:24px">మహిమ సన్నిధి</h2><div style="font-size:13px">దేవుని కథలు</div></div><img src="devadasu.jpg"></div>
 
+<div class="wrap">
+<div class="banner"><img src="kathalu-top.jpg"><div class="txt"><b>📖 దేవుని కథలు</b><p>పిల్లలు + పెద్దలు - అందరి కోసం! 🙏</p></div></div>
+
+<div class="prize"><div style="font-size:36px">🏆🎁</div><b>దేవుని కథలు - పోటీ!</b><p>మీకు నచ్చిన దేవుని కథను రాసి పంపండి!<br>ఎక్కువ <b>❤️ లైక్స్</b> వచ్చిన వారికి <b>బహుమతి ఉంటుంది!</b><br>పిల్లలు + పెద్దలు - అందరూ పాల్గొనవచ్చు! 🙏</p></div>
+
+<div class="formBox"><h3>✍️ మీ కథ రాయండి</h3>
+<input id="kName" placeholder="👤 మీ పేరు - ఉదా: రాజు">
+<input id="kTitle" placeholder="📖 కథ పేరు - ఉదా: దావీదు మరియు గొల్యాతు">
+<textarea id="kText" placeholder="🙏 ఇక్కడ మీకు నచ్చిన దేవుని కథ రాయండి..."></textarea>
+<button onclick="addStory()">📩 కథ పంపండి</button>
+<div id="kMsg" style="text-align:center;color:#2E7D32;font-size:14px;margin-top:8px"></div>
+</div>
+
+<input class="searchBox" id="kSearch" placeholder="🔍 కథ వెతకండి..." oninput="renderStories()">
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin:14px 4px 4px"><b style="color:#7A0C1D">📖 అన్ని కథలు</b><small id="kCount" style="color:#888"></small></div>
+<div id="kList"></div>
+</div>
+
+<nav class="bottom-nav"><a href="index.html">🏠<br>హోమ్</a><a href="songs.html">🎵<br>పాటలు</a><a href="kathalu.html">📖<br>కథలు</a><a href="quiz.html">🎯<br>క్విజ్</a></nav>
+
+<script>
+let stories = JSON.parse(localStorage.getItem('ms_kathalu')||'[]');
+let liked = JSON.parse(localStorage.getItem('ms_kathalu_liked')||'[]');
+if(stories.length===0){
+stories=[
+{id:'1',name:'BM మహిమ సన్నిధి',title:'దావీదు మరియు గొల్యాతు',text:'చిన్న దావీదు దేవుని మీద నమ్మకంతో పెద్ద గొల్యాతును ఓడించాడు. దేవుడు చిన్నవారిని కూడా గొప్పగా వాడుకుంటాడు! 🙏',likes:12,views:45,time:'BM టీం'},
+{id:'2',name:'BM మహిమ సన్నిధి',title:'నోవాహు ఓడ',text:'నోవాహు దేవుని మాట విని ఓడ కట్టాడు. దేవుని మాట వినేవారిని దేవుడు కాపాడుతాడు! 🙏',likes:9,views:38,time:'BM టీం'},
+{id:'3',name:'BM మహిమ సన్నిధి',title:'యేసు ప్రేమ',text:'యేసు ప్రభువు మనందరినీ ఎంతో ప్రేమించారు. ఆయన ప్రేమ ఎప్పుడూ మనతోనే ఉంటుంది! ❤️',likes:15,views:52,time:'BM టీం'}
+];
+saveStories();
+}
+function saveStories(){localStorage.setItem('ms_kathalu',JSON.stringify(stories));localStorage.setItem('ms_kathalu_liked',JSON.stringify(liked));}
+function addStory(){
+let n=document.getElementById('kName').value.trim();
+let t=document.getElementById('kTitle').value.trim();
+let x=document.getElementById('kText').value.trim();
+if(!t||!x){alert('🙏 కథ పేరు + కథ రాయండి!');return;}
+if(!n)n='భక్తుడు';
+let s={id:'K'+Date.now(),name:n,title:t,text:x,likes:0,views:0,time:new Date().toLocaleDateString('te-IN')};
+stories.unshift(s);saveStories();
+document.getElementById('kName').value='';document.getElementById('kTitle').value='';document.getElementById('kText').value='';
+document.getElementById('kMsg').textContent='✅ మీ కథ పంపబడింది! దేవునికి స్తోత్రం!';
+renderStories();window.scrollTo({top:350,behavior:'smooth'});
+setTimeout(()=>{document.getElementById('kMsg').textContent='';},3000);
+}
+function likeStory(id){
+let idx=liked.indexOf(id);
+if(idx>=0){liked.splice(idx,1);let s=stories.find(a=>a.id===id);if(s&&s.likes>0)s.likes--;}
+else{liked.push(id);let s=stories.find(a=>a.id===id);if(s)s.likes++;}
+saveStories();renderStories();
+}
+function viewStory(id){
+let s=stories.find(a=>a.id===id);if(!s)return;s.views=(s.views||0)+1;saveStories();
+let el=document.getElementById('txt-'+id);if(el)el.style.display=el.style.display==='none'?'block':'none';
+renderStories();
+}
+function renderStories(){
+let q=(document.getElementById('kSearch').value||'').toLowerCase().trim();
+let list=[...stories].sort((a,b)=>b.likes-a.likes);
+if(q)list=list.filter(s=>((s.title||'')+(s.text||'')+(s.name||'')).toLowerCase().includes(q));
+document.getElementById('kCount').textContent='మొత్తం - '+list.length+' కథలు';
+let box=document.getElementById('kList');
+if(!list.length){box.innerHTML='<div class="empty">📭 ఇంకా కథలు లేవు!<br>మీరే మొదటి కథ రాయండి! 🙏</div>';return;}
+box.innerHTML=list.map((s,i)=>{
+let isLiked=liked.includes(s.id);
+let rank=i===0?'🏆 1వ స్థానం':i===1?'🥈 2వ స్థానం':i===2?'🥉 3వ స్థానం':'';
+return `<div class="story"><div style="text-align:center">${rank?`<span class="rank">${rank}</span>`:''}</div><h3>📖 ${s.title}</h3><div class="by">✍️ ${s.name} • 📅 ${s.time}</div><div class="txt" id="txt-${s.id}">${s.text}</div><div class="meta"><button class="likeBtn ${isLiked?'liked':''}" onclick="likeStory('${s.id}')">❤️ లైక్ - ${s.likes}</button><span class="viewBtn">👀 చూసినవారు - ${s.views||0}</span></div></div>`;
+}).join('');
+}
+renderStories();
+</script>
+</body>
+</html>
