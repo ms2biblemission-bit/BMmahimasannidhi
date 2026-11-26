@@ -39,6 +39,9 @@
 .empty{text-align:center;color:#888;padding:20px;background:#fff;border-radius:16px}
 .moreBox{background:#fff;border:2px dashed #E8C86A;border-radius:16px;padding:16px;text-align:center;margin:14px 0;color:#555}
 .sync{font-size:12px;text-align:center;color:#888;margin:6px}
+.tabBtn{flex:1;padding:14px!important;border:none;border-radius:14px;font-weight:bold;font-size:16px;cursor:pointer}
+.tabBtn.on{background:#7A0C1D!important;color:#fff!important}
+.tabBtn.off{background:#FFE082!important;color:#333!important}
 </style>
 </head>
 <body>
@@ -47,10 +50,23 @@
 <div class="banner"><img src="kathalu-top.jpg"><div class="txt"><b>📖 దేవుని కథలు</b><p>పిల్లలు + పెద్దలు - అందరి కోసం! 🙏</p></div></div>
 <div class="prize"><div style="font-size:36px;text-align:center">🏆🎁</div><b>దేవుని కథలు - పోటీ!</b><ul><li>దేవుని కథ మాత్రమే రాయండి.</li><li>తెలుగు లేదా English లో రాయవచ్చు.</li><li>ఎక్కువ ❤️ లైక్స్ వచ్చిన కథకు బహుమతి ఉంటుంది.</li><li>కథ పంపిన తర్వాత మార్చలేరు.</li><li>తప్పుడు మాటలు ఉంటే కథ తొలగించబడుతుంది.</li></ul></div>
 <div class="sync" id="syncTxt">🔄 లోడ్ అవుతుంది...</div>
+
+<!-- ✅ 2 బటన్లు - అన్ని కథలు / నా కథ రాయండి - ఇదే కొత్తది -->
+<div style="display:flex;gap:8px;margin:12px 0">
+<button id="btnAll" class="tabBtn on" onclick="showAllMode()">📖 అన్ని కథలు</button>
+<button id="btnMy" class="tabBtn off" onclick="showMyMode()">✍️ నా కథ రాయండి</button>
+</div>
+
 <div id="blockedBox" style="display:none;background:#ffebee;color:#C62828;text-align:center;padding:14px;border-radius:14px;margin:12px 0">🚫 మీరు బ్లాక్ అయ్యారు!</div>
-<div class="formBox" id="formBox"><h3>✍️ మీ కథ రాయండి</h3><input id="kName" placeholder="👤 మీ పేరు"><input id="kTitle" placeholder="📖 కథ పేరు"><textarea id="kText" placeholder="🙏 మీ కథ ఇక్కడ రాయండి..."></textarea><button onclick="addStory(event)">📩 కథ పంపండి</button><div id="kMsg" style="text-align:center;color:#2E7D32;font-size:14px;margin-top:8px"></div></div>
+
+<!-- ✅ నా కథ రాయండి - ఈ బాక్స్ - నా మోడ్ లో మాత్రమే వస్తుంది -->
+<div class="formBox" id="formBox" style="display:none"><h3>✍️ మీ కథ రాయండి</h3><input id="kName" placeholder="👤 మీ పేరు"><input id="kTitle" placeholder="📖 కథ పేరు"><textarea id="kText" placeholder="🙏 మీ కథ ఇక్కడ రాయండి..."></textarea><button onclick="addStory(event)">📩 కథ పంపండి</button><div id="kMsg" style="text-align:center;color:#2E7D32;font-size:14px;margin-top:8px"></div><p style="text-align:center;color:#888;font-size:13px">👇 కింద - మీ కథలు మాత్రమే వస్తాయి - వేరే వాళ్ళవి రావు!</p></div>
+
+<!-- ✅ BM టీం 3 కథలు - అన్ని కథలు మోడ్ లో - పైన వేరుగా - అన్ని కథలు లోకి వెళ్ళవు -->
+<div id="adminBox" style="display:none"><div style="display:flex;justify-content:space-between;align-items:center;margin:14px 4px 4px"><b style="color:#7A0C1D">📖 BM టీం కథలు - 3</b></div><div id="adminList"></div></div>
+
 <input class="searchBox" id="kSearch" placeholder="🔍 కథ వెతకండి..." oninput="renderStories()">
-<div style="display:flex;justify-content:space-between;align-items:center;margin:14px 4px 4px"><b style="color:#7A0C1D">📖 అన్ని కథలు</b><small id="kCount" style="color:#888"></small></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin:14px 4px 4px"><b style="color:#7A0C1D" id="listTitle">📖 అన్ని కథలు</b><small id="kCount" style="color:#888"></small></div>
 <div id="kList"></div>
 <div id="moreBox" class="moreBox"></div>
 </div>
@@ -59,6 +75,9 @@ const API_URL = "PASTE_YOUR_GOOGLE_SCRIPT_LINK_HERE";
 function isAdmin(){return location.search.includes('admin=1985');}
 function myCode(){let c=localStorage.getItem('ms_katha_code');if(!c){c='K'+Math.floor(1000+Math.random()*9000);localStorage.setItem('ms_katha_code',c);}return c;}
 let stories=[];let liked=JSON.parse(localStorage.getItem('ms_kathalu_liked')||'[]');let blockedList=[];let openIds=new Set();
+let curMode='all';
+function showAllMode(){curMode='all';document.getElementById('btnAll').className='tabBtn on';document.getElementById('btnMy').className='tabBtn off';document.getElementById('formBox').style.display='none';document.getElementById('adminBox').style.display='block';renderStories();}
+function showMyMode(){curMode='my';document.getElementById('btnMy').className='tabBtn on';document.getElementById('btnAll').className='tabBtn off';document.getElementById('formBox').style.display='block';document.getElementById('adminBox').style.display='none';renderStories();document.getElementById('formBox').scrollIntoView({behavior:'smooth'});}
 function getFullStories(){
 return [
 {id:'1',name:'BM మహిమ సన్నిధి',title:'దావీదు మరియు గొల్యాతు',text:'ఇశ్రాయేలు ప్రజలు గొల్యాతు అనే పెద్ద రాక్షసుడిని చూసి భయపడ్డారు. అతను చాలా ఎత్తుగా, బలంగా ఉన్నాడు. ఎవరూ అతనితో యుద్ధం చేయడానికి ముందుకు రాలేదు.\n\nఅప్పుడు చిన్న గొర్రెల కాపరి దావీదు వచ్చాడు. అతని చేతిలో కత్తి లేదు, డాలు లేదు. కేవలం 5 చిన్న రాళ్ళు మరియు వడిసెల మాత్రమే ఉన్నాయి.\n\nకానీ దావీదు భయపడలేదు. అతను అన్నాడు - "నా దేవుడు నాతో ఉన్నాడు!"\n\nదావీదు ఒక రాయి విసిరాడు. ఆ రాయి గొల్యాతు నుదుటికి తగిలి అతను కింద పడిపోయాడు!\n\nనీతి: దేవుడు చిన్నవారిని కూడా గొప్పగా వాడుకుంటాడు. భయపడకు, దేవుడు నీతో ఉన్నాడు! 🙏',likes:12,views:45,time:'BM టీం',code:'ADMIN'},
@@ -66,14 +85,12 @@ return [
 {id:'3',name:'BM మహిమ సన్నిధి',title:'యేసు ప్రేమ',text:'యేసు ప్రభువు చిన్న పిల్లలను ఎంతో ప్రేమించారు. శిష్యులు పిల్లలను దూరంగా పంపాలని చూసినప్పుడు యేసు అన్నారు - "చిన్న పిల్లలను నా దగ్గరకు రానివ్వండి!"\n\nయేసు పిల్లలను ఎత్తుకొని, వారిని ఆశీర్వదించారు. ఆయన రోగులను బాగు చేశారు, ఆకలితో ఉన్నవారికి అన్నం పెట్టారు.\n\nచివరకు మన పాపాల కోసం ఆయన సిలువ మీద ప్రాణం పెట్టారు. కానీ మూడవ రోజు తిరిగి లేచారు!\n\nనీతి: యేసు ప్రేమ ఎప్పుడూ మనతోనే ఉంటుంది. ఆయన మనల్ని ఎప్పుడూ వదిలిపెట్టరు! ❤️',likes:15,views:52,time:'BM టీం',code:'ADMIN'}
 ];
 }
-// ✅ డబుల్ తీసేయడం - ఒకే పేరు ఉంటే - పెద్ద కథ మాత్రమే ఉంచడం
 function cleanStories(list){
 let map={};
 list.forEach(s=>{
 let key=(s.title||'').trim().toLowerCase();
 if(!map[key]){map[key]=s;}
 else{
-// రెండు ఉంటే - పెద్ద టెక్స్ట్ ఉన్నది ఉంచు
 if((s.text||'').length>(map[key].text||'').length){
 s.likes=Math.max(s.likes||0,map[key].likes||0);
 s.views=Math.max(s.views||0,map[key].views||0);
@@ -98,7 +115,6 @@ function loadLocal(){
 let local=JSON.parse(localStorage.getItem('ms_kathalu')||'[]');
 if(!local.length){stories=getFullStories();}
 else{
-// పాత డబుల్ కూడా ఇక్కడే క్లీన్ అవుతుంది
 let users=local.filter(s=>s.code!=='ADMIN');
 stories=cleanStories([...users,...getFullStories()]);
 }
@@ -115,27 +131,45 @@ async function likeStory(id,ev){if(ev)ev.stopPropagation();let idx=liked.indexOf
 function toggleStory(el,id,ev){if(ev)ev.stopPropagation();if(openIds.has(id)){openIds.delete(id);el.classList.remove('open');}else{openIds.add(id);el.classList.add('open');let s=stories.find(a=>a.id===id);if(s){s.views=(s.views||0)+1;saveToCloud();}}}
 async function adminDelete(id,ev){if(ev)ev.stopPropagation();if(!isAdmin())return;if(!confirm('ఈ కథ తొలగించాలా?'))return;stories=stories.filter(a=>a.id!==id);await saveToCloud();renderStories();}
 async function adminBlock(code,name,ev){if(ev)ev.stopPropagation();if(!isAdmin())return;if(!confirm(name+' ని బ్లాక్ చేయాలా?'))return;if(!blockedList.includes(code))blockedList.push(code);stories=stories.filter(a=>a.code!==code);await saveToCloud();renderStories();}
-function renderStories(){
-if(isBlocked()){document.getElementById('blockedBox').style.display='block';document.getElementById('formBox').style.display='none';}
-let q=(document.getElementById('kSearch').value||'').toLowerCase().trim();
-let list=cleanStories([...stories]).sort((a,b)=>b.likes-a.likes);
-if(q)list=list.filter(s=>((s.title||'')+(s.text||'')+(s.name||'')).toLowerCase().includes(q));
-document.getElementById('kCount').textContent='మొత్తం - '+list.length+' కథలు';
-let box=document.getElementById('kList');
-if(!list.length){box.innerHTML='<div class="empty">📭 ఇంకా కథలు లేవు!<br>మీరే మొదటి కథ రాయండి! 🙏</div>';}
-else{
-box.innerHTML=list.map((s,i)=>{
+function storyHTML(s,i){
 let isLiked=liked.includes(s.id);
 let isOpen=openIds.has(s.id);
 let rank=i===0?'🏆 1వ స్థానం':i===1?'🥈 2వ స్థానం':i===2?'🥉 3వ స్థానం':'';
 let adminBtns='';
 if(isAdmin()){adminBtns=`<div style="text-align:center;margin-top:10px"><button class="adminBtn" onclick="adminDelete('${s.id}',event)">🗑️ తొలగించు</button><button class="blockBtn" onclick="adminBlock('${s.code}','${s.name}',event)">🚫 బ్లాక్</button></div>`;}
 return `<div class="story ${isOpen?'open':''}" onclick="toggleStory(this,'${s.id}',event)"><div style="text-align:center">${rank?`<span class="rank">${rank}</span>`:''}</div><h3>📖 ${s.title}</h3><div class="by">✍️ ${s.name} • 📅 ${s.time}</div><div class="txt">${s.text}</div><div class="readMore">${isOpen?'🔼 తక్కువ చూపు - నొక్కండి':'📖 మొత్తం చదవండి - నొక్కండి 👆'}</div><div class="meta"><button class="likeBtn ${isLiked?'liked':''}" onclick="likeStory('${s.id}',event)">❤️ లైక్ - ${s.likes}</button><span class="viewBtn">👀 చూసినవారు - ${s.views||0}</span></div>${adminBtns}</div>`;
-}).join('');
+}
+function renderStories(){
+if(isBlocked()){document.getElementById('blockedBox').style.display='block';document.getElementById('formBox').style.display='none';}
+let q=(document.getElementById('kSearch').value||'').toLowerCase().trim();
+// ✅ BM టీం 3 - వేరుగా - ఎప్పుడూ పైన
+let adminStories=getFullStories();
+document.getElementById('adminList').innerHTML=adminStories.map((s,i)=>storyHTML(s,i)).join('');
+let allClean=cleanStories([...stories]);
+// ✅ 1. అన్ని కథలు - అందరివి - BM టీం (ADMIN) తప్ప!
+let list=[];
+if(curMode==='all'){
+document.getElementById('listTitle').textContent='📖 అన్ని కథలు - అందరివి';
+list=allClean.filter(s=>s.code!=='ADMIN').sort((a,b)=>b.likes-a.likes);
+}else{
+// ✅ 2. నా కథలు - నా ఫోన్ లో నేను రాసినవి మాత్రమే - వేరే వాళ్ళవి రావు!
+document.getElementById('listTitle').textContent='📚 నా కథలు - నావి మాత్రమే';
+list=allClean.filter(s=>s.code===myCode()).sort((a,b)=>b.likes-a.likes);
+}
+if(q)list=list.filter(s=>((s.title||'')+(s.text||'')+(s.name||'')).toLowerCase().includes(q));
+document.getElementById('kCount').textContent='మొత్తం - '+list.length+' కథలు';
+let box=document.getElementById('kList');
+if(!list.length){
+if(curMode==='my')box.innerHTML='<div class="empty">📭 మీరు ఇంకా కథ రాయలేదు!<br>పైన - కథ రాసి పంపండి! 🙏<br>వేరే వాళ్ళ కథలు ఇక్కడ కనబడవు!</div>';
+else box.innerHTML='<div class="empty">📭 ఇంకా కథలు లేవు!<br>మీరే మొదటి కథ రాయండి! 🙏</div>';
+}
+else{
+box.innerHTML=list.map((s,i)=>storyHTML(s,i)).join('');
 }
 let moreBox=document.getElementById('moreBox');
 let userCount=stories.filter(s=>s.code!=='ADMIN').length;
 if(q){moreBox.innerHTML='🔍 వెతుకుతున్నారు...';}
+else if(curMode==='my'){moreBox.innerHTML='✍️ <b>ఇది మీ పేజీ!</b><br>ఇక్కడ మీ కథలు మాత్రమే ఉంటాయి!';}
 else if(userCount>0){moreBox.innerHTML='✅ <b>ఇంకా కథలు ఉన్నాయి - '+userCount+' కొత్త కథలు!</b><br>పైన - కొత్త కథలు - చూడండి! 👆';}
 else{moreBox.innerHTML='📭 <b>ఇంకా కథలు లేవు!</b><br>మీరే మొదటి కథ రాయండి! 🙏<br>మీరు పెడితే - ఇక్కడే - డైరెక్ట్ గా - వస్తుంది!';}
 }
