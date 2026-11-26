@@ -13,6 +13,12 @@ body{font-family:sans-serif;margin:0;background:#FFF3E0;padding-bottom:30px}
 .top b{font-size:22px}
 .top small{display:block;font-size:13px;opacity:.9}
 .back{display:block;text-align:center;background:#fff;margin:12px;padding:12px;border-radius:15px;text-decoration:none;color:#7A0C1D;font-weight:bold;border:2px solid #FFD54F}
+.hero{background:linear-gradient(135deg,#FF7043,#FFCA28);margin:12px;border-radius:20px;padding:20px;text-align:center;color:#fff}
+.hero .big{font-size:60px}
+.hero h1{margin:8px 0;font-size:26px}
+.hero p{margin:0;font-size:15px}
+.verse{background:linear-gradient(135deg,#7A0C1D,#C62828);color:#fff;margin:12px;padding:18px;border-radius:18px;text-align:center}
+.verse b{font-size:19px;line-height:1.5}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
 .card{background:#fff;border-radius:18px;padding:16px;text-align:center;cursor:pointer;border:3px solid #FFD54F;box-shadow:0 4px 10px rgba(0,0,0,.1)}
 .card .ic{font-size:48px}
@@ -21,39 +27,49 @@ body{font-family:sans-serif;margin:0;background:#FFF3E0;padding-bottom:30px}
 .box{background:#fff;margin:12px;padding:16px;border-radius:18px;border:2px solid #FFD54F;display:none}
 .box.show{display:block}
 .box h2{margin:0 0 10px;color:#E65100;text-align:center}
-canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;touch-action:none}
-.toolBtn{padding:10px 14px;border-radius:20px;border:none;font-size:16px;margin:4px;cursor:pointer}
+canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;touch-action:none;display:block}
+canvas.big{height:520px!important}
+.toolBtn{padding:12px 16px;border-radius:20px;border:none;font-size:17px;margin:4px;cursor:pointer}
 .toolBtn.active{outline:3px solid #7A0C1D}
-.saveBtn{width:100%;background:#2E7D32;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px;cursor:pointer}
-.galleryImg{width:100%;border-radius:12px;border:2px solid #FFD54F;margin:8px 0;cursor:pointer}
+.saveBtn{width:100%;background:#2E7D32;color:#fff;border:none;padding:14px;border-radius:15px;font-size:18px;margin-top:8px;cursor:pointer}
+.galleryImg{width:100%;border-radius:12px;border:2px solid #FFD54F;margin:8px 0}
 .folder{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:12px;margin:8px 0}
 .adminBtn{background:#ef4444;color:#fff;border:none;padding:8px 12px;border-radius:15px;margin:4px;cursor:pointer}
 .editBtn{background:#FF9800;color:#fff;border:none;padding:8px 12px;border-radius:15px;margin:4px;cursor:pointer}
 .msgBtn{background:#7A0C1D;color:#fff;border:none;padding:8px 12px;border-radius:15px;margin:4px;cursor:pointer}
-.verseCard{background:linear-gradient(135deg,#FFF8E1,#FFECB3);border:2px solid #FF9800;border-radius:14px;padding:14px;margin:10px 0;text-align:center}
-.verseCard b{font-size:18px;color:#7A0C1D;line-height:1.6}
-.verseCard small{display:block;color:#666;margin-top:6px}
-.storyCard{background:#fff;border:2px solid #FFD54F;border-radius:14px;padding:12px;margin:8px 0;display:flex;gap:10px;align-items:center;cursor:pointer}
-.storyCard .sIc{font-size:42px}
-.storyCard b{font-size:16px;color:#7A0C1D}
-.storyCard small{display:block;color:#666;font-size:13px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:flex-end;justify-content:center}
-.modalBox{background:#fff;width:100%;max-width:600px;max-height:88vh;border-radius:20px 20px 0 0;padding:18px;overflow-y:auto}
+.verseCard{background:linear-gradient(135deg,#FFF8E1,#FFECB3);border:2px solid #FF9800;border-radius:14px;padding:16px;margin:10px 0;text-align:center}
+.verseCard b{font-size:20px;color:#7A0C1D;line-height:1.7}
+.book{position:relative;background:#fff;border:3px solid #FFD54F;border-radius:18px;overflow:hidden}
+.bookPage{padding:20px;text-align:center;min-height:480px}
+.bookPage .bIc{font-size:110px}
+.bookPage h3{color:#7A0C1D;font-size:22px;line-height:1.4}
+.bookPage p{font-size:17px;line-height:1.8;color:#222}
+.bookNav{display:flex;justify-content:space-between;padding:12px;background:#FFF8E1}
+.bookNav button{background:#FF7043;color:#fff;border:none;padding:12px 18px;border-radius:20px;font-size:17px}
+.dots{text-align:center;padding:8px;font-size:18px}
+.fullDraw{position:fixed!important;inset:0!important;z-index:9999!important;background:#fff!important;margin:0!important;border-radius:0!important;max-height:100vh!important;overflow-y:auto!important}
 </style>
 </head>
 <body>
 <div class="top"><b>👶 పిల్లల ప్రపంచం</b><small>BM మహిమ సన్నిధి - యేసు పిల్లలను ప్రేమిస్తాడు ❤️</small></div>
 <a class="back" href="index.html">🏠 హోమ్ కి వెళ్ళండి</a>
+<!-- ✅ టిక్ పెట్టినవి - ఇవి ఉంటాయి -->
+<div class="hero"><div class="big">🌈 👶 🎨</div><h1>యేసు నిన్ను ప్రేమిస్తున్నాడు!</h1><p>కలరింగ్ చేయి - కథలు చదువు - క్విజ్ ఆడు - బహుమతి గెలువు! 🏆</p></div>
+<div class="verse"><div style="font-size:30px">📖</div><b>"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి"<br>మార్కు 10:14</b><br><small>🙏 యేసు నిన్ను ఎంతో ప్రేమిస్తున్నాడు!</small></div>
 <div id="adminMsgBox" style="display:none;background:#E8F5E9;border:2px solid #2E7D32;border-radius:14px;padding:12px;margin:12px;text-align:center"><div style="font-size:24px">💌</div><b style="color:#2E7D32">అడ్మిన్ గారి మెసేజ్:</b><div id="adminMsgText" style="font-size:16px;color:#222;margin-top:6px"></div></div>
+
+<!-- ✅ మిగిలినవి మామూలే - 4 మాత్రమే - హీరోలు / క్విజ్ లేవు -->
 <div class="grid">
 <div class="card" onclick="showBox('color')"><div class="ic">🎨</div><b>డ్రాయింగ్</b><small>గీయి - ఎరేజర్ తో సరి చేయి!</small></div>
-<div class="card" onclick="showBox('memory')"><div class="ic">🧠</div><b>వాక్యం నేర్చుకో</b><small>30 వాక్యాలు - రోజుకోటి!</small></div>
+<div class="card" onclick="showBox('memory')"><div class="ic">🧠</div><b>వాక్యం నేర్చుకో</b><small>రోజుకో వాక్యం</small></div>
 <div class="card" onclick="showBox('folder')"><div class="ic">📁</div><b>బొమ్మల ఫోల్డర్</b><small>నా పేరుతో - నా బొమ్మలు</small></div>
-<div class="card" onclick="showBox('sunday')"><div class="ic">📖</div><b>సండే స్కూల్</b><small>ఆదికాండము - ప్రకటన</small></div>
+<div class="card" onclick="showBox('sunday')"><div class="ic">📖</div><b>సండే స్కూల్</b><small>బుక్ లాగా - పేజీలు తిప్పు!</small></div>
 </div>
+
 <div id="color" class="box">
-<h2>🎨 డ్రాయింగ్ - నీ చేత్తో గీయి!</h2>
-<input id="kidName" placeholder="👶 నీ పేరు రాయి - ఉదా: చిన్నూ" style="width:100%;padding:12px;border-radius:12px;border:2px solid #FFD54F;margin-bottom:8px;font-size:16px">
+<h2>🎨 డ్రాయింగ్</h2>
+<button onclick="toggleBig()" id="bigBtn" style="width:100%;background:#7A0C1D;color:#fff;border:none;padding:12px;border-radius:15px;font-size:16px;margin-bottom:8px">⛶ పెద్దగా చేయి - ఫుల్ స్క్రీన్</button>
+<input id="kidName" placeholder="👶 నీ పేరు రాయి" style="width:100%;padding:12px;border-radius:12px;border:2px solid #FFD54F;margin-bottom:8px;font-size:16px">
 <div style="text-align:center">
 <button class="toolBtn" style="background:#E53935;color:#fff" onclick="setTool('pen','#E53935')">🔴 ఎరుపు</button>
 <button class="toolBtn" style="background:#2196F3;color:#fff" onclick="setTool('pen','#2196F3')">🔵 నీలం</button>
@@ -62,32 +78,36 @@ canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;to
 <button class="toolBtn" style="background:#222;color:#fff" onclick="setTool('pen','#222222')">⚫ నలుపు</button>
 </div>
 <div style="text-align:center;margin-top:6px">
-<button class="toolBtn" id="btnEraser" style="background:#fff;border:2px solid #7A0C1D" onclick="setTool('eraser')">🧽 ఎరేజర్ - తప్పు తుడిచేయి</button>
+<button class="toolBtn" id="btnEraser" style="background:#fff;border:2px solid #7A0C1D" onclick="setTool('eraser')">🧽 ఎరేజర్</button>
 <button class="toolBtn" style="background:#E3F2FD;border:2px solid #1565C0" onclick="undoDraw()">↩️ వెనక్కి</button>
 <button class="toolBtn" style="background:#fff;border:2px solid #333" onclick="clearCanvas()">🧹 మొత్తం తుడిచేయి</button>
 </div>
-<div style="text-align:center;margin-top:6px;font-size:13px;color:#666">🖊️ బ్రష్: <button onclick="brush=4" style="padding:6px 10px;border-radius:15px">చిన్నది</button> <button onclick="brush=8" style="padding:6px 10px;border-radius:15px">మధ్య</button> <button onclick="brush=14" style="padding:6px 10px;border-radius:15px">పెద్దది</button> &nbsp; | &nbsp; 🧽 ఎరేజర్: <button onclick="setTool('eraser');brush=14" style="padding:6px 10px;border-radius:15px">చిన్న తప్పు</button> <button onclick="setTool('eraser');brush=28" style="padding:6px 10px;border-radius:15px">పెద్ద తప్పు</button></div>
-<canvas id="cv" width="340" height="300"></canvas>
-<p style="text-align:center;color:#666;font-size:13px">👆 వేలితో గీయి! తప్పు వస్తే 🧽 ఎరేజర్ తో ఆ చోటే తుడిచేయి - మొత్తం బొమ్మ పోదు! ❤️</p>
+<div style="text-align:center;margin-top:6px;font-size:14px">🖊️ <button onclick="brush=6" style="padding:8px 12px;border-radius:15px">చిన్నది</button> <button onclick="brush=12" style="padding:8px 12px;border-radius:15px">మధ్య</button> <button onclick="brush=20" style="padding:8px 12px;border-radius:15px">పెద్దది</button> &nbsp; 🧽 <button onclick="setTool('eraser');brush=20" style="padding:8px 12px;border-radius:15px">చిన్న తప్పు</button> <button onclick="setTool('eraser');brush=40" style="padding:8px 12px;border-radius:15px">పెద్ద తప్పు</button></div>
+<canvas id="cv" width="340" height="380"></canvas>
 <button class="saveBtn" onclick="saveDrawing()">💾 ఫోల్డర్ లో సేవ్ చేయి</button>
-<button onclick="showBox('folder')" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px;cursor:pointer">📁 నా బొమ్మల ఫోల్డర్ చూడు</button>
+<button onclick="showBox('folder')" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px">📁 నా బొమ్మల ఫోల్డర్ చూడు</button>
 </div>
+
 <div id="memory" class="box">
-<h2>🧠 వాక్యం నేర్చుకో - పెద్ద వాక్యములు</h2>
-<p style="text-align:center;color:#666;font-size:13px">30 వాక్యాలు ఉన్నాయి - రోజుకో వాక్యం నేర్చుకో - యేసు నిన్ను ఆశీర్వదిస్తాడు! 🙏</p>
+<h2>🧠 వాక్యం నేర్చుకో</h2>
 <div id="verseList"></div>
 </div>
+
 <div id="folder" class="box">
 <h2>📁 నా బొమ్మల ఫోల్డర్</h2>
-<p style="text-align:center;color:#666;font-size:13px">నువ్వు గీసిన బొమ్మలన్నీ - నీ పేరుతో - ఇక్కడే ఉంటాయి! ❤️</p>
 <div id="drawList" style="text-align:center;color:#999">ఇంకా బొమ్మలు లేవు - గీసి సేవ్ చేయి! 🎨</div>
 </div>
+
 <div id="sunday" class="box">
-<h2>📖 సండే స్కూల్ - ఆదికాండము నుండి ప్రకటన వరకు</h2>
-<p style="text-align:center;color:#666;font-size:13px">ఒక్కో బొమ్మ నొక్కు - ఒక్కో కథ ఓపెన్ అవుతుంది! 👆</p>
-<div id="sundayList"></div>
+<h2>📖 సండే స్కూల్</h2>
+<div class="book" id="book">
+<div class="bookPage" id="bookPage"></div>
+<div class="dots" id="bookDots"></div>
+<div class="bookNav"><button onclick="prevPage()">⬅️ వెనక్కి</button><button onclick="speakBook()">🔊 వినండి</button><button onclick="nextPage()">ముందుకు ➡️</button></div>
+<p style="text-align:center;color:#666;font-size:13px">👆 వేలితో పక్కకి స్వైప్ చేయి - పేజీ తిరుగుతుంది!</p>
 </div>
-<div class="modal" id="storyModal"><div class="modalBox"><div style="text-align:right"><button onclick="closeStory()" style="border:none;background:#eee;padding:8px 14px;border-radius:20px">✖️ మూసేయి</button></div><div id="storyContent"></div></div></div>
+</div>
+
 <script>
 function isAdmin(){ return location.search.includes('admin=1985'); }
 function showBox(id){
@@ -96,53 +116,39 @@ function showBox(id){
   document.getElementById(id).scrollIntoView({behavior:'smooth'});
   if(id==='folder') renderDrawings();
   if(id==='memory') renderVerses();
-  if(id==='sunday') renderSunday();
+  if(id==='sunday') renderBook();
 }
-let col='#E53935'; let tool='pen'; let brush=8;
-let cv=document.getElementById('cv'); let ctx=cv.getContext('2d'); let drawing=false;
-let history=[];
+let col='#E53935', tool='pen', brush=12;
+let cv=document.getElementById('cv'), ctx=cv.getContext('2d'), drawing=false, history=[];
 function saveState(){ try{ history.push(cv.toDataURL()); if(history.length>20) history.shift(); }catch(e){} }
-function setTool(t,c){
-  tool=t; if(c) col=c;
-  document.querySelectorAll('.toolBtn').forEach(b=>b.classList.remove('active'));
-  if(t==='eraser') document.getElementById('btnEraser').classList.add('active');
-}
+function setTool(t,c){ tool=t; if(c) col=c; document.querySelectorAll('.toolBtn').forEach(b=>b.classList.remove('active')); if(t==='eraser') document.getElementById('btnEraser').classList.add('active'); }
 function getPos(e){ let r=cv.getBoundingClientRect(); let t=e.touches?e.touches[0]:e; return {x:(t.clientX-r.left)*(cv.width/r.width), y:(t.clientY-r.top)*(cv.height/r.height)}; }
 function startDraw(e){ drawing=true; saveState(); let p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
-function moveDraw(e){
-  if(!drawing) return;
-  let p=getPos(e);
-  if(tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.strokeStyle='rgba(0,0,0,1)'; ctx.lineWidth=brush; }
-  else { ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=col; ctx.lineWidth=brush; }
-  ctx.lineCap='round'; ctx.lineJoin='round';
-  ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y);
-}
-cv.addEventListener('mousedown',e=>{startDraw(e);});
-cv.addEventListener('mousemove',e=>{moveDraw(e);});
+function moveDraw(e){ if(!drawing) return; let p=getPos(e); if(tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.strokeStyle='rgba(0,0,0,1)'; ctx.lineWidth=brush; } else { ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=col; ctx.lineWidth=brush; } ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
+cv.addEventListener('mousedown',e=>{startDraw(e);}); cv.addEventListener('mousemove',e=>{moveDraw(e);});
 window.addEventListener('mouseup',()=>{drawing=false; ctx.globalCompositeOperation='source-over'; ctx.beginPath();});
 cv.addEventListener('touchstart',e=>{e.preventDefault(); startDraw(e);},{passive:false});
 cv.addEventListener('touchmove',e=>{e.preventDefault(); moveDraw(e);},{passive:false});
 cv.addEventListener('touchend',()=>{drawing=false; ctx.globalCompositeOperation='source-over'; ctx.beginPath();});
-function undoDraw(){
-  if(!history.length){ alert('😊 వెనక్కి వెళ్ళడానికి ఏమీ లేదు!'); return; }
-  let last=history.pop(); let img=new Image(); img.onload=()=>{ ctx.clearRect(0,0,cv.width,cv.height); ctx.drawImage(img,0,0); }; img.src=last;
-}
+function undoDraw(){ if(!history.length){ alert('😊 వెనక్కి వెళ్ళడానికి ఏమీ లేదు!'); return; } let last=history.pop(); let img=new Image(); img.onload=()=>{ ctx.clearRect(0,0,cv.width,cv.height); ctx.drawImage(img,0,0); }; img.src=last; }
 function clearCanvas(){ saveState(); ctx.clearRect(0,0,cv.width,cv.height); }
-function isCanvasBlank(){
-  let d=ctx.getImageData(0,0,cv.width,cv.height).data;
-  for(let i=3;i<d.length;i+=4){ if(d[i]!==0) return false; }
-  return true;
+function isCanvasBlank(){ let d=ctx.getImageData(0,0,cv.width,cv.height).data; for(let i=3;i<d.length;i+=4){ if(d[i]!==0) return false; } return true; }
+function toggleBig(){
+  let box=document.getElementById('color');
+  let isBig=box.classList.toggle('fullDraw');
+  cv.classList.toggle('big', isBig);
+  document.getElementById('bigBtn').innerText = isBig ? '✖️ చిన్నగా చేయి' : '⛶ పెద్దగా చేయి - ఫుల్ స్క్రీన్';
+  if(isBig){ cv.height=520; } else { cv.height=380; }
 }
 function saveDrawing(){
-  if(isCanvasBlank()){ alert('😊 ముందు ఏదైనా గీయి - తరువాత సేవ్ చేయి!'); return; }
+  if(isCanvasBlank()){ alert('😊 ముందు ఏదైనా గీయి!'); return; }
   let name=document.getElementById('kidName').value.trim()||'చిన్నారి';
   localStorage.setItem('kids_last_name',name);
   let img=cv.toDataURL('image/png');
   let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
   list.unshift({name:name, img:img, date:new Date().toLocaleString('te-IN')});
-  list=list.slice(0,20);
-  localStorage.setItem('kids_drawings',JSON.stringify(list));
-  alert('✅ సేవ్ అయ్యింది! 👏 '+name+' బొమ్మ - 📁 నా బొమ్మల ఫోల్డర్ లో ఉంది!');
+  list=list.slice(0,20); localStorage.setItem('kids_drawings',JSON.stringify(list));
+  alert('✅ సేవ్ అయ్యింది! 👏 '+name+' బొమ్మ - 📁 ఫోల్డర్ లో ఉంది!');
   showBox('folder');
 }
 function renderDrawings(){
@@ -151,103 +157,82 @@ function renderDrawings(){
   if(!list.length){ box.innerHTML='ఇంకా బొమ్మలు లేవు - గీసి సేవ్ చేయి! 🎨'; return; }
   let admin=isAdmin();
   box.innerHTML=list.map((d,i)=>{
-    let adminBtns='';
-    if(admin){ adminBtns=`<div style="margin-top:8px"><button class="editBtn" onclick="editDrawing(${i})">✏️ పేరు మార్చు</button><button class="adminBtn" onclick="delDrawing(${i})">🗑️ డిలీట్</button><button class="msgBtn" onclick="adminMsg(${i})">💬 మెసేజ్ పెట్టు</button></div>`; }
-    return `<div class="folder"><b>🎨 ${d.name}</b><br><small>📅 ${d.date}</small><img src="${d.img}" class="galleryImg" onclick="openBig('${d.img}')">${adminBtns}</div>`;
+    let ab=''; if(admin) ab=`<div><button class="editBtn" onclick="editDrawing(${i})">✏️ పేరు మార్చు</button><button class="adminBtn" onclick="delDrawing(${i})">🗑️ డిలీట్</button><button class="msgBtn" onclick="adminMsg(${i})">💬 మెసేజ్ పెట్టు</button></div>`;
+    return `<div class="folder"><b>🎨 ${d.name}</b><br><small>📅 ${d.date}</small><img src="${d.img}" class="galleryImg">${ab}</div>`;
   }).join('');
 }
-function openBig(src){ let w=window.open(''); w.document.write('<img src="'+src+'" style="width:100%">'); }
-function delDrawing(i){
-  if(!isAdmin()) return;
-  if(!confirm('ఈ బొమ్మ డిలీట్ చేయాలా?')) return;
-  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
-  list.splice(i,1); localStorage.setItem('kids_drawings',JSON.stringify(list)); renderDrawings();
-}
-function editDrawing(i){
-  if(!isAdmin()) return;
-  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
-  let nn=prompt('కొత్త పేరు రాయి:', list[i].name);
-  if(nn){ list[i].name=nn; localStorage.setItem('kids_drawings',JSON.stringify(list)); renderDrawings(); }
-}
-function adminMsg(i){
-  if(!isAdmin()) return;
-  let m=prompt('పిల్లాడికి ఏ మెసేజ్ పెట్టాలి?', 'ఇంకొంచెం బాగా గీయి నాన్నా - నువ్వు బాగా గీయగలవు! ❤️ యేసు నిన్ను ఆశీర్వదించుగాక! 🙏');
-  if(m){ localStorage.setItem('kids_admin_msg', m); showAdminMsg(); alert('✅ మెసేజ్ పెట్టారు!'); }
-}
-function showAdminMsg(){
-  let m=localStorage.getItem('kids_admin_msg');
-  if(m){ document.getElementById('adminMsgBox').style.display='block'; document.getElementById('adminMsgText').innerText=m; }
-}
+function delDrawing(i){ if(!isAdmin()) return; if(!confirm('ఈ బొమ్మ డిలీట్ చేయాలా?')) return; let l=JSON.parse(localStorage.getItem('kids_drawings')||'[]'); l.splice(i,1); localStorage.setItem('kids_drawings',JSON.stringify(l)); renderDrawings(); }
+function editDrawing(i){ if(!isAdmin()) return; let l=JSON.parse(localStorage.getItem('kids_drawings')||'[]'); let nn=prompt('కొత్త పేరు రాయి:', l[i].name); if(nn){ l[i].name=nn; localStorage.setItem('kids_drawings',JSON.stringify(l)); renderDrawings(); } }
+function adminMsg(i){ if(!isAdmin()) return; let m=prompt('పిల్లాడికి ఏ మెసేజ్ పెట్టాలి?', 'ఇంకొంచెం బాగా గీయి నాన్నా - నువ్వు బాగా గీయగలవు! ❤️'); if(m){ localStorage.setItem('kids_admin_msg', m); showAdminMsg(); } }
+function showAdminMsg(){ let m=localStorage.getItem('kids_admin_msg'); if(m){ document.getElementById('adminMsgBox').style.display='block'; document.getElementById('adminMsgText').innerText=m; } }
 let verses=[
 {t:"ప్రభువు నా కాపరి - నాకు లేమి కలుగదు. ఆయన నన్ను పచ్చిక బయళ్ళలో పరుండజేయుచున్నాడు. శాంతికరమైన జలముల యొద్దకు నన్ను నడిపించుచున్నాడు.",r:"కీర్తనలు 23:1-2"},
 {t:"దేవుడు లోకమును ఎంతో ప్రేమించెను. కాగా ఆయన తన అద్వితీయ కుమారుని అనుగ్రహించెను. ఆయన యందు విశ్వాసముంచు ప్రతివాడును నశింపక నిత్యజీవము పొందును.",r:"యోహాను 3:16"},
 {t:"నీ దేవుడైన యెహోవా నీకు తోడుగా ఉండును. ఆయన నిన్ను విడువడు - నిన్ను ఎడబాయడు. భయపడకుము - దిగులు పడకుము.",r:"ద్వితీయోపదేశకాండము 31:6"},
 {t:"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి - వారిని అటంకపరచవద్దు. దేవుని రాజ్యము ఇట్టివారిదే.",r:"మార్కు 10:14"},
-{t:"యెహోవా నా వెలుగు - నా రక్షణ. నేను ఎవనికి భయపడుదును? యెహోవా నా ప్రాణదుర్గము. నేను ఎవనికి దిగులు పడుదును?",r:"కీర్తనలు 27:1"},
-{t:"నీ పూర్ణహృదయముతో యెహోవాను నమ్ముకొనుము. నీ స్వబుద్ధిని ఆధారము చేసికొనకుము. నీ మార్గములన్నిటిలో ఆయనను ఎరుగుము. ఆయన నీ త్రోవలను సరాళము చేయును.",r:"సామెతలు 3:5-6"},
-{t:"ఏమియు చింతపడకుడి. ప్రతి విషయములోను ప్రార్థన వలన - విజ్ఞాపన వలన - కృతజ్ఞతాపూర్వకముగా మీ విన్నపములను దేవునికి తెలియజేయుడి.",r:"ఫిలిప్పీయులు 4:6"},
+{t:"యెహోవా నా వెలుగు - నా రక్షణ. నేను ఎవనికి భయపడుదును?",r:"కీర్తనలు 27:1"},
+{t:"నీ పూర్ణహృదయముతో యెహోవాను నమ్ముకొనుము. నీ మార్గములన్నిటిలో ఆయనను ఎరుగుము. ఆయన నీ త్రోవలను సరాళము చేయును.",r:"సామెతలు 3:5-6"},
+{t:"ఏమియు చింతపడకుడి. ప్రతి విషయములోను ప్రార్థన వలన మీ విన్నపములను దేవునికి తెలియజేయుడి.",r:"ఫిలిప్పీయులు 4:6"},
 {t:"నా కృప నీకు చాలును. బలహీనతయందు నా శక్తి పరిపూర్ణమగుచున్నది.",r:"2 కొరింథీయులు 12:9"},
 {t:"దేవుడు మనకు భయముగల ఆత్మను ఇయ్యలేదు - శక్తి - ప్రేమ - ఇంద్రియ నిగ్రహము గల ఆత్మనే ఇచ్చియున్నాడు.",r:"2 తిమోతి 1:7"},
-{t:"నిన్ను పిలిచినవాడు నమ్మదగినవాడు. ఆయన ఆలాగు చేయును. ఎల్లప్పుడు సంతోషముగా ఉండుడి - యెడతెగక ప్రార్థన చేయుడి.",r:"1 థెస్సలొనీకయులు 5:16-17,24"},
-{t:"యెహోవా నా బలము - నా కేడెము. నా హృదయము ఆయన యందు నమ్మికయుంచుచున్నది. నేను సహాయము పొందితిని - కనుక నా హృదయము ప్రహర్షించుచున్నది.",r:"కీర్తనలు 28:7"},
-{t:"బాల్యము నుండియు నీవు పరిశుద్ధ లేఖనములను ఎరుగుదువు. అవి క్రీస్తు యేసు నందలి విశ్వాసము వలన రక్షణార్థమైన జ్ఞానము నీకు కలుగజేయుటకు శక్తిగలవి.",r:"2 తిమోతి 3:15"},
-{t:"పిల్లలారా - మీ తలిదండ్రులకు అన్ని విషయములలో విధేయులై యుండుడి. ఇది ప్రభువును బట్టి మెచ్చుకొనదగినది.",r:"కొలొస్సయులు 3:20"},
+{t:"నిన్ను పిలిచినవాడు నమ్మదగినవాడు. ఎల్లప్పుడు సంతోషముగా ఉండుడి - యెడతెగక ప్రార్థన చేయుడి.",r:"1 థెస్సలొనీకయులు 5:16-17"},
+{t:"యెహోవా నా బలము - నా కేడెము. నా హృదయము ఆయన యందు నమ్మికయుంచుచున్నది.",r:"కీర్తనలు 28:7"},
+{t:"పిల్లలారా - మీ తలిదండ్రులకు అన్ని విషయములలో విధేయులై యుండుడి.",r:"కొలొస్సయులు 3:20"},
 {t:"నీ వాక్యము నా పాదములకు దీపము - నా త్రోవకు వెలుగు.",r:"కీర్తనలు 119:105"},
-{t:"యేసు - నేనే మార్గమును - సత్యమును - జీవమును. నా ద్వారానే తప్ప ఎవడును తండ్రి యొద్దకు రాడు.",r:"యోహాను 14:6"},
+{t:"యేసు - నేనే మార్గమును - సత్యమును - జీవమును.",r:"యోహాను 14:6"},
 {t:"అడిగిన వానికి ఇయ్యబడును - వెదకువానికి దొరుకును - తట్టువానికి తీయబడును.",r:"మత్తయి 7:7"},
-{t:"మీలో ఎవడైనను జ్ఞానము లేనివాడైతే - అతడు దేవుని అడుగవలెను. ఆయన అందరికి ధారాళముగా ఇచ్చును.",r:"యాకోబు 1:5"},
-{t:"ప్రభువు నన్ను విడిపించును - నన్ను కాపాడును. నేను ఆయనను నమ్ముకొందును.",r:"కీర్తనలు 34:4"},
-{t:"దేవుని వాక్యము సజీవమైనది - కార్యసాధకమైనది. అది రెండంచులుగల కత్తి కంటెను వాడిగలది.",r:"హెబ్రీయులు 4:12"},
+{t:"క్రీస్తుయేసునందు నాకు బలమిచ్చువాని యందు నేను సమస్తమును చేయగలను.",r:"ఫిలిప్పీయులు 4:13"},
+{t:"భయపడకుము - నేను నీకు తోడైయున్నాను. దిగులు పడకుము - నేను నీ దేవుడనైయున్నాను.",r:"యెషయా 41:10"},
+{t:"యెహోవా నా కోట - నా దుర్గము - నా విడిపించువాడు.",r:"కీర్తనలు 18:2"},
+{t:"ప్రభువును స్తుతించుడి - ఆయన మంచివాడు. ఆయన కృప నిరంతరము ఉండును.",r:"కీర్తనలు 136:1"},
+{t:"దేవుడు తన ప్రజలకు బలమునిచ్చువాడు. యెహోవా తన ప్రజలను సమాధానముతో ఆశీర్వదించును.",r:"కీర్తనలు 29:11"},
 {t:"సంతోషముగా ఉండుడి - శ్రమలో ఓర్పు గలవారై యుండుడి - ప్రార్థనయందు పట్టుదల కలిగియుండుడి.",r:"రోమా 12:12"},
-{t:"నీవు నా యొద్దకు వచ్చినప్పుడు - నేను నిన్ను ఎన్నడును బయటకు త్రోసివేయను.",r:"యోహాను 6:37"},
 {t:"ఇదిగో నేను యుగసమాప్తి వరకు ఎల్లప్పుడు మీతో కూడ ఉన్నాను.",r:"మత్తయి 28:20"},
 {t:"నీతిమంతుని ప్రార్థన - బహు బలముగా పనిచేయును.",r:"యాకోబు 5:16"},
-{t:"క్రీస్తుయేసునందు నాకు బలమిచ్చువాని యందు నేను సమస్తమును చేయగలను.",r:"ఫిలిప్పీయులు 4:13"},
-{t:"మనము దేవుని పిల్లలమని పిలువబడుట - ఎంత గొప్ప ప్రేమ! నిజముగా మనము దేవుని పిల్లలమే.",r:"1 యోహాను 3:1"},
-{t:"భయపడకుము - నేను నీకు తోడైయున్నాను. దిగులు పడకుము - నేను నీ దేవుడనైయున్నాను.",r:"యెషయా 41:10"},
-{t:"యెహోవా నా కోట - నా దుర్గము - నా విడిపించువాడు. నా దేవుడు - నా ఆశ్రయదుర్గము.",r:"కీర్తనలు 18:2"},
-{t:"ప్రభువును స్తుతించుడి - ఆయన మంచివాడు. ఆయన కృప నిరంతరము ఉండును.",r:"కీర్తనలు 136:1"},
-{t:"నా ప్రజలారా - మీరు నా స్వరము వినిన యెడల - మీ హృదయములను కఠినపరచుకొనకుడి.",r:"కీర్తనలు 95:7-8"},
-{t:"దేవుడు తన ప్రజలకు బలమునిచ్చువాడు. యెహోవా తన ప్రజలను సమాధానముతో ఆశీర్వదించును.",r:"కీర్తనలు 29:11"}
+{t:"మనము దేవుని పిల్లలమని పిలువబడుట - ఎంత గొప్ప ప్రేమ!",r:"1 యోహాను 3:1"},
+{t:"బాల్యము నుండియు నీవు పరిశుద్ధ లేఖనములను ఎరుగుదువు.",r:"2 తిమోతి 3:15"},
+{t:"దేవుని వాక్యము సజీవమైనది - కార్యసాధకమైనది.",r:"హెబ్రీయులు 4:12"},
+{t:"నీవు నా యొద్దకు వచ్చినప్పుడు - నేను నిన్ను ఎన్నడును బయటకు త్రోసివేయను.",r:"యోహాను 6:37"},
+{t:"మీలో ఎవడైనను జ్ఞానము లేనివాడైతే - అతడు దేవుని అడుగవలెను.",r:"యాకోబు 1:5"},
+{t:"ప్రభువు నన్ను విడిపించును - నన్ను కాపాడును. నేను ఆయనను నమ్ముకొందును.",r:"కీర్తనలు 34:4"},
+{t:"నా ప్రజలారా - మీరు నా స్వరము వినిన యెడల - మీ హృదయములను కఠినపరచుకొనకుడి.",r:"కీర్తనలు 95:7-8"}
 ];
 let verseIdx = new Date().getDate() % verses.length;
 function renderVerses(){
-  let v = verses[verseIdx];
-  document.getElementById('verseList').innerHTML =
-  `<div style="text-align:center;background:#FF7043;color:#fff;padding:10px;border-radius:12px"><b>📅 ఈ రోజు వాక్యం - ${verseIdx+1} / ${verses.length}</b></div>` +
-  `<div class="verseCard"><div style="font-size:28px">📖</div><b>"${v.t}"</b><small>📍 ${v.r}</small><br><button onclick="speakText('${v.t.replace(/'/g,'')}')" style="background:#25D366;color:#fff;border:none;padding:10px 18px;border-radius:20px;margin-top:8px">🔊 వినండి</button></div>` +
-  `<button onclick="nextVerse()" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px;cursor:pointer">➡️ ఇంకో వాక్యం చూడు - వేరేది వస్తుంది!</button>` +
-  `<div style="text-align:center;color:#666;font-size:13px;margin-top:8px">30 వాక్యాలు ఉన్నాయి - ఒకే వాక్యం మళ్ళీ మళ్ళీ రాదు! 🙏</div>`;
+  let v=verses[verseIdx];
+  document.getElementById('verseList').innerHTML=`<div class="verseCard"><div style="font-size:28px">📖</div><b>"${v.t}"</b><br><small>📍 ${v.r}</small><br><button onclick="speakText('${v.t.replace(/'/g,'')}')" style="background:#25D366;color:#fff;border:none;padding:10px 18px;border-radius:20px;margin-top:8px">🔊 వినండి</button></div><button onclick="nextVerse()" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px">➡️ ఇంకో వాక్యం</button>`;
 }
-function nextVerse(){ verseIdx = (verseIdx+1) % verses.length; renderVerses(); }
+function nextVerse(){ verseIdx=(verseIdx+1)%verses.length; renderVerses(); }
 function speakText(t){ try{ let u=new SpeechSynthesisUtterance(t); u.lang='te-IN'; speechSynthesis.speak(u); }catch(e){} }
-let stories=[
-{ic:"🌍",title:"1. సృష్టి - దేవుడు లోకాన్ని చేసాడు",sub:"ఆదికాండము 1",body:"దేవుడు 6 రోజుల్లో ఆకాశాన్ని - భూమిని - సూర్యుని - చంద్రుని - జంతువులను - మనల్ని చేసాడు. 7వ రోజు విశ్రమించాడు. దేవుడు చేసినదంతా చాలా బాగుంది! నీవు కూడా దేవుని అద్భుత సృష్టివి!",verse:"ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను - ఆది 1:1"},
-{ic:"🚢",title:"2. నోవహు - పెద్ద ఓడ",sub:"ఆదికాండము 6-8",body:"లోకంలో పాపం ఎక్కువైంది. దేవుడు నోవహుకు - పెద్ద ఓడ కట్టమని చెప్పాడు. నోవహు దేవుని మాట విన్నాడు. వర్షం వచ్చినప్పుడు - నోవహు కుటుంబం - జంతువులు - ఓడలో కాపాడబడ్డారు. దేవుని మాట వింటే - కాపాడబడతాము!",verse:"నోవహు దేవునితో నడిచినవాడు - ఆది 6:9"},
-{ic:"⭐",title:"3. అబ్రాహాము - దేవుని స్నేహితుడు",sub:"ఆదికాండము 12-22",body:"దేవుడు అబ్రాహామును పిలిచాడు - నా మాట విను - నిన్ను ఆశీర్వదిస్తాను అన్నాడు. అబ్రాహాము నమ్మాడు. దేవుడు అతనికి ఇస్సాకు అనే బాబును ఇచ్చాడు. నమ్మకం ఉంటే - దేవుడు గొప్ప కార్యాలు చేస్తాడు!",verse:"అబ్రాహాము యెహోవాను నమ్మెను - ఆది 15:6"},
-{ic:"🌈",title:"4. యోసేపు - రంగుల అంగీ",sub:"ఆదికాండము 37-50",body:"యోసేపుకు తండ్రి రంగుల అంగీ ఇచ్చాడు. అన్నలు అసూయపడ్డారు. కానీ దేవుడు యోసేపును విడువలేదు - ఈజిప్టులో పెద్ద అధికారిని చేసాడు. కష్టం వచ్చినా - దేవుడు మనతో ఉంటాడు!",verse:"దేవుడు నాకు తోడుగా ఉండెను - ఆది 39:2"},
-{ic:"🌊",title:"5. మోషే - సముద్రం చీలింది!",sub:"నిర్గమకాండము 3-14",body:"ఇశ్రాయేలు ప్రజలు ఈజిప్టులో బానిసలుగా ఉన్నారు. దేవుడు మోషేను పంపాడు. ఫరో వదలకపోతే - దేవుడు ఎర్ర సముద్రాన్ని రెండుగా చీల్చాడు! ప్రజలు ఆరిన నేల మీద నడిచి వెళ్ళారు! దేవునికి అసాధ్యము ఏదీ లేదు!",verse:"యెహోవా నీ పక్షమున యుద్ధము చేయును - నిర్గమ 14:14"},
-{ic:"🦁",title:"6. దావీదు - గొల్యాతును ఓడించాడు",sub:"1 సమూయేలు 17",body:"గొల్యాతు చాలా పెద్దవాడు - అందరూ భయపడ్డారు. చిన్న దావీదు మాత్రం - దేవుని మీద నమ్మకంతో - వడిసెలతో ఒక్క రాయితో గొల్యాతును పడగొట్టాడు! చిన్నవాడైనా - దేవుడు ఉంటే - పెద్ద విజయం!",verse:"యుద్ధము యెహోవాదే - 1 సమూ 17:47"},
-{ic:"🐳",title:"7. యోనా - పెద్ద చేప",sub:"యోనా 1-3",body:"దేవుడు యోనాను నీనెవెకు వెళ్ళమన్నాడు. యోనా పారిపోయాడు. పెద్ద చేప యోనాను మింగేసింది. యోనా ప్రార్థన చేసాడు - చేప కక్కేసింది. యోనా దేవుని మాట విన్నాడు. దేవుని మాట వినకపోతే - కష్టం - వింటే - ఆశీర్వాదం!",verse:"యోనా యెహోవాకు ప్రార్థన చేసెను - యోనా 2:1"},
-{ic:"👶",title:"8. యేసు పుట్టాడు!",sub:"లూకా 2 - మత్తయి 2",body:"బెత్లెహేములో - పశువుల పాకలో - యేసు పుట్టాడు! దేవదూతలు - గొర్రెల కాపరులకు - శుభవార్త చెప్పారు. జ్ఞానులు నక్షత్రాన్ని చూసి వచ్చి - యేసును ఆరాధించారు. యేసు - మన కోసం వచ్చిన దేవుని బహుమతి!",verse:"నేడు రక్షకుడు పుట్టియున్నాడు - లూకా 2:11"},
-{ic:"🍞",title:"9. యేసు - 5000 మందికి అన్నం పెట్టాడు",sub:"మత్తయి 14",body:"చిన్న పిల్లవాడు 5 రొట్టెలు - 2 చేపలు తెచ్చాడు. యేసు వాటిని ఆశీర్వదించాడు. 5000 మంది తిన్నారు - 12 గంపలు మిగిలాయి! చిన్నదైనా - యేసు చేతికి ఇస్తే - పెద్దదవుతుంది!",verse:"యేసు ఆశీర్వదించి విరిచి ఇచ్చెను - మత్తయి 14:19"},
-{ic:"✝️",title:"10. యేసు - మన కోసం - తిరిగి లేచాడు!",sub:"మత్తయి 27-28",body:"యేసు మన పాపాల కోసం సిలువలో మరణించాడు. 3వ రోజు - తిరిగి లేచాడు! సమాధి ఖాళీ! యేసు సజీవుడు! ఆయనను నమ్మితే - మనకు నిత్యజీవం!",verse:"ఆయన ఇక్కడ లేడు - తిరిగి లేచియున్నాడు - మత్తయి 28:6"},
-{ic:"🔥",title:"11. పరిశుద్ధాత్మ వచ్చాడు!",sub:"అపొస్తలుల కార్యములు 2",body:"పెంతెకొస్తు రోజు - పరిశుద్ధాత్మ అగ్ని నాలుకల వలె దిగివచ్చాడు! శిష్యులు ధైర్యంగా యేసు గురించి చెప్పారు - 3000 మంది నమ్మారు! పరిశుద్ధాత్మ - మనకు శక్తినిస్తాడు!",verse:"మీరు పరిశుద్ధాత్మ శక్తిని పొందుదురు - అపొ 1:8"},
-{ic:"👑",title:"12. ప్రకటన - యేసు మళ్ళీ వస్తాడు!",sub:"ప్రకటన 21-22",body:"యేసు మళ్ళీ వస్తాడు! కొత్త ఆకాశం - కొత్త భూమి వస్తుంది. అక్కడ కన్నీరు ఉండదు - బాధ ఉండదు - మరణం ఉండదు! యేసుతో ఎప్పుడూ సంతోషంగా ఉంటాము! మరనాత - ప్రభువా రమ్ము!",verse:"ఇదిగో నేను త్వరగా వచ్చుచున్నాను - ప్రకటన 22:12"}
+let bookPages=[
+{ic:"🌍",title:"ఆదాము - హవ్వ",sub:"ఆదికాండము 1-3",body:"దేవుడు ఆదామును - హవ్వను చేసాడు. ఏదెను తోటలో ఉంచాడు. వారిని ఎంతో ప్రేమించాడు. నిన్ను కూడా దేవుడు అలాగే ప్రేమిస్తున్నాడు!",verse:"ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను - ఆది 1:1"},
+{ic:"🚢",title:"నోవహు - పెద్ద ఓడ",sub:"ఆదికాండము 6-8",body:"దేవుడు నోవహుకు పెద్ద ఓడ కట్టమన్నాడు. నోవహు విన్నాడు. వర్షం వచ్చినప్పుడు - అందరూ ఓడలో కాపాడబడ్డారు. దేవుని మాట వింటే - కాపాడబడతాము!",verse:"నోవహు దేవునితో నడిచినవాడు - ఆది 6:9"},
+{ic:"⭐",title:"అబ్రాహాము",sub:"ఆదికాండము 12-22",body:"దేవుడు అబ్రాహామును పిలిచాడు - నిన్ను ఆశీర్వదిస్తాను అన్నాడు. అబ్రాహాము నమ్మాడు. దేవుడు ఇస్సాకును ఇచ్చాడు. నమ్మకం ఉంటే - దేవుడు గొప్ప కార్యాలు చేస్తాడు!",verse:"అబ్రాహాము యెహోవాను నమ్మెను - ఆది 15:6"},
+{ic:"🌈",title:"యోసేపు",sub:"ఆదికాండము 37-50",body:"యోసేపుకు రంగుల అంగీ ఇచ్చారు. అన్నలు అసూయపడ్డారు. కానీ దేవుడు యోసేపును విడువలేదు - ఈజిప్టులో పెద్ద అధికారిని చేసాడు!",verse:"దేవుడు నాకు తోడుగా ఉండెను - ఆది 39:2"},
+{ic:"🌊",title:"మోషే - సముద్రం",sub:"నిర్గమకాండము 3-14",body:"ప్రజలు బానిసలుగా ఉన్నారు. దేవుడు మోషేను పంపాడు. ఎర్ర సముద్రాన్ని రెండుగా చీల్చాడు! ప్రజలు ఆరిన నేల మీద నడిచారు! దేవునికి అసాధ్యము ఏదీ లేదు!",verse:"యెహోవా నీ పక్షమున యుద్ధము చేయును - నిర్గమ 14:14"},
+{ic:"🦁",title:"దావీదు - గొల్యాతు",sub:"1 సమూయేలు 17",body:"గొల్యాతు పెద్దవాడు - అందరూ భయపడ్డారు. చిన్న దావీదు - దేవుని మీద నమ్మకంతో - ఒక్క రాయితో గొల్యాతును పడగొట్టాడు! చిన్నవాడైనా - దేవుడు ఉంటే - పెద్ద విజయం!",verse:"యుద్ధము యెహోవాదే - 1 సమూ 17:47"},
+{ic:"🐳",title:"యోనా - పెద్ద చేప",sub:"యోనా 1-3",body:"దేవుడు యోనాను వెళ్ళమన్నాడు. యోనా పారిపోయాడు. పెద్ద చేప మింగేసింది. యోనా ప్రార్థన చేసాడు - చేప కక్కేసింది. దేవుని మాట వింటే - ఆశీర్వాదం!",verse:"యోనా యెహోవాకు ప్రార్థన చేసెను - యోనా 2:1"},
+{ic:"👶",title:"యేసు పుట్టాడు!",sub:"లూకా 2",body:"బెత్లెహేములో - పశువుల పాకలో - యేసు పుట్టాడు! దేవదూతలు శుభవార్త చెప్పారు. జ్ఞానులు వచ్చి ఆరాధించారు. యేసు - మన కోసం వచ్చిన దేవుని బహుమతి!",verse:"నేడు రక్షకుడు పుట్టియున్నాడు - లూకా 2:11"},
+{ic:"🍞",title:"యేసు - 5000 మందికి అన్నం",sub:"మత్తయి 14",body:"చిన్న పిల్లవాడు 5 రొట్టెలు - 2 చేపలు తెచ్చాడు. యేసు ఆశీర్వదించాడు. 5000 మంది తిన్నారు - 12 గంపలు మిగిలాయి! చిన్నదైనా - యేసు చేతికి ఇస్తే - పెద్దదవుతుంది!",verse:"యేసు ఆశీర్వదించి విరిచి ఇచ్చెను - మత్తయి 14:19"},
+{ic:"✝️",title:"యేసు - తిరిగి లేచాడు!",sub:"మత్తయి 27-28",body:"యేసు మన పాపాల కోసం సిలువలో మరణించాడు. 3వ రోజు - తిరిగి లేచాడు! సమాధి ఖాళీ! యేసు సజీవుడు! ఆయనను నమ్మితే - మనకు నిత్యజీవం!",verse:"ఆయన తిరిగి లేచియున్నాడు - మత్తయి 28:6"},
+{ic:"🔥",title:"పరిశుద్ధాత్మ",sub:"అపొస్తలుల కార్యములు 2",body:"పెంతెకొస్తు రోజు - పరిశుద్ధాత్మ అగ్ని వలె దిగివచ్చాడు! శిష్యులు ధైర్యంగా చెప్పారు - 3000 మంది నమ్మారు! పరిశుద్ధాత్మ - మనకు శక్తినిస్తాడు!",verse:"మీరు పరిశుద్ధాత్మ శక్తిని పొందుదురు - అపొ 1:8"},
+{ic:"👑",title:"యేసు మళ్ళీ వస్తాడు!",sub:"ప్రకటన 21-22",body:"యేసు మళ్ళీ వస్తాడు! కొత్త ఆకాశం - కొత్త భూమి వస్తుంది. అక్కడ కన్నీరు ఉండదు - బాధ ఉండదు - మరణం ఉండదు! యేసుతో ఎప్పుడూ సంతోషంగా ఉంటాము!",verse:"ఇదిగో నేను త్వరగా వచ్చుచున్నాను - ప్రకటన 22:12"}
 ];
-function renderSunday(){
-  document.getElementById('sundayList').innerHTML=stories.map((s,i)=>`<div class="storyCard" onclick="openStory(${i})"><div class="sIc">${s.ic}</div><div><b>${s.title}</b><small>📍 ${s.sub} - 👆 నొక్కు - కథ చదువు</small></div><div style="font-size:20px">➡️</div></div>`).join('');
+let bookIdx=0;
+function renderBook(){
+  let s=bookPages[bookIdx];
+  document.getElementById('bookPage').innerHTML=`<div class="bIc">${s.ic}</div><div style="color:#999">📖 పేజీ ${bookIdx+1} / ${bookPages.length}</div><h3>${s.title}</h3><p style="color:#666">📍 ${s.sub}</p><p>${s.body}</p><div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:12px;margin-top:12px"><b style="color:#7A0C1D">📖 "${s.verse}"</b></div>`;
+  document.getElementById('bookDots').innerHTML=bookPages.map((_,i)=> i===bookIdx?'●':'○').join(' ');
 }
-function openStory(i){
-  let s=stories[i];
-  document.getElementById('storyContent').innerHTML=`<div style="text-align:center;font-size:60px">${s.ic}</div><h2 style="text-align:center;color:#7A0C1D">${s.title}</h2><p style="text-align:center;color:#666">📍 ${s.sub}</p><p style="font-size:17px;line-height:1.8;color:#222;text-align:center">${s.body}</p><div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:12px;padding:12px;text-align:center;margin-top:12px"><b style="color:#7A0C1D">📖 "${s.verse}"</b></div><button onclick="speakText('${s.body.replace(/'/g,'')}')" style="width:100%;background:#25D366;color:#fff;border:none;padding:12px;border-radius:15px;margin-top:12px;font-size:16px">🔊 కథ వినండి</button>`;
-  document.getElementById('storyModal').style.display='flex';
-}
-function closeStory(){ document.getElementById('storyModal').style.display='none'; }
-document.getElementById('storyModal').addEventListener('click',e=>{ if(e.target.id==='storyModal') closeStory(); });
+function nextPage(){ bookIdx=(bookIdx+1)%bookPages.length; renderBook(); }
+function prevPage(){ bookIdx=(bookIdx-1+bookPages.length)%bookPages.length; renderBook(); }
+function speakBook(){ speakText(bookPages[bookIdx].body); }
+let touchX=0;
+let bookEl=document.getElementById('book');
+bookEl.addEventListener('touchstart',e=>{ touchX=e.touches[0].clientX; },{passive:true});
+bookEl.addEventListener('touchend',e=>{ let dx=e.changedTouches[0].clientX-touchX; if(dx<-50) nextPage(); if(dx>50) prevPage(); },{passive:true});
 document.getElementById('kidName').value=localStorage.getItem('kids_last_name')||'';
-showAdminMsg();
-renderDrawings();
+showAdminMsg(); renderDrawings(); renderBook();
 </script>
 </body>
 </html>
