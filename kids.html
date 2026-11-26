@@ -8,7 +8,6 @@ body{font-family:system-ui;margin:0;background:#FFF8E1;padding-bottom:30px}
 .card{background:#fff;border:2px solid #FFE082;border-radius:16px;padding:14px;margin:12px 0}
 input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:10px;box-sizing:border-box;font-size:16px}
 button{border:0;border-radius:10px;padding:12px;cursor:pointer;font-size:16px;font-weight:bold}
-/* 1. ✅ కలర్ - చిన్న సైజ్ - పేర్లు లేవు */
 .colorRow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
 .colorBtn{width:44px!important;height:44px!important;padding:0!important;font-size:26px!important;border-radius:50%!important;border:3px solid #fff!important;box-shadow:0 2px 5px rgba(0,0,0,.25);line-height:1}
 .colorBtn.on{border:3px solid #333!important;transform:scale(1.15)}
@@ -18,15 +17,16 @@ canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;to
 .adminMsg{background:#E8F5E9;border:2px solid #2E7D32;border-radius:12px;padding:10px;margin:10px 0;font-size:15px}
 .adminMsg b{color:#2E7D32}
 .drawImg{width:100%;border-radius:12px;border:2px solid #FFE082;background:#FFFDE7}
+.verseCard{background:#FFF3E0;border:2px solid #FFB300;border-radius:14px;padding:12px;margin:10px 0}
+.linkBtn{display:block;text-align:center;background:#7A0C1D;color:#fff;text-decoration:none;padding:14px;border-radius:12px;font-weight:bold;margin:8px 0}
 </style></head><body>
 <div class="top"><h1>👶 పిల్లల ప్రపంచం</h1><p>BM మహిమ సన్నిధి - యేసు పిల్లలను ప్రేమిస్తాడు ❤️</p></div>
 <div class="box">
 
-<!-- ✍️ డ్రాయింగ్ -->
+<!-- C. డ్రాయింగ్ - ✅ ప్లేస్ పెంచాను - 420 నుండి 560 కి -->
 <div class="card">
 <h2 style="text-align:center;margin:0">🎨 డ్రాయింగ్ - గీయి - ఎరేజర్ తో సరి చెయి!</h2>
 <input id="kidName" placeholder="✏️ నీ పేరు రాయి - చిన్నారి">
-<!-- 1. ✅ ఇక్కడే మార్పు - కలర్ మాత్రమే - పేరు లేదు - చిన్న సైజ్ -->
 <div class="colorRow" id="colorRow"></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
 <button type="button" class="toolBtn" onclick="setTool('draw')">✏️ గీయి</button>
@@ -40,54 +40,35 @@ canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;to
 <button type="button" class="toolBtn" onclick="setSize(18)">🧽 చిన్న తప్పు</button>
 <button type="button" class="toolBtn" onclick="setSize(30)">🧽 పెద్ద తప్పు</button>
 </div>
-<canvas id="cv" width="600" height="420"></canvas>
+<canvas id="cv" width="600" height="560"></canvas>
 <button type="button" onclick="saveDrawing()" style="background:#FF7043;color:#fff;width:100%;margin-top:10px">💾 నా బొమ్మ సేవ్ చెయ్యి</button>
 </div>
 
-<!-- 📁 నా బొమ్మల ఫోల్డర్ -->
+<!-- A. బొమ్మల ఫోల్డర్ -->
 <div class="card">
 <h2 style="text-align:center;margin:0">📁 నా బొమ్మల ఫోల్డర్</h2>
 <p style="text-align:center;color:#666;font-size:13px">నా పేరుతో - నా బొమ్మలు</p>
 <div id="myDraws"></div>
 </div>
 
-<!-- 📖 సండే స్కూల్ - ఉదాహరణ కథలు - ఇవి ఇక్కడే ఉంటాయి -->
+<!-- B. వాక్యం నేర్చుకో - ✅ ఇది లేదు - ఇప్పుడు పెట్టాను -->
 <div class="card">
-<h2 style="text-align:center;margin:0">📖 సండే స్కూల్ - ఉదాహరణ కథలు</h2>
-<p style="text-align:center;color:#666;font-size:13px">ఇవి ఉదాహరణకి - చదువుకోడానికి!</p>
-<div id="exampleStories"></div>
+<h2 style="text-align:center;margin:0">🧠 వాక్యం నేర్చుకో</h2>
+<div id="verseList"></div>
 </div>
 
-<!-- 📚 అన్ని కథలు - 3. ✅ ఇక్కడ కేవలం మీరు / పిల్లలు రాసిన కథలు మాత్రమే -->
+<!-- 📖 కథలు - ✅ ఇక్కడ కథలు లేవు - kathalu.html లోనే ఉంటాయి - బటన్ మాత్రమే! -->
 <div class="card" style="background:#FFF3E0">
-<h2 style="text-align:center;margin:0">📚 అన్ని కథలు చూడండి →</h2>
-<p style="text-align:center;color:#666;font-size:13px">పిల్లలు + మీరు రాసిన కథలు - అందరికీ కనబడతాయి!</p>
-<button type="button" onclick="showAllStories()" style="background:#FFC107;width:100%;color:#333">📖 అన్ని కథలు చూడండి →</button>
-<button type="button" onclick="document.getElementById('writeBox').scrollIntoView({behavior:'smooth'})" style="background:#7A0C1D;color:#fff;width:100%;margin-top:8px">✍️ నా కథ రాయండి</button>
-<div id="allStoriesBox"></div>
-</div>
-
-<!-- ✍️ నా కథ రాయండి -->
-<div class="card" id="writeBox">
-<h2 style="text-align:center;margin:0">✍️ నా కథ రాయండి</h2>
-<input id="storyName" placeholder="✏️ నీ పేరు - ఎవరు రాసారో తెలియాలి!">
-<input id="storyTitle" placeholder="📖 కథ పేరు">
-<textarea id="storyBody" rows="5" placeholder="📝 కథ ఇక్కడ రాయి..."></textarea>
-<button type="button" onclick="saveKidStory()" style="background:#2E7D32;color:#fff;width:100%">💾 నా కథ సేవ్ చెయ్యి</button>
-<p style="font-size:12px;color:#666">• తప్పుడు మాటలు ఉంటే కథ తొలగించబడుతుంది.</p>
-</div>
-
-<!-- 📚 నా కథలు - ఎవరు రాసారో పేరుతో -->
-<div class="card">
-<h2 style="text-align:center;margin:0">📚 నా కథలు - ఎవరు రాసారో చూడండి!</h2>
-<div id="kidStoriesList"></div>
+<h2 style="text-align:center;margin:0">📖 దేవుని కథలు</h2>
+<p style="text-align:center;color:#666;font-size:13px">కథలు ఇక్కడ రాయకూడదు - కథల పేజీలోనే రాయాలి!</p>
+<a class="linkBtn" href="kathalu.html">📖 అన్ని కథలు చూడండి →</a>
+<a class="linkBtn" href="kathalu.html" style="background:#FF7043">✍️ నా కథ రాయండి →</a>
 </div>
 
 </div>
 <script>
 let cv=document.getElementById('cv'), ctx=cv.getContext('2d'), drawing=false, curColor='#E53935', curSize=7, curTool='draw';
-ctx.lineCap='round'; ctx.lineJoin='round'; ctx.fillStyle='#fff'; ctx.fillRect(0,0,600,420);
-// 1. ✅ కలర్ లిస్ట్ - పేర్లు లేవు - Emoji మాత్రమే
+ctx.lineCap='round'; ctx.lineJoin='round'; ctx.fillStyle='#fff'; ctx.fillRect(0,0,600,560);
 let colors=['#E53935','#EC407A','#FF9800','#FFEB3B','#43A047','#2196F3','#7E57C2','#000000','#8D6E63','#FFFFFF'];
 let colorEmojis=['❤️','🩷','🧡','💛','💚','💙','💜','🖤','🤎','🤍'];
 let row=document.getElementById('colorRow');
@@ -98,13 +79,13 @@ colors.forEach((c,i)=>{
 });
 function setTool(t){ curTool=t; }
 function setSize(s){ curSize=s; }
-function getPos(e){ let r=cv.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; return {x:x*600/r.width, y:y*420/r.height}; }
+function getPos(e){ let r=cv.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; return {x:x*600/r.width, y:y*560/r.height}; }
 function startDraw(e){ e.preventDefault(); drawing=true; let p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
 function moveDraw(e){ if(!drawing) return; e.preventDefault(); let p=getPos(e); ctx.strokeStyle = curTool=='erase' ? '#FFFFFF' : curColor; ctx.lineWidth=curSize; ctx.lineTo(p.x,p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
 function endDraw(){ drawing=false; }
 cv.addEventListener('mousedown',startDraw); cv.addEventListener('mousemove',moveDraw); window.addEventListener('mouseup',endDraw);
 cv.addEventListener('touchstart',startDraw,{passive:false}); cv.addEventListener('touchmove',moveDraw,{passive:false}); cv.addEventListener('touchend',endDraw);
-function clearCanvas(){ ctx.fillStyle='#fff'; ctx.fillRect(0,0,600,420); }
+function clearCanvas(){ ctx.fillStyle='#fff'; ctx.fillRect(0,0,600,560); }
 function getDraws(){ try{ return JSON.parse(localStorage.getItem('kids_drawings')||'[]'); }catch(e){ return []; } }
 function saveDrawing(){
   let name=document.getElementById('kidName').value.trim()||'చిన్నారి';
@@ -113,7 +94,6 @@ function saveDrawing(){
   localStorage.setItem('kids_drawings',JSON.stringify(list));
   renderDraws(); alert('✅ బొమ్మ సేవ్ అయ్యింది '+name+'! 🎨'); clearCanvas();
 }
-// 2. ✅ అడ్మిన్ మెసేజ్ - ఆ బొమ్మ కిందకే!
 function renderDraws(){
   let list=getDraws();
   let box=document.getElementById('myDraws');
@@ -125,34 +105,8 @@ function renderDraws(){
       ${d.adminMsg ? `<div class="adminMsg">💌 <b>అడ్మిన్ మాట - ${d.name} కి:</b><br>${d.adminMsg}</div>` : ''}
     </div>`).join('');
 }
-// 3. ✅ ఉదాహరణ కథలు - ఇవి కింద మాత్రమే - అన్ని కథలు లో రావు!
-let examples=[
-{title:'1. దావీదు మరియు గొల్యాతు 🦁', body:'ఇశ్రాయేలు ప్రజలు గొల్యాతు అనే పెద్ద రాక్షసుడిని చూసి భయపడ్డారు. అతను చాలా పెద్దగా, బలంగా ఉన్నాడు. ఎవరూ అతనితో యుద్ధం చేయడానికి ముందుకు రాలేదు.\n\nఅప్పుడు చిన్న గొర్రెల కాపరి దావీదు వచ్చాడు. అతని చేతిలో కత్తి లేదు, డాలు లేదు. కేవలం 5 చిన్న రాళ్ళు మరియు వడిసెల మాత్రమే ఉన్నాయి.\n\nకానీ దావీదు భయపడలేదు. అతను అన్నాడు - "నా దేవుడు నాతో ఉన్నాడు!"'},
-{title:'2. నోవహు - పెద్ద ఓడ 🚢', body:'దేవుడు నోవహుతో అన్నాడు - "పెద్ద ఓడ కట్టు!" నోవహు దేవుని మాట విన్నాడు. అన్ని జంతువులు - రెండు రెండు - ఓడలోకి వచ్చాయి. దేవుడు నోవహును, అతని కుటుంబాన్ని కాపాడాడు.'},
-{title:'3. యేసు పుట్టాడు! ⭐', body:'బెత్లెహేములో చిన్న పాకలో యేసు పుట్టాడు. గొర్రెల కాపరులు, జ్ఞానులు వచ్చి యేసును చూసారు. దేవుడు మనల్ని ప్రేమించి తన కుమారుని పంపాడు!'}
-];
-document.getElementById('exampleStories').innerHTML=examples.map(s=>`<div class="storyCard"><b>${s.title}</b><p style="white-space:pre-line">${s.body}</p></div>`).join('');
-function getKidStories(){ try{ return JSON.parse(localStorage.getItem('kids_my_stories')||'[]').concat(JSON.parse(localStorage.getItem('kids_stories')||'[]')); }catch(e){ return []; } }
-function saveKidStory(){
-  let name=document.getElementById('storyName').value.trim();
-  let title=document.getElementById('storyTitle').value.trim();
-  let body=document.getElementById('storyBody').value.trim();
-  if(!name){ alert('😊 ముందు నీ పేరు రాయి!'); return; }
-  if(!title||!body){ alert('😊 కథ పేరు + కథ రాయి!'); return; }
-  let list=[]; try{ list=JSON.parse(localStorage.getItem('kids_my_stories')||'[]'); }catch(e){}
-  list.unshift({title:title, body:body, ref:'', emoji:'📖', author:name, date:new Date().toLocaleString('en-GB')});
-  localStorage.setItem('kids_my_stories',JSON.stringify(list));
-  document.getElementById('storyTitle').value=''; document.getElementById('storyBody').value='';
-  renderKidStories(); alert('✅ నీ కథ సేవ్ అయ్యింది '+name+'! 👏 అందరికీ కనబడుతుంది!');
-}
-function renderKidStories(){
-  let list=getKidStories();
-  let html='';
-  if(!list.length) html='<p style="text-align:center;color:#666">ఇంకా ఎవరూ కథ రాయలేదు - నువ్వే మొదట రాయి! ✍️</p>';
-  else html=list.map(s=>`<div class="storyCard"><b>${s.emoji||'📖'} ${s.title}</b><br><small>✍️ రాసింది: <b>${s.author||s.name||'చిన్నారి'}</b> • 📅 ${s.date||''} ${s.ref? ' • 📍 '+s.ref:''}</small><p style="white-space:pre-line">${s.body||s.content||''}</p></div>`).join('');
-  document.getElementById('kidStoriesList').innerHTML=html;
-  document.getElementById('allStoriesBox').innerHTML=html;
-}
-function showAllStories(){ renderKidStories(); document.getElementById('allStoriesBox').scrollIntoView({behavior:'smooth'}); }
-renderDraws(); renderKidStories();
+// B. వాక్యాలు
+let verses=["ప్రభువు నా కాపరి - నాకు లేమి కలుగదు - కీర్తనలు 23:1","దేవుడు లోకమును ఎంతో ప్రేమించెను - యోహాను 3:16","నీ దేవుడైన యెహోవా నీకు తోడుగా ఉండును - ద్వితీయో 31:6","చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి - మార్కు 10:14","యెహోవా నా వెలుగు - నా రక్షణ - కీర్తనలు 27:1","భయపడకుము - నేను నీకు తోడైయున్నాను - యెషయా 41:10","యేసు ప్రభువును నమ్ముము - అపొస్తలులు 16:31","సంతోషముగా ఉండుడి - ఎల్లప్పుడు ప్రార్థన చేయుడి - 1 థెస్స 5:16-17","తల్లిదండ్రులను గౌరవించు - నిర్గమ 20:12","నీ పొరుగువానిని నీ వలె ప్రేమించు - మత్తయి 22:39"];
+document.getElementById('verseList').innerHTML=verses.map((v,i)=>`<div class="verseCard"><b>${i+1}. ${v}</b></div>`).join('');
+renderDraws();
 </script></body></html>
