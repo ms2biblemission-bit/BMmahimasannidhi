@@ -31,26 +31,33 @@ body{font-family:sans-serif;margin:0;background:#FFF3E0;padding-bottom:30px}
 .qBtn{width:100%;background:#fff;border:2px solid #FF7043;padding:12px;border-radius:12px;margin:6px 0;font-size:16px;cursor:pointer;text-align:left}
 .qBtn.correct{background:#C8E6C9;border-color:#2E7D32}
 .qBtn.wrong{background:#FFCDD2;border-color:#C62828}
+.qBtn:disabled{opacity:.85;cursor:default}
 canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;touch-action:none}
 .toolBtn{padding:10px 14px;border-radius:20px;border:none;font-size:16px;margin:4px;cursor:pointer}
 .verse{background:linear-gradient(135deg,#7A0C1D,#C62828);color:#fff;margin:12px;padding:18px;border-radius:18px;text-align:center}
 .verse b{font-size:19px;line-height:1.5}
 .verse small{display:block;margin-top:8px;opacity:.9}
+.saveBtn{width:100%;background:#2E7D32;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px;cursor:pointer}
+.galleryImg{width:100%;border-radius:12px;border:2px solid #FFD54F;margin:8px 0;cursor:pointer}
+.folder{background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:12px;margin:8px 0}
+.adminBtn{background:#ef4444;color:#fff;border:none;padding:8px 12px;border-radius:15px;margin:4px;cursor:pointer}
+.editBtn{background:#FF9800;color:#fff;border:none;padding:8px 12px;border-radius:15px;margin:4px;cursor:pointer}
+.msgBtn{background:#7A0C1D;color:#fff;border:none;padding:8px 12px;border-radius:15px;margin:4px;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="top"><b>👶 పిల్లల ప్రపంచం</b><small>BM మహిమ సన్నిధి - యేసు పిల్లలను ప్రేమిస్తాడు ❤️</small></div>
 <a class="back" href="index.html">🏠 హోమ్ కి వెళ్ళండి</a>
-
 <div class="hero"><div class="big">🌈 👶 🎨</div><h1>యేసు నిన్ను ప్రేమిస్తున్నాడు!</h1><p>కలరింగ్ చేయి - కథలు చదువు - క్విజ్ ఆడు - బహుమతి గెలువు! 🏆</p></div>
+<div class="verse"><div style="font-size:30px">📖</div><b>"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి"<br>మార్కు 10:14</b><small>🙏 యేసు నిన్ను ఎంతో ప్రేమిస్తున్నాడు!</small></div>
 
-<div class="verse"><div style="font-size:30px">📖</div><b>"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి - వారిని అటంకపరచవద్దు"<br>మార్కు 10:14</b><small>🙏 యేసు నిన్ను ఎంతో ప్రేమిస్తున్నాడు!</small></div>
+<div id="adminMsgBox" style="display:none;background:#E8F5E9;border:2px solid #2E7D32;border-radius:14px;padding:12px;margin:12px;text-align:center"><div style="font-size:24px">💌</div><b style="color:#2E7D32">అడ్మిన్ గారి మెసేజ్:</b><div id="adminMsgText" style="font-size:16px;color:#222;margin-top:6px"></div></div>
 
 <div class="grid">
 <div class="card" onclick="showBox('heroes')"><div class="ic">🦸</div><b>బైబిల్ హీరోలు</b><small>దావీదు - నోవహు - మోషే</small></div>
-<div class="card" onclick="showBox('quiz')"><div class="ic">🏆</div><b>క్విజ్ ఆడు!</b><small>జవాబు చెప్పు - స్టార్ కొట్టు ⭐</small></div>
-<div class="card" onclick="showBox('color')"><div class="ic">🎨</div><b>కలరింగ్ + డ్రాయింగ్</b><small>నీ చేత్తో గీయి!</small></div>
-<div class="card" onclick="showBox('memory')"><div class="ic">🧠</div><b>వాక్యం నేర్చుకో</b><small>రోజుకో వాక్యం</small></div>
+<div class="card" onclick="showBox('quiz')"><div class="ic">🏆</div><b>క్విజ్ ఆడు!</b><small>20 ప్రశ్నలు - స్టార్ కొట్టు ⭐</small></div>
+<div class="card" onclick="showBox('color')"><div class="ic">🎨</div><b>కలరింగ్ + డ్రాయింగ్</b><small>గీయి - ఫోల్డర్ లో సేవ్!</small></div>
+<div class="card" onclick="showBox('folder')"><div class="ic">📁</div><b>నా బొమ్మల ఫోల్డర్</b><small>నేను గీసినవన్నీ ఇక్కడే!</small></div>
 </div>
 
 <div id="heroes" class="box">
@@ -62,13 +69,16 @@ canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;to
 </div>
 
 <div id="quiz" class="box">
-<h2>🏆 పిల్లల క్విజ్ - <span id="score">స్కోర్: 0 ⭐</span></h2>
-<div id="quizQ"></div>
+<h2>🏆 పిల్లల క్విజ్</h2>
+<div style="text-align:center;background:#FFF8E1;padding:10px;border-radius:12px"><b id="score">స్కోర్: 0 ⭐</b> &nbsp; | &nbsp; <span id="qCount">ప్రశ్న 1 / 20</span><br><small id="quizMsg" style="color:#2E7D32"></small></div>
+<div id="quizQ" style="margin-top:10px"></div>
 <button onclick="nextQ()" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px">➡️ తరువాత ప్రశ్న</button>
+<button onclick="resetQuiz()" style="width:100%;background:#fff;border:2px solid #FF7043;color:#FF7043;padding:10px;border-radius:15px;font-size:15px;margin-top:8px">🔄 మళ్ళీ మొదటి నుండి</button>
 </div>
 
 <div id="color" class="box">
 <h2>🎨 డ్రాయింగ్ - నీ చేత్తో గీయి!</h2>
+<input id="kidName" placeholder="👶 నీ పేరు రాయి - ఉదా: చిన్నూ" style="width:100%;padding:12px;border-radius:12px;border:2px solid #FFD54F;margin-bottom:8px;font-size:16px">
 <div style="text-align:center">
 <button class="toolBtn" style="background:#E53935;color:#fff" onclick="col='#E53935'">🔴 ఎరుపు</button>
 <button class="toolBtn" style="background:#2196F3;color:#fff" onclick="col='#2196F3'">🔵 నీలం</button>
@@ -78,37 +88,86 @@ canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;to
 </div>
 <canvas id="cv" width="340" height="280"></canvas>
 <p style="text-align:center;color:#666;font-size:13px">👆 వేలితో గీయి - యేసు బొమ్మ గీయి! ❤️</p>
+<button class="saveBtn" onclick="saveDrawing()">💾 ఫోల్డర్ లో సేవ్ చేయి</button>
+<button onclick="showBox('folder')" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px;cursor:pointer">📁 నా బొమ్మల ఫోల్డర్ చూడు</button>
+</div>
+
+<div id="folder" class="box">
+<h2>📁 నా బొమ్మల ఫోల్డర్</h2>
+<p style="text-align:center;color:#666;font-size:13px">నువ్వు గీసిన బొమ్మలన్నీ ఇక్కడే ఉంటాయి - ఎప్పుడైనా చూసుకోవచ్చు! ❤️</p>
+<div id="drawList" style="text-align:center;color:#999">ఇంకా బొమ్మలు లేవు - గీసి సేవ్ చేయి! 🎨</div>
 </div>
 
 <div id="memory" class="box">
 <h2>🧠 రోజుకో వాక్యం</h2>
-<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:14px;text-align:center"><b style="font-size:19px;color:#7A0C1D" id="memVerse">"ప్రభువు నా కాపరి - నాకు లేమి కలుగదు"<br><small>కీర్తనలు 23:1</small></b><br><br><button onclick="speakVerse()" style="background:#25D366;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-size:16px">🔊 వినండి - చదవండి</button></div>
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:14px;text-align:center"><b style="font-size:19px;color:#7A0C1D">"ప్రభువు నా కాపరి - నాకు లేమి కలుగదు"<br><small>కీర్తనలు 23:1</small></b><br><br><button onclick="speakVerse()" style="background:#25D366;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-size:16px">🔊 వినండి - చదవండి</button></div>
 </div>
 
 <script>
-let score=0;
+function isAdmin(){ return location.search.includes('admin=1985'); }
 let qs=[
 {q:"యేసు ఎక్కడ పుట్టాడు?",o:["బెత్లెహేము ⭐","ఢిల్లీ","లండన్"],a:0},
 {q:"నోవహు ఏమి కట్టాడు?",o:["ఇల్లు","పెద్ద ఓడ 🚢","కారు"],a:1},
 {q:"దావీదు ఎవరిని ఓడించాడు?",o:["గొల్యాతు 🦁","సింహం","ఏనుగు"],a:0},
-{q:"దేవుడు మనల్ని ఎంత ప్రేమిస్తాడు?",o:["కొంచెం","చాలా చాలా ఎక్కువ ❤️","అసలు లేదు"],a:1}
+{q:"దేవుడు మనల్ని ఎంత ప్రేమిస్తాడు?",o:["కొంచెం","చాలా చాలా ఎక్కువ ❤️","అసలు లేదు"],a:1},
+{q:"ఆదాము - హవ్వ ఎక్కడ ఉన్నారు?",o:["ఏదెను తోట 🌳","స్కూల్","మార్కెట్"],a:0},
+{q:"మోషేను ఎవరు కాపాడారు?",o:["దేవుడు 🙏","రాజు","సైనికుడు"],a:0},
+{q:"యేసు ఎంతమంది శిష్యులను ఎన్నుకున్నాడు?",o:["10","12 ⭐","5"],a:1},
+{q:"బైబిల్ లో మొదటి పుస్తకం ఏది?",o:["ఆదికాండము 📖","కీర్తనలు","మత్తయి"],a:0},
+{q:"దేవుడు ఎన్ని రోజుల్లో లోకాన్ని చేసాడు?",o:["6 రోజులు 🌍","1 రోజు","100 రోజులు"],a:0},
+{q:"యోనా ఎక్కడ ఉన్నాడు?",o:["పెద్ద చేప కడుపులో 🐳","ఇంట్లో","స్కూల్ లో"],a:0},
+{q:"దేవుని కుమారుడు ఎవరు?",o:["యేసు ✝️","దావీదు","మోషే"],a:0},
+{q:"యేసు ఏమి చేసాడు - 5000 మందికి?",o:["అన్నం పెట్టాడు 🍞","ఆట ఆడాడు","పాట పాడాడు"],a:0},
+{q:"సొలొమోను దేవుని ఏమి అడిగాడు?",o:["జ్ఞానం 🧠","డబ్బు","కారు"],a:0},
+{q:"దేవుడు మోషేకు ఏమి ఇచ్చాడు?",o:["10 ఆజ్ఞలు 📜","పుస్తకం","బొమ్మ"],a:0},
+{q:"అబ్రాహాము కుమారుడు ఎవరు?",o:["ఇస్సాకు 👶","యాకోబు","యోసేపు"],a:0},
+{q:"యేసు పుట్టినప్పుడు ఎవరు వచ్చారు?",o:["గొర్రెల కాపరులు ⭐","డాక్టర్","టీచర్"],a:0},
+{q:"ప్రార్థన అంటే ఏమిటి?",o:["దేవునితో మాట్లాడటం 🙏","ఆడుకోవడం","తినడం"],a:0},
+{q:"కీర్తనలు 23:1 - ప్రభువు నా...?",o:["కాపరి 🐑","ఫ్రెండ్","టీచర్"],a:0},
+{q:"యేసు ఎక్కడ ప్రార్థన చేసాడు?",o:["గెత్సేమనే తోట 🌿","మార్కెట్","సినిమా"],a:0},
+{q:"దేవుని వాక్యం ఎలా ఉంటుంది?",o:["దీపం లాగా 💡","చీకటి లాగా","రాయి లాగా"],a:0}
 ];
-let qi=0;
+qs = qs.sort(()=>Math.random()-0.5);
+let score=0; let qi=0; let answered=false;
 function showBox(id){
   document.querySelectorAll('.box').forEach(b=>b.classList.remove('show'));
   document.getElementById(id).classList.add('show');
   document.getElementById(id).scrollIntoView({behavior:'smooth'});
   if(id==='quiz') showQ();
+  if(id==='folder') renderDrawings();
 }
 function showQ(){
+  answered=false;
   let q=qs[qi];
-  document.getElementById('quizQ').innerHTML='<h3 style="text-align:center;color:#7A0C1D">'+q.q+'</h3>'+q.o.map((o,i)=>`<button class="qBtn" onclick="checkQ(this,${i})">${o}</button>`).join('');
+  document.getElementById('qCount').innerText='ప్రశ్న '+(qi+1)+' / '+qs.length;
+  document.getElementById('quizMsg').innerText='';
+  let opts=q.o.map((t,i)=>({t:t,i:i})).sort(()=>Math.random()-0.5);
+  document.getElementById('quizQ').innerHTML='<h3 style="text-align:center;color:#7A0C1D">'+q.q+'</h3>'+opts.map(o=>`<button class="qBtn" onclick="checkQ(this,${o.i})">${o.t}</button>`).join('');
 }
-function checkQ(btn,i){
-  if(i===qs[qi].a){ btn.classList.add('correct'); score+=10; document.getElementById('score').innerText='స్కోర్: '+score+' ⭐'; alert('🎉 సూపర్! సరైన జవాబు! ⭐'); }
-  else { btn.classList.add('wrong'); alert('😊 పర్వాలేదు! మళ్ళీ ప్రయత్నించు!'); }
+function checkQ(btn,idx){
+  if(answered) return;
+  answered=true;
+  let q=qs[qi];
+  let all=document.querySelectorAll('#quizQ .qBtn');
+  all.forEach(b=>b.disabled=true);
+  if(idx===q.a){
+    btn.classList.add('correct'); score+=10;
+    document.getElementById('score').innerText='స్కోర్: '+score+' ⭐';
+    document.getElementById('quizMsg').innerText='🎉 సూపర్! సరైన జవాబు! +10 ⭐';
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('quizMsg').innerText='😊 పర్వాలేదు! సరైనది ఆకుపచ్చలో ఉంది!';
+    all.forEach(b=>{ if(b.textContent===q.o[q.a]) b.classList.add('correct'); });
+  }
 }
-function nextQ(){ qi=(qi+1)%qs.length; showQ(); }
+function nextQ(){
+  if(!answered){ alert('😊 ముందు ఒక జవాబు నొక్కు!'); return; }
+  qi=(qi+1)%qs.length;
+  if(qi===0){ alert('🏆 అద్భుతం! అన్ని ప్రశ్నలు అయిపోయాయి! నీ స్కోర్: '+score+' ⭐'); }
+  showQ();
+}
+function resetQuiz(){ score=0; qi=0; document.getElementById('score').innerText='స్కోర్: 0 ⭐'; qs=qs.sort(()=>Math.random()-0.5); showQ(); }
+
 let col='#E53935';
 let cv=document.getElementById('cv'); let ctx=cv.getContext('2d'); let drawing=false;
 function getPos(e){ let r=cv.getBoundingClientRect(); let t=e.touches?e.touches[0]:e; return {x:(t.clientX-r.left)*(cv.width/r.width), y:(t.clientY-r.top)*(cv.height/r.height)}; }
@@ -119,7 +178,69 @@ cv.addEventListener('touchstart',e=>{e.preventDefault(); drawing=true; let p=get
 cv.addEventListener('touchmove',e=>{e.preventDefault(); if(!drawing) return; let p=getPos(e); ctx.strokeStyle=col; ctx.lineWidth=5; ctx.lineTo(p.x,p.y); ctx.stroke();},{passive:false});
 cv.addEventListener('touchend',()=>drawing=false);
 function clearCanvas(){ ctx.clearRect(0,0,cv.width,cv.height); }
+function isCanvasBlank(){
+  let d=ctx.getImageData(0,0,cv.width,cv.height).data;
+  for(let i=3;i<d.length;i+=4){ if(d[i]!==0) return false; }
+  return true;
+}
+function saveDrawing(){
+  if(isCanvasBlank()){ alert('😊 ముందు ఏదైనా గీయి - తరువాత సేవ్ చేయి!'); return; }
+  let name=document.getElementById('kidName').value.trim()||'చిన్నారి';
+  localStorage.setItem('kids_last_name',name);
+  let img=cv.toDataURL('image/png');
+  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
+  list.unshift({name:name, img:img, date:new Date().toLocaleString('te-IN')});
+  list=list.slice(0,20);
+  localStorage.setItem('kids_drawings',JSON.stringify(list));
+  alert('✅ సేవ్ అయ్యింది! 👏 '+name+' బొమ్మ - 📁 నా బొమ్మల ఫోల్డర్ లో ఉంది!');
+  showBox('folder');
+}
+function renderDrawings(){
+  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
+  let box=document.getElementById('drawList');
+  if(!list.length){ box.innerHTML='ఇంకా బొమ్మలు లేవు - గీసి సేవ్ చేయి! 🎨'; return; }
+  let admin=isAdmin();
+  box.innerHTML=list.map((d,i)=>{
+    let adminBtns='';
+    if(admin){
+      adminBtns=`<div style="margin-top:8px"><button class="editBtn" onclick="editDrawing(${i})">✏️ పేరు మార్చు</button><button class="adminBtn" onclick="delDrawing(${i})">🗑️ డిలీట్</button><button class="msgBtn" onclick="adminMsg(${i})">💬 మెసేజ్ పెట్టు</button></div>`;
+    }
+    return `<div class="folder"><b>🎨 ${d.name}</b><br><small>${d.date}</small><img src="${d.img}" class="galleryImg" onclick="openBig('${d.img}')">${adminBtns}</div>`;
+  }).join('');
+}
+function openBig(src){
+  let w=window.open(''); w.document.write('<img src="'+src+'" style="width:100%">');
+}
+function delDrawing(i){
+  if(!isAdmin()) return;
+  if(!confirm('ఈ బొమ్మ డిలీట్ చేయాలా?')) return;
+  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
+  list.splice(i,1); localStorage.setItem('kids_drawings',JSON.stringify(list)); renderDrawings();
+}
+function editDrawing(i){
+  if(!isAdmin()) return;
+  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
+  let nn=prompt('కొత్త పేరు రాయి:', list[i].name);
+  if(nn){ list[i].name=nn; localStorage.setItem('kids_drawings',JSON.stringify(list)); renderDrawings(); }
+}
+function adminMsg(i){
+  if(!isAdmin()) return;
+  let list=JSON.parse(localStorage.getItem('kids_drawings')||'[]');
+  let name=list[i]?list[i].name:'చిన్నారి';
+  let m=prompt('పిల్లాడికి ఏ మెసేజ్ పెట్టాలి?', 'ఇంకొంచెం బాగా గీయి నాన్నా - నువ్వు బాగా గీయగలవు! ❤️ యేసు నిన్ను ఆశీర్వదించుగాక! 🙏');
+  if(m){ localStorage.setItem('kids_admin_msg', m); localStorage.setItem('kids_admin_msg_for', name); showAdminMsg(); alert('✅ మెసేజ్ పెట్టారు! పిల్లాడికి కనిపిస్తుంది!'); }
+}
+function showAdminMsg(){
+  let m=localStorage.getItem('kids_admin_msg');
+  if(m){
+    document.getElementById('adminMsgBox').style.display='block';
+    document.getElementById('adminMsgText').innerText=m;
+  }
+}
 function speakVerse(){ try{ let u=new SpeechSynthesisUtterance('ప్రభువు నా కాపరి - నాకు లేమి కలుగదు'); u.lang='te-IN'; speechSynthesis.speak(u); }catch(e){ alert('🙏 ప్రభువు నా కాపరి - నాకు లేమి కలుగదు'); } }
+document.getElementById('kidName').value=localStorage.getItem('kids_last_name')||'';
+showAdminMsg();
+renderDrawings();
 </script>
 </body>
 </html>
