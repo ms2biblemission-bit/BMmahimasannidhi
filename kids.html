@@ -9,38 +9,74 @@ body{font-family:system-ui;margin:0;background:#FFF8E1;padding-bottom:30px}
 .banner h2{margin:0;font-size:26px}.banner p{margin:8px 0 0;font-size:14px}
 .verseBanner{background:#7A0C1D;color:#fff;border-radius:20px;padding:18px;text-align:center}
 .verseBanner h3{margin:0;font-size:20px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-.gcard{background:#fff;border:2px solid #FFE082;border-radius:16px;padding:16px;text-align:center;cursor:pointer;text-decoration:none;color:#333;display:block}
-.gcard b{font-size:18px;color:#7A0C1D}.gcard p{font-size:13px;color:#666;margin:6px 0 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.gcard{background:#fff;border:2px solid #FFE082;border-radius:16px;padding:20px;text-align:center;cursor:pointer;color:#333}
+.gcard.on{border:3px solid #7A0C1D!important;background:#FFF3E0}
+.gcard b{font-size:19px;color:#7A0C1D}.gcard p{font-size:13px;color:#666;margin:6px 0 0}
+.bigCard{background:#fff;border:2px solid #FFE082;border-radius:16px;padding:22px;text-align:center;cursor:pointer;margin:12px 0}
+.bigCard.on{border:3px solid #7A0C1D!important;background:#FFF3E0}
+.bigCard b{font-size:22px;color:#7A0C1D}.bigCard p{font-size:14px;color:#666;margin:6px 0 0}
 .card{background:#fff;border:2px solid #FFE082;border-radius:16px;padding:14px;margin:12px 0}
-.verseBig{background:#fff;border:2px solid #FFB300;border-radius:16px;padding:18px;text-align:center;margin:12px 0}
+.verseBig{background:#fff;border:2px solid #FFB300;border-radius:16px;padding:18px;text-align:center}
 .verseBig .te{font-size:24px;font-weight:bold;color:#7A0C1D;line-height:1.5}
 .verseBig .en{font-size:18px;color:#333;margin-top:10px;line-height:1.5}
 .verseBig .ref{font-size:14px;color:#888;margin-top:8px}
 .linkBtn{display:block;text-align:center;background:#7A0C1D;color:#fff;text-decoration:none;padding:14px;border-radius:12px;font-weight:bold;margin:8px 0}
+input{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:10px;box-sizing:border-box;font-size:16px}
+button{border:0;border-radius:10px;padding:12px;cursor:pointer;font-size:16px;font-weight:bold}
+.colorRow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+.colorBtn{width:44px!important;height:44px!important;padding:0!important;font-size:26px!important;border-radius:50%!important;border:3px solid #fff!important;box-shadow:0 2px 5px rgba(0,0,0,.25)}
+.colorBtn.on{border:3px solid #333!important;transform:scale(1.15)}
+.toolBtn{width:auto!important;padding:10px 14px!important;background:#fff;border:2px solid #ddd!important;color:#333}
+canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;touch-action:none}
 </style></head><body>
 <div class="top"><h1>👶 పిల్లల ప్రపంచం</h1><p>BM మహిమ సన్నిధి - యేసు పిల్లలను ప్రేమిస్తాడు ❤️</p></div>
 <div class="box">
-<!-- 1. అలాగే -->
+<!-- పైన హెడర్లు - అలాగే -->
 <div class="banner"><div style="font-size:40px">🌈 🧒 🎨</div><h2>యేసు నిన్ను ప్రేమిస్తున్నాడు!</h2><p>కలరింగ్ చేయి - కథలు చదువు - ఆడు - బహుమతి గెలువు! 🏆</p></div>
-<!-- 2. అలాగే -->
-<div class="verseBanner"><div style="font-size:30px">📖</div><h3>"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి"<br>మార్కు 10:14</h3><p>🙏 యేసు నిన్ను ఎంతో ప్రేమిస్తున్నాడు!</p></div>
-<div class="grid">
-<a class="gcard" href="kathalu.html"><div style="font-size:36px">🦸</div><b>బైబిల్ హీరోలు</b><p>దావీదు - నోవహు - మోషే</p></a>
-<!-- 5. క్విజ్ కాదు - వాక్యం నేర్చుకో -->
-<a class="gcard" href="#verseDay"><div style="font-size:36px">🧠</div><b>వాక్యం నేర్చుకో!</b><p>రోజుకో వాక్యం - తెలుగు + English</p></a>
-<!-- 3. కలరింగ్ - నొక్కితే డ్రాయింగ్ పేజీ మాత్రమే -->
-<a class="gcard" href="drawing.html"><div style="font-size:36px">🎨</div><b>కలరింగ్ + డ్రాయింగ్</b><p>గీయి - ఫోల్డర్ లో సేవ్!</p></a>
-<!-- 4. అందరి బొమ్మలు - సేవ్ చేయగానే ఇక్కడికే -->
-<a class="gcard" href="#allDraws"><div style="font-size:36px">📁</div><b>నా బొమ్మల ఫోల్డర్</b><p>నేను గీసినవన్నీ ఇక్కడే!</p></a>
+<div class="verseBanner" style="margin-top:12px"><div style="font-size:30px">📖</div><h3>"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి"<br>మార్కు 10:14</h3><p>🙏 యేసు నిన్ను ఎంతో ప్రేమిస్తున్నాడు!</p></div>
+
+<!-- ✅ కేవలం 3 బాక్స్ లు మాత్రమే! -->
+<!-- పైన 2 బాక్స్ లు -->
+<div class="grid2">
+<div class="gcard" id="boxVerse" onclick="showBox('verse')"><div style="font-size:36px">🧠</div><b>వాక్యం నేర్చుకో!</b><p>రోజుకో వాక్యం - తెలుగు + English</p></div>
+<div class="gcard" id="boxFolder" onclick="showBox('folder')"><div style="font-size:36px">📁</div><b>బొమ్మల ఫోల్డర్</b><p>నేను గీసినవన్నీ ఇక్కడే!</p></div>
 </div>
-<!-- 5. రోజుకో వాక్యం - పెద్దది - తెలుగు + English -->
-<div class="verseBig" id="verseDay"><div style="font-size:28px">🧠</div><h2 style="margin:6px 0">వాక్యం నేర్చుకో - ఈరోజు వాక్యం</h2><div id="todayVerse"></div><button onclick="nextVerse()" style="background:#FF7043;color:#fff;border:0;padding:12px 20px;border-radius:10px;font-weight:bold;margin-top:12px;cursor:pointer">➡️ ఇంకో వాక్యం చూడు</button></div>
-<!-- 4. అందరి బొమ్మలు -->
-<div class="card" id="allDraws"><h2 style="text-align:center;margin:0">📁 బొమ్మల ఫోల్డర్ - అందరివి!</h2><p style="text-align:center;color:#666;font-size:13px">సేవ్ చేయగానే - ఇక్కడికే వస్తాయి!</p><div id="allDrawList"></div></div>
+<!-- కింద పెద్ద రెక్టాంగిల్ లో డ్రాయింగ్ బాక్స్ -->
+<div class="bigCard" id="boxDrawing" onclick="showBox('drawing')"><div style="font-size:40px">🎨</div><b>కలరింగ్ + డ్రాయింగ్</b><p>గీయి - ఫోల్డర్ లో సేవ్! - నొక్కితే ఇక్కడే ఓపెన్ అవుతుంది!</p></div>
+
+<!-- ✅ కింద ఏమీ కనబడదు - ఏ బాక్స్ నొక్కితే - ఆ బాక్స్ మాత్రమే ఇక్కడ ఓపెన్ అవుతుంది! -->
+<div id="openBox" style="display:none">
+<button onclick="closeBox()" style="background:#999;color:#fff;width:100%">⬆️ మూసేయి - వెనక్కి</button>
+
+<!-- 1. వాక్యం నేర్చుకో - కంటెంట్ -->
+<div id="secVerse" class="verseBig" style="display:none;margin-top:12px"><div style="font-size:28px">🧠</div><h2 style="margin:6px 0">వాక్యం నేర్చుకో - ఈరోజు వాక్యం</h2><div id="todayVerse"></div><button onclick="nextVerse()" style="background:#FF7043;color:#fff;margin-top:12px">➡️ ఇంకో వాక్యం చూడు</button></div>
+
+<!-- 2. బొమ్మల ఫోల్డర్ - కంటెంట్ -->
+<div id="secFolder" class="card" style="display:none"><h2 style="text-align:center;margin:0">📁 బొమ్మల ఫోల్డర్ - అందరివి!</h2><p style="text-align:center;color:#666;font-size:13px">సేవ్ చేయగానే - ఇక్కడికే వస్తాయి!</p><div id="allDrawList"></div></div>
+
+<!-- 3. డ్రాయింగ్ - కంటెంట్ -->
+<div id="secDrawing" class="card" style="display:none"><h2 style="text-align:center;margin:0">🎨 డ్రాయింగ్ - గీయి!</h2><input id="kidName" placeholder="✏️ నీ పేరు రాయి - చిన్నారి"><div class="colorRow" id="colorRow"></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button type="button" class="toolBtn" onclick="setTool('draw')">✏️ గీయి</button><button type="button" class="toolBtn" onclick="setTool('erase')">🧽 ఎరేజర్</button><button type="button" class="toolBtn" onclick="clearCanvas()">🧹 మొత్తం తుడిచేయి</button></div><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px"><button type="button" class="toolBtn" onclick="setSize(3)">🖊️ చిన్నది</button><button type="button" class="toolBtn" onclick="setSize(7)">🖊️ మధ్య</button><button type="button" class="toolBtn" onclick="setSize(12)">🖊️ పెద్దది</button><button type="button" class="toolBtn" onclick="setSize(18)">🧽 చిన్న తప్పు</button><button type="button" class="toolBtn" onclick="setSize(30)">🧽 పెద్ద తప్పు</button></div><canvas id="cv" width="600" height="560"></canvas><button type="button" onclick="saveDrawing()" style="background:#FF7043;color:#fff;width:100%;margin-top:10px">💾 నా బొమ్మ సేవ్ చెయ్యి</button><p style="text-align:center;color:#666;font-size:13px">సేవ్ చేస్తే - బొమ్మల ఫోల్డర్ లోకి వెళ్తుంది!</p></div>
+</div>
+
 <div class="card"><h2 style="text-align:center;margin:0">📖 దేవుని కథలు</h2><a class="linkBtn" href="kathalu.html">📖 అన్ని కథలు చూడండి →</a><a class="linkBtn" href="kathalu.html" style="background:#FF7043">✍️ నా కథ రాయండి →</a></div>
 </div>
 <script>
+// ✅ ఏ బాక్స్ నొక్కితే - ఆ బాక్స్ మాత్రమే ఓపెన్ అవుతుంది!
+function showBox(which){
+document.getElementById('openBox').style.display='block';
+document.getElementById('secVerse').style.display='none';
+document.getElementById('secFolder').style.display='none';
+document.getElementById('secDrawing').style.display='none';
+document.getElementById('boxVerse').classList.remove('on');
+document.getElementById('boxFolder').classList.remove('on');
+document.getElementById('boxDrawing').classList.remove('on');
+if(which==='verse'){document.getElementById('secVerse').style.display='block';document.getElementById('boxVerse').classList.add('on');}
+if(which==='folder'){document.getElementById('secFolder').style.display='block';document.getElementById('boxFolder').classList.add('on');renderAllDraws();}
+if(which==='drawing'){document.getElementById('secDrawing').style.display='block';document.getElementById('boxDrawing').classList.add('on');}
+document.getElementById('openBox').scrollIntoView({behavior:'smooth'});
+}
+function closeBox(){document.getElementById('openBox').style.display='none';document.getElementById('boxVerse').classList.remove('on');document.getElementById('boxFolder').classList.remove('on');document.getElementById('boxDrawing').classList.remove('on');}
 let verses=[
 {te:"ప్రభువు నా కాపరి - నాకు లేమి కలుగదు",en:"The Lord is my shepherd, I lack nothing.",ref:"కీర్తనలు 23:1 - Psalm 23:1"},
 {te:"దేవుడు లోకమును ఎంతో ప్రేమించెను",en:"For God so loved the world.",ref:"యోహాను 3:16 - John 3:16"},
@@ -55,5 +91,20 @@ function nextVerse(){vIdx=(vIdx+1)%verses.length;showVerse();}
 showVerse();
 function getDraws(){try{return JSON.parse(localStorage.getItem('kids_drawings')||'[]');}catch(e){return [];}}
 function renderAllDraws(){let list=getDraws();let box=document.getElementById('allDrawList');if(!list.length){box.innerHTML='<p style="text-align:center;color:#666">ఇంకా బొమ్మలు లేవు - గీయి!</p>';return;}box.innerHTML=list.map(d=>`<div style="background:#FFFDE7;border:2px solid #FFE082;border-radius:14px;padding:10px;margin:10px 0"><b>🎨 ${d.name}</b><br><small>📅 ${d.date||''}</small><img src="${d.img}" style="width:100%;border-radius:12px">${d.adminMsg?`<div style="background:#E8F5E9;border:2px solid #2E7D32;border-radius:12px;padding:10px;margin:10px 0">💌 <b>అడ్మిన్ మాట - ${d.name} కి:</b><br>${d.adminMsg}</div>`:''}</div>`).join('');}
-renderAllDraws();
+// డ్రాయింగ్
+let cv=document.getElementById('cv'),ctx=cv.getContext('2d'),drawing=false,curColor='#E53935',curSize=7,curTool='draw';
+ctx.lineCap='round';ctx.lineJoin='round';ctx.fillStyle='#fff';ctx.fillRect(0,0,600,560);
+let colors=['#E53935','#EC407A','#FF9800','#FFEB3B','#43A047','#2196F3','#7E57C2','#000000','#8D6E63','#FFFFFF'];
+let emojis=['❤️','🩷','🧡','💛','💚','💙','💜','🖤','🤎','🤍'];
+let row=document.getElementById('colorRow');
+colors.forEach((c,i)=>{let b=document.createElement('button');b.type='button';b.className='colorBtn'+(i==0?' on':'');b.textContent=emojis[i];b.style.background=c;b.onclick=()=>{curColor=c;curTool='draw';document.querySelectorAll('.colorBtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');};row.appendChild(b);});
+function setTool(t){curTool=t;}function setSize(s){curSize=s;}
+function getPos(e){let r=cv.getBoundingClientRect();let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;return {x:x*600/r.width,y:y*560/r.height};}
+function startDraw(e){e.preventDefault();drawing=true;let p=getPos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function moveDraw(e){if(!drawing)return;e.preventDefault();let p=getPos(e);ctx.strokeStyle=curTool=='erase'?'#FFFFFF':curColor;ctx.lineWidth=curSize;ctx.lineTo(p.x,p.y);ctx.stroke();ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function endDraw(){drawing=false;}
+cv.addEventListener('mousedown',startDraw);cv.addEventListener('mousemove',moveDraw);window.addEventListener('mouseup',endDraw);
+cv.addEventListener('touchstart',startDraw,{passive:false});cv.addEventListener('touchmove',moveDraw,{passive:false});cv.addEventListener('touchend',endDraw);
+function clearCanvas(){ctx.fillStyle='#fff';ctx.fillRect(0,0,600,560);}
+function saveDrawing(){let name=document.getElementById('kidName').value.trim()||'చిన్నారి';let list=getDraws();list.unshift({name:name,img:cv.toDataURL('image/png'),date:new Date().toLocaleString('en-GB'),adminMsg:'',code:localStorage.getItem('ms_kid_code')||''});localStorage.setItem('kids_drawings',JSON.stringify(list));alert('✅ బొమ్మ సేవ్ అయ్యింది '+name+'! 🎨 బొమ్మల ఫోల్డర్ లో చూడు!');clearCanvas();}
 </script></body></html>
