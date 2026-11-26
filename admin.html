@@ -19,10 +19,10 @@
 <button type="button" onclick="setTab('gallery',this)">🖼️ గ్యాలరీ</button>
 <button type="button" onclick="setTab('videos',this)">🎥 వీడియోస్</button>
 <button type="button" onclick="setTab('prayer',this)" style="background:#075E54;color:#fff">🙏 ప్రార్థన</button>
+<button type="button" onclick="setTab('kids',this)" style="background:#FF7043;color:#fff">🎨 పిల్లలు</button>
 </div>
 <p style="font-size:13px">చాట్ 👉 <b>admin-chat.html</b> | ప్రార్థన చాట్ 👉 <b><a href="prayer-chat.html?admin=1">prayer-chat.html?admin=1</a></b></p>
 
-<!-- ✅ 🙏 ప్రార్థన అడ్మిన్ - కొత్తది -->
 <div id="prayerBox" style="display:none">
 <div class="prayerCard">
 <h3 style="margin:0 0 8px;color:#075E54">🙏 ప్రేయర్ కంట్రోల్ - జూమ్ లాగే!</h3>
@@ -46,6 +46,40 @@
 <div id="prayerBlockedList">ఎవరూ బ్లాక్ కాలేదు</div>
 <button type="button" onclick="clearPrayerBlocked()" style="background:#999;margin-top:8px">✅ అందరినీ అన్‌బ్లాక్ చేయండి</button>
 </div>
+</div>
+
+<!-- 🎨 పిల్లలు -->
+<div id="kidsBox" style="display:none">
+<h3>🎨 పిల్లల బొమ్మలు - అన్నీ ఇక్కడే!</h3>
+<p style="font-size:13px;color:#666">ఈ ఫోన్ లో పిల్లలు గీసిన బొమ్మలు ఇక్కడ కనిపిస్తాయి. చెండాలంగా ఉంటే డిలీట్ చేసి మెసేజ్ పెట్టండి!</p>
+<div id="kidsDrawList">ఇంకా బొమ్మలు లేవు</div>
+<button type="button" onclick="renderKidsAdmin()" style="background:#FF7043">🔄 రిఫ్రెష్ - బొమ్మలు చూడండి</button>
+<h3>💌 పిల్లలకు మెసేజ్ పెట్టు</h3>
+<p style="font-size:13px;color:#666">ఇక్కడ పెట్టిన మెసేజ్ - పిల్లల పేజీలో పైన కనిపిస్తుంది!</p>
+<textarea id="kidsAdminMsg" rows="2" placeholder="ఉదా: ఇంకొంచెం బాగా గీయి నాన్నా - నువ్వు బాగా గీయగలవు! ❤️"></textarea>
+<button type="button" onclick="saveKidsMsg()" style="background:#2E7D32">💾 మెసేజ్ పెట్టు</button>
+<button type="button" onclick="clearKidsMsg()" style="background:#999;margin-top:8px">🗑️ మెసేజ్ తీసేయి</button>
+<div id="kidsCurMsg" style="margin-top:8px"></div>
+
+<!-- ✍️ కొత్త కథ రాయండి - కొత్తది -->
+<h3>✍️ కొత్త కథ రాయండి</h3>
+<p style="font-size:13px;color:#666">మీరే కథ రాయండి - పిల్లల పేజీలో వస్తుంది! పిల్లలకు అర్థమయ్యేలా - చిన్న చిన్న మాటలతో రాయండి!</p>
+<label>📖 కథ పేరు</label>
+<input id="newStoryTitle" placeholder="ఉదా: దానియేలు - సింహాల గుహ">
+<label>📍 వాక్యం / ఎక్కడిది</label>
+<input id="newStoryRef" placeholder="ఉదా: దానియేలు 6">
+<label>📝 కథ - పూర్తిగా రాయండి</label>
+<textarea id="newStoryBody" rows="6" placeholder="కథ ఇక్కడ రాయండి..."></textarea>
+<label>😊 బొమ్మ - Emoji</label>
+<input id="newStoryEmoji" placeholder="ఉదా: 🦁" value="📖">
+<button type="button" onclick="saveNewStory()" style="background:#2E7D32">💾 ఈ కథ సేవ్ చేయి</button>
+<div id="myStoriesList" style="margin-top:10px"></div>
+
+<h3>📖 సండే స్కూల్ - 12 పేజీలు</h3>
+<p style="font-size:13px;color:#666">ఆదాము నుండి రెండవ రాకడ వరకు - బుక్ లాగా - పిల్లల పేజీలో ఇవే కనిపిస్తాయి!</p>
+<div id="kidsSundayList"></div>
+<h3>🧠 వాక్యం నేర్చుకో - 30 వాక్యాలు</h3>
+<div id="kidsVerseList"></div>
 </div>
 
 <div id="normalBox">
@@ -155,8 +189,53 @@ function linkHTML(l){ if(!l) return ""; let id=ytId(l); if(id) return `<a href="
 function previewLink(){ document.getElementById('linkPreview').innerHTML=linkHTML(document.getElementById('link').value.trim()); }
 async function getFreshSha(file){ try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${file}`,{headers:{Authorization:"Bearer "+getToken(),Accept:"application/vnd.github+json"}}); let j=await r.json(); return j.sha||""; }catch(e){ return ""; } }
 function setSelectOptions(sel, items){ sel.innerHTML=""; items.forEach(it=>{ let o=document.createElement('option'); o.value=it.value; o.textContent=it.text; sel.appendChild(o); }); }
-async function loadCur(){ if(cur==='books'){ loadBooks(); return; } if(cur==='songs'){ loadSongs(); return; } if(cur==='prayer'){ refreshPrayerAdmin(); return; } let token=getToken(); if(!token) return; document.getElementById('status').innerText="Loading "+files[cur]+"..."; try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ curSha=j.sha; curList=JSON.parse(b64d(j.content)); } else { curSha=""; curList=[]; } }catch(e){ curSha=""; curList=[]; } curList=curList.map(p=>({title:fixT(p.title||""), msg:fixT(p.msg||p.content||""), link:p.link||p.url||"", img:getImg(p), date:p.date||"", schedDate:p.schedDate||"", schedTime:p.schedTime||p.time||"", _orig:p})); document.getElementById('status').innerText="✅ "+files[cur]+" - "+curList.length+" ఉన్నాయి"; show(); }
-function setTab(t,btn){ cur=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); document.getElementById('normalBox').style.display = (t==='books'||t==='songs'||t==='prayer') ? 'none':'block'; document.getElementById('booksBox').style.display = t==='books' ? 'block':'none'; document.getElementById('songsBox').style.display = t==='songs' ? 'block':'none'; document.getElementById('prayerBox').style.display = t==='prayer' ? 'block':'none'; document.getElementById('videoTip').style.display = t==='videos' ? 'block':'none'; if(t!=='books'&&t!=='songs'&&t!=='prayer'){ document.getElementById('tabName').innerText=btn.innerText; document.getElementById('folderName').innerText="Folder: "+files[cur]; newItem(); } loadCur(); }
+async function loadCur(){ if(cur==='books'){ loadBooks(); return; } if(cur==='songs'){ loadSongs(); return; } if(cur==='prayer'){ refreshPrayerAdmin(); return; } if(cur==='kids'){ renderKidsAdmin(); return; } let token=getToken(); if(!token) return; document.getElementById('status').innerText="Loading "+files[cur]+"..."; try{ let r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${files[cur]}`,{headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json"}}); let j=await r.json(); if(j.content){ curSha=j.sha; curList=JSON.parse(b64d(j.content)); } else { curSha=""; curList=[]; } }catch(e){ curSha=""; curList=[]; } curList=curList.map(p=>({title:fixT(p.title||""), msg:fixT(p.msg||p.content||""), link:p.link||p.url||"", img:getImg(p), date:p.date||"", schedDate:p.schedDate||"", schedTime:p.schedTime||p.time||"", _orig:p})); document.getElementById('status').innerText="✅ "+files[cur]+" - "+curList.length+" ఉన్నాయి"; show(); }
+function setTab(t,btn){ cur=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); document.getElementById('normalBox').style.display = (t==='books'||t==='songs'||t==='prayer'||t==='kids') ? 'none':'block'; document.getElementById('booksBox').style.display = t==='books' ? 'block':'none'; document.getElementById('songsBox').style.display = t==='songs' ? 'block':'none'; document.getElementById('prayerBox').style.display = t==='prayer' ? 'block':'none'; document.getElementById('kidsBox').style.display = t==='kids' ? 'block':'none'; document.getElementById('videoTip').style.display = t==='videos' ? 'block':'none'; if(t!=='books'&&t!=='songs'&&t!=='prayer'&&t!=='kids'){ document.getElementById('tabName').innerText=btn.innerText; document.getElementById('folderName').innerText="Folder: "+files[cur]; newItem(); } loadCur(); }
+
+// --- 🎨 పిల్లలు ---
+function renderKidsAdmin(){
+  let list=[]; try{ list=JSON.parse(localStorage.getItem('kids_drawings')||'[]'); }catch(e){}
+  let box=document.getElementById('kidsDrawList');
+  if(!list.length){ box.innerHTML='ఇంకా బొమ్మలు లేవు - పిల్లలు గీస్తే ఇక్కడ వస్తాయి! 🎨'; }
+  else { box.innerHTML=list.map((d,i)=>`<div class="card"><b>🎨 ${d.name}</b><br><small>📅 ${d.date||''}</small><img src="${d.img}"><button type="button" onclick="delKidDraw(${i})" style="background:red">🗑️ డిలీట్</button><button type="button" onclick="msgKidDraw(${i})" style="background:#7A0C1D;margin-top:8px">💬 మెసేజ్ పెట్టు</button></div>`).join(''); }
+  let m=localStorage.getItem('kids_admin_msg')||'';
+  document.getElementById('kidsCurMsg').innerHTML=m?`💌 ఇప్పుడు ఉన్న మెసేజ్: <b>${m}</b>`:'మెసేజ్ లేదు';
+  document.getElementById('kidsSundayList').innerHTML=["ఆదాము - హవ్వ","నోవహు - పెద్ద ఓడ","అబ్రాహాము","యోసేపు","మోషే - సముద్రం","దావీదు - గొల్యాతు","యోనా - పెద్ద చేప","యేసు పుట్టాడు!","యేసు - 5000 మందికి అన్నం","యేసు - తిరిగి లేచాడు!","పరిశుద్ధాత్మ","యేసు మళ్ళీ వస్తాడు!"].map((s,i)=>`<div class="card"><b>📖 పేజీ ${i+1} - ${s}</b></div>`).join('');
+  document.getElementById('kidsVerseList').innerHTML=["ప్రభువు నా కాపరి - కీర్తనలు 23:1-2","దేవుడు లోకమును ఎంతో ప్రేమించెను - యోహాను 3:16","నీ దేవుడైన యెహోవా నీకు తోడుగా ఉండును - ద్వితీయో 31:6","చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి - మార్కు 10:14","యెహోవా నా వెలుగు - నా రక్షణ - కీర్తనలు 27:1"].map((v,i)=>`<div class="card"><b>${i+1}. ${v}</b></div>`).join('') + '<p style="font-size:13px;color:#666">+ ఇంకా 25 వాక్యాలు పిల్లల పేజీలో ఉన్నాయి!</p>';
+  renderMyStories();
+}
+function delKidDraw(i){ if(!confirm('ఈ బొమ్మ డిలీట్ చేయాలా?')) return; let l=JSON.parse(localStorage.getItem('kids_drawings')||'[]'); l.splice(i,1); localStorage.setItem('kids_drawings',JSON.stringify(l)); renderKidsAdmin(); }
+function msgKidDraw(i){ let m=prompt('పిల్లాడికి మెసేజ్:', 'ఇంకొంచెం బాగా గీయి నాన్నా - నువ్వు బాగా గీయగలవు! ❤️'); if(m){ localStorage.setItem('kids_admin_msg',m); renderKidsAdmin(); } }
+function saveKidsMsg(){ let m=document.getElementById('kidsAdminMsg').value.trim(); if(!m){ alert('ముందు మెసేజ్ రాయండి!'); return; } localStorage.setItem('kids_admin_msg',m); renderKidsAdmin(); alert('✅ మెసేజ్ పెట్టారు!'); }
+function clearKidsMsg(){ localStorage.removeItem('kids_admin_msg'); renderKidsAdmin(); }
+
+// --- ✍️ పిల్లల కొత్త కథలు - మీరే రాయండి ---
+function getMyStories(){ try{ return JSON.parse(localStorage.getItem('kids_my_stories')||'[]'); }catch(e){ return []; } }
+function saveNewStory(){
+  let t=document.getElementById('newStoryTitle').value.trim();
+  let r=document.getElementById('newStoryRef').value.trim();
+  let b=document.getElementById('newStoryBody').value.trim();
+  let e=document.getElementById('newStoryEmoji').value.trim()||'📖';
+  if(!t || !b){ alert('😊 ముందు కథ పేరు + కథ రాయండి అండి!'); return; }
+  let list=getMyStories();
+  list.push({title:t, ref:r, body:b, emoji:e, date:new Date().toLocaleString('te-IN')});
+  localStorage.setItem('kids_my_stories', JSON.stringify(list));
+  document.getElementById('newStoryTitle').value='';
+  document.getElementById('newStoryRef').value='';
+  document.getElementById('newStoryBody').value='';
+  document.getElementById('newStoryEmoji').value='📖';
+  renderMyStories();
+  alert('✅ కథ సేవ్ అయ్యింది! 👏');
+}
+function renderMyStories(){
+  let list=getMyStories();
+  let box=document.getElementById('myStoriesList');
+  if(!box) return;
+  if(!list.length){ box.innerHTML='<p style="color:#666">మీరు రాసిన కొత్త కథలు ఇక్కడ వస్తాయి!</p>'; return; }
+  box.innerHTML='<h4>📚 మీరు రాసిన కొత్త కథలు - '+list.length+'</h4>' + list.map((s,i)=>`<div class="card"><b>${s.emoji} ${s.title}</b><br><small>📍 ${s.ref||''} • 📅 ${s.date||''}</small><p style="white-space:pre-line">${s.body}</p><button type="button" onclick="delMyStory(${i})" style="background:red">🗑️ ఈ కథ తీసేయి</button></div>`).join('');
+}
+function delMyStory(i){ if(!confirm('ఈ కథ తీసేయాలా?')) return; let l=getMyStories(); l.splice(i,1); localStorage.setItem('kids_my_stories', JSON.stringify(l)); renderMyStories(); }
+
 function newItem(){ document.getElementById('editIdx').value="-1"; document.getElementById('title').value=""; document.getElementById('msg').value=""; document.getElementById('link').value=""; document.getElementById('linkPreview').innerHTML=""; document.getElementById('preview').style.display='none'; document.getElementById('photoMsg').innerText=""; document.getElementById('photo').value=""; SAVED_IMG=""; document.getElementById('schedDate').value=""; document.getElementById('schedTime').value="10:00"; document.getElementById('saveBtn').innerText="✅ సేవ్ చేయండి"; }
 function editOne(i){ let p=curList[i]; document.getElementById('editIdx').value=i; document.getElementById('title').value=p.title; document.getElementById('msg').value=p.msg; document.getElementById('link').value=p.link; previewLink(); SAVED_IMG=p.img||""; if(p.img){ document.getElementById('preview').src=p.img; document.getElementById('preview').style.display='block'; document.getElementById('photoMsg').innerText="✅ పాత ఫోటో ఉంది"; } document.getElementById('schedDate').value=toISODate(p.schedDate||""); document.getElementById('schedTime').value=p.schedTime||"10:00"; document.getElementById('saveBtn').innerText="💾 Update చేయండి"; window.scrollTo(0,0); }
 function show(){ document.getElementById('count').innerText=curList.length+" ఉన్నాయి"; let box=document.getElementById('list'); box.innerHTML=""; if(cur==='gallery'){ if(!curList.length){ box.textContent="📭 గ్యాలరీ ఖాళీ"; return; } let g=document.createElement('div'); g.className='grid'; curList.forEach((p,i)=>{ let d=document.createElement('div'); d.className='card'; d.style.margin='0'; if(p.img){ let im=document.createElement('img'); im.src=p.img; d.appendChild(im); } let b=document.createElement('b'); b.textContent=p.title||"ఫోటో"; d.appendChild(b); d.appendChild(document.createElement('br')); let st=document.createElement('div'); st.style.fontSize='12px'; st.style.color='#666'; st.textContent=schedStatus(p); d.appendChild(st); let e=document.createElement('button'); e.className='small'; e.style.background='#2196F3'; e.textContent='✏️ ఎడిట్'; e.onclick=()=>editOne(i); d.appendChild(e); let del=document.createElement('button'); del.className='small'; del.style.background='red'; del.textContent='❌ Delete'; del.onclick=()=>delOne(i); d.appendChild(del); g.appendChild(d); }); box.appendChild(g); return; } curList.forEach((p,i)=>{ let d=document.createElement('div'); d.className='card'; let b=document.createElement('b'); b.textContent=`📂 ${files[cur]} - ${i+1}. ${p.title||"(Title లేదు)"}`; d.appendChild(b); let st=document.createElement('div'); st.style.fontSize='13px'; st.style.color='#666'; st.textContent="📅 "+schedStatus(p); d.appendChild(st); let pp=document.createElement('p'); pp.style.whiteSpace='pre-line'; pp.textContent=p.msg; d.appendChild(pp); let lh=document.createElement('div'); lh.innerHTML=linkHTML(p.link); d.appendChild(lh); if(p.img){ let im=document.createElement('img'); im.src=p.img; d.appendChild(im); } d.appendChild(document.createElement('br')); let e=document.createElement('button'); e.className='small'; e.style.background='#2196F3'; e.textContent='✏️ ఎడిట్'; e.onclick=()=>editOne(i); d.appendChild(e); let del=document.createElement('button'); del.className='small'; del.style.background='red'; del.textContent='❌ Delete'; del.onclick=()=>delOne(i); d.appendChild(del); box.appendChild(d); }); if(!curList.length) box.textContent="ఇంకా లేవు"; }
