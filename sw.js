@@ -1,4 +1,4 @@
-const CACHE = 'bm-v4-NEW';
+const CACHE = 'bm-v5';
 const CORE_FILES = ['index.html','kids.html','daily.html','quiz.html','gallery.html','archive.html','prayer.html','bible.html','books.html','songs.html','voice.html','videos.html','posts.json','manifest.json','icon-192.png','icon-512.png'];
 const OPTIONAL_FILES = ['bible.json','books.json','songs.json','videos.json','voice.json','gallery.json','jesus.jpg','devadasu.jpg'];
 self.addEventListener('install', e => {
@@ -22,7 +22,6 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   let url = e.request.url;
-  // JSON - ఎప్పుడూ కొత్తది
   if(url.includes('.json')){
     e.respondWith(fetch(e.request).then(res => {
       if(res && res.status===200){
@@ -33,8 +32,6 @@ self.addEventListener('fetch', e => {
     }).catch(() => caches.match(e.request)));
     return;
   }
-  // ✅ FIX - HTML కోసం - ముందు నెట్, నెట్ లేకపోతే కాష్
-  // ఇలా చేస్తే కొత్త index.html ఎప్పుడూ వస్తుంది - పాతది పట్టుకుని ఉండదు!
   if(e.request.destination === 'document'){
     e.respondWith(fetch(e.request).then(res => {
       if(res && res.status===200){
@@ -45,7 +42,6 @@ self.addEventListener('fetch', e => {
     }).catch(() => caches.match(e.request).then(r => r || caches.match('index.html'))));
     return;
   }
-  // ఫోటోలు / CSS / JS - ముందు కాష్, లేకపోతే నెట్
   e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(res => {
     if(res && res.status===200){
       let copy = res.clone();
