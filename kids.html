@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👶 పిల్లల ప్రపంచం - BM మహిమ సన్నిధి</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF7043">
+<style>
+*{box-sizing:border-box}
+body{font-family:sans-serif;margin:0;background:#FFF3E0;padding-bottom:30px}
+.top{background:#FF7043;color:#fff;padding:14px;text-align:center;position:sticky;top:0;z-index:99}
+.top b{font-size:22px}
+.top small{display:block;font-size:13px;opacity:.9}
+.back{display:block;text-align:center;background:#fff;margin:12px;padding:12px;border-radius:15px;text-decoration:none;color:#7A0C1D;font-weight:bold;border:2px solid #FFD54F}
+.hero{background:linear-gradient(135deg,#FF7043,#FFCA28);margin:12px;border-radius:20px;padding:20px;text-align:center;color:#fff}
+.hero .big{font-size:60px}
+.hero h1{margin:8px 0;font-size:26px}
+.hero p{margin:0;font-size:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
+.card{background:#fff;border-radius:18px;padding:16px;text-align:center;cursor:pointer;border:3px solid #FFD54F;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.card .ic{font-size:48px}
+.card b{font-size:17px;color:#7A0C1D;display:block;margin-top:6px}
+.card small{font-size:12px;color:#666}
+.box{background:#fff;margin:12px;padding:16px;border-radius:18px;border:2px solid #FFD54F;display:none}
+.box.show{display:block}
+.box h2{margin:0 0 10px;color:#E65100;text-align:center}
+.heroCard{background:#FFF8E1;border:2px solid #FF9800;border-radius:14px;padding:12px;margin:8px 0;text-align:center;cursor:pointer}
+.heroCard b{font-size:18px;color:#7A0C1D}
+.heroCard p{font-size:14px;color:#333;margin:6px 0 0;line-height:1.6}
+.qBtn{width:100%;background:#fff;border:2px solid #FF7043;padding:12px;border-radius:12px;margin:6px 0;font-size:16px;cursor:pointer;text-align:left}
+.qBtn.correct{background:#C8E6C9;border-color:#2E7D32}
+.qBtn.wrong{background:#FFCDD2;border-color:#C62828}
+canvas{width:100%;background:#fff;border:2px solid #7A0C1D;border-radius:12px;touch-action:none}
+.toolBtn{padding:10px 14px;border-radius:20px;border:none;font-size:16px;margin:4px;cursor:pointer}
+.verse{background:linear-gradient(135deg,#7A0C1D,#C62828);color:#fff;margin:12px;padding:18px;border-radius:18px;text-align:center}
+.verse b{font-size:19px;line-height:1.5}
+.verse small{display:block;margin-top:8px;opacity:.9}
+</style>
+</head>
+<body>
+<div class="top"><b>👶 పిల్లల ప్రపంచం</b><small>BM మహిమ సన్నిధి - యేసు పిల్లలను ప్రేమిస్తాడు ❤️</small></div>
+<a class="back" href="index.html">🏠 హోమ్ కి వెళ్ళండి</a>
 
+<div class="hero"><div class="big">🌈 👶 🎨</div><h1>యేసు నిన్ను ప్రేమిస్తున్నాడు!</h1><p>కలరింగ్ చేయి - కథలు చదువు - క్విజ్ ఆడు - బహుమతి గెలువు! 🏆</p></div>
+
+<div class="verse"><div style="font-size:30px">📖</div><b>"చిన్న పిల్లలను నా యొద్దకు రానియ్యుడి - వారిని అటంకపరచవద్దు"<br>మార్కు 10:14</b><small>🙏 యేసు నిన్ను ఎంతో ప్రేమిస్తున్నాడు!</small></div>
+
+<div class="grid">
+<div class="card" onclick="showBox('heroes')"><div class="ic">🦸</div><b>బైబిల్ హీరోలు</b><small>దావీదు - నోవహు - మోషే</small></div>
+<div class="card" onclick="showBox('quiz')"><div class="ic">🏆</div><b>క్విజ్ ఆడు!</b><small>జవాబు చెప్పు - స్టార్ కొట్టు ⭐</small></div>
+<div class="card" onclick="showBox('color')"><div class="ic">🎨</div><b>కలరింగ్ + డ్రాయింగ్</b><small>నీ చేత్తో గీయి!</small></div>
+<div class="card" onclick="showBox('memory')"><div class="ic">🧠</div><b>వాక్యం నేర్చుకో</b><small>రోజుకో వాక్యం</small></div>
+</div>
+
+<div id="heroes" class="box">
+<h2>🦸 బైబిల్ హీరోలు</h2>
+<div class="heroCard" onclick="alert('🦁 దావీదు - చిన్నవాడైనా - దేవుని మీద నమ్మకంతో - పెద్ద గొల్యాతును ఓడించాడు! నీవు కూడా ధైర్యంగా ఉండు! 💪')"><b>🦁 దావీదు - గొల్యాతు</b><p>చిన్నవాడు - పెద్ద విజయం! 👆 నొక్కు</p></div>
+<div class="heroCard" onclick="alert('🚢 నోవహు - దేవుని మాట విని - పెద్ద ఓడ కట్టాడు! నీవు కూడా దేవుని మాట విను! 🙏')"><b>🚢 నోవహు - పెద్ద ఓడ</b><p>దేవుని మాట విన్నవాడు! 👆 నొక్కు</p></div>
+<div class="heroCard" onclick="alert('🌊 మోషే - దేవుడు సముద్రాన్ని రెండుగా చీల్చాడు! దేవునికి అసాధ్యము ఏదీ లేదు! ✨')"><b>🌊 మోషే - సముద్రం</b><p>దేవుడు గొప్ప కార్యం చేసాడు! 👆 నొక్కు</p></div>
+<div class="heroCard" onclick="alert('👶 బేబీ మోషే - చిన్న బాబును దేవుడు కాపాడాడు! దేవుడు నిన్ను కూడా కాపాడుతాడు! ❤️')"><b>👶 బేబీ మోషే</b><p>దేవుడు నిన్ను కాపాడుతాడు! 👆 నొక్కు</p></div>
+</div>
+
+<div id="quiz" class="box">
+<h2>🏆 పిల్లల క్విజ్ - <span id="score">స్కోర్: 0 ⭐</span></h2>
+<div id="quizQ"></div>
+<button onclick="nextQ()" style="width:100%;background:#FF7043;color:#fff;border:none;padding:13px;border-radius:15px;font-size:17px;margin-top:8px">➡️ తరువాత ప్రశ్న</button>
+</div>
+
+<div id="color" class="box">
+<h2>🎨 డ్రాయింగ్ - నీ చేత్తో గీయి!</h2>
+<div style="text-align:center">
+<button class="toolBtn" style="background:#E53935;color:#fff" onclick="col='#E53935'">🔴 ఎరుపు</button>
+<button class="toolBtn" style="background:#2196F3;color:#fff" onclick="col='#2196F3'">🔵 నీలం</button>
+<button class="toolBtn" style="background:#4CAF50;color:#fff" onclick="col='#4CAF50'">🟢 ఆకుపచ్చ</button>
+<button class="toolBtn" style="background:#FF9800;color:#fff" onclick="col='#FF9800'">🟠 నారింజ</button>
+<button class="toolBtn" style="background:#fff;border:2px solid #333" onclick="clearCanvas()">🧹 తుడిచేయి</button>
+</div>
+<canvas id="cv" width="340" height="280"></canvas>
+<p style="text-align:center;color:#666;font-size:13px">👆 వేలితో గీయి - యేసు బొమ్మ గీయి! ❤️</p>
+</div>
+
+<div id="memory" class="box">
+<h2>🧠 రోజుకో వాక్యం</h2>
+<div style="background:#FFF8E1;border:2px solid #FFD54F;border-radius:14px;padding:14px;text-align:center"><b style="font-size:19px;color:#7A0C1D" id="memVerse">"ప్రభువు నా కాపరి - నాకు లేమి కలుగదు"<br><small>కీర్తనలు 23:1</small></b><br><br><button onclick="speakVerse()" style="background:#25D366;color:#fff;border:none;padding:12px 20px;border-radius:20px;font-size:16px">🔊 వినండి - చదవండి</button></div>
+</div>
+
+<script>
+let score=0;
+let qs=[
+{q:"యేసు ఎక్కడ పుట్టాడు?",o:["బెత్లెహేము ⭐","ఢిల్లీ","లండన్"],a:0},
+{q:"నోవహు ఏమి కట్టాడు?",o:["ఇల్లు","పెద్ద ఓడ 🚢","కారు"],a:1},
+{q:"దావీదు ఎవరిని ఓడించాడు?",o:["గొల్యాతు 🦁","సింహం","ఏనుగు"],a:0},
+{q:"దేవుడు మనల్ని ఎంత ప్రేమిస్తాడు?",o:["కొంచెం","చాలా చాలా ఎక్కువ ❤️","అసలు లేదు"],a:1}
+];
+let qi=0;
+function showBox(id){
+  document.querySelectorAll('.box').forEach(b=>b.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  if(id==='quiz') showQ();
+}
+function showQ(){
+  let q=qs[qi];
+  document.getElementById('quizQ').innerHTML='<h3 style="text-align:center;color:#7A0C1D">'+q.q+'</h3>'+q.o.map((o,i)=>`<button class="qBtn" onclick="checkQ(this,${i})">${o}</button>`).join('');
+}
+function checkQ(btn,i){
+  if(i===qs[qi].a){ btn.classList.add('correct'); score+=10; document.getElementById('score').innerText='స్కోర్: '+score+' ⭐'; alert('🎉 సూపర్! సరైన జవాబు! ⭐'); }
+  else { btn.classList.add('wrong'); alert('😊 పర్వాలేదు! మళ్ళీ ప్రయత్నించు!'); }
+}
+function nextQ(){ qi=(qi+1)%qs.length; showQ(); }
+let col='#E53935';
+let cv=document.getElementById('cv'); let ctx=cv.getContext('2d'); let drawing=false;
+function getPos(e){ let r=cv.getBoundingClientRect(); let t=e.touches?e.touches[0]:e; return {x:(t.clientX-r.left)*(cv.width/r.width), y:(t.clientY-r.top)*(cv.height/r.height)}; }
+cv.addEventListener('mousedown',e=>{drawing=true; let p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y);});
+cv.addEventListener('mousemove',e=>{ if(!drawing) return; let p=getPos(e); ctx.strokeStyle=col; ctx.lineWidth=5; ctx.lineTo(p.x,p.y); ctx.stroke(); });
+window.addEventListener('mouseup',()=>drawing=false);
+cv.addEventListener('touchstart',e=>{e.preventDefault(); drawing=true; let p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y);},{passive:false});
+cv.addEventListener('touchmove',e=>{e.preventDefault(); if(!drawing) return; let p=getPos(e); ctx.strokeStyle=col; ctx.lineWidth=5; ctx.lineTo(p.x,p.y); ctx.stroke();},{passive:false});
+cv.addEventListener('touchend',()=>drawing=false);
+function clearCanvas(){ ctx.clearRect(0,0,cv.width,cv.height); }
+function speakVerse(){ try{ let u=new SpeechSynthesisUtterance('ప్రభువు నా కాపరి - నాకు లేమి కలుగదు'); u.lang='te-IN'; speechSynthesis.speak(u); }catch(e){ alert('🙏 ప్రభువు నా కాపరి - నాకు లేమి కలుగదు'); } }
+</script>
+</body>
+</html>
