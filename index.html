@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BM మహిమ సన్నిధి</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7A0C1D">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="మహిమ సన్నిధి">
 <style>
 *{box-sizing:border-box;font-weight:900 !important}
 html,body{font-family:sans-serif;margin:0;padding:0;width:100%;overflow-x:hidden}
@@ -151,7 +157,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div id="page-home" class="page active">
 <div class="search-wrap"><input class="search" id="searchBox" placeholder="🔍 వెతకండి..." oninput="globalSearch()"><div id="globalResult" style="display:none;margin-top:8px"></div></div>
 <div id="todayUpdatesBox" class="today-box"><h3>📣 లాస్ట్ అప్డేట్</h3><div id="todayUpdatesList" style="font-size:14px;color:#222;text-align:center;padding:8px">🙏 లాస్ట్ అప్డేట్ వస్తోంది...</div></div>
-<div onclick="document.getElementById('installBtn').click()" style="background:#0A1A5C;border:2px solid #FFD54F;border-radius:14px;padding:16px;margin:12px;text-align:center;cursor:pointer"><div style="font-size:32px">📲</div><div style="color:#fff;font-size:20px">📲 యాప్ డౌన్లోడ్ చేసుకోండి</div><div style="color:#FFE082;font-size:13px;margin-top:4px">ఇక్కడ నొక్కండి 👆 - ఫోన్ లో యాప్ వస్తుంది</div></div>
+<div onclick="showPage('more');setTimeout(()=>document.getElementById('installBtn').click(),300)" style="background:#0A1A5C;border:2px solid #FFD54F;border-radius:14px;padding:16px;margin:12px;text-align:center;cursor:pointer"><div style="font-size:32px">📲</div><div style="color:#fff;font-size:20px">📲 యాప్ డౌన్లోడ్ చేసుకోండి</div><div style="color:#FFE082;font-size:13px;margin-top:4px">ఇక్కడ నొక్కండి 👆 - ఫోన్ లో యాప్ వస్తుంది</div></div>
 <div class="kids-btn" onclick="location.href='kids.html'"><div style="font-size:32px">👶</div><div style="color:#fff;font-size:22px">👶 పిల్లల ప్రపంచం</div><div style="color:#FFE082;font-size:13px;margin-top:4px">కలరింగ్ + బైబిల్ హీరోలు 👆 నొక్కండి</div></div>
 <div class="spon-wrap"><div style="display:flex;justify-content:space-between;align-items:center"><b style="color:#7A0C1D;font-size:15px">🙏 మన స్పాన్సర్స్ 🌐</b><a href="sponsors.html" style="color:#7A0C1D;font-size:12px">రేట్స్ చూడండి 👉</a></div><div class="spon-scroll" id="sponScroll"><div style="padding:14px;text-align:center;width:100%;color:#222">🙏 యాడ్స్ లోడ్ అవుతున్నాయి...</div></div><div class="spon-dots" id="sponDots"></div><div style="text-align:center;margin-top:8px"><a href="sponsors.html" style="background:#FFD54F;color:#222;padding:8px 14px;border-radius:20px;display:inline-block;text-decoration:none;font-size:13px">👉 Sponsors చూడండి</a> <a href="https://wa.me/919885579798?text=🙏%20మా%20యాడ్%20BM%20App%20లో%20పెట్టాలి" style="background:#25D366;color:#fff;padding:8px 14px;border-radius:20px;display:inline-block;text-decoration:none;font-size:13px">💰 మీ యాడ్ ₹100 నుండి</a></div></div>
 <div class="kathalu-banner" onclick="location.href='kathalu-cover.html'"><img src="kathalu-top.jpg"><div class="kb-txt"><b>📖 దేవుని కథలు - పోటీ! 🏆</b><p>కథ రాయండి - లైక్స్ కొట్టండి - బహుమతి గెలవండి! 👆 నొక్కండి</p></div></div>
@@ -185,7 +191,7 @@ input.search{width:calc(100% - 24px);margin:0 12px;padding:12px;border-radius:10
 <div style="display:flex;gap:6px;padding:10px" id="prayerInputRow"><input id="prayerInput" placeholder="🙏 ఎవరి కోసం ప్రార్థన..." style="flex:1;padding:12px;border-radius:25px;border:1px solid #ccc"><button onclick="prayerSend()" style="background:#25D366;color:#fff;border:0;padding:12px 18px;border-radius:25px">➤ పంపు</button></div>
 </div>
 <div id="page-more" class="page">
-<div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి</button><p style="font-size:13px;color:#666;padding:0 15px">పైన బటన్ పని చేయకపోతే - పైన ⋮ 3 చుక్కలు నొక్కి - Add to Home Screen నొక్కండి అండి 🙏</p></div>
+<div style="text-align:center"><button class="install-btn" id="installBtn">📲 యాప్ గా ఇన్స్టాల్ చేసుకోండి</button><p id="installHint" style="font-size:13px;color:#666;padding:0 15px">యాప్ బటన్ నొక్కితే ఫోన్ లో యాప్ లాగా వస్తుంది</p></div>
 <div class="section qr-box"><h3>🙏 మా సేవ అభివృద్ధికై</h3><img src="IMG-20260824-WA0007.jpg" style="width:100%;height:auto;padding:0;border-radius:12px;border:2px solid #FFD54F;margin-bottom:12px" alt="Mahima Sannidhi Banner"><img src="IMG-20261106-WA0037.jpg" style="width:220px;max-width:100%;height:auto" alt="Ms2 Bible Mission - QR" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg'"><p>Ms2 Bible Mission</p><div class="upi-box"><b>UPI ID:</b><br>BHARATPE2K0L0O8B5G13643@unitype<br><small>Google Pay / PhonePe / Paytm</small></div></div>
 <div class="notif-mini">🔔 నోటిఫికేషన్ కావాలా?<button onclick="askNotif()">🔔 ఆన్ చేయండి</button><div id="notifStatus" style="font-size:11px;color:#065F46;margin-top:4px"></div></div>
 <div class="site-link">🌐 <b>మన సైట్ లింక్</b><br><a href="https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html">https://ms2biblemission-bit.github.io/BMmahimasannidhi/index.html</a><br><button onclick="shareAnyPage()">📤 షేర్ చేయండి</button></div>
@@ -217,9 +223,28 @@ async function globalSearch(){let q=document.getElementById('searchBox').value.t
 function openPost(i){let p=allPosts[i];if(!p)return;document.getElementById('postModalContent').innerHTML=`${p.image?`<img src="${p.image}" style="width:100%;border-radius:12px">`:''}<h2 style="color:#0F2F6B;text-align:center;font-size:22px">${p.title||''}</h2><div style="white-space:pre-line;font-size:17px;line-height:1.8;text-align:center;color:#3B2314">${(p.content||'').replace(/\n/g,'<br>')}</div><p style="text-align:center;color:gray">📅 ${p.date||''}</p><div class="share-row"><button class="btn-fb" onclick="sharePost(${i},'fb')">📘 Facebook</button><button class="btn-wa" onclick="sharePost(${i},'wa')">💚 WhatsApp</button><button class="btn-copy" onclick="sharePost(${i},'copy')">🔗 కాపీ</button></div>`;document.getElementById('postModal').style.display='flex';lockBody();}
 function closePost(){document.getElementById('postModal').style.display='none';unlockBody();}
 document.getElementById('postModal').addEventListener('click',e=>{if(e.target.id==='postModal')closePost();});
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
-document.getElementById('installBtn').onclick=()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(c=>{if(c.outcome==='accepted'){alert('✅ ధన్యవాదాలు! యాప్ డౌన్లోడ్ అయ్యింది 🙏');}});}else{alert('📲 పైన ⋮ 3 చుక్కలు నొక్కి - Add to Home Screen నొక్కండి అండి 🙏');}};
+// ✅ FIXED - డైరెక్ట్ Install బటన్ - గైడ్ లేదు - Alert లేదు
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  window.deferredPrompt = e;
+  let b = document.getElementById('installBtn');
+  if(b) b.style.display = 'block';
+  let h = document.getElementById('installHint');
+  if(h) h.textContent = "✅ యాప్ రెడీ! బటన్ నొక్కండి";
+});
+document.getElementById('installBtn').onclick = ()=>{
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{
+      if(r.outcome === 'accepted'){ alert("🙏 దేవునికి స్తోత్రం! యాప్ ఇన్‌స్టాల్ అయింది"); }
+      deferredPrompt = null;
+      window.deferredPrompt = null;
+    });
+  }
+};
+function installAppUniversal(){ document.getElementById('installBtn').click(); }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 const PRAYER_TOPIC='ms2-prayer-group-1985';
 function prayerMyCode(){let c=localStorage.getItem('ms_prayer_code');if(!c){c='P'+Math.floor(1000+Math.random()*9000);localStorage.setItem('ms_prayer_code',c);}return c;}
@@ -260,4 +285,4 @@ setTimeout(()=>{loadSponCarousel();},3000);
 prayerRender();
 </script>
 </body>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </html>
+  </html>
