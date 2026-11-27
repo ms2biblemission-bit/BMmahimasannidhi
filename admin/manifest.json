@@ -5,8 +5,8 @@
   "start_url": "/BMmahimasannidhi/admin/",
   "scope": "/BMmahimasannidhi/admin/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#FFF8E1",
+  "theme_color": "#8B0000",
   "icons": [
     {
       "src": "/BMmahimasannidhi/admin/icon-192.png",
