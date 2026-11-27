@@ -46,6 +46,11 @@ setTimeout(()=>{
 document.getElementById('splash').style.display='none';
 document.getElementById('main').style.display='block';
 },3000);
+
+// Admin App గా Install అవ్వడానికి ఇది కావాలి
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw-admin.js');
+}
 </script>
 </body>
 </html>
