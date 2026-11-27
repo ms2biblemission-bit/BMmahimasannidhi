@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMMS Admin App</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#FFF8E1;padding:10px}
+.top{background:#8B0000;color:#fff;padding:15px;border-radius:12px;text-align:center}
+.box{background:#fff;padding:15px;border-radius:12px;margin-top:12px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+button{width:100%;padding:13px;background:#8B0000;color:#fff;border:none;border-radius:10px;font-size:16px;margin-top:8px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tabs button{width:auto;flex:1;padding:10px;font-size:14px;background:#fff;color:#8B0000;border:1px solid #8B0000}
+.tabs button.on{background:#8B0000;color:#fff}
+.tab{display:none}.tab.show{display:block}
+.item{background:#FFF8E1;padding:10px;border-radius:10px;margin-top:8px}
+.small{font-size:13px;color:#666}
+.logout{background:#222}
+.del{background:#c62828;padding:8px;margin-top:6px;font-size:14px}
+.edit{background:#4CAF50;padding:8px;margin-top:6px;font-size:14px}
+.chk{display:flex;gap:8px;align-items:center;background:#FFF8E1;padding:8px;border-radius:8px;margin:4px 0}
+.chk input{width:auto}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="top"><b>👑 Admin App</b><br><small>BM మహిమ సన్నిధి ❤️</small></div>
+
+<div id="loginBox" class="box">
+<h3>🔐 Admin Login</h3>
+<input id="u" placeholder="పేరు">
+<input id="p" type="password" placeholder="పాస్ వర్డ్">
+<button onclick="doLogin()">🔐 Login</button>
+<p class="small" style="text-align:center;margin-top:8px">Super Admin: admin / 1985</p>
+</div>
+
+<div id="dash" style="display:none">
+<div class="box">
+<h3>🙏 నమస్కారం <span id="uname"></span></h3>
+<p class="small" id="urole"></p>
+
+<!-- ✅ పాస్ వర్డ్ మార్చు - Super Admin కి మాత్రమే కనబడుతుంది -->
+<div id="passCard" class="hide">
+<br><input id="newPass" type="password" placeholder="🔑 నా కొత్త పాస్ వర్డ్">
+<button onclick="changePass()" style="background:#4CAF50">🔑 నా పాస్ వర్డ్ మార్చు</button>
+</div>
+
+<button class="logout" onclick="doLogout()">🚪 Logout</button>
+</div>
+
+<div class="box"><h3>📊 నా పనులు</h3>
+<div class="tabs" id="tabsBar"></div>
+<div id="tab-songs" class="tab"><h3 style="margin-top:12px">🎵 పాటలు</h3><input id="songsTitle" placeholder="పాట Title"><textarea id="songsDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('songs')">💾 సేవ్ చెయ్యి</button><div id="list-songs"></div></div>
+<div id="tab-vakyam" class="tab"><h3 style="margin-top:12px">📖 వాక్యం</h3><input id="vakyamTitle" placeholder="వాక్యం Title"><textarea id="vakyamDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('vakyam')">💾 సేవ్ చెయ్యి</button><div id="list-vakyam"></div></div>
+<div id="tab-books" class="tab"><h3 style="margin-top:12px">📚 బుక్స్</h3><input id="booksTitle" placeholder="బుక్స్ Title"><textarea id="booksDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('books')">💾 సేవ్ చెయ్యి</button><div id="list-books"></div></div>
+<div id="tab-kathalu" class="tab"><h3 style="margin-top:12px">📖 కథలు</h3><input id="kathaluTitle" placeholder="కథ Title"><textarea id="kathaluDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('kathalu')">💾 సేవ్ చెయ్యి</button><div id="list-kathalu"></div></div>
+<div id="tab-bommalu" class="tab"><h3 style="margin-top:12px">🎨 బొమ్మలు</h3><input id="bommaluTitle" placeholder="బొమ్మ Title"><textarea id="bommaluDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('bommalu')">💾 సేవ్ చెయ్యి</button><div id="list-bommalu"></div></div>
+<div id="tab-gallery" class="tab"><h3 style="margin-top:12px">📸 గ్యాలరీ</h3><input id="galleryTitle" placeholder="ఫోటో Title"><textarea id="galleryDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('gallery')">💾 సేవ్ చెయ్యి</button><div id="list-gallery"></div></div>
+<div id="tab-prarthana" class="tab"><h3 style="margin-top:12px">🙏 ప్రార్థన</h3><input id="prarthanaTitle" placeholder="ప్రార్థన Title"><textarea id="prarthanaDesc" placeholder="వివరాలు"></textarea><button onclick="saveItem('prarthana')">💾 సేవ్ చెయ్యి</button><div id="list-prarthana"></div></div>
+
+<div id="tab-members" class="tab">
+<h3 style="margin-top:12px">👥 మనుషుల్ని యాడ్ చెయ్యి</h3>
+<input id="mName" placeholder="పేరు - ఉదా: Ramesh">
+<input id="mPass" placeholder="పాస్ వర్డ్ - ఉదా: ramesh123">
+<input id="mRole" placeholder="Role - ఉదా: HR">
+<p><b>ఏమి చూడాలి? టిక్ పెట్టండి:</b></p>
+<label class="chk"><input type="checkbox" value="songs" class="perm"> 🎵 పాటలు</label>
+<label class="chk"><input type="checkbox" value="vakyam" class="perm"> 📖 వాక్యం</label>
+<label class="chk"><input type="checkbox" value="books" class="perm"> 📚 బుక్స్</label>
+<label class="chk"><input type="checkbox" value="kathalu" class="perm"> 📖 కథలు</label>
+<label class="chk"><input type="checkbox" value="bommalu" class="perm"> 🎨 బొమ్మలు</label>
+<label class="chk"><input type="checkbox" value="gallery" class="perm"> 📸 గ్యాలరీ</label>
+<label class="chk"><input type="checkbox" value="prarthana" class="perm"> 🙏 ప్రార్థన</label>
+<label class="chk"><input type="checkbox" value="members" class="perm"> 👥 మెంబర్స్</label>
+<button onclick="addMember()">➕ యాడ్ చెయ్యి</button>
+<div id="list-members"></div>
+</div>
+</div>
+</div>
+
+<script>
+let ALL=[
+{id:'songs',name:'🎵 పాటలు'},{id:'vakyam',name:'📖 వాక్యం'},{id:'books',name:'📚 బుక్స్'},
+{id:'kathalu',name:'📖 కథలు'},{id:'bommalu',name:'🎨 బొమ్మలు'},{id:'gallery',name:'📸 గ్యాలరీ'},
+{id:'prarthana',name:'🙏 ప్రార్థన'},{id:'members',name:'👥 మెంబర్స్'}];
+let members=JSON.parse(localStorage.getItem('bmms_members')||'[{"name":"admin","pass":"1985","role":"Super Admin","perms":["all"]}]');
+let current=null;
+function isSuper(){ return current && current.perms.includes('all'); }
+function doLogin(){
+  let u=document.getElementById('u').value.trim();
+  let p=document.getElementById('p').value.trim();
+  let f=members.find(m=>m.name===u && m.pass===p);
+  if(!f){alert('❌ పేరు / పాస్ వర్డ్ తప్పు!');return;}
+  current=f;
+  document.getElementById('uname').innerText=f.name;
+  document.getElementById('urole').innerText='👑 '+f.role;
+  // ✅ Super Admin కి మాత్రమే పాస్ వర్డ్ మార్చు కనబడుతుంది
+  if(isSuper()){ document.getElementById('passCard').classList.remove('hide'); }
+  else{ document.getElementById('passCard').classList.add('hide'); }
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('dash').style.display='block';
+  buildTabs(); renderAll();
+}
+function doLogout(){ current=null; document.getElementById('dash').style.display='none'; document.getElementById('loginBox').style.display='block'; }
+function changePass(){
+  if(!isSuper()){ alert('❌ మీకు అధికారం లేదు!'); return; }
+  let np=document.getElementById('newPass').value.trim();
+  if(!np){ alert('కొత్త పాస్ వర్డ్ రాయండి!'); return; }
+  current.pass=np;
+  members=members.map(m=>m.name===current.name?current:m);
+  localStorage.setItem('bmms_members',JSON.stringify(members));
+  document.getElementById('newPass').value='';
+  alert('✅ మీ పాస్ వర్డ్ మారిపోయింది! గుర్తుంచుకోండి: '+np);
+}
+function changeMemberPass(name){
+  if(!isSuper()){ alert('❌ మీకు అధికారం లేదు!'); return; }
+  let np=prompt(name+' గారి కొత్త పాస్ వర్డ్ ఏంటి?');
+  if(!np) return;
+  members=members.map(m=>{ if(m.name===name) m.pass=np; return m; });
+  localStorage.setItem('bmms_members',JSON.stringify(members));
+  alert('✅ '+name+' గారి పాస్ వర్డ్ మారిపోయింది!');
+  renderAll();
+}
+function myPerms(){ if(!current) return []; if(current.perms.includes('all')) return ALL.map(a=>a.id); return current.perms; }
+function buildTabs(){
+  let perms=myPerms(); let bar=document.getElementById('tabsBar'); bar.innerHTML='';
+  ALL.forEach(a=>{
+    if(!perms.includes(a.id)) return;
+    let b=document.createElement('button'); b.innerText=a.name;
+    if(perms.indexOf(a.id)===0) b.className='on';
+    b.onclick=()=>showTab(a.id,b); bar.appendChild(b);
+  });
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('show'));
+  if(perms.length) document.getElementById('tab-'+perms[0]).classList.add('show');
+}
+function showTab(id,btn){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('show')); document.getElementById('tab-'+id).classList.add('show'); document.querySelectorAll('#tabsBar button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+function saveItem(type){
+  let t=document.getElementById(type+'Title').value.trim();
+  let d=document.getElementById(type+'Desc').value.trim();
+  if(!t){alert('Title పెట్టండి!');return;}
+  let arr=JSON.parse(localStorage.getItem('bmms_'+type)||'[]');
+  arr.unshift({title:t,desc:d,date:new Date().toLocaleDateString('te-IN')});
+  localStorage.setItem('bmms_'+type,JSON.stringify(arr));
+  document.getElementById(type+'Title').value='';document.getElementById(type+'Desc').value='';
+  alert('✅ సేవ్ అయ్యింది!'); renderAll();
+}
+function addMember(){
+  if(!isSuper()){alert('మీకు అధికారం లేదు!');return;}
+  let n=document.getElementById('mName').value.trim();
+  let p=document.getElementById('mPass').value.trim();
+  let r=document.getElementById('mRole').value.trim()||'Member';
+  let perms=[...document.querySelectorAll('.perm:checked')].map(c=>c.value);
+  if(!n||!p){alert('పేరు + పాస్ వర్డ్ పెట్టండి!');return;}
+  if(!perms.length){alert('ఏదో ఒకటి టిక్ పెట్టండి!');return;}
+  members.push({name:n,pass:p,role:r,perms:perms});
+  localStorage.setItem('bmms_members',JSON.stringify(members));
+  document.getElementById('mName').value='';document.getElementById('mPass').value='';document.getElementById('mRole').value='';
+  document.querySelectorAll('.perm').forEach(c=>c.checked=false);
+  alert('✅ '+n+' యాడ్ అయ్యారు!'); renderAll();
+}
+function delMember(name){
+  if(!isSuper()){alert('మీకు అధికారం లేదు!');return;}
+  if(!confirm(name+' ని డిలీట్ చేయాలా?')) return;
+  members=members.filter(m=>m.name!==name);
+  localStorage.setItem('bmms_members',JSON.stringify(members)); renderAll();
+}
+function renderAll(){
+  ['songs','vakyam','books','kathalu','bommalu','gallery','prarthana'].forEach(type=>{
+    let arr=JSON.parse(localStorage.getItem('bmms_'+type)||'[]');
+    let el=document.getElementById('list-'+type);
+    if(el) el.innerHTML=arr.map(x=>'<div class="item"><b>'+x.title+'</b><br><span class="small">'+(x.desc||'')+'<br>📅 '+x.date+'</span></div>').join('')||'<p class="small">ఇంకా ఏమీ లేవు</p>';
+  });
+  document.getElementById('list-members').innerHTML=members.map(m=>{
+    let ptxt=isSuper()?'<br><span class="small">పాస్ వర్డ్: '+m.pass+' | చూసేది: '+(m.perms.includes('all')?'అన్నీ':m.perms.join(', '))+'</span>':'';
+    let btns='';
+    if(isSuper() && m.name!=='admin'){
+      btns+='<button class="edit" onclick="changeMemberPass(\''+m.name+'\')">🔑 వీళ్ళ పాస్ వర్డ్ మార్చు</button>';
+      btns+='<button class="del" onclick="delMember(\''+m.name+'\')">🗑️ Delete</button>';
+    }
+    return '<div class="item"><b>'+m.name+'</b> - '+m.role+ptxt+btns+'</div>';
+  }).join('');
+}
+renderAll();
+</script>
+</body>
+</html>
