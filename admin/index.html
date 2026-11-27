@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMMS Admin - మా సందేశం మహిమ సన్నిధి</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial;background:#FFF8E1}
+#splash{position:fixed;inset:0;z-index:9999;background:#FFF8E1;display:flex;align-items:center;justify-content:center}
+#splash img{width:100%;height:100%;object-fit:cover}
+#main{display:none;padding:20px;text-align:center}
+h1{color:#8B0000;margin:20px 0}
+.box{background:white;padding:20px;border-radius:15px;max-width:400px;margin:20px auto;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+button{width:100%;padding:12px;background:#8B0000;color:white;border:none;border-radius:8px;font-size:16px}
+</style>
+</head>
+<body>
+
+<!-- SPLASH PHOTO -->
+<div id="splash">
+<img src="admin-splash.jpg">
+</div>
+
+<!-- ADMIN LOGIN -->
+<div id="main">
+<h1>🙏 మా సందేశం మహిమ సన్నిధి</h1>
+<p>OUR MESSAGE - THE ABODE OF GLORY</p>
+<div class="box">
+<h3>Admin Login</h3>
+<input type="text" placeholder="Username">
+<input type="password" placeholder="Password">
+<button onclick="alert('Welcome Admin!')">Login</button>
+</div>
+<p style="margin-top:20px">BIBLE MISSION<br>Dalli Ismayel John - P.R Priyadarshini</p>
+</div>
+
+<script>
+setTimeout(()=>{
+document.getElementById('splash').style.display='none';
+document.getElementById('main').style.display='block';
+},3000);
+</script>
+</body>
+</html>
