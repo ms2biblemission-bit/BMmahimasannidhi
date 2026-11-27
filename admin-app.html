@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="te"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin App</title><style>
+body{font-family:system-ui;margin:0;background:#FFF8E1;padding-bottom:70px}.top{background:#7A0C1D;color:#fff;text-align:center;padding:15px}.box{max-width:600px;margin:auto;padding:12px}.card{background:#fff;border:2px solid #FFE082;border-radius:14px;padding:14px;margin:10px 0}input,select,textarea{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:10px;font-size:16px}button{border:0;border-radius:10px;padding:12px;font-weight:bold;cursor:pointer}.btn{background:#7A0C1D;color:#fff;width:100%}.btn2{background:#FF7043;color:#fff;width:100%}.small{font-size:13px;color:#666;text-align:center}.item{background:#FFFDE7;border:1px solid #FFE082;border-radius:10px;padding:10px;margin:8px 0}.tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.tabs button{background:#eee;color:#333;padding:9px;width:auto}.tabs button.on{background:#7A0C1D;color:#fff}.hide{display:none}.badge{background:#FF7043;color:#fff;padding:3px 8px;border-radius:20px;font-size:12px}
+</style></head><body>
+<div class="top"><h1 style="margin:0">👑 Admin App</h1><p style="margin:4px">BM మహిమ సన్నిధి ❤️</p></div>
+<div class="box">
+<div id="loginBox" class="card"><h2 style="text-align:center;margin:0">🔐 Login</h2><input id="lName" placeholder="పేరు - admin"><input id="lPass" type="password" placeholder="పాస్ వర్డ్ - 1985"><button class="btn" onclick="login()">✅ లోపలికి వెళ్ళు</button><p class="small">మొదటిసారి - admin / 1985</p></div>
+<div id="mainBox" class="hide">
+<div class="card" style="text-align:center"><b id="wel"></b> <span id="roleB" class="badge"></span><br><br><button onclick="logout()" style="background:#eee">🚪 Logout</button></div>
+<div class="card"><h3 style="text-align:center;margin:0">📊 నా పనులు</h3><div class="tabs" id="tabs"></div></div>
+<div class="card"><h3 id="secT" style="text-align:center;margin:0">📝 విభాగం</h3><input id="fT" placeholder="📌 Title"><textarea id="fM" rows="3" placeholder="📝 వివరాలు"></textarea><button class="btn2" onclick="addItem()">💾 సేవ్ చెయ్యి</button><div id="list"></div></div>
+<div class="card hide" id="usersCard"><h3 style="text-align:center;margin:0">👥 మనుషుల్ని యాడ్ చెయ్యి</h3><p class="small">మీరే పోసిషన్ డిసైడ్ చేస్తారు!</p><input id="uN" placeholder="👤 కొత్త పేరు"><input id="uP" placeholder="🔑 పాస్ వర్డ్"><select id="uR"></select><button class="btn" onclick="addUser()">➕ యాడ్ చెయ్యి</button><div id="uList"></div></div>
+</div></div>
+<script>
+let ROLES={"Super Admin":["songs","vakya","books","stories","drawings","gallery","prayer","members"],"Director":["songs","vakya","books","stories","prayer"],"HR":["members","prayer"],"Music Director":["songs"],"Song Admin":["songs"],"Vakya Admin":["vakya"],"Books Admin":["books"],"Kids Director":["stories","drawings"],"Stories Admin":["stories"],"Drawings Admin":["drawings"],"Media Admin":["gallery"],"Prayer Admin":["prayer"]};
+let NAMES={songs:"🎵 పాటలు",vakya:"📖 వాక్యం",books:"📚 బుక్స్",stories:"📖 కథలు",drawings:"🎨 బొమ్మలు",gallery:"📸 గ్యాలరీ",prayer:"🙏 ప్రార్థన",members:"👥 మెంబర్స్"};
+let users=JSON.parse(localStorage.getItem("aa_users")||"[]");
+if(!users.length){users=[{n:"admin",p:"1985",r:"Super Admin"}];saveUsers();}
+let data=JSON.parse(localStorage.getItem("aa_data")||"{}");
+let curUser=null,curSec="songs";
+function saveUsers(){localStorage.setItem("aa_users",JSON.stringify(users));}
+function saveData(){localStorage.setItem("aa_data",JSON.stringify(data));}
+function login(){let n=document.getElementById("lName").value.trim();let p=document.getElementById("lPass").value.trim();let u=users.find(x=>x.n==n&&x.p==p);if(!u){alert("❌ పేరు / పాస్ వర్డ్ తప్పు!");return;}curUser=u;document.getElementById("loginBox").classList.add("hide");document.getElementById("mainBox").classList.remove("hide");document.getElementById("wel").innerText="🙏 నమస్కారం "+u.n;document.getElementById("roleB").innerText=u.r;buildTabs();if(u.r=="Super Admin"){document.getElementById("usersCard").classList.remove("hide");buildUserForm();}showList();}
+function logout(){location.reload();}
+function buildTabs(){let secs=ROLES[curUser.r];curSec=secs[0];let t=document.getElementById("tabs");t.innerHTML=secs.map(s=>`<button onclick="setSec('${s}',this)" class="${s==curSec?"on":""}">${NAMES[s]}</button>`).join("");}
+function setSec(s,b){curSec=s;document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");showList();}
+function showList(){document.getElementById("secT").innerText=NAMES[curSec];let arr=data[curSec]||[];document.getElementById("list").innerHTML=arr.map((x,i)=>`<div class="item"><b>${x.t}</b><p>${x.m||""}</p><button onclick="delItem(${i})" style="background:red;color:#fff">Delete</button></div>`).join("")||"<p class='small'>ఇంకా ఏమీ లేవు</p>";}
+function addItem(){let t=document.getElementById("fT").value.trim();let m=document.getElementById("fM").value.trim();if(!t){alert("Title పెట్టండి");return;}if(!data[curSec])data[curSec]=[];data[curSec].unshift({t:t,m:m});saveData();document.getElementById("fT").value="";document.getElementById("fM").value="";showList();alert("✅ సేవ్ అయ్యింది!");}
+function delItem(i){if(!confirm("Delete చేయాలా?"))return;data[curSec].splice(i,1);saveData();showList();}
+function buildUserForm(){let s=document.getElementById("uR");s.innerHTML=Object.keys(ROLES).map(r=>`<option>${r}</option>`).join("");showUsers();}
+function addUser(){let n=document.getElementById("uN").value.trim();let p=document.getElementById("uP").value.trim();let r=document.getElementById("uR").value;if(!n||!p){alert("పేరు + పాస్ వర్డ్ పెట్టండి");return;}users.push({n:n,p:p,r:r});saveUsers();document.getElementById("uN").value="";document.getElementById("uP").value="";showUsers();alert("✅ "+n+" - "+r+" - యాడ్ అయ్యారు!");}
+function showUsers(){document.getElementById("uList").innerHTML=users.map((u,i)=>`<div class="item"><b>👤 ${u.n}</b> - 🎖️ ${u.r} - 🔑 ${u.p} ${u.n!="admin"?`<br><button onclick="delUser(${i})" style="background:red;color:#fff;margin-top:6px">Delete</button>`:""}</div>`).join("");}
+function delUser(i){if(!confirm("తీసేయాలా?"))return;users.splice(i,1);saveUsers();showUsers();}
+</script></body></html>
