@@ -15,30 +15,41 @@ body{font-family:Arial;background:#FFF8E1}
 #splash{position:fixed;inset:0;z-index:9999;background:#FFF8E1;display:flex;align-items:center;justify-content:center}
 #splash img{width:100%;height:100%;object-fit:cover}
 #main{display:none;padding:20px;text-align:center}
+#dashboard{display:none;padding:20px;text-align:center}
 h1{color:#8B0000;margin:20px 0}
 .box{background:white;padding:20px;border-radius:15px;max-width:400px;margin:20px auto;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
 input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
-button{width:100%;padding:12px;background:#8B0000;color:white;border:none;border-radius:8px;font-size:16px}
+button{width:100%;padding:12px;background:#8B0000;color:white;border:none;border-radius:8px;font-size:16px;margin:8px 0}
+.dash-btn{background:white;color:#8B0000;border:1px solid #8B0000}
 </style>
 </head>
 <body>
 
-<!-- SPLASH PHOTO -->
 <div id="splash">
 <img src="admin-splash.jpg">
 </div>
 
-<!-- ADMIN LOGIN -->
 <div id="main">
 <h1>🙏 మా సందేశం మహిమ సన్నిధి</h1>
 <p>OUR MESSAGE - THE ABODE OF GLORY</p>
 <div class="box">
 <h3>Admin Login</h3>
-<input type="text" placeholder="Username">
-<input type="password" placeholder="Password">
-<button onclick="alert('Welcome Admin!')">Login</button>
+<input type="text" id="user" placeholder="Username">
+<input type="password" id="pass" placeholder="Password">
+<button onclick="doLogin()">Login</button>
 </div>
 <p style="margin-top:20px">BIBLE MISSION<br>Dalli Ismayel John - P.R Priyadarshini</p>
+</div>
+
+<div id="dashboard">
+<h1>🙏 Welcome Admin!</h1>
+<p>BMMS Admin Dashboard</p>
+<div class="box">
+<button class="dash-btn" onclick="alert('Photos Section - త్వరలో')">📸 Photos పెట్టండి</button>
+<button class="dash-btn" onclick="alert('Videos Section - త్వరలో')">🎥 Videos పెట్టండి</button>
+<button class="dash-btn" onclick="alert('Message Section - త్వరలో')">💬 Message పెట్టండి</button>
+<button onclick="doLogout()">Logout</button>
+</div>
 </div>
 
 <script>
@@ -47,7 +58,23 @@ document.getElementById('splash').style.display='none';
 document.getElementById('main').style.display='block';
 },3000);
 
-// Admin App గా Install అవ్వడానికి ఇది కావాలి
+function doLogin(){
+  var u = document.getElementById('user').value;
+  var p = document.getElementById('pass').value;
+  if(u=="" || p==""){
+    alert('Username Password వేయండి అండి!');
+    return;
+  }
+  alert('Welcome Admin!');
+  document.getElementById('main').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+}
+
+function doLogout(){
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('main').style.display='block';
+}
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw-admin.js');
 }
