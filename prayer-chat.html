@@ -203,8 +203,8 @@ async function poll(){
     let r=await fetch('https://ntfy.sh/'+TOPIC+'/json?since=all&poll=1');
     let txt=await r.text(); let a=loadLocal(); let ch=false;
     let allLines=txt.split('\n').filter(Boolean);
-    let lastState=null; let lastSpeaker=null;
-    for(let l of allLines){ try{ let j=JSON.parse(l); if(!j.message) continue; if(j.message.startsWith('PRAYER_OPEN|')||j.message.startsWith('PRAYER_LIVE|')) lastState='1'; if(j.message.startsWith('PRAYER_CLOSE|')) lastState='0'; if(j.message.startsWith('PRAYER_APPROVE|')) lastSpeaker=j.message.split('|')[1]; if(j.message.startsWith('PRAYER_STOP|')||j.message.startsWith('PRAYER_CLOSE|')) lastSpeaker=''; }catch(e){} }
+    let lastState=null; let lastStateTime=-1; let lastSpeaker=null; let lastSpeakerTime=-1;
+    for(let l of allLines){ try{ let j=JSON.parse(l); if(!j.message) continue; let tm=j.time||0; if((j.message.startsWith('PRAYER_OPEN|')||j.message.startsWith('PRAYER_LIVE|')) && tm>=lastStateTime){ lastState='1'; lastStateTime=tm; } if(j.message.startsWith('PRAYER_CLOSE|') && tm>=lastStateTime){ lastState='0'; lastStateTime=tm; } if(j.message.startsWith('PRAYER_APPROVE|') && tm>=lastSpeakerTime){ lastSpeaker=j.message.split('|')[1]; lastSpeakerTime=tm; } if((j.message.startsWith('PRAYER_STOP|')||j.message.startsWith('PRAYER_CLOSE|')) && tm>=lastSpeakerTime){ lastSpeaker=''; lastSpeakerTime=tm; } }catch(e){} }
     if(lastState!==null && localStorage.getItem('ms_prayer_open')!==lastState){ localStorage.setItem('ms_prayer_open',lastState); if(lastState==='0'){ setHands([]); setSpeaker(''); } updateGroupUI(); }
     if(lastSpeaker!==null && getSpeaker()!==lastSpeaker){ setSpeaker(lastSpeaker); updateSpeakerUI(); }
     let lines=allLines.slice(-50);
