@@ -72,8 +72,6 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD}
 const TOPIC='ms2-prayer-chat-2026';
 let IS_ADMIN=location.search.includes('admin=1');
 if(IS_ADMIN){document.getElementById('adminBox').style.display='block';document.getElementById('handQueue').style.display='block';}
-// ✅ FIX - ఇక్కడే తప్పు ఉంది - పాత కోడ్ ప్రతిసారీ హ్యాండ్ / స్పీకర్ డిలీట్ చేసేది - ఇప్పుడు చేయదు!
-// localStorage.removeItem('ms_prayer_hands') - తీసేశాను
 try{let _a=JSON.parse(localStorage.getItem('ms_prayer_local')||'[]');_a=_a.filter(x=>x.msg&&x.msg!=='undefined');localStorage.setItem('ms_prayer_local',JSON.stringify(_a));}catch(e){}
 function myName(){let n=localStorage.getItem('ms_prayer_name');if(!n){n=prompt('🙏 మీ పేరు:')||'భక్తుడు';localStorage.setItem('ms_prayer_name',n);}return n;}
 function getHands(){try{return JSON.parse(localStorage.getItem('ms_prayer_hands')||'[]');}catch(e){return [];}}
@@ -82,7 +80,6 @@ function getSpeaker(){return localStorage.getItem('ms_prayer_speaker')||'';}
 function setSpeaker(n){if(n)localStorage.setItem('ms_prayer_speaker',n);else localStorage.removeItem('ms_prayer_speaker');}
 let toastTimer=null;
 function toast(m){let e=document.getElementById('toast');e.textContent=m;e.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{e.style.display='none';},4000);}
-// ✅ FIX - OPEN / CLOSE - కొత్తది!
 function isGroupOpen(){ return localStorage.getItem('ms_prayer_open')!=='0'; }
 function updateGroupUI(){
   let open=isGroupOpen();
@@ -206,13 +203,15 @@ function loadLocal(){try{return JSON.parse(localStorage.getItem('ms_prayer_local
 function renderMsgs(){
   let a=loadLocal();
   document.getElementById('msgs').innerHTML=a.map(m=>'<div class="msg '+(m.name===myName()?'me':'')+'">'+(m.name===myName()?'':'<span class="name">🙏 '+m.name+'</span>')+m.msg+'</div>').join('');
+  window.scrollTo(0, document.body.scrollHeight);
 }
+// ✅ ✅ FIX - ఇంగ్లీష్ మెసేజ్ కోసం - ప్రతి మెసేజ్ కి ID!
 async function sendMsg(){
   if(!isGroupOpen() && !IS_ADMIN){ toast('🔴 గ్రూప్ CLOSE లో ఉంది - పాస్టర్ OPEN చేసే వరకు ఆగండి!'); return; }
   let t=document.getElementById('txt');let msg=t.value.trim();if(!msg)return;
-  let m={name:myName(),msg:msg};
+  let m={name:myName(),msg:msg, id:'M'+Date.now()+'_'+Math.random().toString(36).slice(2,6)};
   let a=loadLocal();a.push(m);localStorage.setItem('ms_prayer_local',JSON.stringify(a));
-  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER|'+m.name+'||'+m.msg+'|'});}catch(e){}
+  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER|'+m.name+'||'+m.msg+'|'+m.id});}catch(e){}
   t.value='';renderMsgs();
 }
 document.getElementById('txt').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
@@ -241,7 +240,13 @@ async function poll(){
           else toast('🎤 '+n+' కి పాస్టర్ ఓకే ఇచ్చారు!');return;}
         if(j.message.startsWith('PRAYER_REJECT|')){let n=j.message.split('|')[1];setHands(getHands().filter(x=>x!==n));updateSpeakerUI();return;}
         if(j.message.startsWith('PRAYER_STOP|')){setSpeaker('');setHands([]);updateSpeakerUI();return;}
-        if(j.message.startsWith('PRAYER|')){let p=j.message.split('|');let m={name:p[1],msg:p[3]};if(!m.msg||m.msg==='undefined'||m.msg==='')return;if(!a.some(x=>x.msg===m.msg&&x.name===m.name)){a.push(m);ch=true;}}
+        // ✅ ✅ FIX - ID తో చెక్ - ఒకే మెసేజ్ 10 మంది పెట్టినా వస్తుంది!
+        if(j.message.startsWith('PRAYER|')){
+          let p=j.message.split('|');
+          let m={name:p[1],msg:p[3], id:p[4]||('P'+j.time+'_'+p[1]+'_'+p[3])};
+          if(!m.msg||m.msg==='undefined'||m.msg==='')return;
+          if(!a.some(x=>x.id===m.id)){a.push(m);ch=true;}
+        }
       }catch(e){}
     });
     lastPollTime=Math.floor(Date.now()/1000);
