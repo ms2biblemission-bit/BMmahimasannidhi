@@ -246,38 +246,73 @@ document.getElementById('installBtn').onclick = ()=>{
 };
 function installAppUniversal(){ document.getElementById('installBtn').click(); }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
-// ✅ ✅ ✅ FIX - TOPIC సేమ్ చేశాను! - ఇదే ముఖ్యం!
+// ✅ ✅ ✅ FIX - TOPIC సేమ్ + LIVE హార్ట్ బీట్ + ఆటో CLOSE!
 const PRAYER_TOPIC='ms2-prayer-chat-2026';
 function prayerMyCode(){let c=localStorage.getItem('ms_prayer_code');if(!c){c='P'+Math.floor(1000+Math.random()*9000);localStorage.setItem('ms_prayer_code',c);}return c;}
 let prayerMsgs=JSON.parse(localStorage.getItem('ms_prayer_msgs2')||'[]');
 let prayerOpen=false;let prayerSched='';let prayerBlockedCodes=JSON.parse(localStorage.getItem('ms_prayer_blocked')||'[]');
+// ✅ కొత్తది - అడ్మిన్ చివరిసారి LIVE అని చెప్పిన టైమ్
+let prayerLastLive=0;
+function prayerIsReallyOpen(){
+  if(!prayerOpen) return false;
+  if(!prayerLastLive) return false;
+  return (Date.now()-prayerLastLive) < 40000;
+}
 function prayerIsAdmin(){return location.search.includes('admin=1985');}
 function prayerIsBlocked(){return prayerBlockedCodes.includes(prayerMyCode());}
 async function prayerNtfySend(msg){try{await fetch('https://ntfy.sh/'+PRAYER_TOPIC,{method:'POST',body:msg});}catch(e){}}
-function prayerAdminSend(cmd){prayerNtfySend('PRAYER_'+cmd);prayerOpen=(cmd==='OPEN');localStorage.setItem('ms_prayer_open',prayerOpen?'1':'0');prayerRender();alert(cmd==='OPEN'?'✅ OPEN అయ్యింది!':'⛔ CLOSE అయ్యింది!');}
+function prayerAdminSend(cmd){
+  prayerNtfySend('PRAYER_'+cmd+'|'+cmd+'|'+Date.now());
+  if(cmd==='OPEN'){ prayerOpen=true; prayerLastLive=Date.now(); localStorage.setItem('ms_prayer_open','1'); }
+  else { prayerOpen=false; prayerLastLive=0; localStorage.setItem('ms_prayer_open','0'); }
+  prayerRender();
+  alert(cmd==='OPEN'?'✅ OPEN అయ్యింది! ఇప్పుడు అందరికీ LIVE అని వస్తుంది!':'⛔ CLOSE అయ్యింది! ఇప్పుడు అందరికీ CLOSE అని వస్తుంది!');
+}
 function prayerSetSched(){let t=document.getElementById('prayerSchedInput').value.trim();if(!t)return;prayerNtfySend('PRAYER_SCHED_'+t);prayerSched=t;prayerRender();alert('✅ షెడ్యూల్ పెట్టారు!');}
 function prayerClearAll(){if(!confirm('అందరికీ మొత్తం క్లియర్ చేయాలా?'))return;prayerMsgs=[];localStorage.setItem('ms_prayer_msgs2',JSON.stringify([]));prayerRender();}
-function prayerRender(){let open=prayerOpen;let admin=prayerIsAdmin();document.getElementById('prayerAdminBox').style.display=admin?'block':'none';document.getElementById('prayerSchedShow').innerText=prayerSched||'ఇంకా షెడ్యూల్ పెట్టలేదు';document.getElementById('prayerGroupStatus').innerText=open?'🟢 OPEN - అందరూ మెసేజ్ చేయొచ్చు':'🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి';document.getElementById('prayerGroupStatus').style.color=open?'#2E7D32':'#C62828';let blocked=prayerIsBlocked();document.getElementById('prayerBlockedBox').style.display=blocked?'block':'none';document.getElementById('prayerClosedBox').style.display=(!open&&!blocked)?'block':'none';document.getElementById('prayerInputRow').style.display=(open&&!blocked)?'flex':'none';let box=document.getElementById('prayerMsgs');let myCode=prayerMyCode();let show=admin?prayerMsgs:prayerMsgs.filter(m=>m.showAll);if(!show.length)box.innerHTML='<p style="text-align:center;color:#999">ఇంకా ప్రార్థనలు లేవు 🙏</p>';else box.innerHTML=show.map(m=>{let canEdit=admin||m.code===myCode;let btns='';if(admin)btns+='<button onclick="prayerApprove(\''+m.id+'\')" style="flex:1;background:#25D366;color:#fff;border:0;padding:8px;border-radius:15px">👁️ చూపించు</button>';if(canEdit)btns+='<button onclick="prayerDel(\''+m.id+'\')" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:15px">🗑️</button>';return '<div class="prayer-msg"><b>🙏 '+m.name+'</b><div style="font-size:16px;margin-top:4px">'+m.text+'</div><small style="color:#999">'+m.time+'</small><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+btns+'</div></div>';}).join('');}
-function prayerSend(){if(prayerIsBlocked()){alert('🚫 బ్లాక్ అయ్యారు');return;}if(!prayerOpen&&!prayerIsAdmin()){alert('⛔ CLOSE లో ఉంది');return;}let t=document.getElementById('prayerInput').value.trim();if(!t)return;let isAdmin=prayerIsAdmin();let name=isAdmin?'అడ్మిన్':(localStorage.getItem('ms_chat_name')||'భక్తుడు');let code=prayerMyCode();let id='M'+Date.now();let m={id:id,name:name,text:t,time:new Date().toLocaleString('te-IN'),showAll:isAdmin?true:false,code:code,isAdmin:isAdmin};prayerMsgs.push(m);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_MSG_'+id+'|'+code+'|'+name+'|'+(isAdmin?'1':'0')+'|'+t);prayerNtfySend('PRAYER|'+name+'||'+t+'|');document.getElementById('prayerInput').value='';alert('✅ పంపించారు!');prayerRender();}
+function prayerRender(){
+  let open=prayerIsReallyOpen();
+  // ✅ అడ్మిన్ కి - తన OPEN స్టేటస్ చూపించు - భక్తులకు - నిజమైన LIVE స్టేటస్ చూపించు
+  let showOpen = prayerIsAdmin() ? prayerOpen : open;
+  let admin=prayerIsAdmin();
+  document.getElementById('prayerAdminBox').style.display=admin?'block':'none';
+  document.getElementById('prayerSchedShow').innerText=prayerSched||'ఇంకా షెడ్యూల్ పెట్టలేదు';
+  let st=document.getElementById('prayerGroupStatus');
+  if(showOpen){ st.innerText='🟢 LIVE - పాస్టర్ గారు ఆన్ లో ఉన్నారు!'; st.style.color='#2E7D32'; }
+  else { st.innerText='🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి 🙏'; st.style.color='#C62828'; }
+  let blocked=prayerIsBlocked();
+  document.getElementById('prayerBlockedBox').style.display=blocked?'block':'none';
+  document.getElementById('prayerClosedBox').style.display=(!showOpen&&!blocked)?'block':'none';
+  document.getElementById('prayerInputRow').style.display=(showOpen&&!blocked)?'flex':'none';
+  let box=document.getElementById('prayerMsgs');let myCode=prayerMyCode();let show=admin?prayerMsgs:prayerMsgs.filter(m=>m.showAll);
+  if(!show.length)box.innerHTML='<p style="text-align:center;color:#999">ఇంకా ప్రార్థనలు లేవు 🙏</p>';
+  else box.innerHTML=show.map(m=>{let canEdit=admin||m.code===myCode;let btns='';if(admin)btns+='<button onclick="prayerApprove(\''+m.id+'\')" style="flex:1;background:#25D366;color:#fff;border:0;padding:8px;border-radius:15px">👁️ చూపించు</button>';if(canEdit)btns+='<button onclick="prayerDel(\''+m.id+'\')" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:15px">🗑️</button>';return '<div class="prayer-msg"><b>🙏 '+m.name+'</b><div style="font-size:16px;margin-top:4px">'+m.text+'</div><small style="color:#999">'+m.time+'</small><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+btns+'</div></div>';}).join('');
+}
+function prayerSend(){
+  if(prayerIsBlocked()){alert('🚫 బ్లాక్ అయ్యారు');return;}
+  if(!prayerIsReallyOpen() && !prayerIsAdmin()){alert('⛔ CLOSE లో ఉంది - పాస్టర్ OPEN చేసే వరకు ఆగండి');return;}
+  let t=document.getElementById('prayerInput').value.trim();if(!t)return;let isAdmin=prayerIsAdmin();let name=isAdmin?'అడ్మిన్':(localStorage.getItem('ms_chat_name')||'భక్తుడు');let code=prayerMyCode();let id='M'+Date.now();let m={id:id,name:name,text:t,time:new Date().toLocaleString('te-IN'),showAll:isAdmin?true:false,code:code,isAdmin:isAdmin};prayerMsgs.push(m);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_MSG_'+id+'|'+code+'|'+name+'|'+(isAdmin?'1':'0')+'|'+t);prayerNtfySend('PRAYER|'+name+'||'+t+'|');document.getElementById('prayerInput').value='';alert('✅ పంపించారు!');prayerRender();
+}
 function prayerApprove(id){let m=prayerMsgs.find(x=>x.id===id);if(!m)return;m.showAll=true;localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_SHOW_'+id);prayerRender();}
 function prayerDel(id){if(!confirm('డిలీట్ చేయాలా?'))return;prayerMsgs=prayerMsgs.filter(x=>x.id!==id);localStorage.setItem('ms_prayer_msgs2',JSON.stringify(prayerMsgs));prayerNtfySend('PRAYER_DEL_'+id);prayerRender();}
-// ✅ ✅ ✅ FIX - కొత్త POLL - అడ్మిన్ OPEN చేస్తే - 5 సెకన్లలో ఇక్కడ కూడా OPEN!
-let prayerLastPoll = Math.floor(Date.now()/1000);
+// ✅ ✅ ✅ FIX - కొత్త POLL - since=all కాదు - చివరి 60 సెకన్లు మాత్రమే - మిస్ అవ్వదు!
 let prayerSeenIds = new Set();
 async function pollPrayerHome(){
   try{
-    let r = await fetch('https://ntfy.sh/'+PRAYER_TOPIC+'/json?since='+prayerLastPoll+'&poll=1');
+    let r = await fetch('https://ntfy.sh/'+PRAYER_TOPIC+'/json?since=all&poll=1');
     let txt = await r.text();
     let changed = false;
-    txt.split('\n').filter(Boolean).forEach(l=>{
+    let lines = txt.split('\n').filter(Boolean).slice(-30);
+    lines.forEach(l=>{
       try{
         let j = JSON.parse(l); if(!j.message) return;
-        if(j.id && prayerSeenIds.has(j.id)) return; if(j.id) prayerSeenIds.add(j.id);
-        if(j.message.startsWith('PRAYER_OPEN|')){ prayerOpen=true; localStorage.setItem('ms_prayer_open','1'); changed=true; }
-        if(j.message.startsWith('PRAYER_CLOSE|')){ prayerOpen=false; localStorage.setItem('ms_prayer_open','0'); changed=true; }
-        if(j.message.startsWith('PRAYER_LIVE|')){ prayerOpen=true; localStorage.setItem('ms_prayer_open','1'); changed=true; }
-        if(j.message.startsWith('PRAYER_OPEN')){ prayerOpen=true; localStorage.setItem('ms_prayer_open','1'); changed=true; }
-        if(j.message.startsWith('PRAYER_CLOSE')){ prayerOpen=false; localStorage.setItem('ms_prayer_open','0'); changed=true; }
+        let key = j.id+'|'+j.message;
+        if(prayerSeenIds.has(key)) return; prayerSeenIds.add(key);
+        if(j.message.startsWith('PRAYER_LIVE|')){ prayerOpen=true; prayerLastLive=Date.now(); localStorage.setItem('ms_prayer_open','1'); changed=true; return; }
+        if(j.message.startsWith('PRAYER_OPEN|')){ prayerOpen=true; prayerLastLive=Date.now(); localStorage.setItem('ms_prayer_open','1'); changed=true; return; }
+        if(j.message.startsWith('PRAYER_CLOSE|')){ prayerOpen=false; prayerLastLive=0; localStorage.setItem('ms_prayer_open','0'); changed=true; return; }
+        if(j.message.startsWith('PRAYER_OPEN')){ prayerOpen=true; prayerLastLive=Date.now(); changed=true; return; }
+        if(j.message.startsWith('PRAYER_CLOSE')){ prayerOpen=false; prayerLastLive=0; changed=true; return; }
         if(j.message.startsWith('PRAYER_SCHED_')){ prayerSched=j.message.replace('PRAYER_SCHED_',''); changed=true; }
         if(j.message.startsWith('PRAYER_MSG_')){
           let rest=j.message.replace('PRAYER_MSG_','');
@@ -308,12 +343,17 @@ async function pollPrayerHome(){
         }
       }catch(e){}
     });
-    prayerLastPoll = Math.floor(Date.now()/1000);
     if(changed) prayerRender();
   }catch(e){}
 }
 setInterval(pollPrayerHome, 5000);
 pollPrayerHome();
+// ✅ ప్రతి 5 సెకన్లకి - 40 సెకన్లు హార్ట్ బీట్ రాకపోతే - ఆటో CLOSE!
+setInterval(()=>{
+  if(prayerOpen && prayerLastLive && (Date.now()-prayerLastLive)>40000){
+    prayerOpen=false; prayerLastLive=0; localStorage.setItem('ms_prayer_open','0'); prayerRender();
+  }
+},5000);
 const CHAT_TOPIC='ms2-mahima-sannidhi-chat-2026';
 function getMyCode(){let c=localStorage.getItem('ms_chat_code');if(!c){c=''+Math.floor(1000+Math.random()*9000);localStorage.setItem('ms_chat_code',c);}return c;}
 function isBlocked(){return localStorage.getItem('ms_im_blocked')==='1';}
@@ -339,4 +379,4 @@ setTimeout(()=>{loadSponCarousel();},3000);
 prayerRender();
 </script>
 </body>
-  </html>
+</html>
