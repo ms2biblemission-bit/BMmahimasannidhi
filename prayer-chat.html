@@ -6,20 +6,21 @@
 <title>🙏 ప్రార్థన చాట్</title>
 <style>
 *{box-sizing:border-box;font-weight:900!important}
-body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
+body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:140px}
 .top{background:#075E54;color:#fff;padding:12px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:10}
 .top button{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;width:42px;height:42px;border-radius:50%;flex-shrink:0}
 .top b{flex:1}
 #toast{display:none;background:#FFD54F;color:#222;text-align:center;padding:10px;font-size:14px;position:sticky;top:60px;z-index:99}
-#groupStatus{background:#FFEBEE;color:#C62828;text-align:center;padding:12px;font-size:15px}
+#groupStatus{background:#FFEBEE;color:#C62828;text-align:center;padding:14px;font-size:16px}
+#pastorBtn{display:block;width:calc(100% - 24px);margin:12px;background:#FFF8E1;border:2px dashed #FF9800;color:#7A0C1D;padding:12px;border-radius:12px;font-size:14px}
 #adminBox{display:none;background:#fff;border:3px solid #FFD54F;padding:12px;margin:12px;border-radius:12px;text-align:center}
-#adminBox button{border:none;padding:12px 10px;border-radius:20px;font-size:14px;margin:4px;width:48%;cursor:pointer;touch-action:manipulation}
+#adminBox button{border:none;padding:16px 10px;border-radius:20px;font-size:16px;margin:5px;width:48%;cursor:pointer;touch-action:manipulation;min-height:54px}
 #adminBox button.full{width:96%}
-#handQueue{display:none;background:#FFF3E0;border:4px solid #FF9800;padding:14px;margin:12px;border-radius:16px;position:relative;z-index:5}
+#handQueue{display:none;background:#FFF3E0;border:4px solid #FF9800;padding:14px;margin:12px;border-radius:16px}
 .handItem{background:#fff;padding:12px;border-radius:14px;margin:10px 0;border:2px solid #FF9800}
 .handItem b{font-size:18px;display:block;margin-bottom:10px}
 .handItem .row{display:flex;gap:8px}
-.handItem button{flex:1;border:none;padding:16px 8px !important;border-radius:16px;font-size:17px !important;cursor:pointer;touch-action:manipulation;min-height:52px}
+.handItem button{flex:1;border:none;padding:16px 8px;border-radius:16px;font-size:17px;cursor:pointer;touch-action:manipulation;min-height:52px}
 #recBox{display:none;background:#FFEBEE;border:2px solid #E53935;border-radius:14px;padding:12px;margin:12px;text-align:center}
 #msgs{padding:12px 10px}
 .msg{max-width:86%;padding:10px 12px;border-radius:14px;margin:8px 0;font-size:15px;background:#fff;word-break:break-word}
@@ -27,8 +28,6 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 .msg.admin{border:2px solid #FFD54F;background:#FFF8E1}
 .msg.handMsg{border:3px solid #FF9800;background:#FFF3E0}
 .msg .name{font-size:12px;color:#075E54;display:block;margin-bottom:4px}
-.msg.admin .name{color:#7A0C1D}
-.msg audio{width:100%;margin-top:6px}
 .msg button{cursor:pointer;touch-action:manipulation}
 .msg .delBtn{background:#E53935;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-size:13px;margin-top:8px}
 .msg .okBtn{background:#25D366;color:#fff;border:none;padding:16px 10px;border-radius:16px;font-size:17px;margin-top:10px;width:100%;min-height:52px;display:block}
@@ -41,20 +40,20 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 </style>
 </head>
 <body>
-<div class="top"><button onclick="location.href='index.html'">⬅️</button><b>🙏 ప్రార్థన చాట్</b><span id="adminBadge" style="background:#FFD54F;color:#222;padding:5px 10px;border-radius:20px;font-size:12px;display:none">👑 అడ్మిన్</span></div>
+<div class="top"><button type="button" onclick="location.href='index.html'">⬅️</button><b>🙏 ప్రార్థన చాట్</b><span id="adminBadge" style="background:#FFD54F;color:#222;padding:5px 10px;border-radius:20px;font-size:12px;display:none">👑 అడ్మిన్</span></div>
 <div id="toast"></div>
 <div id="groupStatus">🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి 🙏</div>
+<!-- ✅ అడ్మిన్ లింక్ లేదు! - పాస్టర్ బటన్ మాత్రమే! -->
+<button type="button" id="pastorBtn" onclick="unlockPastor()">👑 నేనే పాస్టర్ - ఇక్కడ నొక్కండి</button>
 <div id="adminBox">
-<b style="color:#7A0C1D">👑 అడ్మిన్ - పాస్టర్ ✅</b><br><small>మీరు OPEN చేస్తేనే LIVE! CLOSE నొక్కితేనే CLOSE!</small><br><br>
-<button type="button" onclick="openGroup()" style="background:#25D366;color:#fff">🟢 OPEN - LIVE పెట్టు</button>
-<button type="button" onclick="closeGroup()" style="background:#E53935;color:#fff">🔴 CLOSE - LIVE ఆపు</button><br>
+<b style="color:#7A0C1D;font-size:18px">👑 పాస్టర్ గారు ✅</b><br><small>OPEN నొక్కితే LIVE! CLOSE నొక్కితే CLOSE!</small><br><br>
+<button type="button" onclick="openGroup()" style="background:#25D366;color:#fff">🟢 OPEN</button>
+<button type="button" onclick="closeGroup()" style="background:#E53935;color:#fff">🔴 CLOSE</button><br>
 <button type="button" onclick="clearChatAdmin()" style="background:#E53935;color:#fff">🧹 చాట్ క్లియర్</button>
 <button type="button" onclick="stopSpeaker()" style="background:#222;color:#fff">🧹 హ్యాండ్ క్లియర్</button><br>
-<button type="button" onclick="copyAdminLink()" style="background:#FFD54F;color:#222;width:96%">🔗 👑 అడ్మిన్ లింక్ కాపీ</button>
 <button type="button" onclick="adminLogout()" style="background:#eee;color:#333;width:96%">🚪 అడ్మిన్ లాగ్ అవుట్</button>
 </div>
-<!-- ✅ హ్యాండ్ బాక్స్ - అడ్మిన్ కి ఎప్పుడూ పైనే! -->
-<div id="handQueue"><b style="font-size:18px">✋ హ్యాండ్ రైస్ చేసిన వారు 👇</b><div style="font-size:12px;color:#666">ఇక్కడ ✅ ఓకే నొక్కండి - పేరుతో కాదు - నంబర్ తో నొక్కుతుంది!</div><div id="handList" style="margin-top:8px"></div></div>
+<div id="handQueue"><b style="font-size:18px">✋ హ్యాండ్ రైస్ చేసిన వారు 👇</b><div id="handList" style="margin-top:8px"></div></div>
 <div id="recBox"><b style="color:#C62828">🔴 రికార్డ్... <span id="recTimer">30</span></b><br><button type="button" onclick="stopRecording()" style="background:#C62828;color:#fff;padding:10px 18px;border-radius:20px;border:none">⏹️ ఆపేయి + పంపు</button></div>
 <div id="msgs"></div>
 <div id="emojiBox">
@@ -70,11 +69,8 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 </div>
 <script>
 const TOPIC='ms2-prayer-chat-2026';
-const ADMIN_LINK='https://ms2biblemission-bit.github.io/BMmahimasannidhi/prayer-chat.html?admin=1';
-function copyAdminLink(){ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ADMIN_LINK).then(()=>toast('✅ అడ్మిన్ లింక్ కాపీ!')); } else { prompt('అడ్మిన్ లింక్:',ADMIN_LINK); } }
-let IS_ADMIN=false;
-if(location.search.includes('admin=1')){ IS_ADMIN=true; localStorage.setItem('ms_prayer_admin','1'); }
-if(localStorage.getItem('ms_prayer_admin')==='1'){ IS_ADMIN=true; }
+// ✅ అడ్మిన్ - ఈ ఫోన్ లోనే సేవ్ అవుతుంది - లింక్ అక్కర్లేదు!
+let IS_ADMIN = localStorage.getItem('ms_prayer_admin')==='1';
 function getSeen(){ try{ return new Set(JSON.parse(localStorage.getItem('ms_prayer_seen')||'[]')); }catch(e){ return new Set(); } }
 function saveSeen(s){ try{ localStorage.setItem('ms_prayer_seen', JSON.stringify(Array.from(s).slice(-200))); }catch(e){} }
 let seenIds=getSeen();
@@ -83,13 +79,30 @@ let toastTimer=null;
 function toast(m){ let e=document.getElementById('toast'); e.textContent=m; e.style.display='block'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{e.style.display='none';},4000); }
 function isReallyOpen(){ return localStorage.getItem('ms_prayer_open')==='1'; }
 function canSpeak(){ return isReallyOpen(); }
-function applyAdminUI(){ document.getElementById('adminBox').style.display=IS_ADMIN?'block':'none'; document.getElementById('handQueue').style.display=IS_ADMIN?'block':'none'; document.getElementById('adminBadge').style.display=IS_ADMIN?'block':'none'; }
+// ✅ పాస్టర్ అన్ లాక్ - కోడ్ 1985
+function unlockPastor(){
+  if(IS_ADMIN){ toast('👑 మీరు ఆల్రెడీ పాస్టర్!'); return; }
+  let code = prompt('👑 పాస్టర్ కోడ్ చెప్పండి:');
+  if(code==='1985'){
+    IS_ADMIN=true; localStorage.setItem('ms_prayer_admin','1');
+    applyAdminUI(); updateGroupUI(); renderMsgs();
+    toast('✅ 👑 పాస్టర్ గారు! OPEN / CLOSE వచ్చాయి!');
+  } else if(code!==null){
+    toast('❌ తప్పు కోడ్! పాస్టర్ మాత్రమే!');
+  }
+}
+function applyAdminUI(){
+  document.getElementById('adminBox').style.display=IS_ADMIN?'block':'none';
+  document.getElementById('handQueue').style.display=IS_ADMIN?'block':'none';
+  document.getElementById('adminBadge').style.display=IS_ADMIN?'block':'none';
+  document.getElementById('pastorBtn').style.display=IS_ADMIN?'none':'block';
+}
 function adminLogout(){ if(!confirm('అడ్మిన్ నుంచి బయటకు వెళ్ళాలా?')) return; IS_ADMIN=false; localStorage.removeItem('ms_prayer_admin'); applyAdminUI(); updateSpeakerUI(); renderMsgs(); toast('🚪 లాగ్ అవుట్!'); }
 function getHands(){ try{return JSON.parse(localStorage.getItem('ms_prayer_hands')||'[]');}catch(e){return [];} }
 function setHands(a){ localStorage.setItem('ms_prayer_hands',JSON.stringify(a)); }
 function updateGroupUI(){
   let s=document.getElementById('groupStatus');
-  if(isReallyOpen()){ s.innerText='🟢 LIVE - పాస్టర్ గారు ఆన్ లో ఉన్నారు! మాట్లాడొచ్చు!'; s.style.background='#E8F5E9'; s.style.color='#2E7D32'; }
+  if(isReallyOpen()){ s.innerText='🟢 LIVE - పాస్టర్ గారు ఆన్ లో ఉన్నారు!'; s.style.background='#E8F5E9'; s.style.color='#2E7D32'; }
   else{ s.innerText='🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి 🙏'; s.style.background='#FFEBEE'; s.style.color='#C62828'; }
   updateSpeakerUI();
 }
@@ -99,16 +112,27 @@ function updateSpeakerUI(){
   else{ txt.disabled=true; send.disabled=true; voice.disabled=true; txt.placeholder='🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి'; voice.style.background='#999'; }
   if(IS_ADMIN) renderHandQueue();
 }
-// ✅ FIX - ఇక పేరుతో కాదు - నంబర్ తో! - ఇదే ముఖ్యం!
 function renderHandQueue(){
   let hands=getHands();
   if(!hands.length){ document.getElementById('handList').innerHTML='<p style="color:#666">ఇంకా ఎవరూ హ్యాండ్ రైస్ చేయలేదు</p>'; return; }
   document.getElementById('handList').innerHTML=hands.map((n,i)=>{
-    return '<div class="handItem"><b>✋ '+(i+1)+'. '+n+'</b><div class="row"><button type="button" onclick="approveHandByIndex('+i+')" style="background:#25D366;color:#fff">✅ ఓకే - మాట్లాడనివ్వు</button><button type="button" onclick="rejectHandByIndex('+i+')" style="background:#999;color:#fff">❌ వద్దు</button></div></div>';
+    return '<div class="handItem"><b>✋ '+(i+1)+'. '+n+'</b><div class="row"><button type="button" onclick="approveHandByIndex('+i+')" style="background:#25D366;color:#fff">✅ ఓకే</button><button type="button" onclick="rejectHandByIndex('+i+')" style="background:#999;color:#fff">❌ వద్దు</button></div></div>';
   }).join('');
 }
-async function openGroup(){ localStorage.setItem('ms_prayer_open','1'); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_OPEN|OPEN|'+Date.now()});}catch(e){} updateGroupUI(); toast('✅ LIVE అయ్యింది! CLOSE నొక్కే వరకు LIVE ఉంటుంది!'); }
-async function closeGroup(){ localStorage.setItem('ms_prayer_open','0'); setHands([]); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLOSE|CLOSE|'+Date.now()});}catch(e){} updateGroupUI(); toast('🔴 CLOSE అయ్యింది!'); }
+// ✅ OPEN / CLOSE - ముందు ఫోన్ లోనే సేవ్ - తర్వాత నెట్ కి పంపు - అందుకే 100% పని చేస్తుంది!
+async function openGroup(){
+  localStorage.setItem('ms_prayer_open','1');
+  updateGroupUI();
+  toast('✅ 🟢 OPEN అయ్యింది! అందరికీ LIVE!');
+  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_OPEN|OPEN|'+Date.now()});}catch(e){}
+}
+async function closeGroup(){
+  localStorage.setItem('ms_prayer_open','0');
+  setHands([]);
+  updateGroupUI();
+  toast('🔴 CLOSE అయ్యింది! అందరికీ CLOSE!');
+  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLOSE|CLOSE|'+Date.now()});}catch(e){}
+}
 async function stopSpeaker(){ setHands([]); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_STOP||'+Date.now()});}catch(e){} updateSpeakerUI(); }
 async function clearChatAdmin(){ if(!confirm('🧹 చాట్ అంతా క్లియర్ చేయాలా?')) return; localStorage.setItem('ms_prayer_local',JSON.stringify([])); localStorage.setItem('ms_prayer_seen',JSON.stringify([])); seenIds=new Set(); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLEAR||'+Date.now()});}catch(e){} renderMsgs(); toast('🧹 క్లియర్!'); }
 async function raiseHand(){
@@ -119,7 +143,6 @@ async function raiseHand(){
   try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER|'+me+'||✋ హ్యాండ్ రైస్ చేశారు|HAND_'+Date.now()+'|0'});}catch(e){}
   toast('✋ హ్యాండ్ రైస్ చేశారు!');
 }
-// ✅ FIX - నంబర్ తో ఓకే - పేరులో ఏమున్నా నొక్కుతుంది!
 async function approveHandByIndex(i){
   let hands=getHands(); let name=hands[i]; if(!name) return;
   setHands(hands.filter((_,j)=>j!==i));
