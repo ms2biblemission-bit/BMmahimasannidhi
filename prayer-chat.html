@@ -11,11 +11,11 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 .top button{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;width:42px;height:42px;border-radius:50%;flex-shrink:0}
 .top b{flex:1}
 #toast{display:none;background:#FFD54F;color:#222;text-align:center;padding:10px;font-size:14px;position:sticky;top:60px;z-index:9}
-#groupStatus{background:#E8F5E9;color:#2E7D32;text-align:center;padding:10px;font-size:14px}
-#speakerBar{display:none;background:#25D366;color:#fff;text-align:center;padding:12px;font-size:15px}
+#groupStatus{background:#FFEBEE;color:#C62828;text-align:center;padding:12px;font-size:15px}
 #adminBox{display:none;background:#fff;border:3px solid #FFD54F;padding:12px;margin:12px;border-radius:12px;text-align:center}
 #adminBox button{border:none;padding:12px 10px;border-radius:20px;font-size:14px;margin:4px;width:48%}
 #adminBox button.full{width:96%}
+#adminLinkBox{background:#FFF8E1;border:2px dashed #FF9800;padding:10px;margin:12px;border-radius:12px;text-align:center;font-size:13px;word-break:break-all}
 #handQueue{display:none;background:#fff;border:2px solid #FFD54F;padding:12px;margin:12px;border-radius:12px}
 #recBox{display:none;background:#FFEBEE;border:2px solid #E53935;border-radius:14px;padding:12px;margin:12px;text-align:center}
 #msgs{padding:12px 10px}
@@ -27,7 +27,7 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 .msg.admin .name{color:#7A0C1D}
 .msg audio{width:100%;margin-top:6px}
 .msg .delBtn{background:#E53935;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:12px;margin-top:6px;width:auto}
-.msg .okBtn{background:#25D366;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-size:16px;margin-top:8px;width:auto}
+.msg .okBtn{background:#25D366;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-size:14px;margin-top:6px;width:auto}
 .bottom{position:fixed;left:0;right:0;bottom:0;background:#F0F0F0;padding:6px;display:flex;gap:5px;align-items:center;z-index:20}
 .bottom input{flex:1;min-width:0;padding:12px;border-radius:25px;border:none;outline:none;font-size:14px}
 .bottom button{border:none;width:44px;height:44px;border-radius:50%;font-size:18px;flex-shrink:0}
@@ -39,15 +39,17 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 <body>
 <div class="top"><button onclick="location.href='index.html'">⬅️</button><b>🙏 ప్రార్థన చాట్</b><span id="adminBadge" style="background:#FFD54F;color:#222;padding:5px 10px;border-radius:20px;font-size:12px;display:none">👑 అడ్మిన్</span></div>
 <div id="toast"></div>
-<div id="groupStatus">🟢 OPEN</div>
-<div id="speakerBar">🎤 <span id="speakerName"></span> ప్రార్థన చేస్తున్నారు...</div>
+<div id="groupStatus">🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి 🙏</div>
 <div id="adminBox">
-<b style="color:#7A0C1D">👑 అడ్మిన్ - పాస్టర్ ✅</b><br><br>
-<button onclick="openGroup()" style="background:#25D366;color:#fff">🟢 OPEN</button>
-<button onclick="closeGroup()" style="background:#999;color:#fff">🔴 CLOSE</button><br>
-<button onclick="stopSpeaker()" style="background:#222;color:#fff">🔇 అందరినీ మ్యూట్</button>
+<b style="color:#7A0C1D">👑 అడ్మిన్ - పాస్టర్ ✅</b><br><small>మీరు OPEN చేస్తేనే అందరికీ LIVE!</small><br><br>
+<button onclick="openGroup()" style="background:#25D366;color:#fff">🟢 OPEN - LIVE పెట్టు</button>
+<button onclick="closeGroup()" style="background:#E53935;color:#fff">🔴 CLOSE - LIVE ఆపు</button><br>
 <button onclick="clearChatAdmin()" style="background:#E53935;color:#fff">🧹 చాట్ క్లియర్</button>
+<button onclick="stopSpeaker()" style="background:#222;color:#fff">🧹 హ్యాండ్ క్లియర్</button><br>
+<button onclick="copyAdminLink()" class="full" style="background:#FFD54F;color:#222">🔗 👑 అడ్మిన్ లింక్ కాపీ</button>
+<button onclick="adminLogout()" class="full" style="background:#eee;color:#333">🚪 అడ్మిన్ లాగ్ అవుట్</button>
 </div>
+<div id="adminLinkBox"><b>👑 అడ్మిన్ లింక్ - ఎవరికీ ఇవ్వకండి!</b><br><a id="adminLinkA" href="prayer-chat.html?admin=1" style="color:#075E54">prayer-chat.html?admin=1</a><br><button onclick="copyAdminLink()" style="background:#075E54;color:#fff;padding:10px 16px;border-radius:20px;border:none;width:auto;margin-top:6px">🔗 అడ్మిన్ లింక్ కాపీ</button></div>
 <div id="handQueue"><b>✋ హ్యాండ్ రైస్ చేసిన వారు:</b><div id="handList" style="margin-top:8px"></div></div>
 <div id="recBox"><b style="color:#C62828">🔴 రికార్డ్... <span id="recTimer">30</span></b><br><button onclick="stopRecording()" style="background:#C62828;color:#fff;padding:10px 18px;border-radius:20px;border:none;width:auto">⏹️ ఆపేయి + పంపు</button></div>
 <div id="msgs"></div>
@@ -59,110 +61,66 @@ body{margin:0;font-family:sans-serif;background:#ECE5DD;padding-bottom:130px}
 <button onclick="toggleEmoji()" style="background:#FFD54F">😊</button>
 <button id="handBtn" onclick="raiseHand()" style="background:#FFD54F">✋</button>
 <button id="voiceBtn" onclick="toggleRecord()" style="background:#075E54;color:#fff">🎙️</button>
-<input id="txt" placeholder="🙏 నా కోసం ప్రార్థించండి...">
+<input id="txt" placeholder="🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి">
 <button id="sendBtn" onclick="sendMsg()" style="background:#25D366;color:#fff">➤</button>
 </div>
 <script>
 const TOPIC='ms2-prayer-chat-2026';
+const ADMIN_LINK='https://ms2biblemission-bit.github.io/BMmahimasannidhi/prayer-chat.html?admin=1';
+function copyAdminLink(){ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ADMIN_LINK).then(()=>toast('✅ అడ్మిన్ లింక్ కాపీ అయ్యింది!')); } else { prompt('అడ్మిన్ లింక్:',ADMIN_LINK); } }
+document.getElementById('adminLinkA').href=ADMIN_LINK; document.getElementById('adminLinkA').textContent=ADMIN_LINK;
 let IS_ADMIN=false;
 if(location.search.includes('admin=1')){ IS_ADMIN=true; localStorage.setItem('ms_prayer_admin','1'); }
 if(localStorage.getItem('ms_prayer_admin')==='1'){ IS_ADMIN=true; }
+if(localStorage.getItem('ms_prayer_name')==='పాస్టర్'){ IS_ADMIN=true; localStorage.setItem('ms_prayer_admin','1'); }
 function getSeen(){ try{ return new Set(JSON.parse(localStorage.getItem('ms_prayer_seen')||'[]')); }catch(e){ return new Set(); } }
 function saveSeen(s){ try{ localStorage.setItem('ms_prayer_seen', JSON.stringify(Array.from(s).slice(-200))); }catch(e){} }
 let seenIds=getSeen();
+let lastHeartbeat=0;
 function myName(){ let n=localStorage.getItem('ms_prayer_name'); if(!n){ n=prompt('🙏 మీ పేరు:')||'భక్తుడు'; localStorage.setItem('ms_prayer_name',n); } return n; }
 let toastTimer=null;
 function toast(m){ let e=document.getElementById('toast'); e.textContent=m; e.style.display='block'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{e.style.display='none';},4000); }
-function isGroupOpen(){ return localStorage.getItem('ms_prayer_open')!=='0'; }
+function isReallyOpen(){ if(IS_ADMIN) return localStorage.getItem('ms_prayer_open')==='1'; if(localStorage.getItem('ms_prayer_open')!=='1') return false; if(!lastHeartbeat) return false; return (Date.now()-lastHeartbeat)<40000; }
+// ✅ మ్యూట్ లేదు! OPEN ఉంటే - అందరూ మాట్లాడొచ్చు!
+function canSpeak(){ if(IS_ADMIN) return localStorage.getItem('ms_prayer_open')==='1'; return isReallyOpen(); }
+function applyAdminUI(){ document.getElementById('adminBox').style.display=IS_ADMIN?'block':'none'; document.getElementById('handQueue').style.display=IS_ADMIN?'block':'none'; document.getElementById('adminBadge').style.display=IS_ADMIN?'block':'none'; document.getElementById('adminLinkBox').style.display=IS_ADMIN?'block':'none'; }
+function adminLogout(){ if(!confirm('అడ్మిన్ నుంచి బయటకు వెళ్ళాలా?')) return; IS_ADMIN=false; localStorage.removeItem('ms_prayer_admin'); applyAdminUI(); updateSpeakerUI(); renderMsgs(); toast('🚪 లాగ్ అవుట్ అయ్యారు!'); }
 function getHands(){ try{return JSON.parse(localStorage.getItem('ms_prayer_hands')||'[]');}catch(e){return [];} }
 function setHands(a){ localStorage.setItem('ms_prayer_hands',JSON.stringify(a)); }
-function getSpeaker(){ return localStorage.getItem('ms_prayer_speaker')||''; }
-function setSpeaker(n){ if(n) localStorage.setItem('ms_prayer_speaker',n); else localStorage.removeItem('ms_prayer_speaker'); }
-function canSpeak(){ if(IS_ADMIN) return true; if(!isGroupOpen()) return false; let sp=getSpeaker(); if(!sp) return false; return sp.trim()===myName().trim(); }
-function applyAdminUI(){ document.getElementById('adminBox').style.display=IS_ADMIN?'block':'none'; document.getElementById('handQueue').style.display=IS_ADMIN?'block':'none'; document.getElementById('adminBadge').style.display=IS_ADMIN?'block':'none'; }
-function updateGroupUI(){ let o=isGroupOpen(); let s=document.getElementById('groupStatus'); if(o){ s.innerText='🟢 OPEN - ✋ హ్యాండ్ రైస్ చేయండి!'; s.style.background='#E8F5E9'; s.style.color='#2E7D32'; } else { s.innerText='🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి 🙏'; s.style.background='#FFEBEE'; s.style.color='#C62828'; } updateSpeakerUI(); }
+function updateGroupUI(){
+  let s=document.getElementById('groupStatus');
+  if(IS_ADMIN){ let myOpen=localStorage.getItem('ms_prayer_open')==='1'; if(myOpen){ s.innerText='🟢 LIVE - మీరు ON లో ఉన్నారు! అందరికీ LIVE!'; s.style.background='#E8F5E9'; s.style.color='#2E7D32'; } else { s.innerText='🔴 CLOSE - మీరు OFF లో ఉన్నారు! అందరికీ CLOSE!'; s.style.background='#FFEBEE'; s.style.color='#C62828'; } }
+  else if(isReallyOpen()){ s.innerText='🟢 LIVE - పాస్టర్ గారు ఆన్ లో ఉన్నారు! మాట్లాడొచ్చు!'; s.style.background='#E8F5E9'; s.style.color='#2E7D32'; }
+  else{ s.innerText='🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి 🙏'; s.style.background='#FFEBEE'; s.style.color='#C62828'; }
+  updateSpeakerUI();
+}
 function updateSpeakerUI(){
-  let sp=getSpeaker(); document.getElementById('speakerBar').style.display=sp?'block':'none'; document.getElementById('speakerName').textContent=sp;
-  let can=canSpeak(); let txt=document.getElementById('txt'); let send=document.getElementById('sendBtn'); let voice=document.getElementById('voiceBtn'); let hand=document.getElementById('handBtn');
-  if(IS_ADMIN){ txt.disabled=false; send.disabled=false; voice.disabled=false; txt.placeholder='👑 అడ్మిన్ - మీరు ఎప్పుడైనా మాట్లాడొచ్చు!'; voice.style.background='#075E54'; }
-  else if(can){ txt.disabled=false; send.disabled=false; voice.disabled=false; txt.placeholder='🎤 🟢 మీకు ఓపెన్ అయ్యింది - మాట్లాడండి!'; voice.style.background='#25D366'; }
-  else{ txt.disabled=true; send.disabled=true; voice.disabled=true; txt.placeholder='🔴 మ్యూట్ - ముందు ✋ హ్యాండ్ రైస్ చేయండి!'; voice.style.background='#999'; }
-  if(sp===myName()&&!IS_ADMIN){ hand.style.background='#25D366'; hand.textContent='🎤'; } else { hand.style.background='#FFD54F'; hand.textContent='✋'; }
+  let can=canSpeak(); let txt=document.getElementById('txt'); let send=document.getElementById('sendBtn'); let voice=document.getElementById('voiceBtn');
+  if(can){ txt.disabled=false; send.disabled=false; voice.disabled=false; txt.placeholder=IS_ADMIN?'👑 అడ్మిన్ - మాట్లాడండి!':'🙏 నా కోసం ప్రార్థించండి...'; voice.style.background='#075E54'; }
+  else{ txt.disabled=true; send.disabled=true; voice.disabled=true; txt.placeholder='🔴 CLOSE - పాస్టర్ OPEN చేసే వరకు ఆగండి'; voice.style.background='#999'; }
   if(IS_ADMIN) renderHandQueue();
 }
-function renderHandQueue(){
-  let hands=getHands();
-  document.getElementById('handList').innerHTML=hands.length?hands.map((n,i)=>'<div style="background:#FFF3E0;padding:10px;border-radius:10px;margin:4px;display:flex;justify-content:space-between;align-items:center"><b>✋ '+n+'</b><span><button onclick="approveHandByIndex('+i+')" style="background:#25D366;color:#fff;border:none;padding:10px 14px;border-radius:20px;width:auto">✅ ఓకే</button><button onclick="rejectHandByIndex('+i+')" style="background:#999;color:#fff;border:none;padding:10px 14px;border-radius:20px;width:auto">❌ వద్దు</button></span></div>').join(''):'<p style="color:#666">ఇంకా ఎవరూ హ్యాండ్ రైస్ చేయలేదు - చాట్ లో వచ్చిన హ్యాండ్ మెసేజ్ కింద ✅ ఓకే నొక్కండి!</p>';
-}
-async function openGroup(){ localStorage.setItem('ms_prayer_open','1'); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_OPEN|OPEN|'+Date.now()});}catch(e){} updateGroupUI(); toast('✅ OPEN అయ్యింది!'); }
-async function closeGroup(){ localStorage.setItem('ms_prayer_open','0'); setSpeaker(''); setHands([]); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLOSE|CLOSE|'+Date.now()});}catch(e){} updateGroupUI(); toast('🔴 CLOSE అయ్యింది!'); }
-async function stopSpeaker(){ setSpeaker(''); setHands([]); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_STOP||'+Date.now()});}catch(e){} updateSpeakerUI(); toast('🔇 అందరినీ మ్యూట్ చేశారు!'); }
+function renderHandQueue(){ let hands=getHands(); document.getElementById('handList').innerHTML=hands.length?hands.map(n=>'<div style="background:#FFF3E0;padding:10px;border-radius:10px;margin:4px"><b>✋ '+n+'</b></div>').join(''):'<p style="color:#666">ఇంకా ఎవరూ హ్యాండ్ రైస్ చేయలేదు</p>'; }
+let hbTimer=null;
+function startHeartbeat(){ stopHeartbeat(); sendHeartbeat(); hbTimer=setInterval(sendHeartbeat,15000); }
+function stopHeartbeat(){ if(hbTimer) clearInterval(hbTimer); hbTimer=null; }
+async function sendHeartbeat(){ if(!IS_ADMIN) return; if(localStorage.getItem('ms_prayer_open')!=='1') return; try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_LIVE|'+Date.now()});}catch(e){} }
+async function openGroup(){ localStorage.setItem('ms_prayer_open','1'); lastHeartbeat=Date.now(); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_OPEN|OPEN|'+Date.now()});}catch(e){} startHeartbeat(); updateGroupUI(); toast('✅ LIVE అయ్యింది!'); }
+async function closeGroup(){ localStorage.setItem('ms_prayer_open','0'); stopHeartbeat(); setHands([]); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLOSE|CLOSE|'+Date.now()});}catch(e){} updateGroupUI(); toast('🔴 CLOSE అయ్యింది!'); }
+async function stopSpeaker(){ setHands([]); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_STOP||'+Date.now()});}catch(e){} updateSpeakerUI(); }
 async function clearChatAdmin(){ if(!confirm('🧹 చాట్ అంతా క్లియర్ చేయాలా?')) return; localStorage.setItem('ms_prayer_local',JSON.stringify([])); localStorage.setItem('ms_prayer_seen',JSON.stringify([])); seenIds=new Set(); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_CLEAR||'+Date.now()});}catch(e){} renderMsgs(); toast('🧹 క్లియర్ అయ్యింది!'); }
-async function raiseHand(){
-  let me=myName(); if(getSpeaker()===me){ toast('🎤 మీకే ఓపెన్ ఉంది!'); return; }
-  let h=getHands(); if(h.includes(me)){ toast('✋ మీరు ఆల్రెడీ హ్యాండ్ రైస్ చేశారు!'); return; }
-  h.push(me); setHands(h);
-  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_HAND|'+me+'|'+Date.now()});}catch(e){}
-  updateSpeakerUI(); toast('✋ హ్యాండ్ రైస్ చేశారు! పాస్టర్ ఓకే కోసం ఆగండి!');
-}
-// ✅ FIX - ఇదే ముఖ్యం! హ్యాండ్ లిస్ట్ లో లేకపోయినా - ఓకే పని చేస్తుంది!
-async function doApprove(name){
-  name=(name||'').trim(); if(!name) return;
-  setSpeaker(name);
-  setHands(getHands().filter(x=>x.trim()!==name));
-  // ✅ ఓకే + చాట్ మెసేజ్ - రెండూ - భక్తుడికి తప్పకుండా వెళ్తాయి!
-  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_APPROVE|'+name+'|'+Date.now()});}catch(e){}
-  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER|పాస్టర్||✅ '+name+' గారికి ఓకే ఇచ్చారు - ఇప్పుడు మాట్లాడండి!|APPROVE_'+Date.now()+'|1'});}catch(e){}
-  updateSpeakerUI(); renderMsgs();
-  toast('✅ '+name+' కి ఓపెన్ చేశారు! వాళ్ల ఫోన్ లో 2 సెకన్లలో ఓపెన్ అవుతుంది!');
-}
-async function approveHandByIndex(i){ let hands=getHands(); let name=hands[i]; if(name) doApprove(name); }
-async function approveHand(name){ doApprove(name); }
-async function rejectHandByIndex(i){ let hands=getHands(); let name=hands[i]; setHands(hands.filter((_,j)=>j!==i)); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_REJECT|'+name+'|'+Date.now()});}catch(e){} updateSpeakerUI(); }
+async function raiseHand(){ let me=myName(); if(!canSpeak()){ toast('🔴 CLOSE లో ఉంది!'); return; } let h=getHands(); if(h.includes(me)){ toast('✋ మీరు ఆల్రెడీ హ్యాండ్ రైస్ చేశారు!'); return; } h.push(me); setHands(h); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_HAND|'+me+'|'+Date.now()});}catch(e){} toast('✋ హ్యాండ్ రైస్ చేశారు! మీరు ఇప్పుడే మెసేజ్ కూడా పెట్టొచ్చు!'); }
 function toggleEmoji(){ let b=document.getElementById('emojiBox'); b.style.display=b.style.display==='block'?'none':'block'; }
-function addEmoji(e){ let t=document.getElementById('txt'); if(t.disabled){ toast('🔴 ముందు ✋ హ్యాండ్ రైస్ చేయండి!'); return; } t.value+=' '+e+' '; t.focus(); }
+function addEmoji(e){ let t=document.getElementById('txt'); if(t.disabled) return; t.value+=' '+e+' '; t.focus(); }
 function loadLocal(){ try{return JSON.parse(localStorage.getItem('ms_prayer_local')||'[]');}catch(e){return [];} }
-function renderMsgs(){
-  let a=loadLocal();
-  document.getElementById('msgs').innerHTML=a.map(m=>{
-    let isAdmin=m.isAdmin===true; let isHand=m.msg&&m.msg.includes('హ్యాండ్ రైస్');
-    let cls='msg '+(isAdmin?'admin':(m.name===myName()?'me':''))+(isHand?' handMsg':'');
-    let label=isAdmin?'👑 '+m.name+' (అడ్మిన్)':'🙏 '+m.name;
-    let audioHtml=m.audio?'<audio controls src="'+m.audio+'"></audio>':'';
-    let textHtml=m.msg?'<div>'+m.msg+'</div>':'';
-    let delHtml=IS_ADMIN?'<br><button class="delBtn" onclick="deleteOneMsg(\''+m.id+'\')">🗑️ డిలీట్</button>':'';
-    let okHtml=(IS_ADMIN&&isHand)?'<button class="okBtn" onclick="approveHand(\''+m.name.replace(/'/g,'')+'\')">✅ ఓకే - మాట్లాడనివ్వు</button>':'';
-    return '<div class="'+cls+'"><span class="name">'+label+'</span>'+textHtml+audioHtml+delHtml+' '+okHtml+'</div>';
-  }).join('');
-  window.scrollTo(0,document.body.scrollHeight);
-}
-async function deleteOneMsg(id){ if(!IS_ADMIN) return; if(!confirm('🗑️ డిలీట్ చేయాలా?')) return; let a=loadLocal().filter(x=>x.id!==id); localStorage.setItem('ms_prayer_local',JSON.stringify(a)); renderMsgs(); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_DEL|'+id+'|'+Date.now()});}catch(e){} toast('🗑️ డిలీట్ అయ్యింది!'); }
-async function sendMsg(){
-  if(!canSpeak()){ toast('🔴 మ్యూట్ లో ఉన్నారు! ముందు ✋ హ్యాండ్ రైస్ చేయండి!'); return; }
-  let t=document.getElementById('txt'); let msg=t.value.trim(); if(!msg){ toast('⚠️ ముందు మెసేజ్ టైప్ చేయండి!'); return; }
-  let m={name:myName(),msg:msg,isAdmin:IS_ADMIN,id:'M'+Date.now()+'_'+Math.random().toString(36).slice(2,6)};
-  let a=loadLocal(); a.push(m); localStorage.setItem('ms_prayer_local',JSON.stringify(a));
-  try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER|'+m.name+'||'+m.msg+'|'+m.id+'|'+(IS_ADMIN?'1':'0')});}catch(e){}
-  t.value=''; document.getElementById('emojiBox').style.display='none'; renderMsgs(); toast('✅ పంపించారు!');
-}
+function renderMsgs(){ let a=loadLocal(); document.getElementById('msgs').innerHTML=a.map(m=>{ let isAdmin=m.isAdmin===true; let isHand=m.msg&&m.msg.includes('హ్యాండ్ రైస్'); let cls='msg '+(isAdmin?'admin':(m.name===myName()?'me':''))+(isHand?' handMsg':''); let label=isAdmin?'👑 '+m.name+' (అడ్మిన్)':'🙏 '+m.name; let audioHtml=m.audio?'<audio controls src="'+m.audio+'"></audio>':''; let textHtml=m.msg?'<div>'+m.msg+'</div>':''; let delHtml=IS_ADMIN?'<br><button class="delBtn" onclick="deleteOneMsg(\''+m.id+'\')">🗑️ డిలీట్</button>':''; return '<div class="'+cls+'"><span class="name">'+label+'</span>'+textHtml+audioHtml+delHtml+'</div>'; }).join(''); window.scrollTo(0,document.body.scrollHeight); }
+async function deleteOneMsg(id){ if(!IS_ADMIN) return; if(!confirm('🗑️ డిలీట్ చేయాలా?')) return; let a=loadLocal().filter(x=>x.id!==id); localStorage.setItem('ms_prayer_local',JSON.stringify(a)); renderMsgs(); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER_DEL|'+id+'|'+Date.now()});}catch(e){} }
+async function sendMsg(){ if(!canSpeak()){ toast('🔴 CLOSE లో ఉంది!'); return; } let t=document.getElementById('txt'); let msg=t.value.trim(); if(!msg) return; let m={name:myName(),msg:msg,isAdmin:IS_ADMIN,id:'M'+Date.now()+'_'+Math.random().toString(36).slice(2,6)}; let a=loadLocal(); a.push(m); localStorage.setItem('ms_prayer_local',JSON.stringify(a)); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'PRAYER|'+m.name+'||'+m.msg+'|'+m.id+'|'+(IS_ADMIN?'1':'0')});}catch(e){} t.value=''; renderMsgs(); toast('✅ పంపించారు!'); }
 document.getElementById('txt').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
 let mediaRecorder=null,audioChunks=[],recInterval=null,recLeft=30,recStream=null,isRecording=false;
-async function toggleRecord(){
-  if(isRecording){ stopRecording(); return; }
-  if(!canSpeak()){ toast('🔴 మ్యూట్ లో ఉన్నారు! ముందు ✋ హ్యాండ్ రైస్ చేయండి!'); return; }
-  try{ recStream=await navigator.mediaDevices.getUserMedia({audio:true}); }catch(e){ toast('⚠️ మైక్ కి Allow నొక్కండి!'); return; }
-  audioChunks=[]; recLeft=30; isRecording=true; document.getElementById('recBox').style.display='block'; document.getElementById('recTimer').innerText='30';
-  document.getElementById('voiceBtn').style.background='#E53935'; document.getElementById('voiceBtn').textContent='🔴';
-  try{ mediaRecorder=new MediaRecorder(recStream,{audioBitsPerSecond:16000}); }catch(e){ mediaRecorder=new MediaRecorder(recStream); }
-  mediaRecorder.ondataavailable=e=>{ if(e.data.size>0) audioChunks.push(e.data); };
-  mediaRecorder.onstop=()=>{ sendVoice(); }; mediaRecorder.start();
-  recInterval=setInterval(()=>{ recLeft--; document.getElementById('recTimer').innerText=recLeft; if(recLeft<=0) stopRecording(); },1000);
-}
+async function toggleRecord(){ if(isRecording){ stopRecording(); return; } if(!canSpeak()){ toast('🔴 CLOSE లో ఉంది!'); return; } try{ recStream=await navigator.mediaDevices.getUserMedia({audio:true}); }catch(e){ toast('⚠️ మైక్ కి Allow నొక్కండి!'); return; } audioChunks=[]; recLeft=30; isRecording=true; document.getElementById('recBox').style.display='block'; document.getElementById('recTimer').innerText='30'; document.getElementById('voiceBtn').style.background='#E53935'; document.getElementById('voiceBtn').textContent='🔴'; try{ mediaRecorder=new MediaRecorder(recStream,{audioBitsPerSecond:16000}); }catch(e){ mediaRecorder=new MediaRecorder(recStream); } mediaRecorder.ondataavailable=e=>{ if(e.data.size>0) audioChunks.push(e.data); }; mediaRecorder.onstop=()=>{ sendVoice(); }; mediaRecorder.start(); recInterval=setInterval(()=>{ recLeft--; document.getElementById('recTimer').innerText=recLeft; if(recLeft<=0) stopRecording(); },1000); }
 function stopRecording(){ if(!isRecording) return; clearInterval(recInterval); isRecording=false; document.getElementById('recBox').style.display='none'; document.getElementById('voiceBtn').style.background='#075E54'; document.getElementById('voiceBtn').textContent='🎙️'; if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop(); if(recStream) recStream.getTracks().forEach(t=>t.stop()); }
-async function sendVoice(){
-  if(!audioChunks.length) return; let blob=new Blob(audioChunks,{type:'audio/webm'}); let reader=new FileReader();
-  reader.onload=async ()=>{ let dataUrl=reader.result; let m={name:myName(),msg:'🎙️ వాయిస్ ప్రార్థన',audio:dataUrl,isAdmin:IS_ADMIN,id:'V'+Date.now()+'_'+Math.random().toString(36).slice(2,6)}; let a=loadLocal(); a.push(m); localStorage.setItem('ms_prayer_local',JSON.stringify(a)); renderMsgs(); toast('✅ 🎙️ వాయిస్ పంపించారు!'); let base64=dataUrl.split(',')[1]||''; let CHUNK=8000; let total=Math.ceil(base64.length/CHUNK); for(let i=0;i<total;i++){ let part=base64.slice(i*CHUNK,(i+1)*CHUNK); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'VOICE_CHUNK|'+m.id+'|'+i+'|'+total+'|'+m.name+'|'+(IS_ADMIN?'1':'0')+'|'+part});}catch(e){} await new Promise(r=>setTimeout(r,200)); } }; reader.readAsDataURL(blob);
-}
+async function sendVoice(){ if(!audioChunks.length) return; let blob=new Blob(audioChunks,{type:'audio/webm'}); let reader=new FileReader(); reader.onload=async ()=>{ let dataUrl=reader.result; let m={name:myName(),msg:'🎙️ వాయిస్ ప్రార్థన',audio:dataUrl,isAdmin:IS_ADMIN,id:'V'+Date.now()+'_'+Math.random().toString(36).slice(2,6)}; let a=loadLocal(); a.push(m); localStorage.setItem('ms_prayer_local',JSON.stringify(a)); renderMsgs(); toast('✅ 🎙️ వాయిస్ పంపించారు!'); let base64=dataUrl.split(',')[1]||''; let CHUNK=8000; let total=Math.ceil(base64.length/CHUNK); for(let i=0;i<total;i++){ let part=base64.slice(i*CHUNK,(i+1)*CHUNK); try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:'VOICE_CHUNK|'+m.id+'|'+i+'|'+total+'|'+m.name+'|'+(IS_ADMIN?'1':'0')+'|'+part});}catch(e){} await new Promise(r=>setTimeout(r,200)); } }; reader.readAsDataURL(blob); }
 let voiceParts={};
 async function poll(){
   try{
@@ -173,33 +131,26 @@ async function poll(){
       try{
         let j=JSON.parse(l); if(!j.message) continue;
         let key=j.id+'|'+j.message; if(seenIds.has(key)) continue; seenIds.add(key); saveSeen(seenIds);
-        if(j.message.startsWith('PRAYER_OPEN|')){ localStorage.setItem('ms_prayer_open','1'); updateGroupUI(); continue; }
-        if(j.message.startsWith('PRAYER_CLOSE|')){ localStorage.setItem('ms_prayer_open','0'); setSpeaker(''); setHands([]); updateGroupUI(); continue; }
+        if(j.message.startsWith('PRAYER_LIVE|')){ lastHeartbeat=Date.now(); localStorage.setItem('ms_prayer_open','1'); updateGroupUI(); continue; }
+        if(j.message.startsWith('PRAYER_OPEN|')){ localStorage.setItem('ms_prayer_open','1'); lastHeartbeat=Date.now(); updateGroupUI(); continue; }
+        if(j.message.startsWith('PRAYER_CLOSE|')){ localStorage.setItem('ms_prayer_open','0'); setHands([]); updateGroupUI(); continue; }
         if(j.message.startsWith('PRAYER_CLEAR|')){ localStorage.setItem('ms_prayer_local',JSON.stringify([])); renderMsgs(); continue; }
         if(j.message.startsWith('PRAYER_DEL|')){ let delId=j.message.split('|')[1]; let na=loadLocal().filter(x=>x.id!==delId); localStorage.setItem('ms_prayer_local',JSON.stringify(na)); renderMsgs(); continue; }
-        if(j.message.startsWith('PRAYER_HAND|')){ let n=j.message.split('|')[1]; let h=getHands(); if(n&&!h.includes(n)){ h.push(n); setHands(h); } updateSpeakerUI(); if(IS_ADMIN) toast('✋ '+n+' హ్యాండ్ రైస్ చేశారు!'); continue; }
-        // ✅ FIX - ఓకే వస్తే - పేరు సరిపోల్చి - వెంటనే ఓపెన్!
-        if(j.message.startsWith('PRAYER_APPROVE|')){ let n=j.message.split('|')[1].trim(); setSpeaker(n); setHands(getHands().filter(x=>x.trim()!==n)); updateSpeakerUI(); if(n===myName().trim()) toast('✅ 🎉 పాస్టర్ మీకు ఓకే ఇచ్చారు! ఇప్పుడు మాట్లాడండి!'); continue; }
-        if(j.message.startsWith('PRAYER_REJECT|')){ let n=j.message.split('|')[1]; setHands(getHands().filter(x=>x!==n)); updateSpeakerUI(); continue; }
-        if(j.message.startsWith('PRAYER_STOP|')){ setSpeaker(''); setHands([]); updateSpeakerUI(); continue; }
+        if(j.message.startsWith('PRAYER_HAND|')){ let n=j.message.split('|')[1]; let h=getHands(); if(n&&!h.includes(n)){ h.push(n); setHands(h); } updateSpeakerUI(); if(IS_ADMIN) toast('✋ '+n+' హ్యాండ్ రైస్!'); continue; }
+        if(j.message.startsWith('PRAYER_STOP|')){ setHands([]); updateSpeakerUI(); continue; }
         if(j.message.startsWith('VOICE_CHUNK|')){ let p=j.message.split('|'); let vid=p[1], idx=parseInt(p[2]), total=parseInt(p[3]), vname=p[4], vadmin=p[5]==='1'; let part=p.slice(6).join('|'); if(!voiceParts[vid]) voiceParts[vid]={parts:[],total:total,name:vname,isAdmin:vadmin}; voiceParts[vid].parts[idx]=part; let got=voiceParts[vid].parts.filter(Boolean).length; if(got>=total){ let full=voiceParts[vid].parts.join(''); let dataUrl='data:audio/webm;base64,'+full; if(!a.some(x=>x.id===vid)){ a.push({name:vname,msg:'🎙️ వాయిస్ ప్రార్థన',audio:dataUrl,isAdmin:vadmin,id:vid}); ch=true; } delete voiceParts[vid]; } continue; }
-        if(j.message.startsWith('PRAYER|')){
-          let p=j.message.split('|'); let m={name:p[1],msg:p[3],id:p[4]||('P'+j.time),isAdmin:p[5]==='1'};
-          if(!m.msg||m.msg==='undefined'||m.msg==='') continue;
-          // ✅ FIX - పాస్టర్ ఓకే మెసేజ్ వస్తే - దాని నుంచి కూడా ఓపెన్ చేయి!
-          if(m.msg.includes('ఓకే ఇచ్చారు')){
-            let mm=m.msg.match(/✅ (.+?) గారికి/);
-            if(mm&&mm[1]){ setSpeaker(mm[1].trim()); updateSpeakerUI(); if(mm[1].trim()===myName().trim()) toast('✅ 🎉 పాస్టర్ మీకు ఓకే ఇచ్చారు!'); }
-          }
-          if(m.msg.includes('హ్యాండ్ రైస్')){ let h=getHands(); if(m.name&&!h.includes(m.name)){ h.push(m.name); setHands(h); updateSpeakerUI(); } }
-          if(!a.some(x=>x.id===m.id)){ a.push(m); ch=true; }
-        }
+        if(j.message.startsWith('PRAYER|')){ let p=j.message.split('|'); let m={name:p[1],msg:p[3],id:p[4]||('P'+j.time),isAdmin:p[5]==='1'}; if(!m.msg||m.msg==='undefined'||m.msg==='') continue; if(!a.some(x=>x.id===m.id)){ a.push(m); ch=true; } }
       }catch(e){}
     }
     if(ch){ localStorage.setItem('ms_prayer_local',JSON.stringify(a)); renderMsgs(); }
   }catch(e){}
 }
-applyAdminUI(); updateGroupUI(); renderMsgs(); poll(); setInterval(poll,2000);
+setInterval(()=>{ if(!IS_ADMIN && localStorage.getItem('ms_prayer_open')==='1' && lastHeartbeat && (Date.now()-lastHeartbeat)>40000){ localStorage.setItem('ms_prayer_open','0'); updateGroupUI(); } },5000);
+window.addEventListener('beforeunload',()=>{ if(IS_ADMIN && localStorage.getItem('ms_prayer_open')==='1'){ try{ navigator.sendBeacon('https://ntfy.sh/'+TOPIC,'PRAYER_CLOSE|CLOSE|'+Date.now()); }catch(e){} } });
+applyAdminUI();
+if(!IS_ADMIN){ localStorage.setItem('ms_prayer_open','0'); }
+if(IS_ADMIN && localStorage.getItem('ms_prayer_open')==='1'){ startHeartbeat(); }
+updateGroupUI(); renderMsgs(); poll(); setInterval(poll,2000);
 </script>
 </body>
 </html>
