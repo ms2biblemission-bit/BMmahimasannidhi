@@ -212,9 +212,7 @@ async function poll(){
       try{
         let j=JSON.parse(l); if(!j.message) continue;
         let key=j.id+'|'+j.message; if(seenIds.has(key)) continue; seenIds.add(key); saveSeen(seenIds);
-        if(j.message.startsWith('PRAYER_LIVE|')){ localStorage.setItem('ms_prayer_open','1'); updateGroupUI(); continue; }
-        if(j.message.startsWith('PRAYER_OPEN|')){ localStorage.setItem('ms_prayer_open','1'); updateGroupUI(); continue; }
-        if(j.message.startsWith('PRAYER_CLOSE|')){ localStorage.setItem('ms_prayer_open','0'); setHands([]); setSpeaker(''); updateGroupUI(); continue; }
+        if(j.message.startsWith('PRAYER_OPEN|')||j.message.startsWith('PRAYER_LIVE|')||j.message.startsWith('PRAYER_CLOSE|')){ continue; }
         if(j.message.startsWith('PRAYER_CLEAR|')){ localStorage.setItem('ms_prayer_local',JSON.stringify([])); renderMsgs(); continue; }
         if(j.message.startsWith('PRAYER_DEL|')){ let delId=j.message.split('|')[1]; let na=loadLocal().filter(x=>x.id!==delId); localStorage.setItem('ms_prayer_local',JSON.stringify(na)); renderMsgs(); continue; }
         if(j.message.startsWith('PRAYER_BLOCK|')){ let n=j.message.split('|')[1]; let b=getBlocked(); if(n&&!b.includes(n)){ b.push(n); setBlocked(b); } renderMsgs(); continue; }
